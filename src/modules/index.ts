@@ -11,5 +11,5 @@ export interface RootState {
 }
 
 const rootReducer = combineReducers({ signupReducer, pageReducer });
-console.log(rootReducer);
+
 export default rootReducer;
