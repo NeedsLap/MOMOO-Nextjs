@@ -26,3 +26,15 @@ export type Path = 'signup' | 'terms' | 'privacy';
 export interface PageData {
   prevPath: null | Path;
 }
+
+export interface UserData {
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+  uid: string | null;
+}
+
+export interface AuthState {
+  user: null | UserData;
+  isAuthReady: boolean;
+}
