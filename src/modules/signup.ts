@@ -1,28 +1,21 @@
-import { SignupForm, SignupData } from '@/modules/model';
+import { SignupAction, SignupForm, SignupState } from '@/modules/model';
 
 const initState = {
   signupForm: null,
 };
 
-type Action =
-  | {
-      type: 'reset';
-      payload: SignupData;
-    }
-  | {
-      type: 'prevSignup';
-      payload: SignupData;
-    };
-
-export const setSignupForm = (signupForm: SignupForm): Action => {
+const setSignupForm = (signupForm: SignupForm): SignupAction => {
   return { type: 'prevSignup', payload: { signupForm: signupForm } };
 };
 
-export const resetSignupData = (): Action => {
+const resetSignupState = (): SignupAction => {
   return { type: 'reset', payload: initState };
 };
 
-const signupReducer = (state = initState, action: Action): SignupData => {
+const signupReducer = (
+  state = initState,
+  action: SignupAction,
+): SignupState => {
   switch (action.type) {
     case 'prevSignup':
       return action.payload;
@@ -34,3 +27,4 @@ const signupReducer = (state = initState, action: Action): SignupData => {
 };
 
 export default signupReducer;
+export { setSignupForm, resetSignupState };

@@ -1,28 +1,18 @@
-import { PageData, Path } from '@/modules/model';
+import { PageAction, PageState, Path } from '@/modules/model';
 
 const initState = {
   prevPath: null,
 };
 
-type Action =
-  | {
-      type: 'reset';
-      payload: PageData;
-    }
-  | {
-      type: 'savePrevPath';
-      payload: PageData;
-    };
-
-export const setPrevPath = (prevPath: Path): Action => {
+const setPrevPath = (prevPath: Path): PageAction => {
   return { type: 'savePrevPath', payload: { prevPath } };
 };
 
-export const resetPageData = (): Action => {
+const resetPageState = (): PageAction => {
   return { type: 'reset', payload: initState };
 };
 
-const pageReducer = (state = initState, action: Action): PageData => {
+const pageReducer = (state = initState, action: PageAction): PageState => {
   switch (action.type) {
     case 'savePrevPath':
       return action.payload;
@@ -34,3 +24,4 @@ const pageReducer = (state = initState, action: Action): PageData => {
 };
 
 export default pageReducer;
+export { setPrevPath, resetPageState };

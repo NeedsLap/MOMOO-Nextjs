@@ -1,4 +1,10 @@
-export interface SignupForm {
+interface ReduxState {
+  signup: SignupState;
+  page: PageState;
+  auth: AuthState;
+}
+
+interface SignupForm {
   profileImgFiles: FileList | null;
   displayName: string;
   email: string;
@@ -17,24 +23,62 @@ export interface SignupForm {
   privacyChecked: boolean;
 }
 
-export interface SignupData {
+interface SignupState {
   signupForm: null | SignupForm;
 }
 
-export type Path = 'signup' | 'terms' | 'privacy';
+type SignupAction =
+  | {
+      type: 'reset';
+      payload: SignupState;
+    }
+  | {
+      type: 'prevSignup';
+      payload: SignupState;
+    };
 
-export interface PageData {
+type Path = 'signup' | 'terms' | 'privacy';
+
+interface PageState {
   prevPath: null | Path;
 }
 
-export interface UserData {
+type PageAction =
+  | {
+      type: 'reset';
+      payload: PageState;
+    }
+  | {
+      type: 'savePrevPath';
+      payload: PageState;
+    };
+
+interface UserData {
   displayName: string | null;
   email: string | null;
   photoURL: string | null;
-  uid: string | null;
+  uid: string;
 }
 
-export interface AuthState {
-  user: null | UserData;
+interface AuthState {
+  user: UserData;
   isAuthReady: boolean;
+  loggedIn: boolean;
 }
+
+type AuthAction =
+  | { type: 'loggedIn'; payload: UserData }
+  | { type: 'loggedOut'; payload: null };
+
+export type {
+  ReduxState,
+  SignupForm,
+  SignupState,
+  SignupAction,
+  Path,
+  PageState,
+  PageAction,
+  UserData,
+  AuthState,
+  AuthAction,
+};
