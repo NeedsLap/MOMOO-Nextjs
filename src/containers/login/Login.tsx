@@ -90,7 +90,7 @@ export default function Login() {
     <StyledLogin>
       <div className="container">
         <h1>
-          <Image src="/icons/logo.svg" alt="모무" />
+          <Image width={218} height={37} src="/icons/logo.svg" alt="모무" />
         </h1>
         <article>
           <h2>Login</h2>
