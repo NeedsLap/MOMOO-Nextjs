@@ -1,19 +1,15 @@
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 export function useRemoveFeedIdFromFeedList() {
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
 
   const removeFeedIdFromFeedList = async (
     feedId: string,
     unSelectedAlbumId: string,
   ) => {
-    if (!user) {
-      return;
-    }
-
     const albumRefQuery = doc(
       appFireStore,
       user.uid,
@@ -31,16 +27,12 @@ export function useRemoveFeedIdFromFeedList() {
 }
 
 export function useAddFeedIdFromFeedList() {
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
 
   const addFeedIdFromFeedList = async (
     feedId: string,
     selectedAlbumId: string,
   ) => {
-    if (!user) {
-      return;
-    }
-
     const albumRefQuery = doc(
       appFireStore,
       user.uid,

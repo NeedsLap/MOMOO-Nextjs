@@ -9,22 +9,15 @@ import {
 } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 export default function useGetAlbumList() {
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
   const [albumDataList, setAlbumDataList] = useState<DocumentData[]>([]);
   const [albumIdList, setAlbumIdList] = useState<string[]>([]);
   const [latestAlbumList, setLatestAlbumList] = useState<DocumentData[]>([]);
 
   const fetchData = async () => {
-    if (user === null) {
-      setAlbumDataList([]);
-      setAlbumIdList([]);
-      setLatestAlbumList([]);
-      return;
-    }
-
     const q = query(
       collection(appFireStore, user.uid, user.uid, 'album'),
       orderBy('createdTime'),

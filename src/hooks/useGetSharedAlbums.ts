@@ -1,16 +1,12 @@
 import { doc, getDoc } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 export default function useGetSharedAlbums() {
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
 
   async function getSharedAlbums() {
-    if (!user) {
-      return null;
-    }
-
     const userDocRef = doc(appFireStore, user.uid, user.uid);
     const userDocSnap = await getDoc(userDocRef);
 

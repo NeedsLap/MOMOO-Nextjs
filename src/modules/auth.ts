@@ -1,21 +1,35 @@
-import { AuthState, UserData } from '@/modules/model';
-type Action = { type: 'isAuthReady'; payload: UserData | null };
+import { AuthState, AuthAction, UserData } from '@/modules/model';
+
+const initUser = {
+  displayName: null,
+  email: null,
+  photoURL: null,
+  uid: '',
+};
 
 const initState = {
-  user: null,
+  user: initUser,
   isAuthReady: false,
-};
-export const setAuth = (user: UserData | null): Action => {
-  return { type: 'isAuthReady', payload: user };
+  loggedIn: false,
 };
 
-const authReducer = (state = initState, action: Action): AuthState => {
+const setAuth = (user: UserData | null): AuthAction => {
+  if (user) {
+    return { type: 'loggedIn', payload: user };
+  }
+  return { type: 'loggedOut', payload: null };
+};
+
+const authReducer = (state = initState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case 'isAuthReady':
-      return { isAuthReady: true, user: action.payload };
+    case 'loggedIn':
+      return { isAuthReady: true, loggedIn: true, user: action.payload };
+    case 'loggedOut':
+      return { isAuthReady: true, loggedIn: false, user: initUser };
     default:
       return state;
   }
 };
 
 export default authReducer;
+export { setAuth };

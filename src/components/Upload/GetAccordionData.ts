@@ -7,18 +7,14 @@ import {
 } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 const GetAccordionData = () => {
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
 
   const getAccordionData = async () => {
     const albumDataList: DocumentData[] = [];
     const albumIdList: string[] = [];
-
-    if (user === null) {
-      return { albumDataList, albumIdList };
-    }
 
     try {
       const q = query(
@@ -77,7 +73,6 @@ const GetAccordionData = () => {
         docId: albumIdList[i],
       });
     });
-    console.log(accordionData[0]);
 
     return { accordionData, albumIdData };
   };
