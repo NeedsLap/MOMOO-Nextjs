@@ -13,7 +13,6 @@ import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import StyledH2 from '@/components/CommonStyled/StyledH2';
 import LoadingComponent from '@/components/Loading/LoadingComponent';
-import TopBar from '@/components/Topbar/Topbar';
 import StyledAlbum, {
   StyledAddFeed,
   StyledFeedList,
@@ -21,6 +20,7 @@ import StyledAlbum, {
 // ]import useUploadContext from '@/hooks/useUploadContext';
 import useAlbumName from '@/hooks/useAlbumName';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import AlbumDetailTopBar from '@/components/Topbar/AlbumDetailTopbar';
 
 export default function AlbumDetail({
   feeds,
@@ -32,7 +32,7 @@ export default function AlbumDetail({
   // const router = useRouter();
   //   const { setAlbumNameListToAdd, setIsUploadModalOpen } = useUploadContext();
   // const [feedsData, setFeedsData] = useState<DocumentData[] | null>(feeds);
-  const openUpload = () => {
+  const openUploadModal = () => {
     // if (album !== '전체 보기') {
     //   setAlbumNameListToAdd(['전체 보기', album]);
     // }
@@ -45,10 +45,13 @@ export default function AlbumDetail({
 
   return (
     <>
-      {windowWidth && windowWidth <= 430 && <TopBar tit={albumName} />}
+      {windowWidth && windowWidth <= 430 && (
+        <AlbumDetailTopBar tit={albumName} openUploadModal={openUploadModal} />
+      )}
       <StyledAlbum>
         {windowWidth && windowWidth > 1024 && (
           <>
+            <h1 className="a11y-hidden">MOMOO</h1>
             <StyledH2>{albumName}</StyledH2>
             <Breadcrumb
               navList={[
@@ -68,11 +71,17 @@ export default function AlbumDetail({
           />
         )}
 
-        <StyledAddFeed>
-          <button type="button" aria-label="사진 추가하기" onClick={openUpload}>
-            <Image width={24} height={24} src="/icons/add-l.svg" alt="" />
-          </button>
-        </StyledAddFeed>
+        {windowWidth && windowWidth > 430 && (
+          <StyledAddFeed>
+            <button
+              type="button"
+              aria-label="사진 추가하기"
+              onClick={openUploadModal}
+            >
+              <Image width={24} height={24} src="/icons/add-l.svg" alt="" />
+            </button>
+          </StyledAddFeed>
+        )}
 
         <section>
           <h3 className="a11y-hidden">게시글 목록</h3>
