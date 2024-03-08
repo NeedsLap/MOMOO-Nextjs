@@ -1,9 +1,13 @@
 import {
+  doc,
+  getDoc,
   getDocs,
   collection,
   query,
   where,
   DocumentData,
+  or,
+  orderBy,
 } from 'firebase/firestore';
 import {
   ref,
@@ -41,4 +45,50 @@ async function getAlbumByName(uid: string, name: string) {
   return querySnapshot.docs[0];
 }
 
-export { deleteImg, uploadImg, getAlbumByName };
+const getFeedsData = async (feedIdList: string[], uid: string) => {
+  const feeds: DocumentData[] = [];
+
+  if (!feedIdList.length) {
+    return feeds;
+  }
+
+  const feedRef = collection(appFireStore, uid, uid, 'feed');
+  const searchList = feedIdList.map((feedId) => where('id', '==', feedId));
+  const q = query(feedRef, or(...searchList), orderBy('timestamp', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  querySnapshot.forEach((doc) => {
+    feeds.push(doc.data());
+  });
+
+  return feeds;
+};
+
+const getSharedAlbums = async (uid: string) => {
+  const userDocRef = doc(appFireStore, uid, uid);
+  const userDocSnap = await getDoc(userDocRef);
+
+  return userDocSnap.data()?.sharedAlbums || null;
+};
+
+const checkAlbumPermission = async (
+  albumDoc: DocumentData,
+  sharedAlbums: DocumentData[],
+) => {
+  for (const ref of sharedAlbums) {
+    if (ref.path === albumDoc.ref.path) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export {
+  deleteImg,
+  uploadImg,
+  getAlbumByName,
+  getFeedsData,
+  getSharedAlbums,
+  checkAlbumPermission,
+};
