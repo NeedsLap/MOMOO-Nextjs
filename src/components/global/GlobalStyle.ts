@@ -67,6 +67,9 @@ const GlobalStyle = createGlobalStyle`
     --margin-mobile: 16px;
 
     background: var(--background-color);
+  }
+
+  /* #root {
     min-height: 100vh;
   }
 
@@ -74,7 +77,7 @@ const GlobalStyle = createGlobalStyle`
     #root {
       display: flex;
     }
-  }
+  } */
 
   body {
     color: inherit;
