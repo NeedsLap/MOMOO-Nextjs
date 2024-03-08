@@ -1,9 +1,3 @@
-interface ReduxState {
-  signup: SignupState;
-  page: PageState;
-  auth: AuthState;
-}
-
 interface SignupForm {
   profileImgFiles: FileList | null;
   displayName: string;
@@ -70,6 +64,27 @@ type AuthAction =
   | { type: 'loggedIn'; payload: UserData }
   | { type: 'loggedOut'; payload: null };
 
+interface EditFeedModalState {
+  isEditFeedModalOpen: boolean;
+  feedIdToEdit: string;
+}
+
+type EditFeedModalAction =
+  | {
+      type: 'open';
+      payload: {
+        feedIdToEdit: string;
+      };
+    }
+  | { type: 'close'; payload: null };
+
+interface ReduxState {
+  signup: SignupState;
+  page: PageState;
+  auth: AuthState;
+  editFeedModal: EditFeedModalState;
+}
+
 export type {
   ReduxState,
   SignupForm,
@@ -81,4 +96,6 @@ export type {
   UserData,
   AuthState,
   AuthAction,
+  EditFeedModalState,
+  EditFeedModalAction,
 };
