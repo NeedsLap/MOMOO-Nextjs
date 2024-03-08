@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const StyledBreadcrumbWrap = styled.div`
-  width: 100%;
-  margin: 59px 0 0;
+  position: absolute;
+  width: calc(100% - var(--margin-tablet) * 2);
   display: flex;
   align-items: center;
 
