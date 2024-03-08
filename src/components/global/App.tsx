@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import { appAuth } from '@/firebase/config';
 import { setAuth } from '@/modules/auth';
+import { deleteCookie, setCookie } from '@/utils/cookie';
 
 export default function App({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
@@ -16,10 +17,14 @@ export default function App({ children }: { children: React.ReactNode }) {
       if (user) {
         const { displayName, email, photoURL, uid } = user;
         dispatch(setAuth({ displayName, email, photoURL, uid }));
-        localStorage.setItem('uid', uid);
+        const expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        setCookie('uid', uid, {
+          expires,
+        });
       } else {
         dispatch(setAuth(null));
-        localStorage.removeItem('uid');
+        deleteCookie('uid');
       }
     });
   }, [dispatch]);
