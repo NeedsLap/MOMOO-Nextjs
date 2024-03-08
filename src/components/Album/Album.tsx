@@ -6,7 +6,7 @@ import { AlbumContainer, AlbumLink } from '@/components/Album/StyledAlbum';
 import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
 import DeleteAlbumModal from '@/components/Modal/DeleteAlbumModal/DeleteAlbumModal';
 import SharingModal from '@/components/Modal/SharingModal/SharingModal';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 import useGetFeedData from '@/hooks/useGetFeedData';
 
 interface AlbumProps {
@@ -20,12 +20,8 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
   const [isSharingModalOpen, setIsSharingModalOpen] = useState(false);
   const [imgUrl, setImgUrl] = useState([]);
 
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
   const getFeedData = useGetFeedData();
-
-  if (!user) {
-    return;
-  }
 
   useEffect(() => {
     const lastFeedId = albumData.feedList[albumData.feedList.length - 1];
@@ -43,7 +39,7 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
     };
 
     getData();
-  }, []);
+  }, [albumData, getFeedData]);
 
   const HandleModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

@@ -1,4 +1,3 @@
-import { User } from '@firebase/auth';
 import {
   doc,
   updateDoc,
@@ -9,26 +8,17 @@ import {
 } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 interface Props {
-  user?: User | null;
   editAlbumName: string;
   albumId: string;
 }
 
 export default function useEditAlbum() {
-  const { user: contextUser } = useAuthContext();
+  const { user } = useAuthState();
 
-  const editAlbum = async ({
-    editAlbumName,
-    albumId,
-    user = contextUser,
-  }: Props) => {
-    if (user === null) {
-      return { success: false, error: '사용자가 로그인되지 않았습니다.' };
-    }
-
+  const editAlbum = async ({ editAlbumName, albumId }: Props) => {
     const userAlbumDocRef = doc(
       appFireStore,
       user.uid,

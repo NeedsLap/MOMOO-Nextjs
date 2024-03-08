@@ -8,7 +8,6 @@ import {
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
-import useAuthContext from '@/hooks/useAuthContext';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
 import {
   useAddFeedIdFromFeedList,
@@ -31,7 +30,6 @@ interface AlbumIdData {
 }
 
 export default function ChangeAlbumModal({ onClose }: AccordionProps) {
-  const { user } = useAuthContext();
   const { showModal } = useShowModal();
   useEscDialog(onClose);
 
@@ -60,10 +58,8 @@ export default function ChangeAlbumModal({ onClose }: AccordionProps) {
     };
 
     const SetAcoordionData = async () => {
-      if (user) {
-        const result = await getAccordionData();
-        setAlbumIdData(result.albumIdData || []);
-      }
+      const result = await getAccordionData();
+      setAlbumIdData(result.albumIdData || []);
     };
 
     setSavedAlbumData();
@@ -72,10 +68,6 @@ export default function ChangeAlbumModal({ onClose }: AccordionProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!user) {
-        return;
-      }
-
       const result = await getAccordionData();
       setAlbumIdData(result.albumIdData || []);
       const accordionData: AccordionItemData[] | null =

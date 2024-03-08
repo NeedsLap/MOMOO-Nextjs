@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { updateProfile, updateEmail, updatePassword } from 'firebase/auth';
-import { FirebaseError } from 'firebase/app';
 
-import useAuthContext from '../useAuthContext';
-import { uploadImg } from '../../utils/SDKUtils';
+import { FirebaseError } from 'firebase/app';
+import { updateProfile, updateEmail, updatePassword } from 'firebase/auth';
+
+import { appAuth } from '@/firebase/config';
+import { uploadImg } from '@/utils/SDKUtils';
 
 interface Profile {
   email: string | null;
@@ -14,7 +15,11 @@ interface Profile {
 
 export const useUpdateProfile = () => {
   const [error, setError] = useState<null | string>(null);
-  const { user } = useAuthContext();
+  const user = appAuth.currentUser;
+
+  if (user === null) {
+    return;
+  }
 
   const setProfile = async ({
     email,
@@ -23,10 +28,6 @@ export const useUpdateProfile = () => {
     file,
   }: Profile) => {
     setError(null);
-
-    if (user === null) {
-      return;
-    }
 
     interface Opt {
       displayName: string | null;

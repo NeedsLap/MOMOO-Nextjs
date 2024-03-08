@@ -49,7 +49,7 @@ export default function useSignup() {
         await updateProfile(user, opt);
       }
 
-      await addAlbum({ albumName: '전체 보기', user });
+      await addAlbum({ albumName: '전체 보기' });
       setError(null);
     } catch (err) {
       if (err instanceof FirebaseError) {

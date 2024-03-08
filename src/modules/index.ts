@@ -1,15 +1,15 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from '@reduxjs/toolkit';
 
-import pageReducer from '@/modules/pageReducer';
-import signupReducer from '@/modules/signupReducer';
+import authReducer from '@/modules/auth';
+import editFeedModalReducer from '@/modules/editFeedModal';
+import pageReducer from '@/modules/page';
+import signupReducer from '@/modules/signup';
 
-import type { SignupData, PageData } from '@/modules/model';
-
-export interface RootState {
-  signupReducer: SignupData;
-  pageReducer: PageData;
-}
-
-const rootReducer = combineReducers({ signupReducer, pageReducer });
+const rootReducer = combineReducers({
+  auth: authReducer,
+  page: pageReducer,
+  signup: signupReducer,
+  editFeedModal: editFeedModalReducer,
+});
 
 export default rootReducer;

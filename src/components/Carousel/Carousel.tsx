@@ -2,13 +2,10 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import * as Styled from '@/components/Carousel/StyledCarousel';
-import useClientWidth from '@/hooks/useClientWidth';
 
 const Carousel = ({ imgUrlList }: { imgUrlList: string[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideRef = useRef<HTMLUListElement | null>(null);
-
-  const clientWidth = useClientWidth();
 
   const nextSlide = () => {
     if (!slideRef.current) {
@@ -47,15 +44,10 @@ const Carousel = ({ imgUrlList }: { imgUrlList: string[] }) => {
             <li key={index}>
               <Image
                 src={image}
-                width={
-                  clientWidth > 1024
-                    ? 500
-                    : clientWidth > 430
-                      ? clientWidth - 48
-                      : clientWidth - 32
-                }
-                height={500}
-                alt={'이미지'}
+                sizes=" 500px
+                (max-width: 431px) calc(100vw - 48px),
+               (max-width: 430px) calc(100vw - 32px)"
+                alt="사진"
               ></Image>
             </li>
           ))}

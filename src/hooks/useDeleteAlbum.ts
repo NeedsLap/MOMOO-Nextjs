@@ -1,26 +1,20 @@
 import { useState } from 'react';
 
-import { User } from '@firebase/auth';
 import { doc, deleteDoc } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 interface Props {
-  user?: User | null;
   albumId: string;
 }
 
 export default function useDeleteAlbum() {
-  const { user: contextUser } = useAuthContext();
+  const { user } = useAuthState();
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteAlbum = async ({ albumId, user = contextUser }: Props) => {
-    if (user === null) {
-      return;
-    }
-
+  const deleteAlbum = async ({ albumId }: Props) => {
     const userAlbumDocRef = doc(
       appFireStore,
       user.uid,

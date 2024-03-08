@@ -14,7 +14,7 @@ interface Props {
   closeModal: () => void;
 }
 
-export default function SharingModal({ albumId, closeModal }: Props) {
+export default function SharingModal({ closeModal }: Props) {
   const urlInputRef = useRef<HTMLInputElement | null>(null);
 
   const { showModal } = useShowModal();

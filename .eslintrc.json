@@ -58,6 +58,10 @@
             "group": "builtin"
           },
           {
+            "pattern": "next",
+            "group": "builtin"
+          },
+          {
             "pattern": "next/**",
             "group": "builtin"
           },

@@ -8,16 +8,12 @@ import {
 } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthContext from '@/hooks/useAuthContext';
+import useAuthState from '@/hooks/auth/useAuthState';
 
 export default function useGetSavedAlbumList() {
-  const { user } = useAuthContext();
+  const { user } = useAuthState();
 
   const getSavedAlbumList = async (feedId: string) => {
-    if (user === null) {
-      return;
-    }
-
     try {
       const q = query(
         collection(appFireStore, user.uid, user.uid, 'album'),
