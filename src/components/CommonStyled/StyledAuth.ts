@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import a11yHidden from '@/components/CommonStyled/a11yHidden';
-
 const StyledAuth = styled.main`
   min-height: 100vh;
   flex-grow: 1;
@@ -88,7 +86,7 @@ const StyledAuth = styled.main`
 
   @media (min-width: 431px) {
     h1 {
-      ${() => a11yHidden}
+      display: none;
     }
 
     display: flex;
