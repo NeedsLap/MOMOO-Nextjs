@@ -13,6 +13,7 @@ import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import StyledH2 from '@/components/CommonStyled/StyledH2';
 import LoadingComponent from '@/components/Loading/LoadingComponent';
+import AlbumDetailTopBar from '@/components/Topbar/AlbumDetailTopbar';
 import StyledAlbum, {
   StyledAddFeed,
   StyledFeedList,
@@ -20,7 +21,6 @@ import StyledAlbum, {
 // ]import useUploadContext from '@/hooks/useUploadContext';
 import useAlbumName from '@/hooks/useAlbumName';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import AlbumDetailTopBar from '@/components/Topbar/AlbumDetailTopbar';
 
 export default function AlbumDetail({
   feeds,

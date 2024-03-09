@@ -6,12 +6,12 @@ import useAuthState from '@/hooks/auth/useAuthState';
 export default function useGetSharedAlbums() {
   const { user } = useAuthState();
 
-  async function getSharedAlbums() {
+  const getSharedAlbums = async () => {
     const userDocRef = doc(appFireStore, user.uid, user.uid);
     const userDocSnap = await getDoc(userDocRef);
 
     return userDocSnap.data()?.sharedAlbums || null;
-  }
+  };
 
   return { getSharedAlbums };
 }

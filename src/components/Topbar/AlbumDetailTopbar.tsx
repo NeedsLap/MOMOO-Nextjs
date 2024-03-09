@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import StyledTopbar, {
   StyledAddPhotoBtn,
 } from '@/components/Topbar/StyledTopbar';
+
 import { AlbumDetailTopbapProps } from '@/components/Topbar/model';
 
 export default function AlbumDetailTopBar({

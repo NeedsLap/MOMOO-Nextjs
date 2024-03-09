@@ -90,7 +90,7 @@ export default function Login() {
     <StyledLogin>
       <div className="container">
         <h1>
-          <Image width={218} height={37} src="/icons/logo.svg" alt="모무" />
+          <Image width={218} height={37} src="/icons/logo.svg" alt="MOMOO" />
         </h1>
         <article>
           <h2>Login</h2>
@@ -129,7 +129,8 @@ export default function Login() {
           >
             {isPending ? (
               <Image
-                fill={true}
+                width={29}
+                height={29}
                 src="/icons/loading-black.svg"
                 alt="로그인 중"
               />
