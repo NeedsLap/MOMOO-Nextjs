@@ -4,7 +4,7 @@ import { BtnStyle } from '@/components/Button/Button/StyledButton';
 
 interface ButtonProps {
   children: React.ReactNode;
-  size?: 'l' | 'm' | 's' | 'xs';
+  size?: 'l';
   disabled?: boolean;
 }
 

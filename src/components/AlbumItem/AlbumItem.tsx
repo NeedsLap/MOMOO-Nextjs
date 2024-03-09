@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
 import { DocumentData } from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
 
 import StyledAlbumItem from '@/components/AlbumItem/StyledAlbumItem';
 import useAuthState from '@/hooks/auth/useAuthState';
 import useAlbumName from '@/hooks/useAlbumName';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { useDispatch } from 'react-redux';
 import { openEditFeedModal } from '@/modules/editFeedModal';
 
 export default function AlbumItem({ feedData }: { feedData: DocumentData }) {
