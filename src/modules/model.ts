@@ -1,17 +1,12 @@
+import type { InputState } from '@/containers/signup/model';
+
 interface SignupForm {
   profileImgFiles: FileList | null;
   displayName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
+  email: InputState;
+  password: InputState;
+  passwordConfirm: InputState;
 
-  emailErrMessage: string;
-  passwordErrMessage: string;
-  passwordConfirmErrMessage: string;
-
-  disabledSubmitBtn: boolean;
-
-  allChecked: boolean;
   ageChecked: boolean;
   termsChecked: boolean;
   privacyChecked: boolean;
