@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR, Prata } from 'next/font/google';
 import Head from 'next/head';
+import { cookies } from 'next/headers';
 
+import App from '@/components/global/App';
 import ReduxProvider from '@/components/global/ReduxProvider';
 import RootStyle from '@/components/global/RootStyle';
 
@@ -27,6 +29,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const splashRendered = cookies().get('splash') ? true : false;
+
   return (
     <html lang="ko" className={`${notoSans.variable} ${prata.variable}`}>
       <Head>
@@ -34,7 +38,9 @@ export default function RootLayout({
       </Head>
       <body>
         <RootStyle>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <App splashRendered={splashRendered}>{children}</App>
+          </ReduxProvider>
         </RootStyle>
       </body>
     </html>

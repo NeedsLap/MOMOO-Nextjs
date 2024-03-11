@@ -1,16 +1,24 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 
+import Splash from '@/components/Splash/Splash';
 import { appAuth } from '@/firebase/config';
 import { setAuth } from '@/modules/auth';
 import { deleteCookie, setCookie } from '@/utils/cookie';
 
-export default function App({ children }: { children: React.ReactNode }) {
+export default function App({
+  children,
+  splashRendered,
+}: {
+  children: React.ReactNode;
+  splashRendered: boolean;
+}) {
   const dispatch = useDispatch();
+  const [splashIsOver, setSplashIsOver] = useState(splashRendered);
 
   useEffect(() => {
     onAuthStateChanged(appAuth, (user) => {
@@ -36,5 +44,13 @@ export default function App({ children }: { children: React.ReactNode }) {
     });
   }, [dispatch]);
 
-  return <>{children}</>;
+  return (
+    <>
+      {splashIsOver ? (
+        <>{children}</>
+      ) : (
+        <Splash setSplashIsOver={setSplashIsOver} />
+      )}
+    </>
+  );
 }
