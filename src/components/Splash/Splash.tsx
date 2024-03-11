@@ -14,7 +14,7 @@ export default function Splash({
   useEffect(() => {
     setTimeout(() => {
       setSplashIsOver(true);
-      setCookie('splash', 'rendered', { expires: '0' });
+      setCookie('splash', 'rendered');
     }, 1700);
   }, []);
 
