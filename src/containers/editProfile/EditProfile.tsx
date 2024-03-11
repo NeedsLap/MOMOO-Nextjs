@@ -22,13 +22,13 @@ import type {
   ProfileToUpdate,
 } from '@/containers/editProfile/model';
 
-export default function EditProfile({ userData }: EditProfileProps) {
+export default function EditProfile({ profile }: EditProfileProps) {
   const [displayName, setDisplayName] = useState({
-    value: userData.displayName,
+    value: profile.displayName,
     changed: false,
   });
   const [email, setEmail] = useState({
-    value: userData.email,
+    value: profile.email,
     vaild: true,
     changed: false,
   });
@@ -70,7 +70,7 @@ export default function EditProfile({ userData }: EditProfileProps) {
     setProfileImg,
     error: imgErrMessage,
     setError: setImgErrMessage,
-  } = useProfileImg(userData.photoURL);
+  } = useProfileImg(profile.photoURL);
 
   useEffect(() => {
     if (!isAuthReady) {

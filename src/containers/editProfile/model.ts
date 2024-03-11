@@ -1,3 +1,5 @@
+import { Profile } from '@/utils/model';
+
 interface ProfileToUpdate {
   file: File | null;
   displayName: string | null;
@@ -6,11 +8,7 @@ interface ProfileToUpdate {
 }
 
 interface EditProfileProps {
-  userData: {
-    displayName: string;
-    email: string;
-    photoURL: string;
-  };
+  profile: Profile;
 }
 
 export type { ProfileToUpdate, EditProfileProps };
