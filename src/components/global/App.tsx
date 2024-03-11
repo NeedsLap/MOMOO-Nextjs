@@ -16,7 +16,14 @@ export default function App({ children }: { children: React.ReactNode }) {
     onAuthStateChanged(appAuth, (user) => {
       if (user) {
         const { displayName, email, photoURL, uid } = user;
-        dispatch(setAuth({ displayName, email, photoURL, uid }));
+        dispatch(
+          setAuth({
+            displayName: displayName || '',
+            email: email || '',
+            photoURL: photoURL || '',
+            uid,
+          }),
+        );
         const expires = new Date();
         expires.setFullYear(expires.getFullYear() + 1);
         setCookie('uid', uid, {
