@@ -12,7 +12,7 @@ import StyledInput from '@/components/CommonStyled/StyledInput';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledSignup from '@/containers/signup/StyledSignup';
 import useSignup from '@/hooks/auth/useSingup';
-import useSetProfileImage from '@/hooks/useSetProfileImage';
+import useProfileImg from '@/hooks/useProfileImg';
 import { resetPageState, setPrevPath } from '@/modules/page';
 import { resetSignupState, setSignupForm } from '@/modules/signup';
 
@@ -43,10 +43,10 @@ export default function Signup() {
   const {
     file,
     src,
-    setProfileImage,
+    setProfileImg,
     error: imgErrMessage,
     setError: setImgErrMessage,
-  } = useSetProfileImage();
+  } = useProfileImg();
 
   const prevPath = useSelector((state: ReduxState) => state.page.prevPath);
   const signupFormdata = useSelector(
@@ -58,7 +58,7 @@ export default function Signup() {
 
   useEffect(() => {
     if ((prevPath === 'terms' || prevPath === 'privacy') && signupFormdata) {
-      setProfileImage(signupFormdata.profileImgFiles);
+      setProfileImg(signupFormdata.profileImgFiles);
       setDisplayName(signupFormdata.displayName);
       setEmail(signupFormdata.email);
       setPassword(signupFormdata.password);
@@ -239,7 +239,7 @@ export default function Signup() {
             className="a11y-hidden"
             onClick={(e) => ((e.currentTarget as HTMLInputElement).value = '')}
             onChange={(e) => {
-              setProfileImage(e.target.files);
+              setProfileImg(e.target.files);
               setProfileImgFiles(e.target.files);
             }}
             onFocus={() => setImgHasFocus(true)}
