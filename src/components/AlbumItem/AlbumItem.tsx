@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { forwardRef } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 
 import { DocumentData } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,10 @@ import useAlbumName from '@/hooks/useAlbumName';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { openEditFeedModal } from '@/modules/editFeedModal';
 
-function AlbumItem({ feedData }: { feedData: DocumentData }, ref) {
+function AlbumItem(
+  { feedData }: { feedData: DocumentData },
+  ref: ForwardedRef<HTMLLIElement>,
+) {
   const windowWidth = useWindowWidth();
   const { user } = useAuthState();
   const albumName = useAlbumName();
@@ -48,7 +51,7 @@ function AlbumItem({ feedData }: { feedData: DocumentData }, ref) {
   return (
     <StyledAlbumItem key={feedData.id} ref={ref}>
       <Link
-        href={`/${uid}/${albumName}/p/${feedData.id}`}
+        href={`/${uid}/${albumName}/feed/${feedData.id}`}
         onMouseOver={showHoverStyle}
         onFocus={showHoverStyle}
         onMouseLeave={hiddenHoverStyle}
