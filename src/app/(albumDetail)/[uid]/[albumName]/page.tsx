@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: AlbumDetailParams }) {
       const albumName = params.albumName;
       const uid = params.uid;
       const res = await getFeeds({
-        limit: 0,
+        limit: 15,
         skip: 0,
         uid,
         albumName,

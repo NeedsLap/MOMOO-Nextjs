@@ -49,7 +49,10 @@ export async function GET(req: NextRequest) {
   }
 
   const feedList: string[] = [...albumDoc.data().feedList];
-  const feeds = await getFeedsData(feedList, uid);
+  const feeds = await getFeedsData(
+    feedList.slice(parseInt(skip), parseInt(limit)),
+    uid,
+  );
 
   return NextResponse.json(feeds);
 }
