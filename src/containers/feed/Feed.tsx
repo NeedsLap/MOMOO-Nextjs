@@ -1,3 +1,5 @@
+'use client';
+
 import { useParams } from 'next/navigation';
 
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
