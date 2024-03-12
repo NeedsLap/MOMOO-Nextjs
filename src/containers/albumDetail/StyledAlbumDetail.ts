@@ -31,21 +31,26 @@ const StyledAlbum = styled.main`
 `;
 
 const StyledFeedList = styled.ul`
-  margin-top: calc(64px + var(--title-s) * 1.5);
-  column-count: 3;
-  column-gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: -8px -8px;
+  grid-auto-rows: 1px;
+  margin-top: 56px;
+
+  @media (max-width: 430px) {
+    margin: -6px -6px 0;
+  }
 
   @media (max-width: 1024px) {
-    margin-top: calc(12px + var(--title-s) * 1.5);
+    margin-top: 12px;
   }
 
   @media (max-width: 800px) {
-    column-count: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   @media (max-width: 430px) {
     margin-top: 0;
-    column-gap: 12px;
   }
 `;
 
