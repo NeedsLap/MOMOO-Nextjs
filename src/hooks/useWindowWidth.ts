@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 export default function useWindowWidth() {
@@ -11,7 +13,7 @@ export default function useWindowWidth() {
     changeWindowWidth();
     window.addEventListener('resize', changeWindowWidth);
 
-    return window.removeEventListener('resize', changeWindowWidth);
+    return () => window.removeEventListener('resize', changeWindowWidth);
   }, []);
 
   return windowWidth;
