@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-export default function useSetProfileImage() {
+export default function useProfileImg(photoURL?: string) {
   const [file, setFile] = useState<File | null>(null);
-  const [src, setSrc] = useState('');
+  const [src, setSrc] = useState(photoURL || '');
   const [error, setError] = useState('');
 
-  const setProfileImage = (files: FileList | null) => {
+  const setProfileImg = (files: FileList | null) => {
     if (!files) {
       return;
     }
@@ -40,5 +40,5 @@ export default function useSetProfileImage() {
     });
   };
 
-  return { setProfileImage, file, setFile, src, setSrc, error, setError };
+  return { setProfileImg, file, setFile, src, setSrc, error, setError };
 }

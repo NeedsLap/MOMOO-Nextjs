@@ -1,9 +1,9 @@
 import { AuthState, AuthAction, UserData } from '@/modules/model';
 
 const initUser = {
-  displayName: null,
-  email: null,
-  photoURL: null,
+  displayName: '',
+  email: '',
+  photoURL: '',
   uid: '',
 };
 

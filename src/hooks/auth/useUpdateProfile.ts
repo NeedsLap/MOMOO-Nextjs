@@ -6,50 +6,40 @@ import { updateProfile, updateEmail, updatePassword } from 'firebase/auth';
 import { appAuth } from '@/firebase/config';
 import { uploadImg } from '@/utils/SDKUtils';
 
-interface Profile {
-  email: string | null;
-  password: string | null;
-  displayName: string | null;
-  file: File | null;
-}
+import type { ProfileToUpdate } from '@/containers/editProfile/model';
+import type { UpdateProfileOpt } from '@/hooks/auth/model';
 
 export const useUpdateProfile = () => {
   const [error, setError] = useState<null | string>(null);
   const user = appAuth.currentUser;
-
-  if (user === null) {
-    return;
-  }
 
   const setProfile = async ({
     email,
     password,
     displayName,
     file,
-  }: Profile) => {
+  }: ProfileToUpdate) => {
+    if (user === null) {
+      return;
+    }
+
     setError(null);
-
-    interface Opt {
-      displayName: string | null;
-      photoURL?: string;
-    }
-
-    const opt: Opt = { displayName };
-
-    if (displayName) {
-      opt.displayName = displayName;
-    }
+    const opt: UpdateProfileOpt = {};
 
     try {
+      if (displayName !== user.displayName) {
+        opt.displayName = displayName;
+      }
+
       if (file !== null) {
         opt.photoURL = await uploadImg(`profile/${user.uid}`, file);
       }
 
-      if (opt.displayName || user.displayName !== null || opt.photoURL) {
+      if (Object.keys(opt).length) {
         await updateProfile(user, opt);
       }
 
-      if (email) {
+      if (email !== user.email) {
         await updateEmail(user, email);
       }
 

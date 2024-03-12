@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
   let hasPermission = true;
 
   if (userUid !== uid) {
-    const sharedAlbums = await getSharedAlbums(userUid);
+    const sharedAlbums = (await getSharedAlbums(userUid)) || null;
     hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
   }
 
