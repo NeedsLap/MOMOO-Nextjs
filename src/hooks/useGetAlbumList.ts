@@ -12,7 +12,7 @@ import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 
 export default function useGetAlbumList() {
-  const { user } = useAuthState();
+  const { user, isAuthReady } = useAuthState();
   const [albumDataList, setAlbumDataList] = useState<DocumentData[]>([]);
   const [albumIdList, setAlbumIdList] = useState<string[]>([]);
   const [latestAlbumList, setLatestAlbumList] = useState<DocumentData[]>([]);
@@ -49,8 +49,11 @@ export default function useGetAlbumList() {
   };
 
   useEffect(() => {
+    if (!isAuthReady) {
+      return;
+    }
     fetchData();
-  }, [collection]);
+  }, [collection, isAuthReady]);
 
   return { albumDataList, albumIdList, latestAlbumList };
 }
