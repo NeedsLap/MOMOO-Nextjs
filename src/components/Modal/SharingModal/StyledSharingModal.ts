@@ -54,6 +54,15 @@ const StyledSharingModal = styled.dialog`
     padding: 12px;
     background: var(--gray-100);
     border-radius: 8px;
+
+    button {
+      padding: 4px 10px;
+      background: var(--point-dark-400);
+      color: white;
+      flex-shrink: 0;
+      border-radius: 50px;
+      font-size: var(--text-m);
+    }
   }
 
   .manage {
@@ -89,15 +98,6 @@ const StyledSharingModal = styled.dialog`
       }
     }
 
-    button {
-      flex-shrink: 0;
-      margin: 0 -5px 0 auto;
-      padding: 11px 5px;
-      line-height: 1;
-      font-size: var(--text-m);
-      color: var(--error-color);
-    }
-
     img {
       flex-shrink: 0;
       width: 3.2rem;
@@ -105,6 +105,14 @@ const StyledSharingModal = styled.dialog`
       border-radius: 50%;
       border: 1px solid var(--gray-100);
     }
+  }
+  li button {
+    flex-shrink: 0;
+    margin: 0 -5px 0 auto;
+    padding: 11px 5px;
+    line-height: 1;
+    font-size: var(--text-m);
+    color: var(--error-color);
   }
 
   .close-button {

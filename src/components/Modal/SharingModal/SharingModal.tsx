@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
+import { DocumentData } from 'firebase/firestore';
+
 import {
   StyledSharingModal,
   DialogTitle,
@@ -10,11 +12,11 @@ import useShowModal from '@/hooks/dialog/useShowModal';
 import { closeDialogOnClick } from '@/utils/dialog';
 
 interface Props {
-  albumId: string;
+  albumData: DocumentData;
   closeModal: () => void;
 }
 
-export default function SharingModal({ closeModal }: Props) {
+export default function SharingModal({ closeModal, albumData }: Props) {
   const urlInputRef = useRef<HTMLInputElement | null>(null);
   const [focusedOnSearch, setFocusedOnSearch] = useState(false);
 
@@ -22,7 +24,7 @@ export default function SharingModal({ closeModal }: Props) {
   useEscDialog(closeModal);
 
   const searchMember = () => {};
-
+  console.log(albumData);
   return (
     <StyledSharingModal
       aria-labelledby="modal"
@@ -58,7 +60,7 @@ export default function SharingModal({ closeModal }: Props) {
               <span className="ellipsis">애벌레가 먹은 사과는 맛있었다</span>
               <span className="ellipsis">appleappleappleapple@naver.com</span>
             </div>
-            <button type="button">삭제</button>
+            <button type="button">초대</button>
           </div>
         </section>
 
