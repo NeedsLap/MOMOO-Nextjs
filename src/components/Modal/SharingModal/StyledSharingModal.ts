@@ -14,6 +14,11 @@ const StyledSharingModal = styled.dialog`
 
   .search-member {
     padding: 12px 16px 16px;
+
+    .result {
+      background: var(--gray-100);
+      border-radius: 8px;
+    }
   }
 
   .search {
@@ -50,16 +55,29 @@ const StyledSharingModal = styled.dialog`
     }
   }
 
+  .result.not-found {
+    font-size: var(--text-m);
+    text-align: center;
+    padding: 17px 0 18px;
+  }
+
+  .loading {
+    padding: 16px;
+
+    img {
+      margin: auto;
+      width: 24px;
+    }
+  }
+
   div.member {
     padding: 12px;
-    background: var(--gray-100);
-    border-radius: 8px;
 
     button {
+      margin: 0 0 0 auto;
       padding: 4px 10px;
       background: var(--point-dark-400);
       color: white;
-      flex-shrink: 0;
       border-radius: 50px;
       font-size: var(--text-m);
     }
@@ -75,11 +93,14 @@ const StyledSharingModal = styled.dialog`
     margin: 4px 0 10px;
   }
 
+  li.member {
+    padding: 6px 16px;
+  }
+
   .member {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 16px;
 
     div {
       display: flex;
@@ -98,6 +119,10 @@ const StyledSharingModal = styled.dialog`
       }
     }
 
+    button {
+      flex-shrink: 0;
+    }
+
     img {
       flex-shrink: 0;
       width: 3.2rem;
@@ -106,8 +131,8 @@ const StyledSharingModal = styled.dialog`
       border: 1px solid var(--gray-100);
     }
   }
+
   li button {
-    flex-shrink: 0;
     margin: 0 -5px 0 auto;
     padding: 11px 5px;
     line-height: 1;
