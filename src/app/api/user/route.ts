@@ -7,6 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     const user = await adminAppAuth.getUserByEmail(email);
     const profile = {
+      uid: user.uid || '',
       displayName: user.displayName || '',
       email: user.email || '',
       photoURL: user.photoURL || '',

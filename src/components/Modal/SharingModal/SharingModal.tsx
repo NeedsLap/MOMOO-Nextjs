@@ -9,10 +9,11 @@ import {
 } from '@/components/Modal/SharingModal/StyledSharingModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
+import { postSharing } from '@/services/album';
 import { getUserByEmail } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
-import { Profile } from '@/utils/model';
+import { UserData } from '@/modules/model';
 
 interface Props {
   albumData: DocumentData;
@@ -25,7 +26,7 @@ export default function SharingModal({ closeModal, albumData }: Props) {
   const [searchInp, setSearchInp] = useState('');
   const [searchResult, setSearchResult] = useState<{
     seccess: boolean;
-    user: Profile | null;
+    user: UserData | null; // uid 추가하기
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
 
@@ -44,6 +45,10 @@ export default function SharingModal({ closeModal, albumData }: Props) {
     const { user } = await res.json();
     setSearchResult({ user, seccess: !!user });
     setIsPending(false);
+  };
+
+  const inviteUser = () => {
+    postSharing(searchResult?.user?.uid || '', albumData.id);
   };
 
   return (
@@ -72,7 +77,7 @@ export default function SharingModal({ closeModal, albumData }: Props) {
               onFocus={() => setFocusedOnSearch(true)}
               onBlur={() => setFocusedOnSearch(false)}
             />
-            <button type="button" aria-label="검색하기">
+            <button aria-label="검색하기">
               <Image width={18} height={18} src="/icons/search.svg" alt="" />
             </button>
           </form>
@@ -101,7 +106,9 @@ export default function SharingModal({ closeModal, albumData }: Props) {
                 </span>
                 <span className="ellipsis">{searchResult.user?.email}</span>
               </div>
-              <button type="button">초대</button>
+              <button type="button" onClick={inviteUser}>
+                초대
+              </button>
             </div>
           ) : (
             searchResult && (
