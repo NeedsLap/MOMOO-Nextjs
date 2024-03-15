@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 
 const StyledAlbumItem = styled.li`
+  margin: 8px;
   position: relative;
-  display: inline-block;
-  margin: 0 0 16px;
-  width: 100%;
-  background-color: black;
-  border: 1px solid var(--gray-100);
-  vertical-align: top;
+  box-sizing: content-box;
 
   .hover-wrap {
     position: absolute;
@@ -34,7 +30,7 @@ const StyledAlbumItem = styled.li`
   }
 
   @media (max-width: 430px) {
-    margin: 0 0 12px;
+    margin: 6px;
 
     .hover-wrap {
       strong {

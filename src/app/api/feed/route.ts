@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
   let hasPermission = true;
 
   if (userUid !== uid) {
-    const sharedAlbums = await getSharedAlbums(userUid);
+    const sharedAlbums = (await getSharedAlbums(userUid)) || null;
     hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
   }
 
@@ -49,7 +49,10 @@ export async function GET(req: NextRequest) {
   }
 
   const feedList: string[] = [...albumDoc.data().feedList];
-  const feeds = await getFeedsData(feedList, uid);
+  const feeds = await getFeedsData(
+    feedList.slice(parseInt(skip), parseInt(limit)),
+    uid,
+  );
 
   return NextResponse.json(feeds);
 }

@@ -73,8 +73,12 @@ const getSharedAlbums = async (uid: string) => {
 
 const checkAlbumPermission = async (
   albumDoc: DocumentData,
-  sharedAlbums: DocumentData[],
+  sharedAlbums: DocumentData[] | null,
 ) => {
+  if (!sharedAlbums) {
+    return false;
+  }
+
   for (const ref of sharedAlbums) {
     if (ref.path === albumDoc.ref.path) {
       return true;

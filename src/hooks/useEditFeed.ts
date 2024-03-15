@@ -1,31 +1,41 @@
-// import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
-// import { appFireStore } from '@/firebase/config';
-// import useAuthState from '@/hooks/auth/useAuthState';
-// import useEditContext from '@/hooks/useEditContext';
+import { appFireStore } from '@/firebase/config';
+import useAuthState from '@/hooks/auth/useAuthState';
 
-// export default function useEditFeed() {
-//   const { user } = useAuthState();
-//   const { feedIdToEdit } = useEditContext();
+import { ReduxState } from '@/modules/model';
 
-//   const editFeed = async (updateData: {}, id?: string) => {
-//     if (user === null) {
-//       return;
-//     }
+interface EditFeedData {
+  title: string;
+  text: string;
+  selectedAddress: string;
+  weatherImage: string;
+  emotionImage: string;
+  imageUrl: string[];
+  [key: string]: string | string[];
+}
 
-//     let feedDocRef;
+export default function useEditFeed() {
+  const { user } = useAuthState();
+  const feedIdToEdit = useSelector(
+    (state: ReduxState) => state.editFeedModal.feedIdToEdit,
+  );
 
-//     if (feedIdToEdit) {
-//       feedDocRef = doc(appFireStore, user.uid, user.uid, 'feed', feedIdToEdit);
-//     } else if (id) {
-//       feedDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
-//     } else {
-//       console.error('id 아규먼트가 누락되었습니다.');
-//       return;
-//     }
+  const editFeed = async (updateData: EditFeedData, id?: string) => {
+    let feedDocRef;
 
-//     await updateDoc(feedDocRef, updateData);
-//   };
+    if (feedIdToEdit) {
+      feedDocRef = doc(appFireStore, user.uid, user.uid, 'feed', feedIdToEdit);
+    } else if (id) {
+      feedDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
+    } else {
+      console.error('id 아규먼트가 누락되었습니다.');
+      return;
+    }
 
-//   return editFeed;
-// }
+    await updateDoc(feedDocRef, updateData);
+  };
+
+  return editFeed;
+}

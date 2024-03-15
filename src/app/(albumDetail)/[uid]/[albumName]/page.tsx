@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: AlbumDetailParams }) {
       const albumName = params.albumName;
       const uid = params.uid;
       const res = await getFeeds({
-        limit: 0,
+        limit: 15,
         skip: 0,
         uid,
         albumName,
@@ -25,10 +25,9 @@ export default async function Page({ params }: { params: AlbumDetailParams }) {
 
       if (!res.ok) {
         if (res.status === 403 || res.status === 404 || res.status === 401) {
-          redirect('404');
+          console.error(new Error(await res.text()));
+          return 'not-found';
         }
-
-        throw new Error(await res.text());
       }
       return await res.json();
     } catch (error) {
@@ -37,6 +36,10 @@ export default async function Page({ params }: { params: AlbumDetailParams }) {
     }
   };
   const feeds = await getFeedsData();
+
+  if (feeds === 'not-found') {
+    redirect('/404');
+  }
 
   return <AlbumDetail feeds={feeds} />;
 }

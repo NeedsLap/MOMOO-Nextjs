@@ -2,6 +2,9 @@
 // import { useParams, useRouter } from 'next/navigation';
 // import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
+// import { useSelector } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+
 // import Accordion from '@/components/Accordion/Accordion';
 // import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
 // import Preview from '@/components/FileUpload/Preview';
@@ -10,8 +13,7 @@
 // import GetAccordionData from '@/components/Upload/GetAccordionData';
 // import * as Styled from '@/components/Upload/Upload/StyledUpload';
 // import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
-// import useAuthContext from '@/hooks/useAuthContext';
-// import useEditContext from '@/hooks/useEditContext';
+// import useAuthState from '@/hooks/auth/useAuthState';
 // import useEditFeed from '@/hooks/useEditFeed';
 // import useGetFeedData from '@/hooks/useGetFeedData';
 // import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
@@ -19,7 +21,10 @@
 //   useAddFeedIdFromFeedList,
 //   useRemoveFeedIdFromFeedList,
 // } from '@/hooks/useUpdateFeedList';
+// import { closeEditFeedModal } from '@/modules/editFeedModal';
 // import { deleteImg } from '@/utils/SDKUtils';
+
+// import { ReduxState } from '@/modules/model';
 
 // interface AccordionData {
 //   question: string;
@@ -51,9 +56,11 @@
 //   const router = useRouter();
 //   const { album } = useParams<{ album: string }>();
 
-//   const { user } = useAuthContext();
-//   const { setIsEditModalOpen, feedIdToEdit, setFeedIdToEdit } =
-//     useEditContext();
+//   const { user } = useAuthState();
+//   const dispatch = useDispatch();
+//   const feedIdToEdit = useSelector(
+//     (state: ReduxState) => state.editFeedModal.feedIdToEdit,
+//   );
 
 //   const getAccordionData = GetAccordionData();
 //   const editFeed = useEditFeed();
@@ -85,11 +92,9 @@
 //     };
 
 //     const SetAccordionData = async () => {
-//       if (user) {
-//         const result = await getAccordionData();
-//         setAccordionData(result.accordionData || []);
-//         setAlbumIdData(result.albumIdData || []);
-//       }
+//       const result = await getAccordionData();
+//       setAccordionData(result.accordionData || []);
+//       setAlbumIdData(result.albumIdData || []);
 //     };
 
 //     setFeedData();
@@ -97,18 +102,12 @@
 //     SetAccordionData();
 //   }, []);
 
-//   if (!user) {
-//     router.push('/');
-//     return;
-//   }
-
 //   const toggleKakaoMap = () => {
 //     setKakaoMapVisible(!kakaoMapVisible);
 //   };
 
-//   const closeEditFeedModal = () => {
-//     setIsEditModalOpen(false);
-//     setFeedIdToEdit('');
+//   const closeModal = () => {
+//     dispatch(closeEditFeedModal());
 //   };
 
 //   const handleAddressSelect = (selectedAddress: string) => {
@@ -190,7 +189,7 @@
 //     const albumName =
 //       album && selectedAlbumList.includes(album) ? album : selectedAlbumList[0];
 //     router.push(`/${user.uid}/${albumName}/p/${feedIdToEdit}`);
-//     closeEditFeedModal();
+//     closeModal();
 //   };
 
 //   return (
@@ -260,7 +259,7 @@
 //                       src="/icons/arrow.svg"
 //                       width={16}
 //                       height={16}
-//                       alt={'위치토글아이콘'}
+//                       alt="위치 토글 아이콘"
 //                     ></Image>
 //                   </div>
 //                 </Styled.LocationContents>
@@ -305,7 +304,7 @@
 //             </>
 //           )}
 //         </Styled.UploadContents>
-//         <Styled.CloseBtn className="closeBtn" onClick={closeEditFeedModal}>
+//         <Styled.CloseBtn className="closeBtn" onClick={closeModal}>
 //           <Image
 //             className={kakaoMapVisible ? 'rotate' : ''}
 //             src="/icons/x-white.svg"
