@@ -34,6 +34,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
 
   const searchMember = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!searchInp) {
       return;
     }
@@ -46,8 +47,14 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     setIsPending(false);
   };
 
-  const inviteUser = () => {
-    postSharing(searchResult?.user?.uid || '', albumId);
+  const inviteUser = async () => {
+    const user = searchResult?.user;
+
+    if (user) {
+      await postSharing(user.uid || '', albumId);
+      setSearchResult(null);
+      setSharedUsers((prev) => [...prev, user]);
+    }
   };
 
   useEffect(() => {
@@ -57,10 +64,6 @@ export default function SharingModal({ closeModal, albumId }: Props) {
       setSharedUsers(sharedUsers);
     })();
   }, [albumId]);
-
-  useEffect(() => {
-    console.log('a');
-  }, []);
 
   return (
     <StyledSharingModal
