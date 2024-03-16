@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import { FormEvent, useRef, useState } from 'react';
-
-import { DocumentData } from 'firebase/firestore';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import {
   StyledSharingModal,
@@ -9,26 +7,27 @@ import {
 } from '@/components/Modal/SharingModal/StyledSharingModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
-import { postSharing } from '@/services/album';
+import { getSharedUsers, postSharing } from '@/services/album';
 import { getUserByEmail } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
 import { UserData } from '@/modules/model';
 
 interface Props {
-  albumData: DocumentData;
+  albumId: string;
   closeModal: () => void;
 }
 
-export default function SharingModal({ closeModal, albumData }: Props) {
+export default function SharingModal({ closeModal, albumId }: Props) {
   const urlInputRef = useRef<HTMLInputElement | null>(null);
   const [focusedOnSearch, setFocusedOnSearch] = useState(false);
   const [searchInp, setSearchInp] = useState('');
   const [searchResult, setSearchResult] = useState<{
     seccess: boolean;
-    user: UserData | null; // uid 추가하기
+    user: UserData | null;
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
+  const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
 
   const { showModal } = useShowModal();
   useEscDialog(closeModal);
@@ -48,8 +47,20 @@ export default function SharingModal({ closeModal, albumData }: Props) {
   };
 
   const inviteUser = () => {
-    postSharing(searchResult?.user?.uid || '', albumData.id);
+    postSharing(searchResult?.user?.uid || '', albumId);
   };
+
+  useEffect(() => {
+    (async () => {
+      const res = await getSharedUsers(albumId);
+      const sharedUsers = await res.json();
+      setSharedUsers(sharedUsers);
+    })();
+  }, [albumId]);
+
+  useEffect(() => {
+    console.log('a');
+  }, []);
 
   return (
     <StyledSharingModal
@@ -117,22 +128,28 @@ export default function SharingModal({ closeModal, albumData }: Props) {
           )}
         </section>
 
-        <strong className="manage">공유 대상 관리</strong>
-        <ul>
-          <li className="member">
-            <Image
-              width={32}
-              height={32}
-              src="/images/profile-basic-s.svg"
-              alt="프로필 사진"
-            />
-            <div>
-              <span className="ellipsis">애벌레가 먹은 사과는 맛있었다</span>
-              <span className="ellipsis">appleappleappleapple@naver.com</span>
-            </div>
-            <button type="button">삭제</button>
-          </li>
-        </ul>
+        {!!sharedUsers.length && (
+          <>
+            <strong className="manage">공유 대상 관리</strong>
+            <ul>
+              {sharedUsers.map((user) => (
+                <li className="member" key={user.uid}>
+                  <Image
+                    width={32}
+                    height={32}
+                    src={user.photoURL || '/images/profile-basic-s.svg'}
+                    alt="프로필 사진"
+                  />
+                  <div>
+                    <span className="ellipsis">{user.displayName}</span>
+                    <span className="ellipsis">{user.email}</span>
+                  </div>
+                  <button type="button">삭제</button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         <button
           type="button"
           className="close-button"

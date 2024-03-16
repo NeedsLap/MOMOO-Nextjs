@@ -79,7 +79,7 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
       )}
       {isSharingModalOpen && (
         <SharingModal
-          albumData={albumData}
+          albumId={albumData.id}
           closeModal={() => setIsSharingModalOpen(false)}
         />
       )}
