@@ -20,4 +20,12 @@ const getSharedUsers = async (albumId: string) => {
   return res;
 };
 
-export { postSharing, getSharedUsers };
+const deleteSharedUser = async (albumId: string, uid: string) => {
+  const res = await fetch(`${url}/album/${albumId}/sharing/${uid}`, {
+    method: 'DELETE',
+  });
+
+  return res;
+};
+
+export { postSharing, getSharedUsers, deleteSharedUser };

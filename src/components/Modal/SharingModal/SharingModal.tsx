@@ -7,7 +7,11 @@ import {
 } from '@/components/Modal/SharingModal/StyledSharingModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
-import { getSharedUsers, postSharing } from '@/services/album';
+import {
+  deleteSharedUser,
+  getSharedUsers,
+  postSharing,
+} from '@/services/album';
 import { getUserByEmail } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
@@ -73,6 +77,14 @@ export default function SharingModal({ closeModal, albumId }: Props) {
       setSharedUsers(sharedUsers);
     })();
   }, [albumId]);
+
+  const handleDeleteSharedUserBtn = (index: number) => {
+    deleteSharedUser(albumId, sharedUsers[index].uid);
+    setSharedUsers((prev) => [
+      ...prev.slice(0, index),
+      ...prev.slice(index + 1),
+    ]);
+  };
 
   return (
     <StyledSharingModal
@@ -149,7 +161,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
           <>
             <strong className="manage">공유 대상 관리</strong>
             <ul>
-              {sharedUsers.map((user) => (
+              {sharedUsers.map((user, i) => (
                 <li className="member" key={user.uid}>
                   <Image
                     width={32}
@@ -161,7 +173,12 @@ export default function SharingModal({ closeModal, albumId }: Props) {
                     <span className="ellipsis">{user.displayName}</span>
                     <span className="ellipsis">{user.email}</span>
                   </div>
-                  <button type="button">삭제</button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteSharedUserBtn(i)}
+                  >
+                    삭제
+                  </button>
                 </li>
               ))}
             </ul>
