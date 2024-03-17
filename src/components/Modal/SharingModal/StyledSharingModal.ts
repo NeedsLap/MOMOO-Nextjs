@@ -16,6 +16,7 @@ const StyledSharingModal = styled.dialog`
     padding: 12px 16px 16px;
 
     .result {
+      margin: 8px 0 0;
       background: var(--gray-100);
       border-radius: 8px;
     }
@@ -70,7 +71,6 @@ const StyledSharingModal = styled.dialog`
   }
 
   div.member {
-    margin: 8px 0 0;
     padding: 12px;
   }
 
@@ -137,12 +137,16 @@ const StyledSharingModal = styled.dialog`
     }
   }
 
-  li button {
+  .delete-btn {
     margin: 0 -5px 0 auto;
-    padding: 11px 5px;
-    line-height: 1;
+    padding: 7px 5px;
     font-size: var(--text-m);
     color: var(--error-color);
+
+    img {
+      width: 21px;
+      aspect-ratio: 1/1;
+    }
   }
 
   .close-button {

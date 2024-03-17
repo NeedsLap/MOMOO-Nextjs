@@ -32,6 +32,8 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     shared: boolean;
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
+  const [deleteSharedUserIsPending, setDeleteSharedUserIsPending] =
+    useState(false);
   const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
 
   const { showModal } = useShowModal();
@@ -78,12 +80,14 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     })();
   }, [albumId]);
 
-  const handleDeleteSharedUserBtn = (index: number) => {
-    deleteSharedUser(albumId, sharedUsers[index].uid);
+  const handleDeleteSharedUserBtn = async (index: number) => {
+    setDeleteSharedUserIsPending(true);
+    await deleteSharedUser(albumId, sharedUsers[index].uid); // 예외 처리 추가하기
     setSharedUsers((prev) => [
       ...prev.slice(0, index),
       ...prev.slice(index + 1),
     ]);
+    setDeleteSharedUserIsPending(false);
   };
 
   return (
@@ -174,10 +178,21 @@ export default function SharingModal({ closeModal, albumId }: Props) {
                     <span className="ellipsis">{user.email}</span>
                   </div>
                   <button
+                    className="delete-btn"
                     type="button"
                     onClick={() => handleDeleteSharedUserBtn(i)}
+                    disabled={deleteSharedUserIsPending}
                   >
-                    삭제
+                    {deleteSharedUserIsPending ? (
+                      <Image
+                        width={21}
+                        height={21}
+                        src="/icons/loading.svg"
+                        alt=""
+                      />
+                    ) : (
+                      '삭제'
+                    )}
                   </button>
                 </li>
               ))}
