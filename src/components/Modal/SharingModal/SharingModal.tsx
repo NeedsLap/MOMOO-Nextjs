@@ -5,6 +5,7 @@ import {
   StyledSharingModal,
   DialogTitle,
 } from '@/components/Modal/SharingModal/StyledSharingModal';
+import Toast from '@/components/Toast/Toast';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import {
@@ -35,6 +36,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
   const [deleteSharedUserIsPending, setDeleteSharedUserIsPending] =
     useState(false);
   const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
+  const [toastMessage, setToastMessage] = useState('');
 
   const { showModal } = useShowModal();
   useEscDialog(closeModal);
@@ -62,6 +64,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         const { user } = await res.json();
         setSearchResult({ user, seccess: !!user, shared: false });
       } catch (error) {
+        setToastMessage('검색 중 에러가 발생했습니다');
         console.error(error);
       }
     }
@@ -84,6 +87,8 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         setSearchResult(null);
         setSharedUsers((prev) => [...prev, user]);
       } catch (error) {
+        e.currentTarget.disabled = false;
+        setToastMessage('공유 대상을 추가하는데 실패했습니다');
         console.error(error);
       }
     }
@@ -101,6 +106,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         const sharedUsers = await res.json();
         setSharedUsers(sharedUsers);
       } catch (error) {
+        setToastMessage('공유한 사용자 정보를 불러오는데 실패했습니다');
         console.error(error);
       }
     })();
@@ -121,6 +127,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         ...prev.slice(index + 1),
       ]);
     } catch (error) {
+      setToastMessage('공유 대상을 삭제하는데 실패했습니다');
       console.error(error);
     }
 
@@ -133,7 +140,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
       onClick={(e) => closeDialogOnClick(e, closeModal)}
       ref={showModal}
     >
-      <div>
+      <div className="modal-wrap">
         <DialogTitle>공유</DialogTitle>
         <section className="search-member">
           <form
@@ -245,6 +252,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
           <Image width={16} height={16} src="/icons/x-small.svg" alt="" />
         </button>
       </div>
+      <Toast message={toastMessage} />
     </StyledSharingModal>
   );
 }

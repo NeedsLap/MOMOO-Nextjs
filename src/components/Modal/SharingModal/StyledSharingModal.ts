@@ -7,7 +7,7 @@ const StyledSharingModal = styled.dialog`
   background: var(--background-color);
   width: 280px;
 
-  & > div {
+  .modal-wrap {
     position: relative;
     font-size: var(--text-l);
   }
