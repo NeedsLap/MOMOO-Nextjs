@@ -52,10 +52,18 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     if (sharedUser) {
       setSearchResult({ user: sharedUser, seccess: true, shared: true });
     } else {
-      // 예외 처리 추가하기
-      const res = await getUserByEmail(searchInp);
-      const { user } = await res.json();
-      setSearchResult({ user, seccess: !!user, shared: false });
+      try {
+        const res = await getUserByEmail(searchInp);
+
+        if (!res.ok) {
+          throw new Error(await res.text());
+        }
+
+        const { user } = await res.json();
+        setSearchResult({ user, seccess: !!user, shared: false });
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     setIsPending(false);
@@ -66,27 +74,56 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     const user = searchResult?.user;
 
     if (user) {
-      await postSharing(user.uid || '', albumId);
-      setSearchResult(null);
-      setSharedUsers((prev) => [...prev, user]);
+      try {
+        const res = await postSharing(user.uid || '', albumId);
+
+        if (!res.ok) {
+          throw new Error(await res.text());
+        }
+
+        setSearchResult(null);
+        setSharedUsers((prev) => [...prev, user]);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   useEffect(() => {
     (async () => {
-      const res = await getSharedUsers(albumId);
-      const sharedUsers = await res.json();
-      setSharedUsers(sharedUsers);
+      try {
+        const res = await getSharedUsers(albumId);
+
+        if (!res.ok) {
+          throw new Error(await res.text());
+        }
+
+        const sharedUsers = await res.json();
+        setSharedUsers(sharedUsers);
+      } catch (error) {
+        console.error(error);
+      }
     })();
   }, [albumId]);
 
   const handleDeleteSharedUserBtn = async (index: number) => {
     setDeleteSharedUserIsPending(true);
-    await deleteSharedUser(albumId, sharedUsers[index].uid); // 예외 처리 추가하기
-    setSharedUsers((prev) => [
-      ...prev.slice(0, index),
-      ...prev.slice(index + 1),
-    ]);
+
+    try {
+      const res = await deleteSharedUser(albumId, sharedUsers[index].uid);
+
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+
+      setSharedUsers((prev) => [
+        ...prev.slice(0, index),
+        ...prev.slice(index + 1),
+      ]);
+    } catch (error) {
+      console.error(error);
+    }
+
     setDeleteSharedUserIsPending(false);
   };
 
