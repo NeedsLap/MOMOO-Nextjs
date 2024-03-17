@@ -22,7 +22,6 @@ const StyledSharingModal = styled.dialog`
   }
 
   .search {
-    margin: 0 0 8px;
     display: flex;
     border-radius: 10px;
     border: 1px solid var(--gray-200);
@@ -71,16 +70,22 @@ const StyledSharingModal = styled.dialog`
   }
 
   div.member {
+    margin: 8px 0 0;
     padding: 12px;
+  }
 
-    button {
-      margin: 0 0 0 auto;
-      padding: 4px 10px;
-      background: var(--point-dark-400);
-      color: white;
-      border-radius: 50px;
-      font-size: var(--text-m);
-    }
+  .invite-btn {
+    margin: 0 0 0 auto;
+    padding: 4px 10px;
+    background: var(--point-dark-400);
+    color: white;
+    border-radius: 50px;
+    font-size: var(--text-m);
+  }
+
+  .invite-btn:disabled {
+    color: var(--gray-900);
+    background: var(--gray-200);
   }
 
   .manage {

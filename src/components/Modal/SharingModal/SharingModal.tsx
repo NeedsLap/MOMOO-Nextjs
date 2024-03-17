@@ -25,6 +25,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
   const [searchResult, setSearchResult] = useState<{
     seccess: boolean;
     user: UserData | null;
+    shared: boolean;
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
@@ -40,14 +41,22 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     }
 
     setIsPending(true);
-    // 예외 처리 추가하기
-    const res = await getUserByEmail(searchInp);
-    const { user } = await res.json();
-    setSearchResult({ user, seccess: !!user });
+    const sharedUser = sharedUsers.find((user) => user.email === searchInp);
+
+    if (sharedUser) {
+      setSearchResult({ user: sharedUser, seccess: true, shared: true });
+    } else {
+      // 예외 처리 추가하기
+      const res = await getUserByEmail(searchInp);
+      const { user } = await res.json();
+      setSearchResult({ user, seccess: !!user, shared: false });
+    }
+
     setIsPending(false);
   };
 
-  const inviteUser = async () => {
+  const inviteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.disabled = true;
     const user = searchResult?.user;
 
     if (user) {
@@ -120,8 +129,13 @@ export default function SharingModal({ closeModal, albumId }: Props) {
                 </span>
                 <span className="ellipsis">{searchResult.user?.email}</span>
               </div>
-              <button type="button" onClick={inviteUser}>
-                초대
+              <button
+                type="button"
+                onClick={inviteUser}
+                disabled={searchResult.shared}
+                className="invite-btn"
+              >
+                {searchResult.shared ? '초대됨' : '초대'}
               </button>
             </div>
           ) : (

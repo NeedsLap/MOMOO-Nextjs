@@ -14,4 +14,16 @@ const getProfile = async () => {
   return profile;
 };
 
-export { getProfile };
+const getUserByUid = async (uid: string) => {
+  const user = await adminAppAuth.getUser(uid);
+  const userData = {
+    uid,
+    displayName: user.displayName || '',
+    email: user.email || '',
+    photoURL: user.photoURL || '',
+  };
+
+  return userData;
+};
+
+export { getProfile, getUserByUid };
