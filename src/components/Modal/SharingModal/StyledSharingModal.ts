@@ -13,7 +13,7 @@ const StyledSharingModal = styled.dialog`
   }
 
   .search-member {
-    padding: 12px 16px 16px;
+    padding: 12px 16px;
 
     .result {
       margin: 8px 0 0;
@@ -95,11 +95,11 @@ const StyledSharingModal = styled.dialog`
   }
 
   ul {
-    margin: 4px 0 10px;
+    margin: 4px 0 14px;
   }
 
   li.member {
-    padding: 6px 16px;
+    padding: 4px 16px;
   }
 
   .member {
@@ -111,7 +111,6 @@ const StyledSharingModal = styled.dialog`
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      line-height: 1;
       font-size: var(--text-m);
 
       span {
@@ -119,7 +118,6 @@ const StyledSharingModal = styled.dialog`
       }
 
       span:last-child {
-        margin-top: 2px;
         font-size: var(--text-s);
       }
     }
