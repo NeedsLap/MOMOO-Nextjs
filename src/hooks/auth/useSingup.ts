@@ -2,8 +2,9 @@ import { useState } from 'react';
 
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
-import { appAuth } from '@/firebase/config';
+import { appAuth, appFireStore } from '@/firebase/config';
 import useAddAlbum from '@/hooks/useAddAlbum';
 import { uploadImg } from '@/utils/SDKUtils';
 
@@ -50,6 +51,9 @@ export default function useSignup() {
       }
 
       await addAlbum({ albumName: '전체 보기' });
+      await setDoc(doc(appFireStore, user.uid, user.uid), {
+        sharedAlbums: [],
+      });
       setError(null);
     } catch (err) {
       if (err instanceof FirebaseError) {
