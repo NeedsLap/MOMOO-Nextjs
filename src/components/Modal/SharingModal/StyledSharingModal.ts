@@ -96,6 +96,8 @@ const StyledSharingModal = styled.dialog`
 
   ul {
     margin: 4px 0 14px;
+    max-height: 129px; // item 3개 높이
+    overflow-y: auto;
   }
 
   li.member {
