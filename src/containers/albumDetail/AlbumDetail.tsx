@@ -113,18 +113,16 @@ export default function AlbumDetail({
           {feeds && (
             <StyledFeedList>
               {feedsData.map((v, i) => {
-                if (i === feedsData.length - 1) {
-                  return (
-                    <AlbumItem
-                      key={v.id}
-                      index={i}
-                      feedData={v}
-                      ref={
-                        i === feedsData.length - 1 ? setItemToObserveRef : null
-                      }
-                    ></AlbumItem>
-                  );
-                }
+                return (
+                  <AlbumItem
+                    key={v.id}
+                    index={i}
+                    feedData={v}
+                    ref={
+                      i === feedsData.length - 1 ? setItemToObserveRef : null
+                    }
+                  ></AlbumItem>
+                );
               })}
             </StyledFeedList>
           )}
