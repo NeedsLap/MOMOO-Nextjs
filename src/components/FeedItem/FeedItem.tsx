@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 
 import { DocumentData } from '@firebase/firestore';
 import { useSelector } from 'react-redux';
 
 import Carousel from '@/components/Carousel/Carousel';
 import StyledFeedItem from '@/components/FeedItem/StyledFeedItem';
-import LoadingComponent from '@/components/Loading/LoadingComponent';
 import ChangeAlbumModal from '@/components/Modal/ChangeAlbumModal/ChangeAlbumModal';
 import DeleteFeedModal from '@/components/Modal/DeleteFeedModal';
 import FeedMoreModal from '@/components/Modal/FeedMoreModal';
@@ -16,55 +15,52 @@ import useGetFeedData from '@/hooks/useGetFeedData';
 
 import { ReduxState } from '@/modules/model';
 
-export default function FeedItem() {
+function FeedItem(
+  { feed }: { feed: DocumentData },
+  ref: ForwardedRef<HTMLLIElement>,
+) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
-  const [feedData, setFeedData] = useState<DocumentData | null>(null);
+  const [feedData, setFeedData] = useState<DocumentData | null>(feed);
   const [time, setTime] = useState('');
-  const [InvalidId, setInvalidId] = useState(false);
 
-  const { uid, id } = useParams<{
+  const { uid } = useParams<{
     uid: string;
-    id: string;
     albumName: string;
   }>();
 
   const { user } = useAuthState();
-  const isEditFeedModalOpen = useSelector(
-    (state: ReduxState) => state.editFeedModal.isEditFeedModalOpen,
-  );
-  const getFeedData = useGetFeedData();
+  // const isEditFeedModalOpen = useSelector(
+  //   (state: ReduxState) => state.editFeedModal.isEditFeedModalOpen,
+  // );
+  // const getFeedData = useGetFeedData();
 
-  useEffect(() => {
-    // 엑세스 권한 없을 경우 로직 추가하기
-  }, []);
+  // useEffect(() => {
+  //   // 피드 수정 후 리렌더링
+  //   if (isEditFeedModalOpen) {
+  //     return;
+  //   }
 
-  useEffect(() => {
-    // 피드 수정 후 리렌더링
-    if (isEditFeedModalOpen) {
-      return;
-    }
+  //   const setData = async () => {
+  //     const feedData = await getFeedData(id, uid);
 
-    const setData = async () => {
-      const feedData = await getFeedData(id, uid);
+  //     if (feedData) {
+  //       setFeedData(feedData);
 
-      if (feedData) {
-        setFeedData(feedData);
+  //       const date = new Date(feedData.timestamp.toDate());
+  //       const time = new Date(date.setHours(date.getHours() + 9))
+  //         .toISOString()
+  //         .slice(0, 10);
 
-        const date = new Date(feedData.timestamp.toDate());
-        const time = new Date(date.setHours(date.getHours() + 9))
-          .toISOString()
-          .slice(0, 10);
+  //       setTime(time);
+  //     } else {
+  //       setFeedData(null);
+  //     }
+  //   };
 
-        setTime(time);
-      } else {
-        setInvalidId(true);
-      }
-    };
-
-    setData();
-  }, [isEditFeedModalOpen]);
+  //   setData();
+  // }, [isEditFeedModalOpen]);
 
   const handleSeeMoreClick = () => {
     setIsModalOpen(true);
@@ -84,17 +80,12 @@ export default function FeedItem() {
     setIsModalOpen(false);
   };
 
-  // design 추가하기
-  if (InvalidId) {
-    return <div>존재하지 않는 게시물입니다</div>;
-  }
-
   return (
     <>
       {!feedData ? (
-        <LoadingComponent />
+        <></>
       ) : (
-        <StyledFeedItem>
+        <StyledFeedItem ref={ref}>
           <Carousel imgUrlList={feedData.imageUrl}></Carousel>
           <section className="contentsSection">
             {feedData.emotionImage && feedData.weatherImage && (
@@ -178,3 +169,5 @@ export default function FeedItem() {
     </>
   );
 }
+
+export default forwardRef(FeedItem);

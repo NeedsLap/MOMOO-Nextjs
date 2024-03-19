@@ -48,7 +48,8 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  const feedList: string[] = [...albumDoc.data().feedList];
+  // 최신순으로 얻기 위해 reverse
+  const feedList: string[] = [...albumDoc.data().feedList].reverse();
   const feeds = await getFeedsData(
     feedList.slice(parseInt(skip), parseInt(limit)),
     uid,
