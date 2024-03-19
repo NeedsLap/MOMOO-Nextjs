@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { DocumentData } from 'firebase-admin/firestore';
@@ -16,10 +16,10 @@ import getFeedsAndHandleException from '@/utils/apis';
 
 export default function Feed({
   feeds,
-  initialFetchOpts,
+  pageSize,
 }: {
   feeds: DocumentData[] | null;
-  initialFetchOpts: { limit: number; skip: number; pageSize: number };
+  pageSize: number;
 }) {
   const [feedsData, setFeedsData] = useState<DocumentData[]>(feeds || []);
   const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(false);
@@ -34,48 +34,51 @@ export default function Feed({
   const windowWidth = useWindowWidth();
   const albumName = useAlbumName();
   const { uid } = useParams<{ uid: string }>();
+  const searchParams = useSearchParams();
+  const start = parseInt(searchParams.get('start') || '0');
 
   const setStartFeedItemRef = (node: HTMLLIElement | null) => {
-    if (node && node !== startItemRef.current) {
+    if (windowWidth && node && node !== startItemRef.current) {
       startItemRef.current = node;
-      node.scrollIntoView();
+      const paddingTop = windowWidth > 1024 ? 100 : windowWidth > 430 ? 80 : 48;
+      window.scrollTo(0, node.getBoundingClientRect().y - paddingTop);
     }
   };
 
   useEffect(() => {
+    console.log(nextPage);
+
     if (nextPage === 1) {
       return;
     }
 
     (async () => {
       const feedsToAdd = await getFeedsAndHandleException({
-        limit:
-          initialFetchOpts.limit + initialFetchOpts.pageSize * (nextPage - 1),
-        skip:
-          initialFetchOpts.skip + initialFetchOpts.pageSize * (nextPage - 1),
+        limit: start + pageSize * nextPage,
+        skip: start + pageSize * (nextPage - 1),
         uid,
         albumName,
       });
 
-      if (feedsToAdd.length < initialFetchOpts.pageSize) {
+      if (feedsToAdd.length < pageSize) {
         setStopToObserveLastItem(true);
       }
+      console.log(feedsToAdd);
 
       setFeedsData((prev) => [...prev, ...feedsToAdd]);
     })();
-  }, [nextPage, initialFetchOpts, albumName, uid]);
+  }, [nextPage, albumName, uid, pageSize, start]);
 
   useEffect(() => {
+    console.log(prevPage);
     if (prevPage === 1) {
       return;
     }
 
     (async () => {
-      const skip =
-        initialFetchOpts.skip - initialFetchOpts.pageSize * (prevPage - 1);
+      const skip = start - pageSize * (prevPage - 1);
       const feedsToAdd = await getFeedsAndHandleException({
-        limit:
-          initialFetchOpts.limit - initialFetchOpts.pageSize * (prevPage - 1),
+        limit: start - pageSize * (prevPage - 2),
         skip: skip > 0 ? skip : 0,
         uid,
         albumName,
@@ -84,16 +87,16 @@ export default function Feed({
       if (skip <= 0) {
         setStopToObserveFirstItem(true);
       }
-
+      console.log(feedsToAdd);
       setFeedsData((prev) => [...feedsToAdd, ...prev]);
     })();
-  }, [prevPage, initialFetchOpts, albumName, uid]);
+  }, [prevPage, albumName, uid, pageSize, start]);
 
   return (
     <>
       {windowWidth && windowWidth <= 430 && <TopBar tit="게시물" />}
       <StyledFeed>
-        {windowWidth && windowWidth > 430 && (
+        {windowWidth && windowWidth > 1024 && (
           <Breadcrumb
             navList={[
               { path: '/', text: 'Home' },
@@ -122,16 +125,6 @@ export default function Feed({
                     key={v.id}
                     feed={v}
                     ref={setFirstItemToObserveRef}
-                  ></FeedItem>
-                );
-              }
-
-              if (i === 4 && nextPage === 1 && prevPage === 1) {
-                return (
-                  <FeedItem
-                    key={v.id}
-                    feed={v}
-                    ref={setStartFeedItemRef}
                   ></FeedItem>
                 );
               }

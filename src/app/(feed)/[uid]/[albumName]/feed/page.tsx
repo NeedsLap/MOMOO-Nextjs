@@ -16,21 +16,14 @@ export default async function Page({
   params: { albumName: string; uid: string };
   searchParams: { start?: string };
 }) {
-  const initialItemsCountBeforeStart = 5;
-  const initialItemsCountAfterStart = 10;
-  const pageSize = initialItemsCountBeforeStart + initialItemsCountAfterStart;
+  const pageSize = 15;
 
   const albumName = params.albumName;
   const uid = params.uid;
   const start = parseInt(searchParams.start || '0');
-  const limit = start + initialItemsCountAfterStart;
-  const skip =
-    start - initialItemsCountBeforeStart > 0
-      ? start - initialItemsCountBeforeStart
-      : 0;
   const getFeedsQuery = {
-    limit,
-    skip,
+    limit: start + pageSize,
+    skip: start,
     uid,
     albumName,
     cookie: cookies().toString(),
@@ -41,5 +34,5 @@ export default async function Page({
     redirect('/404');
   }
 
-  return <Feed feeds={feeds} initialFetchOpts={{ limit, skip, pageSize }} />;
+  return <Feed feeds={feeds} pageSize={pageSize} />;
 }
