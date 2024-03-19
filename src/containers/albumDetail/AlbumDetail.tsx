@@ -6,7 +6,7 @@
 // import useSetAlbumData from './useSetAlbumData';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DocumentData } from 'firebase/firestore';
 
@@ -22,19 +22,20 @@ import StyledAlbum, {
 } from '@/containers/albumDetail/StyledAlbumDetail';
 // ]import useUploadContext from '@/hooks/useUploadContext';
 import useAlbumName from '@/hooks/useAlbumName';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { getFeeds } from '@/services/feed';
+import getFeedsAndHandleException from '@/utils/apis';
 
 export default function AlbumDetail({
   feeds,
+  pageSize,
 }: {
   feeds: DocumentData[] | null;
+  pageSize: number;
 }) {
   const albumName = useAlbumName();
   const windowWidth = useWindowWidth();
-  const lastAlbumItemRef = useRef<HTMLLIElement | null>();
-  const observer = useRef<IntersectionObserver | null>(null);
-  const [page, setPage] = useState(1);
+  const { page, setItemToObserveRef } = useInfiniteScroll();
   const { uid } = useParams<{ uid: string }>();
   // const router = useRouter();
   //   const { setAlbumNameListToAdd, setIsUploadModalOpen } = useUploadContext();
@@ -55,52 +56,16 @@ export default function AlbumDetail({
       return;
     }
 
-    const getFeedsData = async () => {
-      try {
-        const res = await getFeeds({
-          limit: 15 * page,
-          skip: 15 * page - 15,
-          uid,
-          albumName,
-        });
-
-        if (!res.ok) {
-          if (res.status === 403 || res.status === 404 || res.status === 401) {
-            console.error(new Error(await res.text()));
-            return 'not-found';
-          }
-        }
-        return await res.json();
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    };
-
     (async () => {
-      const feedsToAdd = await getFeedsData();
+      const feedsToAdd = await getFeedsAndHandleException({
+        limit: pageSize * page,
+        skip: pageSize * page - pageSize,
+        uid,
+        albumName,
+      });
       setFeedsData((prev) => [...prev, ...feedsToAdd]);
     })();
   }, [page]);
-
-  const infiniteScroll = (node: HTMLLIElement) => {
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPage((prev) => ++prev);
-
-        if (observer.current) {
-          observer.current.disconnect();
-        }
-      }
-    });
-    observer.current.observe(node);
-  };
-  const setLastAlbumItemRef = (node: HTMLLIElement) => {
-    if (node && node !== lastAlbumItemRef.current) {
-      lastAlbumItemRef.current = node;
-      infiniteScroll(node);
-    }
-  };
 
   return (
     <>
@@ -147,19 +112,18 @@ export default function AlbumDetail({
           {!feeds && <LoadingComponent />}
           {feeds && (
             <StyledFeedList>
-              {feedsData.length > 0 &&
-                feedsData.map((v, i) => {
-                  if (i === feedsData.length - 1) {
-                    return (
-                      <AlbumItem
-                        key={v.id}
-                        feedData={v}
-                        ref={setLastAlbumItemRef}
-                      ></AlbumItem>
-                    );
-                  }
-                  return <AlbumItem key={v.id} feedData={v}></AlbumItem>;
-                })}
+              {feedsData.map((v, i) => {
+                if (i === feedsData.length - 1) {
+                  return (
+                    <AlbumItem
+                      key={v.id}
+                      feedData={v}
+                      ref={setItemToObserveRef}
+                    ></AlbumItem>
+                  );
+                }
+                return <AlbumItem key={v.id} feedData={v}></AlbumItem>;
+              })}
             </StyledFeedList>
           )}
         </section>

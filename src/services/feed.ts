@@ -1,19 +1,6 @@
+import type { GetFeedsQuery, GetFeedsOpts } from '@/services/model';
+
 const url = 'http://localhost:3000/api';
-
-interface FeedsApiQuery {
-  limit: number;
-  skip: number;
-  albumName: string;
-  uid: string;
-  cookie?: string;
-}
-
-interface FetchOpts {
-  method: 'GET';
-  headers?: {
-    Cookie?: string;
-  };
-}
 
 const getFeeds = async ({
   limit,
@@ -21,10 +8,9 @@ const getFeeds = async ({
   albumName,
   uid,
   cookie,
-}: FeedsApiQuery) => {
-  const opts: FetchOpts = {
+}: GetFeedsQuery) => {
+  const opts: GetFeedsOpts = {
     method: 'GET',
-    // credentials: 'include',
   };
 
   if (cookie) {
