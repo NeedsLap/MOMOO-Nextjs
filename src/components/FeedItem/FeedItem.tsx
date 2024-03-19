@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
+// import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
+import { ForwardedRef, forwardRef, useMemo, useState } from 'react';
 
 import { DocumentData } from '@firebase/firestore';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { Timestamp } from 'firebase/firestore';
 
 import Carousel from '@/components/Carousel/Carousel';
 import StyledFeedItem from '@/components/FeedItem/StyledFeedItem';
@@ -11,9 +13,9 @@ import ChangeAlbumModal from '@/components/Modal/ChangeAlbumModal/ChangeAlbumMod
 import DeleteFeedModal from '@/components/Modal/DeleteFeedModal';
 import FeedMoreModal from '@/components/Modal/FeedMoreModal';
 import useAuthState from '@/hooks/auth/useAuthState';
-import useGetFeedData from '@/hooks/useGetFeedData';
+// import useGetFeedData from '@/hooks/useGetFeedData';
 
-import { ReduxState } from '@/modules/model';
+// import { ReduxState } from '@/modules/model';
 
 function FeedItem(
   { feed }: { feed: DocumentData },
@@ -23,7 +25,6 @@ function FeedItem(
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
   const [feedData, setFeedData] = useState<DocumentData | null>(feed);
-  const [time, setTime] = useState('');
 
   const { uid } = useParams<{
     uid: string;
@@ -35,6 +36,21 @@ function FeedItem(
   //   (state: ReduxState) => state.editFeedModal.isEditFeedModalOpen,
   // );
   // const getFeedData = useGetFeedData();
+
+  const getFormattedDateFromTimestamp = (timestamp: Timestamp) => {
+    const date = new Date(
+      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000,
+    );
+    const formattedDate = new Date(date.setHours(date.getHours() - 12))
+      .toISOString()
+      .slice(0, 10);
+
+    return formattedDate;
+  };
+  const formattedDate = useMemo(
+    () => feedData && getFormattedDateFromTimestamp(feedData.timestamp),
+    [feedData],
+  );
 
   // useEffect(() => {
   //   // 피드 수정 후 리렌더링
@@ -145,9 +161,11 @@ function FeedItem(
           {feedData.selectedAddress && (
             <p className="locationSection">{feedData.selectedAddress}</p>
           )}
-          <time dateTime={time} className="date">
-            {time.replace(/-/gi, '.')}
-          </time>
+          {formattedDate && (
+            <time dateTime={formattedDate} className="date">
+              {formattedDate.replace(/-/gi, '.')}
+            </time>
+          )}
           {isModalOpen && (
             <FeedMoreModal
               setDeleteModalOpen={setDeleteModalOpen}
