@@ -46,8 +46,6 @@ export default function Feed({
   };
 
   useEffect(() => {
-    console.log(nextPage);
-
     if (nextPage === 1) {
       return;
     }
@@ -63,14 +61,12 @@ export default function Feed({
       if (feedsToAdd.length < pageSize) {
         setStopToObserveLastItem(true);
       }
-      console.log(feedsToAdd);
 
       setFeedsData((prev) => [...prev, ...feedsToAdd]);
     })();
   }, [nextPage, albumName, uid, pageSize, start]);
 
   useEffect(() => {
-    console.log(prevPage);
     if (prevPage === 1) {
       return;
     }
@@ -87,7 +83,7 @@ export default function Feed({
       if (skip <= 0) {
         setStopToObserveFirstItem(true);
       }
-      console.log(feedsToAdd);
+
       setFeedsData((prev) => [...feedsToAdd, ...prev]);
     })();
   }, [prevPage, albumName, uid, pageSize, start]);
