@@ -117,12 +117,14 @@ export default function AlbumDetail({
                   return (
                     <AlbumItem
                       key={v.id}
+                      index={i}
                       feedData={v}
-                      ref={setItemToObserveRef}
+                      ref={
+                        i === feedsData.length - 1 ? setItemToObserveRef : null
+                      }
                     ></AlbumItem>
                   );
                 }
-                return <AlbumItem key={v.id} feedData={v}></AlbumItem>;
               })}
             </StyledFeedList>
           )}
