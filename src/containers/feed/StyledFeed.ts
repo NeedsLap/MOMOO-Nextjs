@@ -9,7 +9,7 @@ const StyledFeed = styled.main`
   flex-direction: column;
 
   @media (max-width: 1024px) {
-    padding: calc(var(--nav-height-tablet) + 64px) var(--margin-tablet) 20px;
+    padding: calc(var(--nav-height-tablet)) var(--margin-tablet) 20px;
     margin: 0;
   }
 
@@ -27,7 +27,6 @@ const StyledFeedList = styled.ul`
 
   @media (max-width: 1024px) {
     max-width: 100%;
-    margin-top: 20px;
   }
 
   @media (max-width: 430px) {
