@@ -17,7 +17,7 @@ export default function DeleteIdModal({
 
   useEffect(() => {
     if (error) {
-      setSubmitErrMessage('회원 탈퇴에 실패했습니다');
+      setSubmitErrMessage(error);
       setIsModalOpen(false);
     }
   }, [error]);

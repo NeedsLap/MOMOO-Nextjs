@@ -6,4 +6,12 @@ const getUserByEmail = async (email: string) => {
   return res;
 };
 
-export { getUserByEmail };
+const deleteUser = async () => {
+  const res = await fetch(`${url}/user`, {
+    method: 'DELETE',
+  });
+
+  return res;
+};
+
+export { getUserByEmail, deleteUser };
