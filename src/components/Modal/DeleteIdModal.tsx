@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import ConfirmModal from '@/components/Modal/ConfirmModal/ConfirmModal';
 import LoadingModal from '@/components/Modal/Loading/Loading';
-import useDeleteId from '@/hooks/useDeleteId';
+import useDeleteId from '@/hooks/auth/useDeleteId';
 
 export default function DeleteIdModal({
   onClose,
