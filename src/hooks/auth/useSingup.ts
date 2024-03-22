@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { FirebaseError } from 'firebase/app';
@@ -5,8 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
 import { appAuth, appFireStore } from '@/firebase/config';
-import useAddAlbum from '@/hooks/useAddAlbum';
-import { uploadImg } from '@/utils/SDKUtils';
+import { addAlbum, uploadImg } from '@/utils/SDKUtils';
 
 interface Props {
   email: string;
@@ -15,10 +15,15 @@ interface Props {
   file: File | null;
 }
 
+interface Opt {
+  displayName?: string;
+  photoURL?: string;
+}
+
 export default function useSignup() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, setPending] = useState(false);
-  const addAlbum = useAddAlbum();
+  const router = useRouter();
 
   const signup = async ({ email, password, displayName, file }: Props) => {
     setError(null);
@@ -30,11 +35,6 @@ export default function useSignup() {
         email,
         password,
       );
-
-      interface Opt {
-        displayName?: string;
-        photoURL?: string;
-      }
 
       const opt: Opt = {};
 
@@ -50,17 +50,19 @@ export default function useSignup() {
         await updateProfile(user, opt);
       }
 
-      await addAlbum({ albumName: '전체 보기' });
+      await addAlbum(user.uid, '전체 보기');
       await setDoc(doc(appFireStore, user.uid, user.uid), {
         sharedAlbums: [],
       });
-      setError(null);
+      router.push('/');
     } catch (err) {
       if (err instanceof FirebaseError) {
         setError(err.code);
       } else if (err instanceof Error) {
         setError(err.message);
       }
+
+      console.error(err);
     }
 
     setPending(false);
