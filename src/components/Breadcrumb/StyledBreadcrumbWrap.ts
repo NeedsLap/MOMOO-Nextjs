@@ -14,6 +14,7 @@ const StyledBreadcrumbWrap = styled.div`
 
   nav {
     margin-left: auto;
+    position: initial;
   }
 `;
 

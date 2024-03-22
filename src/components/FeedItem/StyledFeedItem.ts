@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledFeedItem = styled.article`
+const StyledFeedItem = styled.li`
   margin: 0 auto;
   color: var(--gray-900);
 

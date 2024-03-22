@@ -14,7 +14,7 @@ import useWindowWidth from '@/hooks/useWindowWidth';
 import { openEditFeedModal } from '@/modules/editFeedModal';
 
 function AlbumItem(
-  { feedData }: { feedData: DocumentData },
+  { feedData, index }: { feedData: DocumentData; index: number },
   ref: ForwardedRef<HTMLLIElement>,
 ) {
   const windowWidth = useWindowWidth();
@@ -62,7 +62,7 @@ function AlbumItem(
       }}
     >
       <Link
-        href={`/${uid}/${albumName}/feed/${feedData.id}`}
+        href={`/${uid}/${albumName}/feed?start=${index}`}
         onMouseOver={showHoverStyle}
         onFocus={showHoverStyle}
         onMouseLeave={hiddenHoverStyle}

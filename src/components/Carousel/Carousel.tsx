@@ -44,6 +44,8 @@ const Carousel = ({ imgUrlList }: { imgUrlList: string[] }) => {
             <li key={index}>
               <Image
                 src={image}
+                width={0}
+                height={0}
                 sizes=" 500px
                 (max-width: 431px) calc(100vw - 48px),
                (max-width: 430px) calc(100vw - 32px)"

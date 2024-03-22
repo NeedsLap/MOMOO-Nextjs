@@ -10,7 +10,7 @@ const StyledAlbum = styled.main`
 
   section {
     position: relative;
-    margin: 0 auto;
+    margin: calc(64px + var(--title-s) * 1.5) auto 0;
     flex-grow: 1;
     width: min(976px, 100%);
   }
@@ -19,12 +19,17 @@ const StyledAlbum = styled.main`
     padding: calc(59px + var(--nav-height-tablet)) var(--margin-tablet) 0;
     margin: 0;
     min-height: 100vh;
+
+    section {
+      margin-top: calc(12px + var(--title-s) * 1.5);
+    }
   }
 
   @media (max-width: 430px) {
     padding: var(--nav-height-mobile) var(--margin-mobile);
 
     section {
+      margin: 0;
       padding: 40px 0 0;
     }
   }
@@ -35,14 +40,9 @@ const StyledFeedList = styled.ul`
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: -8px -8px;
   grid-auto-rows: 1px;
-  margin-top: 56px;
 
   @media (max-width: 430px) {
     margin: -6px -6px 0;
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 12px;
   }
 
   @media (max-width: 800px) {
