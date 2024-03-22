@@ -67,6 +67,7 @@ export default function Nav() {
             <h1 className="a11y-hidden">MoMoo</h1>
             {windowWidth && (
               <Image
+                className="logoImg"
                 width={windowWidth > 1024 ? 64 : 196}
                 height={windowWidth > 1024 ? 376 : 32}
                 src={
@@ -78,9 +79,10 @@ export default function Nav() {
           </Link>
         ) : (
           <>
-            <h1 className="a11y-hidden">MoMoo</h1>{' '}
+            <h1 className="a11y-hidden">MoMoo</h1>
             {windowWidth && (
               <Image
+                className="logoImg"
                 width={windowWidth > 1024 ? 64 : 196}
                 height={windowWidth > 1024 ? 376 : 32}
                 src={

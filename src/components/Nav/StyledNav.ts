@@ -45,6 +45,7 @@ const StyledNav = styled.nav`
 
   @media (max-width: 1024px) {
     display: flex;
+    flex-direction: row-reverse;
     width: 100%;
     height: var(--nav-height-tablet);
     padding: 2.4rem;
