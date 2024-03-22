@@ -1,14 +1,18 @@
 'use client';
 
-import Nav from '@/components/Nav/Nav';
+import TabBar from '@/components/TapBar/TapBar';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
-export default function NavLayout({ children }: { children: React.ReactNode }) {
+export default function TobBarLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const windowWidth = useWindowWidth();
 
   return (
     <>
-      {windowWidth && windowWidth > 430 && <Nav />}
+      {windowWidth && windowWidth <= 430 && <TabBar />}
       {children}
     </>
   );

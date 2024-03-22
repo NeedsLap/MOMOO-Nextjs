@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import AlbumDetail from '@/containers/albumDetail/AlbumDetail';
 import getFeedsAndHandleException from '@/utils/apis';
 
-import type { AlbumDetailParams } from '@/app/(albumDetail)/[uid]/[albumName]/model';
+import type { AlbumDetailParams } from '@/app/(navRoute)/(tabBarRoute)/(albumDetail)/[uid]/[albumName]/model';
 
 export const generateMetadata = ({ params }: { params: AlbumDetailParams }) => {
   return { title: `${decodeURI(params.albumName)} | MOMOO` };
