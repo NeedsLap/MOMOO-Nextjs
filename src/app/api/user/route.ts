@@ -97,22 +97,14 @@ export async function DELETE() {
   try {
     const { photoURL } = await getUserByUid(uid);
 
-    Promise.all([
+    await Promise.all([
       deletePhothURL(photoURL),
       deleteFeedsImg(uid),
       deleteUserDoc(uid),
       deleteAlbumDocs(uid),
       deleteFeedDocs(uid),
     ]);
-  } catch (error) {
-    console.error(error);
 
-    return new Response('회원 데이터 삭제 중 예기치 못한 오류가 발생했습니다', {
-      status: 500,
-    });
-  }
-
-  try {
     await adminAppAuth.deleteUser(uid);
   } catch (error) {
     console.error(error);
