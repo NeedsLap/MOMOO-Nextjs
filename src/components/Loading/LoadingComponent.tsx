@@ -5,7 +5,7 @@ export default function LoadingComponent() {
     <StyledLoadingComponent
       width={36}
       height={36}
-      src={'/icons/loading.svg'}
+      src="/icons/loading.svg"
       alt="로딩 중"
     />
   );
