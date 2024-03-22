@@ -1,7 +1,8 @@
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
-import { appFireStore, Timestamp } from '@/firebase/config';
+import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
+import { addAlbum } from '@/utils/SDKUtils';
 
 interface Props {
   albumName: string;
@@ -10,7 +11,7 @@ interface Props {
 export default function useAddAlbum() {
   const { user } = useAuthState();
 
-  const addAlbum = async ({ albumName }: Props) => {
+  const validateAndAddAlbum = async ({ albumName }: Props) => {
     const userAlbumDocRef = collection(
       appFireStore,
       user.uid,
@@ -28,11 +29,7 @@ export default function useAddAlbum() {
     }
 
     try {
-      await addDoc(userAlbumDocRef, {
-        feedList: [],
-        createdTime: Timestamp.now(),
-        name: albumName,
-      });
+      await addAlbum(user.uid, albumName);
 
       return { success: true };
     } catch (error) {
@@ -43,5 +40,5 @@ export default function useAddAlbum() {
     }
   };
 
-  return addAlbum;
+  return validateAndAddAlbum;
 }
