@@ -25,7 +25,7 @@ function FeedItem(
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
   const [feedData, setFeedData] = useState<DocumentData | null>(feed);
-
+  setFeedData((prev) => prev);
   const { uid } = useParams<{
     uid: string;
     albumName: string;
