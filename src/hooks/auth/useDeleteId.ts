@@ -1,10 +1,16 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+
+import { deleteAuth } from '@/modules/auth';
 import { deleteUser } from '@/services/user';
 
 export default function useDeleteId() {
   const [error, setError] = useState<null | string>(null);
   const [isPending, setIsPending] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const deleteId = async () => {
     setIsPending(true);
@@ -17,6 +23,9 @@ export default function useDeleteId() {
         setError(error);
         throw new Error(error);
       }
+
+      dispatch(deleteAuth());
+      router.push('/login');
     } catch (error) {
       console.error(error);
     }

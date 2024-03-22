@@ -95,7 +95,7 @@ export default function Signup() {
         setPasswordErrMessage('6자 이상 입력해주세요');
         break;
       default:
-        setSubmitErrMessage('회원가입에 실패했습니다');
+        setSubmitErrMessage('회원가입 중 에러가 발생했습니다');
     }
   }, [error]);
 

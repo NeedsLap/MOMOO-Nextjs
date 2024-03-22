@@ -1,3 +1,5 @@
+import { deleteCookie, setCookie } from '@/utils/cookie';
+
 import { AuthState, AuthAction, UserData } from '@/modules/model';
 
 const initUser = {
@@ -13,10 +15,19 @@ const initState = {
   loggedIn: false,
 };
 
-const setAuth = (user: UserData | null): AuthAction => {
-  if (user) {
-    return { type: 'loggedIn', payload: user };
-  }
+const setAuth = (user: UserData): AuthAction => {
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 1);
+  setCookie('uid', user.uid, {
+    expires,
+  });
+
+  return { type: 'loggedIn', payload: user };
+};
+
+const deleteAuth = (): AuthAction => {
+  deleteCookie('uid');
+
   return { type: 'loggedOut', payload: null };
 };
 
@@ -32,4 +43,4 @@ const authReducer = (state = initState, action: AuthAction): AuthState => {
 };
 
 export default authReducer;
-export { setAuth };
+export { setAuth, deleteAuth };

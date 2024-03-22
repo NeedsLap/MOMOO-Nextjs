@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const StyledNav = styled.nav`
   position: fixed;
+  top: 0;
   z-index: 1;
   background-color: var(--background-color);
 
@@ -29,7 +30,6 @@ const StyledNav = styled.nav`
   }
 
   @media (min-width: 1025px) {
-    flex-shrink: 0;
     width: var(--nav-width-pc);
     height: 100vh;
 
@@ -45,6 +45,7 @@ const StyledNav = styled.nav`
 
   @media (max-width: 1024px) {
     display: flex;
+    flex-direction: row-reverse;
     width: 100%;
     height: var(--nav-height-tablet);
     padding: 2.4rem;

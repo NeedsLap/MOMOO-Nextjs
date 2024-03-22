@@ -7,8 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import Splash from '@/components/Splash/Splash';
 import { appAuth } from '@/firebase/config';
-import { setAuth } from '@/modules/auth';
-import { deleteCookie, setCookie } from '@/utils/cookie';
+import { deleteAuth, setAuth } from '@/modules/auth';
 
 export default function App({
   children,
@@ -32,14 +31,8 @@ export default function App({
             uid,
           }),
         );
-        const expires = new Date();
-        expires.setFullYear(expires.getFullYear() + 1);
-        setCookie('uid', uid, {
-          expires,
-        });
       } else {
-        dispatch(setAuth(null));
-        deleteCookie('uid');
+        dispatch(deleteAuth());
       }
     });
   }, [dispatch]);

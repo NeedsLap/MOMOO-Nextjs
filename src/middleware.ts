@@ -7,11 +7,11 @@ export function middleware(request: NextRequest) {
   const nonAuthPaths = ['/login', '/signup'];
 
   if (hasCookie && nonAuthPaths.includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   if (!hasCookie && !nonAuthPaths.includes(request.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 }
 

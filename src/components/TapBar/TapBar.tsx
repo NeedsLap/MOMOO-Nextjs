@@ -1,21 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
-import StyledNav from '@/components/Nav/StyledNav';
+import StyledNav from '@/components/TapBar/StyledTapBar';
 
 export default function TabBar() {
-  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <StyledNav>
       <div className="navBtn">
-        <Link href="/" className={router.pathname === '/' ? 'curr' : ''}>
+        <Link href="/" className={pathname === '/' ? 'curr' : ''}>
           <Image
             width={22}
             height={22}
             src={
-              router.pathname === '/'
+              pathname === '/'
                 ? '/icons/home-mobile-active.svg'
                 : '/icons/home-mobile.svg'
             }
@@ -23,19 +23,16 @@ export default function TabBar() {
           />
           Home
         </Link>
-        <Link
-          href="/upload"
-          className={router.pathname === '/upload' ? 'curr' : ''}
-        >
-          <Image width={22} height={22} src="/icons/upload.svg" alt="" />
+        <Link href="/upload" className={pathname === '/upload' ? 'curr' : ''}>
+          <Image width={22} height={22} src="/icons/upload-mobile.svg" alt="" />
           Upload
         </Link>
-        <Link href="/my" className={router.pathname === '/my' ? 'curr' : ''}>
+        <Link href="/my" className={pathname === '/my' ? 'curr' : ''}>
           <Image
             width={22}
             height={22}
             src={
-              router.pathname === '/my'
+              pathname === '/my'
                 ? '/icons/my-mobile-active.svg'
                 : '/icons/my-mobile.svg'
             }

@@ -8,6 +8,8 @@ import {
   DocumentData,
   or,
   orderBy,
+  addDoc,
+  Timestamp,
 } from 'firebase/firestore';
 import {
   ref,
@@ -88,6 +90,16 @@ const checkAlbumPermission = async (
   return false;
 };
 
+const addAlbum = async (uid: string, albumName: string) => {
+  const userAlbumDocRef = collection(appFireStore, uid, uid, 'album');
+
+  await addDoc(userAlbumDocRef, {
+    feedList: [],
+    createdTime: Timestamp.now(),
+    name: albumName,
+  });
+};
+
 export {
   deleteImg,
   uploadImg,
@@ -95,4 +107,5 @@ export {
   getFeedsData,
   getSharedAlbums,
   checkAlbumPermission,
+  addAlbum,
 };
