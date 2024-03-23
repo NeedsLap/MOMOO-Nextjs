@@ -28,7 +28,7 @@ const DeleteAlbumModal: React.FC<DeleteAlbumModalProps> = ({
   const [errMessage, setErrMessage] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const editAlbum = useEditAlbum();
-  const { deleteAlbum, isPending, error } = useDeleteAlbum();
+  const { deleteAlbumAndHandleException, isPending, error } = useDeleteAlbum();
   const { showModal } = useShowModal();
   useEscDialog(onClose);
 
@@ -50,7 +50,7 @@ const DeleteAlbumModal: React.FC<DeleteAlbumModalProps> = ({
   };
 
   const handleDeleteSuccess = async () => {
-    await deleteAlbum({ albumId });
+    await deleteAlbumAndHandleException({ albumId });
     if (error) {
       setShowConfirmModal(false);
       return <AlertModal message={'삭제를 실패하였습니다'} onClose={onClose} />;

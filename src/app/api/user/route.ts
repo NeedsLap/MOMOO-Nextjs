@@ -1,22 +1,13 @@
 import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import {
-  collection,
-  getDocs,
-  deleteDoc,
-  doc,
-  QueryDocumentSnapshot,
-  DocumentData,
-  updateDoc,
-  arrayRemove,
-} from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, listAll, deleteObject } from 'firebase/storage';
 
 import { adminAppAuth } from '@/firebase/adminConfig';
 import { appFireStore, storage } from '@/firebase/config';
 import { getUserByUid } from '@/utils/admin';
-import { deleteImg } from '@/utils/SDKUtils';
+import { deleteImg, removeAlbumFromSharedAlbums } from '@/utils/SDKUtils';
 
 export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get('email') || '';
@@ -54,22 +45,6 @@ const deleteFeedsImg = async (uid: string) => {
 
 const deleteUserDoc = async (uid: string) => {
   await deleteDoc(doc(appFireStore, uid, uid));
-};
-
-const removeAlbumFromSharedAlbums = async (
-  albumDoc: QueryDocumentSnapshot<DocumentData, DocumentData>,
-) => {
-  const albumDocRef = albumDoc.ref;
-  const promises = albumDoc
-    .data()
-    .sharedUsers.map(({ uid }: { uid: string }) => {
-      const userDocRef = doc(appFireStore, uid, uid);
-      return updateDoc(userDocRef, {
-        sharedAlbums: arrayRemove(albumDocRef),
-      });
-    });
-
-  await Promise.all(promises);
 };
 
 const deleteAlbumDocs = async (uid: string) => {
