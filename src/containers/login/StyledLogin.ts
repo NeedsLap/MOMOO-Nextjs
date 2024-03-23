@@ -6,7 +6,7 @@ const StyledLogin = styled(StyledAuth)`
   @media (max-width: 430px) {
     position: relative;
 
-    button {
+    form button {
       position: absolute;
       bottom: 0;
       width: calc(100% - var(--margin-mobile) * 2);

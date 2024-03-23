@@ -10,6 +10,9 @@ import {
   orderBy,
   addDoc,
   Timestamp,
+  arrayRemove,
+  updateDoc,
+  DocumentSnapshot,
 } from 'firebase/firestore';
 import {
   ref,
@@ -97,7 +100,28 @@ const addAlbum = async (uid: string, albumName: string) => {
     feedList: [],
     createdTime: Timestamp.now(),
     name: albumName,
+    sharedUsers: [],
   });
+};
+
+const removeAlbumFromSharedAlbums = async (
+  albumDoc: DocumentSnapshot<DocumentData, DocumentData>,
+) => {
+  const albumData = albumDoc.data();
+
+  if (!albumData) {
+    return;
+  }
+
+  const albumDocRef = albumDoc.ref;
+  const promises = albumData.sharedUsers.map(({ uid }: { uid: string }) => {
+    const userDocRef = doc(appFireStore, uid, uid);
+    return updateDoc(userDocRef, {
+      sharedAlbums: arrayRemove(albumDocRef),
+    });
+  });
+
+  await Promise.all(promises);
 };
 
 export {
@@ -108,4 +132,5 @@ export {
   getSharedAlbums,
   checkAlbumPermission,
   addAlbum,
+  removeAlbumFromSharedAlbums,
 };

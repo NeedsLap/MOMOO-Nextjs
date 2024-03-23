@@ -1,32 +1,20 @@
 import { useState } from 'react';
 
-import { doc, deleteDoc } from 'firebase/firestore';
-
-import { appFireStore } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
+import { deleteAlbum } from '@/services/album';
 
 interface Props {
   albumId: string;
 }
 
 export default function useDeleteAlbum() {
-  const { user } = useAuthState();
   const [isPending, setIsPending] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteAlbum = async ({ albumId }: Props) => {
-    const userAlbumDocRef = doc(
-      appFireStore,
-      user.uid,
-      user.uid,
-      'album',
-      albumId,
-    );
-
+  const deleteAlbumAndHandleException = async ({ albumId }: Props) => {
     try {
       setIsPending(true);
 
-      await deleteDoc(userAlbumDocRef);
+      await deleteAlbum(albumId);
       setIsPending(false);
 
       return { success: true, message: '앨범이 삭제되었습니다.' };
@@ -37,5 +25,5 @@ export default function useDeleteAlbum() {
     }
   };
 
-  return { deleteAlbum, isPending, error };
+  return { deleteAlbumAndHandleException, isPending, error };
 }
