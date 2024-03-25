@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 // import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
-import { ForwardedRef, forwardRef, useMemo, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useMemo, useState } from 'react';
 
 import { DocumentData } from '@firebase/firestore';
 // import { useSelector } from 'react-redux';
@@ -29,6 +29,10 @@ function FeedItem(
     uid: string;
     albumName: string;
   }>();
+
+  useEffect(() => {
+    setFeedData((prev) => prev);
+  }, []);
 
   const { user } = useAuthState();
   // const isEditFeedModalOpen = useSelector(
