@@ -246,7 +246,7 @@ export default function Signup() {
             onBlur={() => setImgHasFocus(false)}
           />
           <label htmlFor="displayName-inp" className="a11y-hidden">
-            사용자 이름
+            닉네임
           </label>
           <StyledInput
             id="displayName-inp"

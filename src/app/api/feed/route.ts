@@ -27,6 +27,15 @@ export async function GET(req: NextRequest) {
     });
   }
 
+  const limitNum = parseInt(limit);
+  const skipNum = parseInt(skip);
+
+  if (limitNum <= skipNum || skipNum < 0) {
+    return new Response('요청 매개변수가 올바르지 않습니다.', {
+      status: 400,
+    });
+  }
+
   const albumDoc = await getAlbumByName(uid, albumName);
 
   if (!albumDoc) {
@@ -50,10 +59,7 @@ export async function GET(req: NextRequest) {
 
   // 최신순으로 얻기 위해 reverse
   const feedList: string[] = [...albumDoc.data().feedList].reverse();
-  const feeds = await getFeedsData(
-    feedList.slice(parseInt(skip), parseInt(limit)),
-    uid,
-  );
+  const feeds = await getFeedsData(feedList.slice(skipNum, limitNum), uid);
 
   return NextResponse.json(feeds);
 }

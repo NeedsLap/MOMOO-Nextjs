@@ -1,0 +1,13 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 6L12 6" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M11 9H11.0067" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M8 9H8.00787" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M5 9H5.00788" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M11 12H11.0067" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M8 12H8.00787" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M5 12H5.00788" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M11 1V3" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M5 1V3" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M3 2H2V15H14V2H11" stroke="#1F1F1F" stroke-linecap="square"/>
+<path d="M9 2H5" stroke="#1F1F1F" stroke-linecap="square"/>
+</svg>
