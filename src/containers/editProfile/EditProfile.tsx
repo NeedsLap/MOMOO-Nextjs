@@ -302,7 +302,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
             />
 
             <label htmlFor="nickname-inp" className="a11y-hidden">
-              사용자 이름
+              닉네임
             </label>
             <StyledInput
               id="nickname-inp"
