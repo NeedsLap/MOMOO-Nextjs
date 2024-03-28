@@ -9,7 +9,7 @@ const StyledFeedItem = styled.li`
   }
 
   ul + .contentsSection {
-    margin-top: 5px;
+    margin-top: 4px;
   }
 
   div + .contentsSection {
