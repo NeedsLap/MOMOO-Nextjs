@@ -9,11 +9,11 @@ const StyledFeedItem = styled.li`
   }
 
   ul + .contentsSection {
-    margin-top: 12px;
+    margin-top: 4px;
   }
 
   div + .contentsSection {
-    margin-top: 20px;
+    margin-top: 12px;
   }
 
   .contentsSection {
@@ -24,7 +24,7 @@ const StyledFeedItem = styled.li`
     width: 100%;
     display: flex;
     align-items: flex-start;
-    margin: 0 0 1.2rem;
+    margin: 0 0 4px;
 
     .emotion,
     .weather {
@@ -35,8 +35,7 @@ const StyledFeedItem = styled.li`
     }
 
     .weather {
-      width: 3.6rem;
-      margin-left: 1.6rem;
+      margin-left: 10px;
     }
   }
 
@@ -48,57 +47,37 @@ const StyledFeedItem = styled.li`
     aspect-ratio: 1/1;
   }
 
-  h3 {
-    margin-bottom: 2rem;
+  .tit {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
     font-size: var(--text-l);
   }
 
-  p,
-  time {
-    font-size: var(--text-m);
+  .time-wrap {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-s);
+
+    img {
+      margin-right: 4px;
+      width: 1.6rem;
+      aspect-ratio: 1/1;
+    }
+
+    time + img {
+      margin-left: 16px;
+    }
   }
 
   .detailText {
-    margin-bottom: 4rem;
-  }
-
-  .locationSection {
-    display: inline-block;
-    margin-right: 4.8rem;
-  }
-
-  .date {
-    color: var(--gray-600);
+    font-size: var(--text-m);
+    margin-bottom: 10px;
   }
 
   @media (max-width: 430px) {
-    .iconSection {
-      margin: 1.6rem 0 1.2rem;
-
-      .emotion {
-        width: 2.4rem;
-      }
-
-      .weather {
-        width: 2.6rem;
-        margin-left: 1.2rem;
-      }
-
-      button {
-        width: 1.6rem;
-      }
-    }
-
-    h3 {
-      margin-bottom: 1.2rem;
-    }
-
-    .detailText {
-      margin-bottom: 2.4rem;
-    }
-
-    .locationSection {
-      margin-right: 2rem;
+    .more {
+      width: 1.6rem;
     }
   }
 `;

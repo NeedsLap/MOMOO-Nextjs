@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 // import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
-import { ForwardedRef, forwardRef, useMemo, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useMemo, useState } from 'react';
 
 import { DocumentData } from '@firebase/firestore';
 // import { useSelector } from 'react-redux';
@@ -25,11 +25,14 @@ function FeedItem(
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
   const [feedData, setFeedData] = useState<DocumentData | null>(feed);
-  setFeedData((prev) => prev); // 빌드 에러로 인한 임시
   const { uid } = useParams<{
     uid: string;
     albumName: string;
   }>();
+
+  useEffect(() => {
+    setFeedData((prev) => prev);
+  }, []);
 
   const { user } = useAuthState();
   // const isEditFeedModalOpen = useSelector(
@@ -104,7 +107,7 @@ function FeedItem(
         <StyledFeedItem ref={ref}>
           <Carousel imgUrlList={feedData.imageUrl}></Carousel>
           <section className="contentsSection">
-            {feedData.emotionImage && feedData.weatherImage && (
+            {(feedData.emotionImage || feedData.weatherImage) && (
               <div className="iconSection">
                 {feedData.emotionImage && (
                   <Image
@@ -141,7 +144,7 @@ function FeedItem(
               </button>
             )}
           </section>
-          <h3>{feedData.title}</h3>
+          <strong className="tit">{feedData.title}</strong>
           {feedData.text && typeof feedData.text === 'string' && (
             <p className="detailText">
               {feedData.text.split('\n').map((v, i) => {
@@ -158,14 +161,33 @@ function FeedItem(
               })}
             </p>
           )}
-          {feedData.selectedAddress && (
-            <p className="locationSection">{feedData.selectedAddress}</p>
-          )}
-          {formattedDate && (
-            <time dateTime={formattedDate} className="date">
-              {formattedDate.replace(/-/gi, '.')}
-            </time>
-          )}
+          <div className="time-wrap">
+            {formattedDate && (
+              <>
+                <Image
+                  width={16}
+                  height={16}
+                  src="/icons/calendar.svg"
+                  alt="저장일"
+                />
+                <time dateTime={formattedDate} className="date">
+                  {formattedDate.replace(/-/gi, '.')}
+                </time>
+              </>
+            )}
+            {feedData.selectedAddress && (
+              <>
+                <Image
+                  width={16}
+                  height={16}
+                  src="/icons/location.svg"
+                  alt="위치"
+                  className="location-img"
+                />
+                <p className="locationSection">{feedData.selectedAddress}</p>
+              </>
+            )}
+          </div>
           {isModalOpen && (
             <FeedMoreModal
               setDeleteModalOpen={setDeleteModalOpen}

@@ -9,7 +9,7 @@ import RootStyle from '@/components/global/RootStyle';
 
 const notoSans = Noto_Sans_KR({
   subsets: ['latin'],
-  weight: ['400'],
+  weight: ['400', '600'],
   variable: '--font-noto-sans',
 });
 const prata = Prata({
