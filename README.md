@@ -17,7 +17,6 @@
 |**웹사이트**|**[바로가기] 👉 https://momoo.kr**|
 |**플레이스토어**|**[바로가기] 👉 https://play.google.com/store/apps/details?id=com.momoo&hl=en-KR**|
 |체험계정|ID: momoo@gmail.com / PW: 123qwe|
-|:--:|:--|
 |React Native 레포|https://github.com/NeedsLap/MOMOO-RN|
 |(Migration 전) React 레포|https://github.com/yonainthefish/MoMoo|
 
