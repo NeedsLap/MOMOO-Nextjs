@@ -89,19 +89,59 @@
 
 <br><br>
 
-## 4. 📝 핵심기술
+## 4. 파이어스토어 구조
+
+<br><br>
+
+## 5. 📝 핵심기술
 
 <details>
   <summary><h3>앨범 공유</h3></summary>
+
+  **기능 소개**
+  1. 사용자를 email(id)로 검색할 수 있다.
+  2. 앨범을 공유하거나, 공유한 대상을 삭제할 수 있다.
+  3. 홈에서 공유 앨범 리스트를 볼 수 있다.
+  4. 공유 받은 앨범에 저장된 사진을 볼 수 있다.
+  <br>
+  
+  **코드**
+  1. 사용자 검색
+  - Firebase Admin SDK를 사용하여, 사용자를 불러온다.
+       
+    ```js
+      // src/app/api/user/route.ts
+      adminApp.auth().getUserByEmail(email);
+    ```
+    
+  <br>
+   
+  2. 공유/공유 취소
+  - Firestore Database에 공유 정보 저장&삭제
+    
+    ```
+      // [uid]/[uid]
+      sharedAlbums: album reference[] 
+
+      // [uid]/[uid]/album/[albumId]
+      sharedUsers: {uid, permission}[]
+    ```
+
+  <br>
+  
 </details>
 
 <br><br>
   
-## 5. 🐛 트러블 슈팅 
+## 6. 유저 피드백 
+
+<br><br>
+  
+## 7. 🐛 트러블 슈팅 
 
 <br><br>
 
-## 6. 📚 프로젝트 관련 문서
+## 8. 📚 프로젝트 관련 문서
 - 💡 [노션: 기획 및 회의록](https://lumbar-distance-384.notion.site/momoo-moment-mood-33ccb07d75264f9d9bd1b1ca265f8db3)
 - 💡 [피그마: 와이어프레임 & 디자인](https://www.figma.com/file/IXS4UPRbunlz1cI0ka5koi/momoo-design?type=design&node-id=74-2789&mode=design&t=pVd3Uehs4a6wFHNW-0)
 <br><br>
