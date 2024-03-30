@@ -99,7 +99,7 @@
     sharedAlbums: Reference(album){}
   }
 
-```
+
   // {uid}/{uid}/album/{albumId}
   {
     createdTime: Timestamp;
