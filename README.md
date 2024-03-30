@@ -96,7 +96,7 @@
 ```
   // {uid}/{uid}
   {
-    sharedAlbums: Reference(album){}
+    sharedAlbums: Reference(albumDoc){}
   }
 
 
@@ -158,13 +158,28 @@
     
     ```
       // [uid]/[uid]
-      sharedAlbums: album reference[] 
+      sharedAlbums: Reference(albumDoc)[] 
 
       // [uid]/[uid]/album/[albumId]
       sharedUsers: {uid, permission}[]
     ```
 
   <br>
+
+  3. 홈 - 공유 앨범 리스트
+
+  4. 공유 앨범 상세
+  - 앨범 상세페이지 경로: {uid}/{albumName}
+  - 피드 상세페이지 경로: {uid}/{albumName}/feed
+  - Next.js로 만든 api를 통해, 공유 앨범/나의 앨범 구분없이 요청을 보낸다.
+  
+  ```
+    // [uid]/[uid]
+    sharedAlbums: Reference(albumDoc)[] 
+
+    // [uid]/[uid]/album/[albumId]
+    sharedUsers: {uid, permission}[]
+  ```
   
 </details>
 
