@@ -89,7 +89,44 @@
 
 <br><br>
 
-## 4. 파이어스토어 구조
+## 4. Firebase 구조
+
+### Firestore Database
+
+```
+  // {uid}/{uid}
+  {
+    sharedAlbums: Reference(album){}
+  }
+
+```
+  // {uid}/{uid}/album/{albumId}
+  {
+    createdTime: Timestamp;
+    feedList: String(feedId)[];
+    name: String;
+    sharedUsers: {uid:String; permission: "read"}[];
+  }
+
+  // {uid}/{uid}/feed/{feedId}
+  {
+    id: String;
+    title: String;
+    text: String;
+    seletedAddress: String;
+    album: String(albumName)[];
+    emotionImage: String;
+    weatherImage: String;
+    timestamp: Timestamp;
+  }
+```
+
+### Storage
+
+```
+  feed/{feedId + imageIndex}.{확장자}
+  profile/{uid}.{확장자}
+```
 
 <br><br>
 
