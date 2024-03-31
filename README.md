@@ -167,25 +167,59 @@
   <br>
 
   3. 홈 - 공유 앨범 리스트
+     
+  <br>
 
   4. 공유 앨범 상세
-  - 앨범 상세페이지 경로: {uid}/{albumName}
-  - 피드 상세페이지 경로: {uid}/{albumName}/feed
-  - Next.js로 만든 api를 통해, 공유 앨범/나의 앨범 구분없이 요청을 보낸다.
-  
-  ```
-    // [uid]/[uid]
-    sharedAlbums: Reference(albumDoc)[] 
+  - 피드 리스트를 얻기 위해 공유 앨범/나의 앨범 구분없이 요청을 보낸다.  
 
-    // [uid]/[uid]/album/[albumId]
-    sharedUsers: {uid, permission}[]
-  ```
+    ```js
+      // src/services/feed.ts
+      // Path Parameter(uid, albumName)를 쿼리 매개변수로 요청에 추가하여 전송
+      // 앨범 상세페이지 경로: {uid}/{albumName}
+      // 피드 상세페이지 경로: {uid}/{albumName}/feed
+  
+      const feeds = await fetch(
+        `${url}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
+      );
+    ```
+
+  <br>
+  
+  - 쿠키의 uid(로그인한 사용자)와 쿼리 매개변수로 받은 uid(앨범 생성자)가 다를 경우 권한을 검사한다.
+  
+    ```js
+      // src/app/api/route.ts
+      export async function GET(req: NextRequest) {
+        // 중략
+  
+        let hasPermission = true;
+      
+        if (userUid !== uid) {
+          const sharedAlbums = await getSharedAlbums(userUid);
+          hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
+        }
+      
+        if (!hasPermission) {
+          return new Response('접근 권한이 없는 앨범입니다.', {
+            status: 403,
+          });
+        }
+  
+        // 중략
+      }
+    ```
   
 </details>
 
 <br><br>
   
 ## 6. 유저 피드백 
+
+<details>
+  <summary><h3>피드백 목록</h3></summary>
+
+</details>
 
 <br><br>
   
