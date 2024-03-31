@@ -217,7 +217,7 @@
 ## 6. 유저 피드백 
 
 <details>
-  <summary><h3>피드백 목록</h3></summary>
+  <summary><h3>비공개 테스트 피드백 목록</h3></summary>
 
 </details>
 
