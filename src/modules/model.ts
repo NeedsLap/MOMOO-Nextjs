@@ -73,11 +73,26 @@ type EditFeedModalAction =
     }
   | { type: 'close'; payload: null };
 
+interface UploadFeedModalState {
+  isUploadFeedModalOpen: boolean;
+  albumNameToAdd: string;
+}
+
+type UploadFeedModalAction =
+  | {
+      type: 'open';
+      payload: {
+        albumNameToAdd: string;
+      };
+    }
+  | { type: 'close'; payload: null };
+
 interface ReduxState {
   signup: SignupState;
   page: PageState;
   auth: AuthState;
   editFeedModal: EditFeedModalState;
+  uploadFeedModal: UploadFeedModalState;
 }
 
 export type {
@@ -93,4 +108,6 @@ export type {
   AuthAction,
   EditFeedModalState,
   EditFeedModalAction,
+  UploadFeedModalState,
+  UploadFeedModalAction,
 };
