@@ -1,6 +1,6 @@
-import type { GetFeedsQuery, GetFeedsOpts } from '@/services/model';
+import { API_URL } from '@/services/constant';
 
-const url = 'http://localhost:3000/api';
+import type { GetFeedsQuery, GetFeedsOpts } from '@/services/model';
 
 const getFeeds = async ({
   limit,
@@ -11,6 +11,7 @@ const getFeeds = async ({
 }: GetFeedsQuery) => {
   const opts: GetFeedsOpts = {
     method: 'GET',
+    // cache: 'no-store',
   };
 
   if (cookie) {
@@ -19,7 +20,7 @@ const getFeeds = async ({
     };
   }
   const res = await fetch(
-    `${url}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
+    `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
     opts,
   );
 
