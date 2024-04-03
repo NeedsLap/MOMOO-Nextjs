@@ -8,6 +8,7 @@ interface GetFeedsQuery {
 
 interface GetFeedsOpts {
   method: 'GET';
+  // cache: 'no-store';
   headers?: {
     Cookie?: string;
   };
