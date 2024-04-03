@@ -21,10 +21,6 @@ export default function Feed({
   feeds: DocumentData[] | null;
   pageSize: number;
 }) {
-  const [feedsData, setFeedsData] = useState<DocumentData[]>(feeds || []);
-  const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(false);
-  const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
-
   const { page: nextPage, setItemToObserveRef: setLastItemToObserveRef } =
     useInfiniteScroll();
   const { page: prevPage, setItemToObserveRef: setFirstItemToObserveRef } =
@@ -36,6 +32,10 @@ export default function Feed({
   const { uid } = useParams<{ uid: string }>();
   const searchParams = useSearchParams();
   const start = parseInt(searchParams.get('start') || '0');
+
+  const [feedsData, setFeedsData] = useState<DocumentData[]>(feeds || []);
+  const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!start);
+  const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
 
   const setStartFeedItemRef = (node: HTMLLIElement | null) => {
     if (windowWidth && node && node !== startItemRef.current) {
