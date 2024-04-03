@@ -39,7 +39,7 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
     };
 
     getData();
-  }, [albumData, getFeedData]);
+  }, []);
 
   const HandleModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
