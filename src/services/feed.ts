@@ -11,7 +11,6 @@ const getFeeds = async ({
 }: GetFeedsQuery) => {
   const opts: GetFeedsOpts = {
     method: 'GET',
-    cache: 'no-store',
   };
 
   if (cookie) {
