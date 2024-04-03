@@ -18,6 +18,7 @@ export default function Home() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const { albumDataList, latestAlbumList } = useGetAlbumList();
+
   const windowWidth = useWindowWidth();
 
   const HandleArrayModal = () => {
@@ -41,8 +42,8 @@ export default function Home() {
     <>
       {windowWidth && windowWidth <= 430 && <HomeTopbar />}
       <StyledMain>
+        <StyledH2 className="album-title">Album</StyledH2>
         <StyledHomeSection>
-          <StyledH2 className="album-title">Album</StyledH2>
           <div className="btn-wrap">
             <button type="button" onClick={HandleArrayModal}>
               <Image
