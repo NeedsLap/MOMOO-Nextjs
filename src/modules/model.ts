@@ -75,14 +75,14 @@ type EditFeedModalAction =
 
 interface UploadFeedModalState {
   isUploadFeedModalOpen: boolean;
-  albumNameToAdd: string;
+  albumNameToAdd: string[];
 }
 
 type UploadFeedModalAction =
   | {
       type: 'open';
       payload: {
-        albumNameToAdd: string;
+        albumNameToAdd: string[];
       };
     }
   | { type: 'close'; payload: null };
