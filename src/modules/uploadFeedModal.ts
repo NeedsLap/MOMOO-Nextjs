@@ -2,10 +2,12 @@ import { UploadFeedModalAction, UploadFeedModalState } from '@/modules/model';
 
 const initState = {
   isUploadFeedModalOpen: false,
-  albumNameToAdd: '',
+  albumNameToAdd: [],
 };
 
-const openUploadFeedModal = (albumNameToAdd: string): UploadFeedModalAction => {
+const openUploadFeedModal = (
+  albumNameToAdd: string[],
+): UploadFeedModalAction => {
   return { type: 'open', payload: { albumNameToAdd } };
 };
 
