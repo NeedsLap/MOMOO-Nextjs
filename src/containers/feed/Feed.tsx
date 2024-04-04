@@ -36,6 +36,7 @@ export default function Feed({
   const [feedsData, setFeedsData] = useState<DocumentData[]>(feeds || []);
   const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!start);
   const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
+  const [startFeedItemIndex, setStartFeedItemIndex] = useState(0);
 
   const setStartFeedItemRef = (node: HTMLLIElement | null) => {
     if (windowWidth && node && node !== startItemRef.current) {
@@ -64,7 +65,7 @@ export default function Feed({
 
       setFeedsData((prev) => [...prev, ...feedsToAdd]);
     })();
-  }, [nextPage, albumName, uid, pageSize, start]);
+  }, [nextPage]);
 
   useEffect(() => {
     if (prevPage === 1) {
@@ -85,8 +86,9 @@ export default function Feed({
       }
 
       setFeedsData((prev) => [...feedsToAdd, ...prev]);
+      setStartFeedItemIndex(feedsToAdd.length);
     })();
-  }, [prevPage, albumName, uid, pageSize, start]);
+  }, [prevPage]);
 
   return (
     <>
@@ -125,7 +127,11 @@ export default function Feed({
                 );
               }
 
-              if (prevPage !== 1 && i === 15) {
+              if (
+                prevPage !== 1 &&
+                startFeedItemIndex &&
+                i === startFeedItemIndex
+              ) {
                 return (
                   <FeedItem
                     key={v.id}
