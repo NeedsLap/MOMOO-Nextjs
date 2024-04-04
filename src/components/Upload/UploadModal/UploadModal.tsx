@@ -50,7 +50,6 @@ function UploadModal() {
   const [accordionData, setAccordionData] = useState<accordionData[]>([]);
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [isPending, setIsPending] = useState(false);
-
   const getAccordionData = GetAccordionData();
   const addFeedIdFromFeedList = useAddFeedIdFromFeedList();
 
@@ -88,20 +87,6 @@ function UploadModal() {
   };
 
   useOverlayClose(dialogRef, closeUploadModal);
-
-  //   // 'ESC' 키 이벤트와 `close` 이벤트 리스너를 추가하여 모달 상태를 동기화
-  //   useEffect(() => {
-  //     const dialog = dialogRef.current;
-  //     const handleClose = () => {
-  //       setIsUploadModalOpen(false);
-  //     };
-
-  //     dialog?.addEventListener('close', handleClose);
-
-  //     return () => {
-  //       dialog?.removeEventListener('close', handleClose);
-  //     };
-  //   }, [setIsUploadModalOpen]);
 
   const handleAddressSelect = (selectedAddress: string) => {
     setSelectedAddress(selectedAddress);
@@ -193,7 +178,12 @@ function UploadModal() {
           <h2 className="a11y-hidden">새 게시물 업로드</h2>
           <Styled.UploadHeader>
             <h2>새 게시물</h2>
-            <button className="uploadBtn" type="button" onClick={handleSubmit}>
+            <button
+              className="uploadBtn"
+              type="button"
+              onClick={handleSubmit}
+              disabled={isPending}
+            >
               업로드
             </button>
           </Styled.UploadHeader>
@@ -207,9 +197,9 @@ function UploadModal() {
               />
             ) : (
               <>
-                <Styled.PicPart>
+                <Styled.PicSelectPart>
                   <Preview setFile={setFile} />
-                </Styled.PicPart>
+                </Styled.PicSelectPart>
                 <Styled.SelectPart>
                   <div className="inputWrapper">
                     <input
