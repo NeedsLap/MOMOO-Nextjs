@@ -131,13 +131,7 @@ function UploadModal() {
         };
 
         await setDoc(userDocRef, uploadData);
-        router.push(
-          `${user.uid}/${
-            selectedAlbum.includes(albumNameToAdd[1])
-              ? albumNameToAdd[1]
-              : albumNameToAdd[0]
-          }/p/${id}`,
-        );
+        router.push(`${user.uid}/${albumNameToAdd[0]}/feed?start=0`);
         closeUploadModal();
 
         try {

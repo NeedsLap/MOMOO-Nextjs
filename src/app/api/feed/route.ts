@@ -57,9 +57,14 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // 최신순으로 얻기 위해 reverse
-  const feedList: string[] = [...albumDoc.data().feedList].reverse();
-  const feeds = await getFeedsData(feedList.slice(skipNum, limitNum), uid);
+  // 최신순으로 가져오기 위해 뒤에서부터 slice
+  const feedList: string[] = [...albumDoc.data().feedList];
+  const feeds = await getFeedsData(
+    feedList
+      .slice(feedList.length - limitNum, feedList.length - skipNum)
+      .reverse(),
+    uid,
+  );
 
   return NextResponse.json(feeds);
 }

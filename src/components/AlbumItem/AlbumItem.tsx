@@ -21,7 +21,7 @@ function AlbumItem(
   const { user } = useAuthState();
   const albumName = useAlbumName();
   const liRef = useRef<HTMLLIElement | null>(null);
-  const { setImgSize } = useAlbumItemLayout(liRef.current);
+  const { setImgSize, gridRowEnd } = useAlbumItemLayout(liRef.current);
 
   const router = useRouter();
   const { uid } = useParams();
@@ -53,12 +53,17 @@ function AlbumItem(
   return (
     <StyledAlbumItem
       key={feedData.id}
+      style={
+        gridRowEnd ? { gridRowEnd, border: '1px solid var(--gray-100)' } : {}
+      }
       ref={(node) => {
         if (node && !liRef.current) {
           liRef.current = node;
         }
-
-        return ref;
+        // 레이아웃 계산 후 observe
+        if (typeof ref === 'function' && gridRowEnd) {
+          ref(node);
+        }
       }}
     >
       <Link
