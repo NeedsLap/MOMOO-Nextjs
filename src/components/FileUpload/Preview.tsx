@@ -41,7 +41,7 @@ const Preview = ({
 
   const setImages = async (files: FileList) => {
     if (files) {
-      if (files.length <= 3) {
+      if (files.length <= 10) {
         const fileArray = Array.from(files);
         const newImages: string[] = [];
 
@@ -52,7 +52,7 @@ const Preview = ({
 
         setImageList(newImages);
       } else {
-        setSubmitErrMessage('최대 3장의 이미지까지만 선택할 수 있습니다.');
+        setSubmitErrMessage('최대 10장의 이미지까지만 선택할 수 있습니다.');
       }
     }
   };

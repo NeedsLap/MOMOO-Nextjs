@@ -53,6 +53,21 @@ const MobileCloseBtn = styled.button`
   aspect-ratio: 1/1;
 `;
 
+const TodaysPhoto = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 16px;
+
+  p {
+    font-size: var(--text-m);
+  }
+
+  span {
+    color: var(--gray-600);
+  }
+`;
+
 const PicSelectPart = styled.section`
   border-bottom: 1px solid var(--gray-200);
   padding: 0 0 1.3rem 1.6rem;
@@ -203,6 +218,7 @@ export {
   MobileCloseBtn,
   UploadHeader,
   UploadContents,
+  TodaysPhoto,
   PicSelectPart,
   SelectPart,
   LocationContents,

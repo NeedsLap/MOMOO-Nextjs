@@ -131,13 +131,7 @@ function UploadModal() {
         };
 
         await setDoc(userDocRef, uploadData);
-        router.push(
-          `${user.uid}/${
-            selectedAlbum.includes(albumNameToAdd[1])
-              ? albumNameToAdd[1]
-              : albumNameToAdd[0]
-          }/p/${id}`,
-        );
+        router.push(`${user.uid}/${albumNameToAdd[0]}/feed?start=0`);
         closeUploadModal();
 
         try {
@@ -197,6 +191,10 @@ function UploadModal() {
               />
             ) : (
               <>
+                <Styled.TodaysPhoto>
+                  <p>오늘의 사진 (필수) </p>
+                  <span>*10장까지 업로드 가능</span>
+                </Styled.TodaysPhoto>
                 <Styled.PicSelectPart>
                   <Preview setFile={setFile} />
                 </Styled.PicSelectPart>
@@ -223,7 +221,7 @@ function UploadModal() {
                         setText(e.target.value);
                         onInputHandler(e);
                       }}
-                      placeholder="문구를 입력해주세요"
+                      placeholder="문구를 입력해주세요 (선택)"
                     ></textarea>
                     <div className="countText">
                       <span>{inputCount}</span> / 1000 자
@@ -234,7 +232,7 @@ function UploadModal() {
                       {selectedAddress ? (
                         <p>선택한 주소: {selectedAddress}</p>
                       ) : (
-                        <h2>위치 추가</h2>
+                        <h2>위치 추가 (선택)</h2>
                       )}
                       <Image
                         className={kakaoMapVisible ? 'rotate' : ''}
@@ -270,12 +268,12 @@ function UploadModal() {
                         question={data.question}
                         answer={data.answer.join(',')}
                         selectedImages={
-                          data.question === '오늘의 날씨'
+                          data.question === '오늘의 날씨 (선택)'
                             ? selectedWeatherImage
                             : selectedEmotionImage
                         }
                         setSelectedImages={
-                          data.question === '오늘의 날씨'
+                          data.question === '오늘의 날씨 (선택)'
                             ? setSelectedWeatherImage
                             : setSelectedEmotionImage
                         }
