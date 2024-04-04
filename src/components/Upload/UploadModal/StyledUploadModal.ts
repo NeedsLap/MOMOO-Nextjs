@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 const StyledDialog = styled.dialog`
-  max-width: 80rem;
+  max-width: 43rem;
   width: 100%;
   border-radius: 10px;
   background-color: var(--background-color);
   color: var(--gray-900);
   border: none;
-  padding: 0;
   overflow: hidden;
   z-index: 1001;
+  overflow-y: auto;
 
   @media (min-width: 1025px) {
     &.loading {
@@ -18,27 +18,7 @@ const StyledDialog = styled.dialog`
   }
 
   @media (max-width: 1024px) {
-    width: 49rem;
     max-height: calc(100vh - var(--margin-tablet) * 2);
-    height: 914px; /* 리팩토링 필요 */
-
-    &.loading {
-      height: auto;
-    }
-  }
-
-  @media (max-width: 430px) {
-    width: 100%;
-    max-height: none;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    transform: none;
-    border-radius: 0px;
-
-    &.loading {
-      height: 100vh;
-    }
   }
 `;
 
@@ -73,16 +53,9 @@ const MobileCloseBtn = styled.button`
   aspect-ratio: 1/1;
 `;
 
-const PicPart = styled.section`
-  width: 100%;
-  background-color: var(--gray-900);
-
-  @media (max-width: 430px) {
-    width: calc(100% - 16px);
-    margin-top: 1.2rem;
-    margin-left: 1.6rem;
-    background-color: var(--background-color);
-  }
+const PicSelectPart = styled.section`
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 0 1.3rem 1.6rem;
 `;
 
 const SelectPart = styled.section`
@@ -125,45 +98,46 @@ const SelectPart = styled.section`
       background-color: var(--background-color);
       text-align: right;
       position: absolute;
-      bottom: 0.1rem;
-    }
-  }
+      bottom: 1.2rem;
 
-  @media (max-width: 1024px) {
-    padding-bottom: 24px;
+      @media (max-width: 430px) {
+        bottom: 0rem;
+        height: 2rem;
+        border-bottom: 1px solid var(--gray-200);
+      }
+    }
   }
 `;
 
 const UploadContents = styled.div`
   width: 100%;
-  display: flex;
+  overflow-y: auto;
 
-  @media (min-width: 1025px) {
-    min-height: 48rem;
+  .todayPhoto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.3rem 1.6rem;
 
-    & > ${PicPart} {
-      flex: 6; /* 전체 너비의 60% */
+    h3 {
+      font-size: var(--text-m);
+      color: var(--gray-900);
     }
 
-    & > ${SelectPart} {
-      flex: 4; /* 전체 너비의 40% */
+    p {
+      font-size: 1rem;
+      color: var(--gray-600);
     }
   }
 
-  @media (min-width: 431px) {
-    .loading & {
-      aspect-ratio: 1/1;
-    }
+  @media (min-width: 1025px) {
+    min-height: 48rem;
   }
 
   @media (max-width: 1024px) {
     height: calc(100% - 48px);
     flex-direction: column;
     overflow-y: scroll;
-  }
-
-  @media (max-width: 430px) {
-    height: calc(100% - var(--nav-height-mobile));
   }
 `;
 
@@ -203,18 +177,15 @@ const KakaoMapContainer = styled.div`
   width: inherit;
   z-index: 1;
   position: absolute;
+  max-height: 50vh;
 `;
 
 const AccordionContents = styled.div`
+  margin-bottom: 2.4rem;
+
   img {
     width: 3.6rem;
     aspect-ratio: 1/1;
-  }
-
-  @media (max-width: 430px) {
-    img {
-      width: 2.4rem;
-    }
   }
 `;
 
@@ -232,7 +203,7 @@ export {
   MobileCloseBtn,
   UploadHeader,
   UploadContents,
-  PicPart,
+  PicSelectPart,
   SelectPart,
   LocationContents,
   KakaoMapContainer,
