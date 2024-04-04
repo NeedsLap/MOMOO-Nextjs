@@ -9,6 +9,7 @@ interface ImgSize {
 
 export default function useAlbumItemLayout(node: HTMLLIElement | null) {
   const [imgSize, setImgSize] = useState<ImgSize | null>(null);
+  const [gridRowEnd, setGridRowEnd] = useState('');
   const windowWidth = useWindowWidth();
 
   useEffect(() => {
@@ -20,16 +21,14 @@ export default function useAlbumItemLayout(node: HTMLLIElement | null) {
       const height = node.clientWidth * (imgSize.height / imgSize.width);
 
       if (windowWidth > 430) {
-        node.style.gridRowEnd = `span ${Math.round(height + 16)}`;
+        setGridRowEnd(`span ${Math.round(height + 16)}`);
       } else {
-        node.style.gridRowEnd = `span ${Math.round(height + 12)}`;
+        setGridRowEnd(`span ${Math.round(height + 12)}`);
       }
-
-      node.style.border = '1px solid var(--gray-100)';
     };
 
     setLayout();
   }, [windowWidth, imgSize, node]);
 
-  return { setImgSize };
+  return { setImgSize, gridRowEnd };
 }
