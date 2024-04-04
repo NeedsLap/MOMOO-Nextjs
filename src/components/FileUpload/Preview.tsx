@@ -1,18 +1,17 @@
 import Image from 'next/image';
-import { useState, SetStateAction, Dispatch, useEffect } from 'react';
+import { useState, SetStateAction, Dispatch } from 'react';
 
 import * as Styled from '@/components/FileUpload/StyledPreview';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 
 const Preview = ({
   setFile,
-  imgUrlList,
+  imgUrlList = [],
 }: {
   setFile: Dispatch<SetStateAction<FileList | null>>;
-  imgUrlList: string[];
+  imgUrlList?: string[];
 }) => {
-  const [imageList, setImageList] = useState<string[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageList, setImageList] = useState<string[]>(imgUrlList);
   const [submitErrMessage, setSubmitErrMessage] = useState('');
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,10 +39,6 @@ const Preview = ({
     }
   };
 
-  useEffect(() => {
-    setImageList(imgUrlList);
-  }, [imgUrlList]);
-
   const setImages = async (files: FileList) => {
     if (files) {
       if (files.length <= 3) {
@@ -62,129 +57,62 @@ const Preview = ({
     }
   };
 
-  const nextSlide = () => {
-    setCurrentIndex((currentIndex + 1) % imageList.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((currentIndex - 1 + imageList.length) % imageList.length);
-  };
-
-  const handleIndicatorClick = (index: number) => {
-    setCurrentIndex(index);
+  const handleRemoveImage = (indexToRemove: number) => {
+    setImageList((currentImgList) =>
+      currentImgList.filter((_, index) => index !== indexToRemove),
+    );
   };
 
   return (
     <>
-      <Styled.PreviewSection>
-        {imageList.length === 0 && (
-          <label htmlFor="file">
-            <div className="uploadText">
-              <p>사진을 선택해 주세요(필수)</p>
-              <span>*3장까지 업로드 가능</span>
+      <Styled.SelectContainer>
+        <Styled.ImageGrid>
+          {imageList.map((image, index) => (
+            <div key={index} className="selectedImgList">
+              <img className="seletedImg" src={image} alt="이미지" />
+              <button
+                className="deleteBtn"
+                onClick={() => handleRemoveImage(index)}
+              >
+                <Image
+                  src="/icons/x-white.svg"
+                  className="deleteBtnImg"
+                  width={30}
+                  height={30}
+                  alt="이미지삭제"
+                />
+              </button>
+            </div>
+          ))}
+          <Styled.PreviewSection>
+            <label htmlFor="file">
               <Image
                 src="/icons/add-l-white.svg"
-                alt="사진 업로드 버튼"
                 className="btnUpload"
-                width={24}
-                height={24}
+                width={30}
+                height={30}
+                alt="사진 업로드 버튼"
               />
-            </div>
-          </label>
-        )}
-        <input
-          accept="image/*"
-          multiple
-          type="file"
-          id="file"
-          onChange={handleImageUpload}
-          onClick={(e) => console.log('file', e.currentTarget.files)}
-        />
-        <Styled.PreviewSlider>
-          {imageList.length > 0 && (
-            <>
-              {/* 모바일 슬라이드 */}
-              <Styled.ImageGrid>
-                {imageList.map((image, index) => (
-                  <Image
-                    width={480}
-                    height={480}
-                    key={index}
-                    src={image}
-                    alt="사진 선택하기"
-                  />
-                ))}
-              </Styled.ImageGrid>
-              {/* 모바일 이상 슬라이드 */}
-              <Styled.ImgSlidePcSize>
-                {imageList.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={prevSlide}
-                    className="ArrowBack"
-                    aria-label="Next slide"
-                  >
-                    <Image
-                      width={20}
-                      height={20}
-                      alt=""
-                      src="/icons/arrow-white.svg"
-                    />
-                  </button>
-                )}
-                <Image
-                  className="selectImg"
-                  width={480}
-                  height={480}
-                  src={imageList[currentIndex]}
-                  alt="이미지"
-                />
-                {imageList.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={nextSlide}
-                    className="ArrowRight"
-                    aria-label="Before slide"
-                  >
-                    <Image
-                      width={20}
-                      height={20}
-                      src="/icons/add-l-white.svg"
-                      alt=""
-                    />
-                  </button>
-                )}
-              </Styled.ImgSlidePcSize>
-            </>
-          )}
-        </Styled.PreviewSlider>
-        <Styled.IndicatorBasicBox>
-          {imageList.length > 1 && (
-            <Styled.IndicatorContainer>
-              {imageList.map((_, index) => (
-                <Styled.Indicator
-                  key={index}
-                  active={index === currentIndex}
-                  onClick={() => handleIndicatorClick(index)}
-                />
-              ))}
-            </Styled.IndicatorContainer>
-          )}
-        </Styled.IndicatorBasicBox>
-      </Styled.PreviewSection>
+            </label>
+            <input
+              accept="image/*"
+              multiple
+              type="file"
+              id="file"
+              onChange={handleImageUpload}
+            />
+          </Styled.PreviewSection>
+        </Styled.ImageGrid>
 
-      {submitErrMessage && (
-        <AlertModal
-          message={submitErrMessage}
-          onClose={() => setSubmitErrMessage('')}
-        />
-      )}
+        {submitErrMessage && (
+          <AlertModal
+            message={submitErrMessage}
+            onClose={() => setSubmitErrMessage('')}
+          />
+        )}
+      </Styled.SelectContainer>
     </>
   );
-};
-
-Preview.defaultProps = {
-  imgUrlList: [],
 };
 
 export default Preview;
