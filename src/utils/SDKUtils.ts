@@ -7,7 +7,6 @@ import {
   where,
   DocumentData,
   or,
-  orderBy,
   addDoc,
   Timestamp,
   arrayRemove,
@@ -59,7 +58,7 @@ const getFeedsData = async (feedIdList: string[], uid: string) => {
 
   const feedRef = collection(appFireStore, uid, uid, 'feed');
   const searchList = feedIdList.map((feedId) => where('id', '==', feedId));
-  const q = query(feedRef, or(...searchList), orderBy('timestamp', 'desc'));
+  const q = query(feedRef, or(...searchList));
   const querySnapshot = await getDocs(q);
 
   querySnapshot.forEach((doc) => {
