@@ -31,7 +31,7 @@ export default async function Page({
   const feeds = await getFeedsAndHandleException(getFeedsQuery);
 
   if (feeds === 'not-found') {
-    redirect('/404');
+    return redirect('/404');
   }
 
   return <Feed feeds={feeds} pageSize={pageSize} />;

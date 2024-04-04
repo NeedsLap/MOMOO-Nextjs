@@ -22,6 +22,10 @@ export async function GET(
       throw new Error('앨범 문서에 데이터가 없습니다');
     }
 
+    if (!albumData.sharedUsers) {
+      return NextResponse.json([]);
+    }
+
     const promises = albumData.sharedUsers.map(
       (user: { uid: string; permission: 'read' }) => getUserByUid(user.uid),
     );

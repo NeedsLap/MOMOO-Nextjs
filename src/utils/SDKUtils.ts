@@ -6,8 +6,6 @@ import {
   query,
   where,
   DocumentData,
-  or,
-  orderBy,
   addDoc,
   Timestamp,
   arrayRemove,
@@ -51,20 +49,22 @@ async function getAlbumByName(uid: string, name: string) {
 }
 
 const getFeedsData = async (feedIdList: string[], uid: string) => {
-  const feeds: DocumentData[] = [];
-
   if (!feedIdList.length) {
-    return feeds;
+    return [];
   }
 
-  const feedRef = collection(appFireStore, uid, uid, 'feed');
-  const searchList = feedIdList.map((feedId) => where('id', '==', feedId));
-  const q = query(feedRef, or(...searchList), orderBy('timestamp', 'desc'));
-  const querySnapshot = await getDocs(q);
+  const feeds: DocumentData[] = [];
+  const promises = feedIdList.map(async (feedId) => {
+    const docRef = doc(appFireStore, uid, uid, 'feed', feedId);
+    const result = await getDoc(docRef);
+    const feed = result.data();
 
-  querySnapshot.forEach((doc) => {
-    feeds.push(doc.data());
+    if (feed) {
+      feeds.push(feed);
+    }
   });
+
+  await Promise.all(promises);
 
   return feeds;
 };

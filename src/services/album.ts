@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000/api';
+import { API_URL } from '@/services/constant';
 
 const postSharing = async (uid: string, albumId: string) => {
   const data = {
@@ -6,7 +6,7 @@ const postSharing = async (uid: string, albumId: string) => {
     permission: 'read',
   };
 
-  const res = await fetch(`${url}/album/${albumId}/sharing`, {
+  const res = await fetch(`${API_URL}/album/${albumId}/sharing`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -15,13 +15,13 @@ const postSharing = async (uid: string, albumId: string) => {
 };
 
 const getSharedUsers = async (albumId: string) => {
-  const res = await fetch(`${url}/album/${albumId}/sharing`);
+  const res = await fetch(`${API_URL}/album/${albumId}/sharing`);
 
   return res;
 };
 
 const deleteSharedUser = async (albumId: string, uid: string) => {
-  const res = await fetch(`${url}/album/${albumId}/sharing/${uid}`, {
+  const res = await fetch(`${API_URL}/album/${albumId}/sharing/${uid}`, {
     method: 'DELETE',
   });
 
@@ -29,7 +29,7 @@ const deleteSharedUser = async (albumId: string, uid: string) => {
 };
 
 const deleteAlbum = async (albumId: string) => {
-  const res = await fetch(`${url}/album/${albumId}`, {
+  const res = await fetch(`${API_URL}/album/${albumId}`, {
     method: 'DELETE',
   });
 
