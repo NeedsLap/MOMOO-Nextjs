@@ -64,48 +64,50 @@ function KakaoMap({
   };
 
   return (
-    <MapContainer>
-      <SearchHead>
-        <input
-          onChange={handleSearchQueryChange}
-          onKeyDown={handleKeyDown}
-          value={searchQuery}
-          placeholder="주소 또는 키워드 입력해 주세요"
-        />
-        {searchedLocation && <div></div>}
-        <button
-          type="button"
-          className="saveBtn"
-          aria-label="Select address"
-          onClick={() =>
-            onAddressSelect(
-              searchedLocation?.place_name ? searchedLocation.place_name : '',
-            )
-          }
-        >
-          <Image
-            src="/icons/select.svg"
-            alt="선택 버튼"
-            className="btnUpload"
-            width={24}
-            height={24}
+    <div id="map">
+      <MapContainer>
+        <SearchHead>
+          <input
+            onChange={handleSearchQueryChange}
+            onKeyDown={handleKeyDown}
+            value={searchQuery}
+            placeholder="주소 또는 키워드 입력해 주세요"
           />
-        </button>
-      </SearchHead>
-      <div className="mapBoxWrapper">
-        <Map
-          center={state.center}
-          isPanto={state.isPanto}
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-          level={3}
-        >
-          <MapMarker position={state.center}></MapMarker>
-        </Map>
-      </div>
-    </MapContainer>
+          {searchedLocation && <div></div>}
+          <button
+            type="button"
+            className="saveBtn"
+            aria-label="Select address"
+            onClick={() =>
+              onAddressSelect(
+                searchedLocation?.place_name ? searchedLocation.place_name : '',
+              )
+            }
+          >
+            <Image
+              src="/icons/select.svg"
+              alt="선택 버튼"
+              className="btnUpload"
+              width={24}
+              height={24}
+            />
+          </button>
+        </SearchHead>
+        <div className="mapBoxWrapper">
+          <Map
+            center={state.center}
+            isPanto={state.isPanto}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            level={3}
+          >
+            <MapMarker position={state.center}></MapMarker>
+          </Map>
+        </div>
+      </MapContainer>
+    </div>
   );
 }
 
