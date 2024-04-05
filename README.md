@@ -238,27 +238,26 @@
   
   <br>**홈**
   1. 플러스 아이콘이 앨범 추가 버튼인지 헷갈림
-  2. ~~앨범 이름을 입력하지 않아도 앨범 추가 가능~~[ba36bd5](https://github.com/yonainthefish/MoMoo/commit/ba36bd5ff29bdcd7bf351b1dac3971c897a5db93)
+  2. ~~앨범 이름을 입력하지 않아도 앨범 추가 가능~~[#236](https://github.com/yonainthefish/MoMoo/pull/236)
   3. ~~앨범 수정/삭제 모달에 있는 체크 표시의 기능을 모르겠음~~(저장 버튼: 체크 아이콘 -> '저장' 텍스트)
   4. ~~앨범 생성 시, 엔터를 눌러서 저장 가능하면 좋겠음~~[91d0fe3](https://github.com/yonainthefish/MoMoo/pull/255/commits/91d0fe34d2866947a47bbfb2cf95ae70cc7e22d7)
-  5. 같은 이름으로 앨범을 여러 개 만들 수 있음
-  6. 앨범 수정에 있는 `...` 버튼을 클릭했을 때, 기능을 명료화하면 더 좋을 것 같음 (ex) 앨범 이름 수정/앨범 삭제/앨범 추가)
-  7. 앨범 하단부가 잘림(nav제외)
-  8. 앨범명을 입력하고 저장 버튼을 여러번 누르면 앨범이 여러개 생성됨
-  9. 앨범 수정/삭제 모달의 버튼을 여러번 누르면 에러페이지("존재하지 않는 페이지 입니다")로 이동됨
-    -> 상황 재현: 버튼이 위치한 곳을 계속해서 클릭하면, 생성이 완료되어 모달이 닫히는 동시에 앨범이 클릭됨
-    -> 클릭된 앨범의 제목이 없을 시, 유효하지 않은 주소로 이동되어 "존재하지 않는 페이지입니다"라는 텍스트만 존재
+  5. ~~같은 이름으로 앨범을 여러 개 만들 수 있음~~[#236](https://github.com/yonainthefish/MoMoo/pull/236)
+  6. ~~현재 앨범 `...` 버튼(더보기) 클릭 시, 앨범 수정/삭제 모달이 열리는데 기능을 명료화하면 더 좋을 것 같음~~(더보기 클릭 시, 선택 모달이 뜨도록 변경)[01e4d5f](https://github.com/yonainthefish/MoMoo/commit/01e4d5f2af83c30052c8eb995f1f630e3470d194)[b825983](https://github.com/yonainthefish/MoMoo/commit/b825983413259eb93d7934de13ff71f439b9d3f3)
+  7. ~~앨범 하단부가 잘림~~[571a714](https://github.com/yonainthefish/MoMoo/commits/571a714a215e4ec15ec8caea240c0d893307ded2)
+  8. ~~앨범명을 입력하고 저장 버튼을 여러번 누르면 앨범이 여러개 생성됨~~[692c719](https://github.com/yonainthefish/MoMoo/commits/692c7190afdfdc2715f84302eae148a802d19b76)
+  9. ~~앨범 수정/삭제 모달의 버튼을 여러번 누르면 에러페이지("존재하지 않는 페이지 입니다")로 이동됨<br>
+     상황 재현: 버튼이 위치한 곳을 계속해서 클릭하면, 생성이 완료될 때 모달이 닫히는 동시에 앨범이 클릭됨 -> 클릭된 앨범의 제목이 없을 시, 유효하지 않은 주소로 이동됨~~[#236](https://github.com/yonainthefish/MoMoo/pull/236)
   10. 모달창이 띄워졌을 때 버튼은 눌러지지 않지만 스크롤이 가능
-  11. 앨범 필터 버튼이 너무 작음
-  12. 앨범 제목 글자수의 제한이 없음
-  13. 정렬 기준 누르고나서 다른 부분 터치했을때 정렬창이 꺼졌으면 함
+  11. ~~앨범 필터 버튼이 너무 작음~~[036022a](https://github.com/yonainthefish/MoMoo/commits/036022a0ddaf4a805c6d8937f37f471f3e57cd7f)
+  12. ~~앨범 제목 글자수의 제한이 없음~~[536bae6](https://github.com/yonainthefish/MoMoo/commits/536bae6131017c614fdf0c200b524b3b2f70b9c6)
+  13. ~~정렬 기준 누르고나서 다른 부분 터치했을때 정렬창이 꺼졌으면 함~~[9b16fbf](https://github.com/yonainthefish/MoMoo/pull/255/commits/9b16fbfd98745b97d6ddb3032892cb8b0f1e7db7)
   
   <br>**앨범 상세페이지**
-  1. 게시글이 많아질수록 '앨범에 게시글 추가 버튼'도 뒤로 밀려서 누르러 가기 힘들어짐
+  1. ~~게시글이 많아질수록 '앨범에 게시글 추가 버튼'도 뒤로 밀려서 누르러 가기 힘들어짐~~[5bbe7dd](https://github.com/NeedsLap/MOMOO-Nextjs/commit/5bbe7dd6728c3dac51c03461a7b9f1c4d855f31b)[63fa419](https://github.com/NeedsLap/MOMOO-Nextjs/commit/63fa4197a02e67b4e702f51945d742cc9fd6f95e)
   
   <br>**앨범 상세페이지**
   1. 날짜, 제목이 보였으면 좋겠음
-  2. (앨범 상세페이지) 목록형, 앨범형 선택 가능하면 좋겠음
+  2. ~~목록형, 앨범형 선택 가능하면 좋겠음~~[fe9614f](https://github.com/NeedsLap/MOMOO-Nextjs/commit/fe9614f14268176480502b19654b6e63d944af61)
   
   <br>**게시물 업로드**
   1. 한번에 여러장의 사진을 등록할 수 있으면 좋겠음
