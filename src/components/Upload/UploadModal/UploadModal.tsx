@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Accordion from '@/components/Accordion/Accordion';
 import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
 import Preview from '@/components/FileUpload/Preview';
-import { StyledLoadingImg } from '@/components/Loading/StyledLodingImg';
+import { StyledLoadingComponent } from '@/components/Loading/StyledLodingImg';
 import KakaoMap from '@/components/Map/KakaoMap';
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
@@ -174,7 +174,7 @@ function UploadModal() {
           </Styled.UploadHeader>
           <Styled.UploadContents>
             {isPending ? (
-              <StyledLoadingImg
+              <StyledLoadingComponent
                 src="/icons/loading.svg"
                 alt="로딩중"
                 width={36}
