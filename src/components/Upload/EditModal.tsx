@@ -24,17 +24,8 @@ import {
 import { closeEditFeedModal } from '@/modules/editFeedModal';
 import { deleteImg } from '@/utils/SDKUtils';
 
+import { AccordionData, AlbumIdData } from '@/components/Upload/model';
 import { ReduxState } from '@/modules/model';
-
-interface AccordionData {
-  question: string;
-  answer: string[];
-}
-
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
 
 export default function EditFeedModal() {
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);

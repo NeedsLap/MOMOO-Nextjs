@@ -21,15 +21,7 @@ import { useAddFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import useUploadFeed from '@/hooks/useUploadFeed';
 import { closeUploadFeedModal } from '@/modules/uploadFeedModal';
 
-interface accordionData {
-  question: string;
-  answer: string[];
-}
-
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
+import { AccordionData, AlbumIdData } from '@/components/Upload/model';
 
 function UploadModal() {
   const dispatch = useDispatch();
@@ -47,7 +39,7 @@ function UploadModal() {
   const [selectedEmotionImage, setSelectedEmotionImage] = useState<string>('');
   const [selectedAlbum, setSelectedAlbum] = useState<string[]>(albumNameToAdd);
   const [file, setFile] = useState<FileList | null>(null);
-  const [accordionData, setAccordionData] = useState<accordionData[]>([]);
+  const [accordionData, setAccordionData] = useState<AccordionData[]>([]);
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [isPending, setIsPending] = useState(false);
   const getAccordionData = GetAccordionData();
@@ -69,6 +61,10 @@ function UploadModal() {
     setKakaoMapVisible(!kakaoMapVisible);
   };
 
+  const handleAddressSelect = (selectedAddress: string) => {
+    setSelectedAddress(selectedAddress);
+  };
+
   const onInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputCount(e.target.value.length);
   };
@@ -87,10 +83,6 @@ function UploadModal() {
   };
 
   useOverlayClose(dialogRef, closeUploadModal);
-
-  const handleAddressSelect = (selectedAddress: string) => {
-    setSelectedAddress(selectedAddress);
-  };
 
   const uploadPost = async () => {
     if (file === null) {
