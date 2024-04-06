@@ -33,11 +33,11 @@ const GetAccordionData = () => {
 
     const accordionData = [
       {
-        question: '앨범 선택 (선택)',
+        question: '앨범 선택',
         answer: [],
       },
       {
-        question: '오늘의 날씨 (선택)',
+        question: '오늘의 날씨',
         answer: [
           '/images/sunny.svg',
           '/images/partly-sunny.svg',
@@ -47,7 +47,7 @@ const GetAccordionData = () => {
         ],
       },
       {
-        question: '오늘의 기분 (선택)',
+        question: '오늘의 기분',
         answer: [
           '/images/excited.svg',
           '/images/smiling.svg',

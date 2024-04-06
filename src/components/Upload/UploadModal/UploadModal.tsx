@@ -32,8 +32,8 @@ interface AlbumIdData {
 }
 
 function UploadModal() {
-  const router = useRouter();
   const dispatch = useDispatch();
+  const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { user } = useAuthState();
   const { albumNameToAdd, isUploadFeedModalOpen } = useUploadFeed();
@@ -92,73 +92,72 @@ function UploadModal() {
     setSelectedAddress(selectedAddress);
   };
 
+  const uploadPost = async () => {
+    if (file === null) {
+      throw new Error('파일이 선택되지 않았습니다.');
+    }
+
+    const id = uuidv4();
+    const downloadURLs = await uploadImageToStorage(
+      file,
+      `feed/${user.uid}`,
+      id,
+    );
+    const uploadData = {
+      title,
+      text,
+      timestamp: Timestamp.now(),
+      selectedAddress,
+      weatherImage: selectedWeatherImage,
+      emotionImage: selectedEmotionImage,
+      album: selectedAlbum,
+      imageUrl: downloadURLs,
+      id,
+    };
+    await setDoc(doc(appFireStore, user.uid, user.uid, 'feed', id), uploadData);
+    return id;
+  };
+
+  const updateAlbums = async (id: string) => {
+    for (const album of selectedAlbum) {
+      const selectedAlbumId = albumIdData.find(
+        (a) => a.albumName === album,
+      )?.docId;
+      if (selectedAlbumId) {
+        await addFeedIdFromFeedList(id, selectedAlbumId);
+      }
+    }
+  };
+
+  const validateInput = () => {
+    if (title.trim() === '') {
+      alert('제목을 입력해 주세요');
+      return false;
+    }
+    if (file === null) {
+      alert('사진을 선택해주세요');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    if (title.trim() === '') {
-      alert('제목을 입력해 주세요');
-      return;
-    }
-
-    if (file === null) {
-      alert('사진을 선택해주세요');
-      return;
-    }
-
+    if (!validateInput()) return;
     setIsPending(true);
 
     try {
-      if (user) {
-        const id = uuidv4();
-        const userDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
-
-        const downloadURLs = await uploadImageToStorage(
-          file,
-          `feed/${user.uid}`,
-          id,
-        );
-
-        const uploadData = {
-          title: title,
-          text: text,
-          timestamp: Timestamp.now(),
-          selectedAddress: selectedAddress,
-          weatherImage: selectedWeatherImage,
-          emotionImage: selectedEmotionImage,
-          album: selectedAlbum,
-          imageUrl: downloadURLs,
-          id: id,
-        };
-
-        await setDoc(userDocRef, uploadData);
-        router.push(`${user.uid}/${albumNameToAdd[0]}/feed?start=0`);
-        closeUploadModal();
-
-        try {
-          selectedAlbum.forEach(async (album) => {
-            let selectedAlbumId = '';
-            for (const iterator of albumIdData) {
-              if (album === iterator.albumName) {
-                selectedAlbumId = iterator.docId;
-              }
-            }
-
-            await addFeedIdFromFeedList(id, selectedAlbumId);
-          });
-        } catch (error) {
-          console.error(
-            '앨범 데이터를 업데이트하는 중 오류가 발생했습니다.',
-            error,
-          );
-        }
-      } else {
-        console.error('사용자가 로그인되지 않았습니다.');
-      }
+      if (!user) throw new Error('사용자가 로그인되지 않았습니다.');
+      const id = await uploadPost();
+      await updateAlbums(id);
+      router.push(`/${user.uid}/${albumNameToAdd[0]}/feed?start=0`);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsPending(false);
+      closeUploadModal();
     }
-
-    setIsPending(false);
   };
 
   return (
@@ -168,7 +167,7 @@ function UploadModal() {
         ref={dialogRef}
         aria-labelledby="dialog-label"
       >
-        <div>
+        <Styled.ContentContainer>
           <h2 className="a11y-hidden">새 게시물 업로드</h2>
           <Styled.UploadHeader>
             <h2>새 게시물</h2>
@@ -192,7 +191,7 @@ function UploadModal() {
             ) : (
               <>
                 <Styled.TodaysPhoto>
-                  <p>오늘의 사진 (필수) </p>
+                  <p>오늘의 사진(필수) </p>
                   <span>*10장까지 업로드 가능</span>
                 </Styled.TodaysPhoto>
                 <Styled.PicSelectPart>
@@ -202,7 +201,7 @@ function UploadModal() {
                   <div className="inputWrapper">
                     <input
                       type="text"
-                      placeholder="제목을 입력해주세요 (필수)"
+                      placeholder="제목을 입력해주세요(필수)"
                       value={title}
                       onChange={(e) => {
                         setTitle(e.target.value);
@@ -221,7 +220,7 @@ function UploadModal() {
                         setText(e.target.value);
                         onInputHandler(e);
                       }}
-                      placeholder="문구를 입력해주세요 (선택)"
+                      placeholder="문구를 입력해주세요"
                     ></textarea>
                     <div className="countText">
                       <span>{inputCount}</span> / 1000 자
@@ -232,7 +231,7 @@ function UploadModal() {
                       {selectedAddress ? (
                         <p>선택한 주소: {selectedAddress}</p>
                       ) : (
-                        <h2>위치 추가 (선택)</h2>
+                        <h2>위치 추가</h2>
                       )}
                       <Image
                         className={kakaoMapVisible ? 'rotate' : ''}
@@ -268,12 +267,12 @@ function UploadModal() {
                         question={data.question}
                         answer={data.answer.join(',')}
                         selectedImages={
-                          data.question === '오늘의 날씨 (선택)'
+                          data.question === '오늘의 날씨'
                             ? selectedWeatherImage
                             : selectedEmotionImage
                         }
                         setSelectedImages={
-                          data.question === '오늘의 날씨 (선택)'
+                          data.question === '오늘의 날씨'
                             ? setSelectedWeatherImage
                             : setSelectedEmotionImage
                         }
@@ -296,7 +295,7 @@ function UploadModal() {
               alt={'닫기'}
             ></Image>
           </Styled.CloseBtn>
-        </div>
+        </Styled.ContentContainer>
       </Styled.StyledDialog>
     </>
   );
