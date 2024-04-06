@@ -69,7 +69,7 @@ const Preview = ({
         <Styled.ImageGrid>
           {imageList.map((image, index) => (
             <div key={index} className="selectedImgList">
-              <img className="seletedImg" src={image} alt="이미지" />
+              <img className="selectedImg" src={image} alt="이미지" />
               <button
                 className="deleteBtn"
                 onClick={() => handleRemoveImage(index)}
@@ -85,15 +85,13 @@ const Preview = ({
             </div>
           ))}
           <Styled.PreviewSection>
-            <label htmlFor="file">
-              <Image
-                src="/icons/add-l-white.svg"
-                className="btnUpload"
-                width={30}
-                height={30}
-                alt="사진 업로드 버튼"
-              />
-            </label>
+            <Image
+              src="/icons/add-l-white.svg"
+              className="btnUpload"
+              width={30}
+              height={30}
+              alt="사진 업로드 버튼"
+            />
             <input
               accept="image/*"
               multiple
