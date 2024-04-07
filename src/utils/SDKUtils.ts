@@ -5,6 +5,7 @@ import {
   collection,
   query,
   where,
+  orderBy,
   DocumentData,
   addDoc,
   Timestamp,
@@ -123,6 +124,17 @@ const removeAlbumFromSharedAlbums = async (
 
   await Promise.all(promises);
 };
+const getAlbumList = async (uid: string) => {
+  const albumDataList: DocumentData[] = [];
+  const albumDocRef = collection(appFireStore, uid, uid, 'album');
+  const q = query(albumDocRef, orderBy('createdTime'));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    albumDataList.push(doc.data());
+  });
+
+  return albumDataList;
+};
 
 export {
   deleteImg,
@@ -133,4 +145,5 @@ export {
   checkAlbumPermission,
   addAlbum,
   removeAlbumFromSharedAlbums,
+  getAlbumList,
 };
