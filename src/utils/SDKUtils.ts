@@ -124,6 +124,12 @@ const removeAlbumFromSharedAlbums = async (
   await Promise.all(promises);
 };
 
+const getFeed = async (feedId: string, uid: string) => {
+  const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feed', feedId));
+
+  return docSnap.data();
+};
+
 export {
   deleteImg,
   uploadImg,
@@ -133,4 +139,5 @@ export {
   checkAlbumPermission,
   addAlbum,
   removeAlbumFromSharedAlbums,
+  getFeed,
 };

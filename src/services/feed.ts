@@ -1,6 +1,27 @@
 import { API_URL } from '@/services/constant';
 
-import type { GetFeedsQuery, GetFeedsOpts } from '@/services/model';
+import type {
+  GetFeedOpts,
+  GetFeedProps,
+  GetFeedsOpts,
+  GetFeedsProps,
+} from '@/services/model';
+
+const getFeed = async ({ id, cookie }: GetFeedProps) => {
+  const opts: GetFeedOpts = {
+    method: 'GET',
+  };
+
+  if (cookie) {
+    opts.headers = {
+      Cookie: cookie,
+    };
+  }
+
+  const res = await fetch(`${API_URL}/feed/${id}`, opts);
+
+  return res;
+};
 
 const getFeeds = async ({
   limit,
@@ -8,7 +29,7 @@ const getFeeds = async ({
   albumName,
   uid,
   cookie,
-}: GetFeedsQuery) => {
+}: GetFeedsProps) => {
   const opts: GetFeedsOpts = {
     method: 'GET',
   };
@@ -18,6 +39,7 @@ const getFeeds = async ({
       Cookie: cookie,
     };
   }
+
   const res = await fetch(
     `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
     opts,
@@ -26,4 +48,4 @@ const getFeeds = async ({
   return res;
 };
 
-export { getFeeds };
+export { getFeed, getFeeds };
