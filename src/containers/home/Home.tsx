@@ -11,14 +11,18 @@ import HomeTopbar from '@/components/Topbar/HomeTopbar/HomeTopbar';
 import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';
 import useGetAlbumList from '@/hooks/useGetAlbumList';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import { DocumentData } from 'firebase/firestore';
 
-export default function Home() {
+export default function Home(props: { album: DocumentData[] }) {
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const { albumDataList, latestAlbumList } = useGetAlbumList();
-
+  const latestAlbumList = [...props.album].reverse();
+  const allFeedsAlbumData = latestAlbumList.pop();
+  if (allFeedsAlbumData) {
+    latestAlbumList.unshift(allFeedsAlbumData);
+  }
   const windowWidth = useWindowWidth();
 
   const HandleArrayModal = () => {
@@ -63,16 +67,15 @@ export default function Home() {
             </button>
           </div>
           <ul>
-            {(selectedOption === 'oldest'
-              ? albumDataList
-              : latestAlbumList
-            ).map((v, index) => {
-              return (
-                <li key={v.createdTime}>
-                  <Album albumData={v} showDeleteButton={index !== 0} />
-                </li>
-              );
-            })}
+            {(selectedOption === 'oldest' ? props.album : latestAlbumList).map(
+              (v, index) => {
+                return (
+                  <li key={v.name}>
+                    <Album albumData={v} showDeleteButton={index !== 0} />
+                  </li>
+                );
+              },
+            )}
           </ul>
           {isAddModalOpen && <NewAlbumModal onClose={HandleAddCloseModal} />}
           {isArrayModalOpen && (
