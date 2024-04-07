@@ -24,7 +24,7 @@ import StyledAlbum, {
 import useAlbumName from '@/hooks/useAlbumName';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import getFeedsAndHandleException from '@/utils/apis';
+import { getFeedsAndHandleException } from '@/utils/apis';
 
 export default function AlbumDetail({
   feeds,

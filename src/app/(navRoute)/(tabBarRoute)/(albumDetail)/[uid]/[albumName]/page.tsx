@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import AlbumDetail from '@/containers/albumDetail/AlbumDetail';
-import getFeedsAndHandleException from '@/utils/apis';
+import { getFeedsAndHandleException } from '@/utils/apis';
 
 import type { AlbumDetailParams } from '@/app/(navRoute)/(tabBarRoute)/(albumDetail)/[uid]/[albumName]/model';
 
