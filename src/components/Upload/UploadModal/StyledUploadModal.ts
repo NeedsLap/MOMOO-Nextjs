@@ -3,13 +3,9 @@ import styled from 'styled-components';
 const StyledDialog = styled.dialog`
   max-width: 43rem;
   width: 100%;
-  border-radius: 10px;
-  background-color: var(--background-color);
-  color: var(--gray-900);
-  border: none;
   overflow: hidden;
+  border-radius: 10px;
   z-index: 1001;
-  overflow-y: auto;
 
   @media (min-width: 1025px) {
     &.loading {
@@ -20,6 +16,14 @@ const StyledDialog = styled.dialog`
   @media (max-width: 1024px) {
     max-height: calc(100vh - var(--margin-tablet) * 2);
   }
+`;
+
+const ContentContainer = styled.div`
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+  border-radius: 10px;
+  background-color: var(--background-color);
+  color: var(--gray-900);
 `;
 
 const UploadHeader = styled.header`
@@ -215,6 +219,7 @@ const CloseBtn = styled.button`
 
 export {
   StyledDialog,
+  ContentContainer,
   MobileCloseBtn,
   UploadHeader,
   UploadContents,

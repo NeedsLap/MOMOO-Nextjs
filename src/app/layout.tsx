@@ -2,10 +2,17 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR, Prata } from 'next/font/google';
 import Head from 'next/head';
 import { cookies } from 'next/headers';
+import Script from 'next/script';
 
 import App from '@/components/global/App';
 import ReduxProvider from '@/components/global/ReduxProvider';
 import RootStyle from '@/components/global/RootStyle';
+
+declare global {
+  interface Window {
+    kakao: string;
+  }
+}
 
 const notoSans = Noto_Sans_KR({
   subsets: ['latin'],
@@ -43,6 +50,11 @@ export default function RootLayout({
           </ReduxProvider>
         </RootStyle>
       </body>
+      <Script src="https://developers.kakao.com/sdk/js/kakao.js" async />
+      <Script
+        type="text/javascript"
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&autoload=false&libraries=services`}
+      />
     </html>
   );
 }
