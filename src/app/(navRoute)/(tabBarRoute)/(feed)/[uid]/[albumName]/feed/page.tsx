@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import Feed from '@/containers/feed/Feed';
-import getFeedsAndHandleException from '@/utils/apis';
+import { getFeedsAndHandleException } from '@/utils/apis';
 
 export const metadata: Metadata = {
   title: 'Feed | MOMOO',
