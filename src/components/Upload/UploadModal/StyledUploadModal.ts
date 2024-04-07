@@ -6,16 +6,6 @@ const StyledDialog = styled.dialog`
   overflow: hidden;
   border-radius: 10px;
   z-index: 1001;
-
-  @media (min-width: 1025px) {
-    &.loading {
-      width: auto;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    max-height: calc(100vh - var(--margin-tablet) * 2);
-  }
 `;
 
 const ContentContainer = styled.div`
@@ -157,6 +147,19 @@ const UploadContents = styled.div`
     height: calc(100% - 48px);
     flex-direction: column;
     overflow-y: scroll;
+  }
+
+  &.loading {
+    min-height: calc(43rem - var(--nav-height-mobile));
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  @media (max-width: 430px) {
+    &.loading {
+      min-height: calc(100vh - var(--nav-height-mobile));
+    }
   }
 `;
 
