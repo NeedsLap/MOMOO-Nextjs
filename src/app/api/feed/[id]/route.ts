@@ -18,6 +18,18 @@ export async function GET(
 
   try {
     const feed = await getFeed(id, userUid);
+
+    if (!feed) {
+      return NextResponse.json(
+        {
+          error: '존재하지 않는 피드입니다.',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
     return NextResponse.json(feed);
   } catch (error) {
     return NextResponse.json(
