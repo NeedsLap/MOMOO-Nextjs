@@ -1,5 +1,5 @@
-import { getFeeds } from '@/services/feed';
 import { getAlbum } from '@/services/album';
+import { getFeeds } from '@/services/feed';
 
 import { GetFeedsQuery } from '@/services/model';
 
