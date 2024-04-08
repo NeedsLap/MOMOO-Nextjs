@@ -17,8 +17,8 @@ export default function useFeedData() {
       const json = await res.json();
 
       if (!res.ok) {
-        if (res.status === 403 || res.status === 404 || res.status === 401) {
-          router.replace('/404');
+        if (res.status === 401) {
+          router.replace('/login');
         }
 
         throw new Error(json.error);
