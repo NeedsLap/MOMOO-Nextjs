@@ -70,7 +70,7 @@ export default function Home(props: { album: DocumentData[] }) {
             {(selectedOption === 'oldest' ? props.album : latestAlbumList).map(
               (v, index) => {
                 return (
-                  <li key={v.name}>
+                  <li key={`${v.name}-${index}`}>
                     <Album albumData={v} showDeleteButton={index !== 0} />
                   </li>
                 );
