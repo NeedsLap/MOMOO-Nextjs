@@ -196,7 +196,7 @@ export default function EditFeedContents({
     <Styled.ContentContainer>
       <Styled.UploadHeader>
         <Styled.MobileCloseBtn type="button" onClick={close} aria-label="닫기">
-          <Image width={16} height={16} src="/icons/x-small.svg" alt="" />
+          <Image width={16} height={16} src="/icons/arrow-back.svg" alt="" />
         </Styled.MobileCloseBtn>
         <h2>게시물 수정</h2>
         <button className="uploadBtn" type="submit" onClick={handleSubmit}>
