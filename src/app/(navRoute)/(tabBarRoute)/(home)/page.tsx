@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 import Home from '@/containers/home/Home';
-
 import { getAlbumListHandle } from '@/utils/apis';
 
 export const metadata: Metadata = {

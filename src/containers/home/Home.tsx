@@ -3,15 +3,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
+import { DocumentData } from 'firebase/firestore';
+
 import Album from '@/components/Album/Album';
 import StyledH2 from '@/components/CommonStyled/StyledH2';
 import ArrayModal from '@/components/Modal/ArrayModal/ArrayModal';
 import NewAlbumModal from '@/components/Modal/NewAlbumModal/NewAlbumModal';
 import HomeTopbar from '@/components/Topbar/HomeTopbar/HomeTopbar';
 import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';
-import useGetAlbumList from '@/hooks/useGetAlbumList';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { DocumentData } from 'firebase/firestore';
 
 export default function Home(props: { album: DocumentData[] }) {
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
