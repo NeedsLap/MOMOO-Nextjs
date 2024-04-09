@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 interface Props {
-  $imageUrl?: string[];
+  $imageUrl?: string;
 }
 
 const AlbumContainer = styled.article<Props>`
@@ -12,12 +12,10 @@ const AlbumContainer = styled.article<Props>`
   height: 100%;
   border-radius: 1rem;
   background: ${(props) => {
-    const imageUrl: string | undefined = props.$imageUrl?.[0];
-
-    if (!imageUrl) {
+    if (!props.$imageUrl) {
       return 'linear-gradient(0deg, #343434 5.58%, rgba(126, 126, 126, 0) 40.58%, rgba(225, 225, 225, 0) 105.15%), var(--gray-200)';
     } else
-      return `linear-gradient(0deg, #343434 5.58%, rgba(126, 126, 126, 0) 40.58%, rgba(225, 225, 225, 0) 105.15%), url('${imageUrl}') no-repeat center / cover`;
+      return `linear-gradient(0deg, #343434 5.58%, rgba(126, 126, 126, 0) 40.58%, rgba(225, 225, 225, 0) 105.15%), url('${props.$imageUrl}') no-repeat center / cover`;
   }};
   .txtWrapper {
     width: 100%;
