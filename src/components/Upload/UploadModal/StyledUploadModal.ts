@@ -218,6 +218,23 @@ const CloseBtn = styled.button`
   background-color: transparent;
   z-index: 1010;
   cursor: pointer;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 430px) {
+    top: 1.6rem;
+    left: 1.6rem;
+    width: 1.6rem;
+    aspect-ratio: 1/1;
+
+    path {
+      stroke: var(--gray-900);
+      stroke-width: 1px;
+    }
+  }
 `;
 
 export {
