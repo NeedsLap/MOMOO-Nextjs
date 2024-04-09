@@ -13,13 +13,13 @@ import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
-import { Feed } from '@/types/feed';
+import { Feed as FeedType } from '@/types/feed';
 
 export default function Feed({
   feeds,
   pageSize,
 }: {
-  feeds: Feed[] | undefined;
+  feeds: FeedType[] | undefined;
   pageSize: number;
 }) {
   const { page: nextPage, setItemToObserveRef: setLastItemToObserveRef } =
@@ -36,7 +36,7 @@ export default function Feed({
   const searchParams = useSearchParams();
   const start = parseInt(searchParams.get('start') || '0');
 
-  const [feedsData, setFeedsData] = useState<Feed[]>(feeds || []);
+  const [feedsData, setFeedsData] = useState<FeedType[]>(feeds || []);
   const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!start);
   const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
   const [startFeedItemIndex, setStartFeedItemIndex] = useState(0);
