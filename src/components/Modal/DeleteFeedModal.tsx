@@ -1,4 +1,4 @@
-import { useParams, useRouter } from 'next/navigation';
+import React, { SetStateAction } from 'react';
 
 import { doc, deleteDoc, DocumentData } from 'firebase/firestore';
 
@@ -9,43 +9,44 @@ import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
 import { useRemoveFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import { deleteImg } from '@/utils/SDKUtils';
 
+import type { Feed } from '@/types/feed';
+
 export default function DeleteFeedModal({
+  id,
   onClose,
   imgUrlList,
+  setFeedData,
 }: {
+  id: string;
   onClose: () => void;
   imgUrlList: string[];
+  setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
 }) {
   const getSavedAlbumList = useGetSavedAlbumList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
-  const router = useRouter();
 
-  const { id } = useParams<{ id: string }>();
   const { user } = useAuthState();
 
   const handleDeletePost = async () => {
-    if (user) {
-      const postDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
+    const postDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
 
-      try {
-        await deleteDoc(postDocRef);
-        const getAlbumList = await getSavedAlbumList(id);
+    try {
+      await deleteDoc(postDocRef);
+      const getAlbumList = await getSavedAlbumList(id);
 
-        if (getAlbumList !== undefined) {
-          getAlbumList.forEach((albumDoc: DocumentData) => {
-            removeFeedIdFromFeedList(id, albumDoc.id);
-          });
-        }
-
-        router.back();
-
-        imgUrlList.forEach(async (url) => await deleteImg(url));
-      } catch (error) {
-        console.error('게시글 삭제 오류:', error);
+      if (getAlbumList !== undefined) {
+        getAlbumList.forEach((albumDoc: DocumentData) => {
+          removeFeedIdFromFeedList(id, albumDoc.id);
+        });
       }
-    } else {
-      console.error('사용자가 로그인되지 않았습니다.');
+
+      imgUrlList.forEach(async (url) => await deleteImg(url));
+      setFeedData(null);
+    } catch (error) {
+      console.error('게시글 삭제 오류:', error);
     }
+
+    onClose();
   };
 
   return (

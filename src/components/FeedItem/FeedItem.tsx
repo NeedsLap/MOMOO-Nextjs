@@ -164,12 +164,18 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
           )}
           {deleteModalOpen && (
             <DeleteFeedModal
+              id={feedData.id}
               onClose={handleDeleteCloseModal}
               imgUrlList={feedData.imageUrl}
+              setFeedData={setFeedData}
             />
           )}
           {changeAlbumModalOpen && (
-            <ChangeAlbumModal onClose={handleChangeAlbumModal} />
+            <ChangeAlbumModal
+              id={feedData.id}
+              onClose={handleChangeAlbumModal}
+              setFeedData={setFeedData}
+            />
           )}
           {isEditFeedModalOpen && (
             <EditFeedModal

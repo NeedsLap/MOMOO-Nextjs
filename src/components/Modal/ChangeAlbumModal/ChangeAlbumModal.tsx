@@ -1,5 +1,4 @@
-import { useParams } from 'next/navigation';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
 
 import {
   ChangeModalDialog,
@@ -8,6 +7,7 @@ import {
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
+import useAlbumName from '@/hooks/useAlbumName';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
 import {
   useAddFeedIdFromFeedList,
@@ -15,9 +15,7 @@ import {
 } from '@/hooks/useUpdateFeedList';
 import { closeDialogOnClick } from '@/utils/dialog';
 
-interface AccordionProps {
-  onClose: () => void;
-}
+import { Feed } from '@/types/feed';
 
 interface AccordionItemData {
   question: string;
@@ -29,7 +27,15 @@ interface AlbumIdData {
   docId: string;
 }
 
-export default function ChangeAlbumModal({ onClose }: AccordionProps) {
+export default function ChangeAlbumModal({
+  onClose,
+  id,
+  setFeedData,
+}: {
+  onClose: () => void;
+  id: string;
+  setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
+}) {
   const { showModal } = useShowModal();
   useEscDialog(onClose);
 
@@ -42,8 +48,7 @@ export default function ChangeAlbumModal({ onClose }: AccordionProps) {
   const getSavedAlbumList = useGetSavedAlbumList();
   const addFeedIdFromFeedList = useAddFeedIdFromFeedList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
-
-  const { id } = useParams<{ id: string }>();
+  const albumName = useAlbumName();
 
   useEffect(() => {
     const setSavedAlbumData = async () => {
@@ -111,6 +116,10 @@ export default function ChangeAlbumModal({ onClose }: AccordionProps) {
           await removeFeedIdFromFeedList(id, savedAlbumId);
         }
       });
+
+      if (!selectedAlbumList.includes(albumName)) {
+        setFeedData(null);
+      }
 
       onClose();
     } catch (error) {
