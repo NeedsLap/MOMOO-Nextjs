@@ -1,8 +1,5 @@
 'use client';
 
-// import { useRouter } from 'next/navigation';
-
-// import useSetAlbumData from './useSetAlbumData';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
