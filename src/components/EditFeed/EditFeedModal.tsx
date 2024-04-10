@@ -7,17 +7,14 @@ import type { Feed } from '@/types/feed';
 
 export default function EditFeedModal({
   id,
-  setIsModalOpen,
+  closeEditFeedModal,
   setFeedData,
 }: {
   id: string;
-  setIsModalOpen: React.Dispatch<SetStateAction<boolean>>;
+  closeEditFeedModal: () => void;
   setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
 }) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const close = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <Styled.StyledDialog
@@ -28,8 +25,16 @@ export default function EditFeedModal({
         }
       }}
     >
-      <EditFeedContents close={close} id={id} setFeedData={setFeedData} />
-      <Styled.CloseBtn className="closeBtn" onClick={close} aria-label="닫기">
+      <EditFeedContents
+        close={closeEditFeedModal}
+        id={id}
+        setFeedData={setFeedData}
+      />
+      <Styled.CloseBtn
+        className="closeBtn"
+        onClick={closeEditFeedModal}
+        aria-label="닫기"
+      >
         <svg
           width="24"
           height="24"

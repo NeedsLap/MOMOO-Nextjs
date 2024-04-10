@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { ForwardedRef, forwardRef, useMemo, useState } from 'react';
 
 import { Timestamp } from 'firebase/firestore';
@@ -11,7 +11,7 @@ import ChangeAlbumModal from '@/components/Modal/ChangeAlbumModal/ChangeAlbumMod
 import DeleteFeedModal from '@/components/Modal/DeleteFeedModal';
 import FeedMoreModal from '@/components/Modal/FeedMoreModal';
 import useAuthState from '@/hooks/auth/useAuthState';
-import useWindowWidth from '@/hooks/useWindowWidth';
+import useModalWithWebView from '@/hooks/useModalWithWebView';
 
 import type { Feed } from '@/types/feed';
 
@@ -20,16 +20,18 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
   const [feedData, setFeedData] = useState<Feed | null>(feed);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { uid } = useParams<{
     uid: string;
     albumName: string;
   }>();
-  const router = useRouter();
 
+  const {
+    isModalOpen: isEditFeedModalOpen,
+    openModal: openEditFeedModal,
+    closeModal: closeEditFeedModal,
+  } = useModalWithWebView();
   const { user } = useAuthState();
-  const windowWidth = useWindowWidth();
 
   const getFormattedDateFromTimestamp = (timestamp: Timestamp) => {
     const date = new Date(
@@ -64,21 +66,9 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
     setIsModalOpen(false);
   };
 
-  if (!feedData) {
-    return <></>;
-  }
-
-  const goToEditFeed = () => {
-    if (windowWidth && windowWidth > 430) {
-      setIsEditModalOpen(true);
-    } else {
-      router.push(`/edit-feed/${feedData.id}`);
-    }
-  };
-
   return (
     <>
-      {feedData && (
+      {feedData ? (
         <StyledFeedItem ref={ref}>
           <Carousel imgUrlList={feedData.imageUrl}></Carousel>
           <section className="contentsSection">
@@ -168,7 +158,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
             <FeedMoreModal
               setDeleteModalOpen={setDeleteModalOpen}
               setChangeAlbumModalOpen={setChangeAlbumModalOpen}
-              goToEditFeed={goToEditFeed}
+              openEditFeedModal={openEditFeedModal}
               closeModal={closeMoreModal}
             />
           )}
@@ -181,14 +171,16 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
           {changeAlbumModalOpen && (
             <ChangeAlbumModal onClose={handleChangeAlbumModal} />
           )}
-          {isEditModalOpen && (
+          {isEditFeedModalOpen && (
             <EditFeedModal
               id={feedData.id}
               setFeedData={setFeedData}
-              setIsModalOpen={setIsEditModalOpen}
+              closeEditFeedModal={closeEditFeedModal}
             />
           )}
         </StyledFeedItem>
+      ) : (
+        <></>
       )}
     </>
   );

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { ForwardedRef, forwardRef, useRef, useState } from 'react';
 
 import StyledAlbumItem from '@/components/AlbumItem/StyledAlbumItem';
@@ -8,25 +8,29 @@ import EditFeedModal from '@/components/EditFeed/EditFeedModal';
 import useAuthState from '@/hooks/auth/useAuthState';
 import useAlbumItemLayout from '@/hooks/useAlbumItemLayout';
 import useAlbumName from '@/hooks/useAlbumName';
+import useModalWithWebView from '@/hooks/useModalWithWebView';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
-import type { Feed } from '@/types/feed';
+import type { Feed as FeedType } from '@/types/feed';
 
 function AlbumItem(
-  { feed, index }: { feed: Feed; index: number },
+  { feed, index }: { feed: FeedType; index: number },
   ref: ForwardedRef<HTMLLIElement>,
 ) {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [feedData, setFeedData] = useState<Feed | null>(feed);
+  const [feedData, setFeedData] = useState<FeedType | null>(feed);
+
+  const liRef = useRef<HTMLLIElement | null>(null);
+  const { uid } = useParams();
 
   const windowWidth = useWindowWidth();
   const { user } = useAuthState();
   const albumName = useAlbumName();
-  const liRef = useRef<HTMLLIElement | null>(null);
   const { setImgSize, gridRowEnd } = useAlbumItemLayout(liRef.current);
-
-  const router = useRouter();
-  const { uid } = useParams();
+  const {
+    isModalOpen: isEditFeedModalOpen,
+    openModal: openEditFeedModal,
+    closeModal: closeEditFeedModal,
+  } = useModalWithWebView();
 
   const showHoverStyle = (
     e:
@@ -87,11 +91,7 @@ function AlbumItem(
                       return;
                     }
 
-                    if (windowWidth > 430) {
-                      setIsEditModalOpen(true);
-                    } else {
-                      router.push(`/edit/${feedData.id}`);
-                    }
+                    openEditFeedModal();
                   }}
                 >
                   <Image
@@ -119,10 +119,10 @@ function AlbumItem(
             />
           </Link>
 
-          {isEditModalOpen && (
+          {isEditFeedModalOpen && (
             <EditFeedModal
               id={feedData.id}
-              setIsModalOpen={setIsEditModalOpen}
+              closeEditFeedModal={closeEditFeedModal}
               setFeedData={setFeedData}
             />
           )}

@@ -4,14 +4,14 @@ interface Props {
   closeModal: () => void;
   setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setChangeAlbumModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  goToEditFeed: () => void;
+  openEditFeedModal: () => void;
 }
 
 export default function FeedMoreModal({
   closeModal,
   setDeleteModalOpen,
   setChangeAlbumModalOpen,
-  goToEditFeed,
+  openEditFeedModal,
 }: Props) {
   const handleDeleteFeed = () => {
     setDeleteModalOpen(true);
@@ -25,7 +25,7 @@ export default function FeedMoreModal({
 
   const handleEditFeed = () => {
     closeModal();
-    goToEditFeed();
+    openEditFeedModal();
   };
 
   return (
