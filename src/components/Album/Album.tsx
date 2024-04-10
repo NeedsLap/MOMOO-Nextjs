@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { DocumentData } from 'firebase/firestore';
 
@@ -7,7 +7,6 @@ import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
 import DeleteAlbumModal from '@/components/Modal/DeleteAlbumModal/DeleteAlbumModal';
 import SharingModal from '@/components/Modal/SharingModal/SharingModal';
 import useAuthState from '@/hooks/auth/useAuthState';
-import useGetFeedData from '@/hooks/useGetFeedData';
 
 interface AlbumProps {
   albumData: DocumentData;
@@ -18,28 +17,8 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditAlbumModalOpen, setIsEditAlbumModalOpen] = useState(false);
   const [isSharingModalOpen, setIsSharingModalOpen] = useState(false);
-  const [imgUrl, setImgUrl] = useState([]);
 
   const { user } = useAuthState();
-  const getFeedData = useGetFeedData();
-
-  useEffect(() => {
-    const lastFeedId = albumData.feedList[albumData.feedList.length - 1];
-
-    const getData = async () => {
-      if (lastFeedId !== undefined) {
-        const data = albumData.uid
-          ? await getFeedData(lastFeedId, albumData.uid)
-          : await getFeedData(lastFeedId);
-
-        setImgUrl(data?.imageUrl);
-      } else {
-        return;
-      }
-    };
-
-    getData();
-  }, []);
 
   const HandleModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -50,7 +29,7 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
   };
 
   return (
-    <AlbumContainer $imageUrl={imgUrl}>
+    <AlbumContainer $imageUrl={albumData.imageUrl}>
       <AlbumLink href={`/${albumData.uid || user.uid}/${albumData.name}`}>
         <div className="txtWrapper">
           <p className="albumTitle">{albumData.name}</p>

@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 const StyledMain = styled.main`
+  position: relative;
   padding: 28px var(--margin-mobile) 60px;
-
   @media (min-width: 431px) {
     padding: var(--nav-height-tablet) var(--margin-tablet) 0;
     margin: 0;
   }
 
   @media (min-width: 1025px) {
-    width: 100%;
     padding: 0 var(--margin-pc);
     margin: var(--padding-top-pc) var(--right-padding-pc) 0 var(--nav-width-pc);
   }
@@ -18,6 +17,7 @@ const StyledMain = styled.main`
 const StyledHomeSection = styled.section`
   max-width: 33.3rem;
   margin: auto;
+  padding-top: 30px;
 
   .btn-wrap {
     display: flex;
@@ -66,6 +66,7 @@ const StyledHomeSection = styled.section`
   }
 
   @media (max-width: 1024px) {
+    padding-top: 0;
     max-width: 100%;
     margin: 0;
     .album-title {

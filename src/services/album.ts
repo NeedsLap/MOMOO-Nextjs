@@ -1,5 +1,22 @@
 import { API_URL } from '@/services/constant';
 
+import type { GetFeedsOpts } from '@/services/model';
+
+const getAlbum = async (cookie: string) => {
+  const opts: GetFeedsOpts = {
+    method: 'GET',
+  };
+
+  if (cookie) {
+    opts.headers = {
+      Cookie: cookie,
+    };
+  }
+  const res = await fetch(`${API_URL}/album`, opts);
+
+  return res;
+};
+
 const postSharing = async (uid: string, albumId: string) => {
   const data = {
     uid,
@@ -36,4 +53,4 @@ const deleteAlbum = async (albumId: string) => {
   return res;
 };
 
-export { postSharing, getSharedUsers, deleteSharedUser, deleteAlbum };
+export { postSharing, getSharedUsers, deleteSharedUser, deleteAlbum, getAlbum };

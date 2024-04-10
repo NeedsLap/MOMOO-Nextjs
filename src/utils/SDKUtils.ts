@@ -5,6 +5,7 @@ import {
   collection,
   query,
   where,
+  orderBy,
   DocumentData,
   addDoc,
   Timestamp,
@@ -123,6 +124,28 @@ const removeAlbumFromSharedAlbums = async (
 
   await Promise.all(promises);
 };
+const getAlbumList = async (uid: string) => {
+  const albumDataList: DocumentData[] = [];
+  const albumDocRef = collection(appFireStore, uid, uid, 'album');
+  const q = query(albumDocRef, orderBy('createdTime'));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    albumDataList.push(doc.data());
+  });
+
+  return albumDataList;
+};
+
+const getThumbnail = async (uid: string, feedId: string) => {
+  try {
+    const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feed', feedId));
+
+    return docSnap.data();
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
 
 const getFeed = async (feedId: string, uid: string) => {
   const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feed', feedId));
@@ -140,4 +163,6 @@ export {
   addAlbum,
   removeAlbumFromSharedAlbums,
   getFeed,
+  getAlbumList,
+  getThumbnail,
 };

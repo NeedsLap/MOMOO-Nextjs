@@ -1,3 +1,4 @@
+import { getAlbum } from '@/services/album';
 import { getFeeds } from '@/services/feed';
 
 import type { GetFeedsProps } from '@/services/model';
@@ -25,4 +26,21 @@ const getFeedsAndHandleException = async (
   }
 };
 
-export { getFeedsAndHandleException };
+const getAlbumListHandle = async (cookie: string) => {
+  try {
+    const res = await getAlbum(cookie);
+
+    if (!res.ok) {
+      if (res.status === 403 || res.status === 404 || res.status === 401) {
+        console.error(new Error(await res.text()));
+        return 'not-found';
+      }
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export { getFeedsAndHandleException, getAlbumListHandle };

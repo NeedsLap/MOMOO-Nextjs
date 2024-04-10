@@ -21,6 +21,7 @@ const StyledH2 = styled.h2`
   }
 
   @media (max-width: 1024px) {
+    position: relative;
     justify-content: start;
     margin-bottom: 40px;
 
