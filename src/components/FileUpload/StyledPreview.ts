@@ -15,7 +15,7 @@ const ImageGrid = styled.div`
     position: relative;
   }
 
-  .seletedImg {
+  .selectedImg {
     width: 15.2rem;
     aspect-ratio: 1/1;
     object-fit: contain;
@@ -31,12 +31,12 @@ const ImageGrid = styled.div`
       background-color: var(--gray-100);
       padding: 4px;
       border-radius: 50%;
-      opacity: 80%;
+      opacity: 70%;
     }
   }
 `;
 
-const PreviewSection = styled.div`
+const PreviewSection = styled.label`
   width: 15.2rem;
   aspect-ratio: 1/1;
   position: relative;

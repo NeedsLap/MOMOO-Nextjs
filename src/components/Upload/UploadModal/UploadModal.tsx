@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Accordion from '@/components/Accordion/Accordion';
 import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
 import Preview from '@/components/FileUpload/Preview';
-import { StyledLoadingImg } from '@/components/Loading/StyledLodingImg';
+import { StyledLoadingComponent } from '@/components/Loading/StyledLodingImg';
 import KakaoMap from '@/components/Map/KakaoMap';
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
@@ -21,15 +21,7 @@ import { useAddFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import useUploadFeed from '@/hooks/useUploadFeed';
 import { closeUploadFeedModal } from '@/modules/uploadFeedModal';
 
-interface accordionData {
-  question: string;
-  answer: string[];
-}
-
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
+import { AccordionData, AlbumIdData } from '@/components/Upload/model';
 
 function UploadModal() {
   const dispatch = useDispatch();
@@ -47,7 +39,7 @@ function UploadModal() {
   const [selectedEmotionImage, setSelectedEmotionImage] = useState<string>('');
   const [selectedAlbum, setSelectedAlbum] = useState<string[]>(albumNameToAdd);
   const [file, setFile] = useState<FileList | null>(null);
-  const [accordionData, setAccordionData] = useState<accordionData[]>([]);
+  const [accordionData, setAccordionData] = useState<AccordionData[]>([]);
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [isPending, setIsPending] = useState(false);
   const getAccordionData = GetAccordionData();
@@ -69,6 +61,10 @@ function UploadModal() {
     setKakaoMapVisible(!kakaoMapVisible);
   };
 
+  const handleAddressSelect = (selectedAddress: string) => {
+    setSelectedAddress(selectedAddress);
+  };
+
   const onInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputCount(e.target.value.length);
   };
@@ -87,10 +83,6 @@ function UploadModal() {
   };
 
   useOverlayClose(dialogRef, closeUploadModal);
-
-  const handleAddressSelect = (selectedAddress: string) => {
-    setSelectedAddress(selectedAddress);
-  };
 
   const uploadPost = async () => {
     if (file === null) {
@@ -182,7 +174,7 @@ function UploadModal() {
           </Styled.UploadHeader>
           <Styled.UploadContents>
             {isPending ? (
-              <StyledLoadingImg
+              <StyledLoadingComponent
                 src="/icons/loading.svg"
                 alt="로딩중"
                 width={36}
