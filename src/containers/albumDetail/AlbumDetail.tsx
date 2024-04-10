@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+
 import AlbumItem from '@/components/AlbumItem/AlbumItem';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
@@ -17,11 +19,11 @@ import StyledAlbum, {
   StyledAddFeed,
   StyledFeedList,
 } from '@/containers/albumDetail/StyledAlbumDetail';
-// ]import useUploadContext from '@/hooks/useUploadContext';
 import useAlbumName from '@/hooks/useAlbumName';
 import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import { openUploadFeedModal } from '@/modules/uploadFeedModal';
 
 import type { Feed } from '@/types/feed';
 
@@ -35,20 +37,17 @@ export default function AlbumDetail({
   const albumName = useAlbumName();
   const windowWidth = useWindowWidth();
   const { page, setItemToObserveRef } = useInfiniteScroll();
+
   const { uid } = useParams<{ uid: string }>();
-  //   const { setAlbumNameListToAdd, setIsUploadModalOpen } = useUploadContext();
+  const dispatch = useDispatch();
+
   const [feedsData, setFeedsData] = useState<Feed[]>(feeds || []);
   const { error, getFeeds } = useGetFeeds();
 
   const openUploadModal = () => {
-    // if (album !== '전체 보기') {
-    //   setAlbumNameListToAdd(['전체 보기', album]);
-    // }
-    // if (windowWidth > 430) {
-    //   setIsUploadModalOpen(true);
-    // } else {
-    //   router.push('/upload');
-    // }
+    if (albumName !== '전체 보기') {
+      dispatch(openUploadFeedModal(['전체 보기', albumName]));
+    }
   };
 
   useEffect(() => {
