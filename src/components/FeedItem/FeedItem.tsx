@@ -179,7 +179,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
           )}
           {isEditFeedModalOpen && (
             <EditFeedModal
-              id={feedData.id}
+              feedData={feedData}
               setFeedData={setFeedData}
               closeEditFeedModal={closeEditFeedModal}
             />

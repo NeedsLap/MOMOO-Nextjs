@@ -6,13 +6,11 @@ import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
 import Preview from '@/components/FileUpload/Preview';
 import { StyledLoadingImg } from '@/components/Loading/StyledLodingImg';
 import KakaoMap from '@/components/Map/KakaoMap';
-import Toast from '@/components/Toast/Toast';
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import useAuthState from '@/hooks/auth/useAuthState';
 import useEditFeed from '@/hooks/useEditFeed';
-import useFeedData from '@/hooks/useFeedData';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
 import {
   useAddFeedIdFromFeedList,
@@ -33,30 +31,34 @@ interface AlbumIdData {
 }
 
 export default function EditFeedContents({
-  id,
+  feedData,
   close,
   setFeedData,
 }: {
-  id: string;
+  feedData: Feed;
   close: () => void;
   setFeedData?: React.Dispatch<SetStateAction<Feed | null>>;
 }) {
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
+  const [title, setTitle] = useState(feedData.title);
+  const [text, setText] = useState(feedData.text);
   const [selectedAlbumList, setSelectedAlbumList] = useState<string[]>([]);
   const [savedAlbumList, setSavedAlbumList] = useState<string[]>([]);
-  const [selectedAddress, setSelectedAddress] = useState('');
-  const [selectedWeatherImage, setSelectedWeatherImage] = useState<string>('');
-  const [selectedEmotionImage, setSelectedEmotionImage] = useState<string>('');
+  const [selectedAddress, setSelectedAddress] = useState(
+    feedData.selectedAddress,
+  );
+  const [selectedWeatherImage, setSelectedWeatherImage] = useState(
+    feedData.weatherImage,
+  );
+  const [selectedEmotionImage, setSelectedEmotionImage] = useState(
+    feedData.emotionImage,
+  );
   const [file, setFile] = useState<FileList | null>(null);
-  const [imgUrlList, setImgUrlList] = useState<string[]>([]);
   const [accordionData, setAccordionData] = useState<AccordionData[]>([]);
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [inputCount, setInputCount] = useState(0);
   const [isPending, setIsPending] = useState(false);
 
-  const { getFeedData, error } = useFeedData();
   const { user } = useAuthState();
   const getAccordionData = GetAccordionData();
   const editFeed = useEditFeed();
@@ -65,25 +67,12 @@ export default function EditFeedContents({
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
 
   useEffect(() => {
-    const setFeedData = async () => {
-      const data = await getFeedData({ id });
-
-      if (data) {
-        setTitle(data.title);
-        setText(data.text);
-        setSelectedAddress(data.selectedAddress);
-        setSelectedWeatherImage(data.weatherImage);
-        setSelectedEmotionImage(data.emotionImage);
-        setImgUrlList(data.imageUrl);
-      }
-    };
-
     const setSavedAlbumData = async () => {
-      const data = await getSavedAlbumList(id);
+      const userAlbumList = await getSavedAlbumList(feedData.id);
 
-      if (data) {
-        setSelectedAlbumList(data.map((v) => v.data().name));
-        setSavedAlbumList(data.map((v) => v.id));
+      if (userAlbumList) {
+        setSelectedAlbumList(userAlbumList.map((v) => v.data().name));
+        setSavedAlbumList(userAlbumList.map((v) => v.id));
       }
     };
 
@@ -93,7 +82,6 @@ export default function EditFeedContents({
       setAlbumIdData(result.albumIdData || []);
     };
 
-    setFeedData();
     setSavedAlbumData();
     SetAccordionData();
   }, []);
@@ -117,10 +105,14 @@ export default function EditFeedContents({
     try {
       setIsPending(true);
 
-      let downloadURLs: string[] = imgUrlList;
+      let downloadURLs: string[] = feedData.imageUrl;
 
       if (file !== null) {
-        downloadURLs = await uploadImageToStorage(file, `feed/${user.uid}`, id);
+        downloadURLs = await uploadImageToStorage(
+          file,
+          `feed/${user.uid}`,
+          feedData.id,
+        );
       }
 
       const editData: FeedToUpdate = {
@@ -133,7 +125,7 @@ export default function EditFeedContents({
         emotionImage: selectedEmotionImage,
       };
 
-      await editFeed(editData, id);
+      await editFeed(editData, feedData.id);
 
       selectedAlbumList.forEach(async (selectedAlbumName) => {
         let selectedAlbumId = '';
@@ -145,7 +137,7 @@ export default function EditFeedContents({
         }
 
         if (!savedAlbumList.includes(selectedAlbumId)) {
-          await addFeedIdFromFeedList(id, selectedAlbumId);
+          await addFeedIdFromFeedList(feedData.id, selectedAlbumId);
         }
       });
 
@@ -159,7 +151,7 @@ export default function EditFeedContents({
         }
 
         if (!selectedAlbumList.includes(savedAlbumName)) {
-          await removeFeedIdFromFeedList(id, savedAlbumId);
+          await removeFeedIdFromFeedList(feedData.id, savedAlbumId);
         }
       });
 
@@ -176,8 +168,8 @@ export default function EditFeedContents({
       // 이미지 삭제 실패 시, 게시물 수정이 중단되지 않도록 try 마지막에 위치
       if (file !== null) {
         for (let i = downloadURLs.length; i < 3; i++)
-          if (!downloadURLs.includes(imgUrlList[i])) {
-            await deleteImg(imgUrlList[i]);
+          if (!downloadURLs.includes(feedData.imageUrl[i])) {
+            await deleteImg(feedData.imageUrl[i]);
           }
       }
     } catch (error) {
@@ -201,7 +193,6 @@ export default function EditFeedContents({
         </button>
       </Styled.UploadHeader>
       <Styled.UploadContents className={isPending ? 'loading' : ''}>
-        {error && <Toast message={error} />}
         {isPending ? (
           <StyledLoadingImg
             src="/icons/loading.svg"
@@ -216,7 +207,7 @@ export default function EditFeedContents({
               <span>*10장까지 업로드 가능</span>
             </Styled.TodaysPhoto>
             <Styled.PicSelectPart>
-              <Preview setFile={setFile} />
+              <Preview setFile={setFile} imgUrlList={feedData.imageUrl} />
             </Styled.PicSelectPart>
             <Styled.SelectPart>
               <div className="inputWrapper">

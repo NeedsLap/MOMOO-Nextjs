@@ -6,11 +6,11 @@ import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import type { Feed } from '@/types/feed';
 
 export default function EditFeedModal({
-  id,
+  feedData,
   closeEditFeedModal,
   setFeedData,
 }: {
-  id: string;
+  feedData: Feed;
   closeEditFeedModal: () => void;
   setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
 }) {
@@ -27,7 +27,7 @@ export default function EditFeedModal({
     >
       <EditFeedContents
         close={closeEditFeedModal}
-        id={id}
+        feedData={feedData}
         setFeedData={setFeedData}
       />
       <Styled.CloseBtn

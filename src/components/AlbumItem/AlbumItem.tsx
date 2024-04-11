@@ -121,7 +121,7 @@ function AlbumItem(
 
           {isEditFeedModalOpen && (
             <EditFeedModal
-              id={feedData.id}
+              feedData={feedData}
               closeEditFeedModal={closeEditFeedModal}
               setFeedData={setFeedData}
             />
