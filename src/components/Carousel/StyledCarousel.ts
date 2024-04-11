@@ -14,6 +14,7 @@ const SlideImgWrap = styled.div`
     height: 100%;
     display: flex;
     aspect-ratio: 1/1;
+    transition: 0.3s;
   }
 
   li {
