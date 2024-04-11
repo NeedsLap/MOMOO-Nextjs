@@ -8,12 +8,6 @@ import App from '@/components/global/App';
 import ReduxProvider from '@/components/global/ReduxProvider';
 import RootStyle from '@/components/global/RootStyle';
 
-declare global {
-  interface Window {
-    kakao: string;
-  }
-}
-
 const notoSans = Noto_Sans_KR({
   subsets: ['latin'],
   weight: ['400', '600'],

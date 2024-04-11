@@ -3,22 +3,23 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import { DocumentData } from 'firebase-admin/firestore';
-
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import FeedItem from '@/components/FeedItem/FeedItem';
+import Toast from '@/components/Toast/Toast';
 import TopBar from '@/components/Topbar/Topbar';
 import StyledFeed, { StyledFeedList } from '@/containers/feed/StyledFeed';
 import useAlbumName from '@/hooks/useAlbumName';
+import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { getFeedsAndHandleException } from '@/utils/apis';
+
+import { Feed as FeedType } from '@/types/feed';
 
 export default function Feed({
   feeds,
   pageSize,
 }: {
-  feeds: DocumentData[] | null;
+  feeds: FeedType[] | undefined;
   pageSize: number;
 }) {
   const { page: nextPage, setItemToObserveRef: setLastItemToObserveRef } =
@@ -29,11 +30,13 @@ export default function Feed({
 
   const windowWidth = useWindowWidth();
   const albumName = useAlbumName();
+  const { error, getFeeds } = useGetFeeds();
+
   const { uid } = useParams<{ uid: string }>();
   const searchParams = useSearchParams();
   const start = parseInt(searchParams.get('start') || '0');
 
-  const [feedsData, setFeedsData] = useState<DocumentData[]>(feeds || []);
+  const [feedsData, setFeedsData] = useState<FeedType[]>(feeds || []);
   const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!start);
   const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
   const [startFeedItemIndex, setStartFeedItemIndex] = useState(0);
@@ -52,12 +55,16 @@ export default function Feed({
     }
 
     (async () => {
-      const feedsToAdd = await getFeedsAndHandleException({
+      const feedsToAdd = await getFeeds({
         limit: start + pageSize * nextPage,
         skip: start + pageSize * (nextPage - 1),
         uid,
         albumName,
       });
+
+      if (!feedsToAdd) {
+        return;
+      }
 
       if (feedsToAdd.length < pageSize) {
         setStopToObserveLastItem(true);
@@ -74,7 +81,7 @@ export default function Feed({
 
     (async () => {
       const skip = start - pageSize * (prevPage - 1);
-      const feedsToAdd = await getFeedsAndHandleException({
+      const feedsToAdd = await getFeeds({
         limit: start - pageSize * (prevPage - 2),
         skip: skip > 0 ? skip : 0,
         uid,
@@ -85,8 +92,10 @@ export default function Feed({
         setStopToObserveFirstItem(true);
       }
 
-      setFeedsData((prev) => [...feedsToAdd, ...prev]);
-      setStartFeedItemIndex(feedsToAdd.length);
+      if (feedsToAdd) {
+        setFeedsData((prev) => [...feedsToAdd, ...prev]);
+        setStartFeedItemIndex(feedsToAdd.length);
+      }
     })();
   }, [prevPage]);
 
@@ -94,6 +103,9 @@ export default function Feed({
     <>
       {windowWidth && windowWidth <= 430 && <TopBar tit="게시물" />}
       <StyledFeed>
+        {(!feeds || error) && (
+          <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
+        )}
         {windowWidth && windowWidth > 1024 && (
           <Breadcrumb
             navList={[
@@ -104,7 +116,7 @@ export default function Feed({
           />
         )}
 
-        {feeds ? (
+        {feeds && (
           <StyledFeedList>
             {feedsData.map((v, i) => {
               if (!stopToObserveLastItem && i === feedsData.length - 1) {
@@ -144,11 +156,6 @@ export default function Feed({
               return <FeedItem key={v.id} feed={v}></FeedItem>;
             })}
           </StyledFeedList>
-        ) : (
-          <div>
-            데이터를 불러오는 중 예기치 못한 오류가 발생했습니다. 잠시 후 다시
-            시도해 주시거나 지원팀에 문의해 주세요.
-          </div>
         )}
       </StyledFeed>
     </>

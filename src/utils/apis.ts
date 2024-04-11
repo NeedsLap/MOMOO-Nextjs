@@ -1,22 +1,28 @@
 import { getAlbum } from '@/services/album';
 import { getFeeds } from '@/services/feed';
 
-import { GetFeedsQuery } from '@/services/model';
+import type { GetFeedsProps } from '@/services/model';
+import type { Feed } from '@/types/feed';
 
-const getFeedsAndHandleException = async (getFeedsQuery: GetFeedsQuery) => {
+const getFeedsAndHandleException = async (
+  getFeedsProps: GetFeedsProps,
+): Promise<undefined | Feed[] | 'not-found'> => {
   try {
-    const res = await getFeeds(getFeedsQuery);
+    const res = await getFeeds(getFeedsProps);
+    const json = await res.json();
 
     if (!res.ok) {
       if (res.status === 403 || res.status === 404 || res.status === 401) {
-        console.error(new Error(await res.text()));
+        console.error(json.error);
         return 'not-found';
       }
+
+      throw new Error(json.error);
     }
-    return await res.json();
+
+    return await json;
   } catch (error) {
     console.error(error);
-    return null;
   }
 };
 

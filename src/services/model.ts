@@ -1,4 +1,4 @@
-interface GetFeedsQuery {
+interface GetFeedsProps {
   limit: number;
   skip: number;
   albumName: string;
@@ -13,4 +13,16 @@ interface GetFeedsOpts {
   };
 }
 
-export type { GetFeedsQuery, GetFeedsOpts };
+interface GetFeedProps {
+  id: string;
+  cookie?: string;
+}
+
+interface GetFeedOpts {
+  method: 'GET';
+  headers?: {
+    Cookie?: string;
+  };
+}
+
+export type { GetFeedsProps, GetFeedsOpts, GetFeedProps, GetFeedOpts };

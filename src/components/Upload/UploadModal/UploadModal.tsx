@@ -154,11 +154,7 @@ function UploadModal() {
 
   return (
     <>
-      <Styled.StyledDialog
-        className={isPending ? 'loading' : ''}
-        ref={dialogRef}
-        aria-labelledby="dialog-label"
-      >
+      <Styled.StyledDialog ref={dialogRef} aria-labelledby="dialog-label">
         <Styled.ContentContainer>
           <h2 className="a11y-hidden">새 게시물 업로드</h2>
           <Styled.UploadHeader>
@@ -172,7 +168,7 @@ function UploadModal() {
               업로드
             </button>
           </Styled.UploadHeader>
-          <Styled.UploadContents>
+          <Styled.UploadContents className={isPending ? 'loading' : ''}>
             {isPending ? (
               <StyledLoadingComponent
                 src="/icons/loading.svg"

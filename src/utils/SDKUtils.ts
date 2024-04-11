@@ -147,6 +147,12 @@ const getThumbnail = async (uid: string, feedId: string) => {
   }
 };
 
+const getFeed = async (feedId: string, uid: string) => {
+  const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feed', feedId));
+
+  return docSnap.data();
+};
+
 export {
   deleteImg,
   uploadImg,
@@ -156,6 +162,7 @@ export {
   checkAlbumPermission,
   addAlbum,
   removeAlbumFromSharedAlbums,
+  getFeed,
   getAlbumList,
   getThumbnail,
 };

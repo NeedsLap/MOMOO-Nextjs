@@ -1,54 +1,50 @@
 'use client';
 
-// import { useRouter } from 'next/navigation';
-// import { useState } from 'react';
-
-// import useSetAlbumData from './useSetAlbumData';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
 
 import AlbumItem from '@/components/AlbumItem/AlbumItem';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import StyledH2 from '@/components/CommonStyled/StyledH2';
-import LoadingComponent from '@/components/Loading/LoadingComponent';
+import Toast from '@/components/Toast/Toast';
 import AlbumDetailTopBar from '@/components/Topbar/AlbumDetailTopbar';
 import StyledAlbum, {
   StyledAddFeed,
   StyledFeedList,
 } from '@/containers/albumDetail/StyledAlbumDetail';
-// ]import useUploadContext from '@/hooks/useUploadContext';
 import useAlbumName from '@/hooks/useAlbumName';
+import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { getFeedsAndHandleException } from '@/utils/apis';
+import { openUploadFeedModal } from '@/modules/uploadFeedModal';
+
+import type { Feed } from '@/types/feed';
 
 export default function AlbumDetail({
   feeds,
   pageSize,
 }: {
-  feeds: DocumentData[] | null;
+  feeds: Feed[] | undefined;
   pageSize: number;
 }) {
   const albumName = useAlbumName();
   const windowWidth = useWindowWidth();
   const { page, setItemToObserveRef } = useInfiniteScroll();
+
   const { uid } = useParams<{ uid: string }>();
-  // const router = useRouter();
-  //   const { setAlbumNameListToAdd, setIsUploadModalOpen } = useUploadContext();
-  const [feedsData, setFeedsData] = useState<DocumentData[]>(feeds || []);
+  const dispatch = useDispatch();
+
+  const [feedsData, setFeedsData] = useState<Feed[]>(feeds || []);
+  const { error, getFeeds } = useGetFeeds();
+
   const openUploadModal = () => {
-    // if (album !== '전체 보기') {
-    //   setAlbumNameListToAdd(['전체 보기', album]);
-    // }
-    // if (windowWidth > 430) {
-    //   setIsUploadModalOpen(true);
-    // } else {
-    //   router.push('/upload');
-    // }
+    if (albumName !== '전체 보기') {
+      dispatch(openUploadFeedModal(['전체 보기', albumName]));
+    }
   };
 
   useEffect(() => {
@@ -57,13 +53,16 @@ export default function AlbumDetail({
     }
 
     (async () => {
-      const feedsToAdd = await getFeedsAndHandleException({
+      const feedsToAdd = await getFeeds({
         limit: pageSize * page,
         skip: pageSize * page - pageSize,
         uid,
         albumName,
       });
-      setFeedsData((prev) => [...prev, ...feedsToAdd]);
+
+      if (feedsToAdd) {
+        setFeedsData((prev) => [...prev, ...feedsToAdd]);
+      }
     })();
   }, [page]);
 
@@ -73,6 +72,9 @@ export default function AlbumDetail({
         <AlbumDetailTopBar tit={albumName} openUploadModal={openUploadModal} />
       )}
       <StyledAlbum>
+        {(!feeds || error) && (
+          <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
+        )}
         {windowWidth && windowWidth > 1024 && (
           <>
             <h1 className="a11y-hidden">MOMOO</h1>
@@ -109,7 +111,6 @@ export default function AlbumDetail({
 
         <section>
           <h3 className="a11y-hidden">게시글 목록</h3>
-          {!feeds && <LoadingComponent />}
           {feeds && (
             <StyledFeedList>
               {feedsData.map((v, i) => {
@@ -117,7 +118,7 @@ export default function AlbumDetail({
                   <AlbumItem
                     key={v.id}
                     index={i}
-                    feedData={v}
+                    feed={v}
                     ref={
                       i === feedsData.length - 1 ? setItemToObserveRef : null
                     }

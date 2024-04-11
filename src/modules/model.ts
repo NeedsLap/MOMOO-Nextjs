@@ -59,20 +59,6 @@ type AuthAction =
   | { type: 'loggedIn'; payload: UserData }
   | { type: 'loggedOut'; payload: null };
 
-interface EditFeedModalState {
-  isEditFeedModalOpen: boolean;
-  feedIdToEdit: string;
-}
-
-type EditFeedModalAction =
-  | {
-      type: 'open';
-      payload: {
-        feedIdToEdit: string;
-      };
-    }
-  | { type: 'close'; payload: null };
-
 interface UploadFeedModalState {
   isUploadFeedModalOpen: boolean;
   albumNameToAdd: string[];
@@ -91,7 +77,6 @@ interface ReduxState {
   signup: SignupState;
   page: PageState;
   auth: AuthState;
-  editFeedModal: EditFeedModalState;
   uploadFeedModal: UploadFeedModalState;
 }
 
@@ -106,8 +91,6 @@ export type {
   UserData,
   AuthState,
   AuthAction,
-  EditFeedModalState,
-  EditFeedModalAction,
   UploadFeedModalState,
   UploadFeedModalAction,
 };

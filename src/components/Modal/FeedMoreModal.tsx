@@ -1,27 +1,18 @@
-import { useParams, useRouter } from 'next/navigation';
-
-import { useDispatch } from 'react-redux';
-
 import MoreModal from '@/components/Modal/MoreModal/MoreModal';
-import useWindowWidth from '@/hooks/useWindowWidth';
-import { openEditFeedModal } from '@/modules/editFeedModal';
 
 interface Props {
   closeModal: () => void;
   setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setChangeAlbumModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openEditFeedModal: () => void;
 }
 
 export default function FeedMoreModal({
   closeModal,
   setDeleteModalOpen,
   setChangeAlbumModalOpen,
+  openEditFeedModal,
 }: Props) {
-  const windowWidth = useWindowWidth();
-  const { id } = useParams<{ id: string }>();
-  const router = useRouter();
-  const dispatch = useDispatch();
-
   const handleDeleteFeed = () => {
     setDeleteModalOpen(true);
     closeModal();
@@ -32,13 +23,9 @@ export default function FeedMoreModal({
     closeModal();
   };
 
-  const goToEditFeed = () => {
-    if (windowWidth && windowWidth > 430) {
-      dispatch(openEditFeedModal(id));
-      closeModal();
-    } else {
-      router.push(`/edit/${id}`);
-    }
+  const handleEditFeed = () => {
+    closeModal();
+    openEditFeedModal();
   };
 
   return (
@@ -52,7 +39,7 @@ export default function FeedMoreModal({
         },
         {
           name: '수정하기',
-          clickEventListener: goToEditFeed,
+          clickEventListener: handleEditFeed,
         },
         {
           name: '앨범 변경하기',

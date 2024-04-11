@@ -66,6 +66,10 @@
             "group": "builtin"
           },
           {
+            "pattern": "@/types/**",
+            "group": "type"
+          },
+          {
             "pattern": "**/model",
             "group": "type"
           },
