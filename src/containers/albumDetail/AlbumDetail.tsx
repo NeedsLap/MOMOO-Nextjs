@@ -4,8 +4,6 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
-
 import AlbumItem from '@/components/AlbumItem/AlbumItem';
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
@@ -19,8 +17,8 @@ import StyledAlbum, {
 import useAlbumName from '@/hooks/useAlbumName';
 import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import useUploadFeedModalWithWebView from '@/hooks/useUploadFeedModalWithWebView';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { openUploadFeedModal } from '@/modules/uploadFeedModal';
 
 import type { Feed } from '@/types/feed';
 
@@ -34,16 +32,18 @@ export default function AlbumDetail({
   const albumName = useAlbumName();
   const windowWidth = useWindowWidth();
   const { page, setItemToObserveRef } = useInfiniteScroll();
+  const { openModal } = useUploadFeedModalWithWebView();
 
   const { uid } = useParams<{ uid: string }>();
-  const dispatch = useDispatch();
 
   const [feedsData, setFeedsData] = useState<Feed[]>(feeds || []);
   const { error, getFeeds } = useGetFeeds();
 
   const openUploadModal = () => {
     if (albumName !== '전체 보기') {
-      dispatch(openUploadFeedModal(['전체 보기', albumName]));
+      openModal(['전체 보기', albumName]);
+    } else {
+      openModal(['전체 보기']);
     }
   };
 
