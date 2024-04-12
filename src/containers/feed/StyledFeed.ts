@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const StyledFeed = styled.main`
   margin: 0 var(--right-padding-pc) 0 var(--nav-width-pc);
   padding: 10rem var(--margin-pc) 20px;
-  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
