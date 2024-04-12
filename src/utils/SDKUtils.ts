@@ -130,7 +130,7 @@ const getAlbumList = async (uid: string) => {
   const q = query(albumDocRef, orderBy('createdTime'));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    albumDataList.push(doc.data());
+    albumDataList.push({ ...doc.data(), id: doc.id });
   });
 
   return albumDataList;
