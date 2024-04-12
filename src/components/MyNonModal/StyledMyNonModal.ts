@@ -9,7 +9,7 @@ const StyledMyNonModal = styled.dialog`
 
   & > div {
     position: relative;
-    width: var(--nav-width-pc);
+    width: 252px;
     background: var(--gray-100);
   }
 
@@ -87,7 +87,6 @@ const StyledMyNonModal = styled.dialog`
   @media (max-width: 1024px) {
     & > div {
       margin: var(--nav-height-tablet) 0 0 auto;
-      width: 252px;
     }
 
     .profile {

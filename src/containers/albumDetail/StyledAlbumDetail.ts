@@ -10,7 +10,7 @@ const StyledAlbum = styled.main`
 
   section {
     position: relative;
-    margin: calc(64px + var(--title-s) * 1.5) auto 0;
+    margin: calc(36px + var(--title-s) * 1.5) auto 0;
     flex-grow: 1;
     width: min(976px, 100%);
   }
