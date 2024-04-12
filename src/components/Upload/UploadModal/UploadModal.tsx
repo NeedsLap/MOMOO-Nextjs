@@ -26,9 +26,9 @@ import { AccordionData, AlbumIdData } from '@/components/Upload/model';
 function UploadModal() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const { user } = useAuthState();
-  const { albumNameToAdd, isUploadFeedModalOpen } = useUploadFeed();
+  const { albumNameToAdd } = useUploadFeed();
 
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);
   const [title, setTitle] = useState('');
@@ -69,17 +69,15 @@ function UploadModal() {
     setInputCount(e.target.value.length);
   };
 
-  useEffect(() => {
-    if (isUploadFeedModalOpen && dialogRef.current) {
-      dialogRef.current.showModal();
-    }
-  }, [isUploadFeedModalOpen]);
-
   const closeUploadModal = () => {
     if (dialogRef.current) {
       dialogRef.current.close();
     }
     dispatch(closeUploadFeedModal());
+
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage('closeModal');
+    }
   };
 
   useOverlayClose(dialogRef, closeUploadModal);
@@ -154,7 +152,15 @@ function UploadModal() {
 
   return (
     <>
-      <Styled.StyledDialog ref={dialogRef} aria-labelledby="dialog-label">
+      <Styled.StyledDialog
+        ref={(node) => {
+          if (node && !dialogRef.current) {
+            node.showModal();
+            dialogRef.current = node;
+          }
+        }}
+        aria-labelledby="dialog-label"
+      >
         <Styled.ContentContainer>
           <h2 className="a11y-hidden">새 게시물 업로드</h2>
           <Styled.UploadHeader>

@@ -5,13 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
-
 import MyNonModal from '@/components/MyNonModal/MyNonModal';
 import StyledNav from '@/components/Nav/StyledNav';
 import useAuthState from '@/hooks/auth/useAuthState';
+import useUploadFeedModalWithWebView from '@/hooks/useUploadFeedModalWithWebView';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { openUploadFeedModal } from '@/modules/uploadFeedModal';
 
 export default function Nav() {
   const [openMyDialog, setIsOpenMyDialog] = useState(false);
@@ -19,10 +17,10 @@ export default function Nav() {
   const router = useRouter();
   const { user } = useAuthState();
   const windowWidth = useWindowWidth();
-  const dispatch = useDispatch();
+  const { openModal } = useUploadFeedModalWithWebView();
 
   const openUploadModalFunc = () => {
-    dispatch(openUploadFeedModal(['전체 보기']));
+    openModal(['전체 보기']);
   };
 
   const openMyDialogFunc = () => {

@@ -21,7 +21,8 @@ const StyledNav = styled.nav`
     padding: 0.7rem 1.6rem;
   }
 
-  .navBtn a {
+  .navBtn a,
+  .navBtn button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,7 +37,7 @@ const StyledNav = styled.nav`
     color: var(--point-dark-400);
   }
 
-  .navBtn a img {
+  .navBtn img {
     width: 2.2rem;
     height: 2.2rem;
   }

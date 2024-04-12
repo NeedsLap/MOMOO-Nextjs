@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import StyledNav from '@/components/TapBar/StyledTapBar';
+import useUploadFeedModalWithWebView from '@/hooks/useUploadFeedModalWithWebView';
 
 export default function TabBar() {
   const pathname = usePathname();
+  const { openModal } = useUploadFeedModalWithWebView();
 
   return (
     <StyledNav>
@@ -23,10 +25,10 @@ export default function TabBar() {
           />
           Home
         </Link>
-        <Link href="/upload" className={pathname === '/upload' ? 'curr' : ''}>
+        <button onClick={() => openModal(['전체 보기'])}>
           <Image width={22} height={22} src="/icons/upload-mobile.svg" alt="" />
           Upload
-        </Link>
+        </button>
         <Link href="/my" className={pathname === '/my' ? 'curr' : ''}>
           <Image
             width={22}
