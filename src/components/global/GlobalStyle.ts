@@ -49,11 +49,11 @@ const GlobalStyle = createGlobalStyle`
     --text-m: 1.4rem;
     --text-s: 1.2rem;
 
-    --nav-width-pc: 256px;
+    --nav-width-pc: 200px;
     --nav-height-tablet: 80px;
     --nav-height-mobile: 48px;
 
-    --right-padding-pc: 216px;
+    --right-padding-pc: calc(72px + var(--text-m) * 1.5);
     --padding-top-pc: 100px;
 
     --column-pc : calc((100vw - var(--nav-width-pc) - 190px - var(--margin-pc) * 2 - var(--gutter-pc) * 11) / 12);
