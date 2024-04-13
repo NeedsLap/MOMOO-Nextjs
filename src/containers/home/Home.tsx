@@ -63,6 +63,11 @@ export default function Home(props: { album: DocumentData[] }) {
         <StyledHomeSection>
           <div className="btn-wrap">
             <button
+              className={
+                selectedAlbumType === '나의 앨범'
+                  ? 'toggle-btn selected'
+                  : 'toggle-btn'
+              }
               type="button"
               disabled={selectedAlbumType === '나의 앨범'}
               onClick={changeSelectedAlbumType}
@@ -71,13 +76,22 @@ export default function Home(props: { album: DocumentData[] }) {
             </button>
 
             <button
+              className={
+                selectedAlbumType === '나의 앨범'
+                  ? 'toggle-btn'
+                  : 'toggle-btn selected'
+              }
               type="button"
               disabled={selectedAlbumType === '공유 앨범'}
               onClick={changeSelectedAlbumType}
             >
               공유 앨범
             </button>
-            <button type="button" onClick={HandleArrayModal}>
+            <button
+              className="sort-btn"
+              type="button"
+              onClick={HandleArrayModal}
+            >
               <Image
                 width={20}
                 height={20}
@@ -85,7 +99,7 @@ export default function Home(props: { album: DocumentData[] }) {
                 alt="정렬방식 아이콘"
               />
             </button>
-            <button type="button" onClick={HandleAddModal}>
+            <button type="button" className="add-btn" onClick={HandleAddModal}>
               <Image
                 width={20}
                 height={20}

@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const StyledMain = styled.main`
   position: relative;
-  padding: 28px var(--margin-mobile) 60px;
+  padding: 24px var(--margin-mobile) 60px;
+
   @media (min-width: 431px) {
     padding: var(--nav-height-tablet) var(--margin-tablet) 0;
     margin: 0;
@@ -11,6 +12,12 @@ const StyledMain = styled.main`
   @media (min-width: 1025px) {
     padding: 0 var(--margin-pc);
     margin: var(--padding-top-pc) var(--right-padding-pc) 0 var(--nav-width-pc);
+  }
+
+  @media (max-width: 1024px) {
+    .album-title {
+      margin-top: 2.4rem;
+    }
   }
 `;
 
@@ -21,12 +28,39 @@ const StyledHomeSection = styled.section`
 
   .btn-wrap {
     display: flex;
-    justify-content: space-between;
-    margin: 2.3rem 0 2rem;
+    margin: 2.8rem 0 1.6rem;
   }
-  .btn-wrap button {
-    width: 4.5rem;
-    height: 4.5rem;
+
+  .toggle-btn {
+    padding: 5px 16px;
+    font-size: var(--text-m);
+    color: var(--gray-900);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+  }
+
+  .toggle-btn + .toggle-btn {
+    margin-left: 12px;
+  }
+
+  .toggle-btn.selected {
+    color: white;
+    background: var(--gray-900);
+    border-color: var(--gray-900);
+  }
+
+  .sort-btn {
+    margin-left: auto;
+  }
+
+  .add-btn {
+    margin-left: 12px;
+  }
+
+  .sort-btn,
+  .add-btn {
+    width: 3.3rem;
+    height: 3.3rem;
     border-radius: 50%;
     background-color: var(--gray-100);
     display: flex;
@@ -34,14 +68,17 @@ const StyledHomeSection = styled.section`
     align-items: center;
   }
 
-  .btn-wrap button img {
+  .sort-btn img,
+  .add-btn img {
     width: 2rem;
     height: 2rem;
   }
-  .btn-wrap button:hover {
+  .sort-btn:hover,
+  .add-btn:hover {
     background-color: var(--point-color);
   }
-  .btn-wrap button:focus {
+  .sort-btn:focus,
+  .add-btn:focus {
     background-color: var(--gray-800);
     img {
       filter: invert(99%) sepia(13%) saturate(487%) hue-rotate(187deg)
@@ -69,9 +106,6 @@ const StyledHomeSection = styled.section`
     padding-top: 0;
     max-width: 100%;
     margin: 0;
-    .album-title {
-      margin-top: 5.9rem;
-    }
 
     & > ul {
       display: grid;
@@ -84,11 +118,7 @@ const StyledHomeSection = styled.section`
     }
 
     .btn-wrap {
-      margin: 0 0 1.1rem;
-    }
-    .btn-wrap button {
-      width: 3rem;
-      height: 3rem;
+      margin-top: 0;
     }
     .array-modal {
       top: 26%;
