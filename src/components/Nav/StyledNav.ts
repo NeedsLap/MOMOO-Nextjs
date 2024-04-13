@@ -39,7 +39,7 @@ const StyledNav = styled.nav`
     }
 
     .navBtn button:first-child {
-      margin-top: 10.2rem;
+      margin-top: calc(var(--padding-top-pc) - 1.8rem);
     }
   }
 
