@@ -5,9 +5,7 @@ import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
-import StyledH2 from '@/components/CommonStyled/StyledH2';
 import StyledPolicy from '@/components/CommonStyled/StyledPolicy';
 import TopBar from '@/components/Topbar/Topbar';
 import useWindowWidth from '@/hooks/useWindowWidth';
@@ -35,26 +33,13 @@ export default function Privacy() {
         <TopBar tit="니즈랩 개인정보 처리방침" />
       )}
       <StyledPolicy>
-        {windowWidth && windowWidth > 1024 && (
-          <>
-            <Breadcrumb
-              navList={[
-                { path: '/', text: 'Home' },
-                { path: '/policy', text: 'Privacy policy' },
-              ]}
-            />
-            <StyledH2>니즈랩 개인정보 처리방침</StyledH2>
-          </>
-        )}
-        {windowWidth && windowWidth > 430 && windowWidth <= 1024 && (
-          <BreadcrumbWrap
-            navList={[
-              { path: '/', text: 'Home' },
-              { path: '/policy', text: 'Privacy policy' },
-            ]}
-            title="니즈랩 개인정보 처리방침"
-          />
-        )}
+        <BreadcrumbWrap
+          navList={[
+            { path: '/', text: 'Home' },
+            { path: '/policy', text: 'Privacy policy' },
+          ]}
+          title="니즈랩 개인정보 처리방침"
+        />
         <p>
           니즈랩은 이용자의 개인정보 보호를 위해 「개인정보 보호법」 및 관계
           법령이 정한 바를 준수하여, 적법하게 개인정보를 처리하고 안전하게

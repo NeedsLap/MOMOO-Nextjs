@@ -1,5 +1,6 @@
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import StyledBreadcrumbWrap from '@/components/Breadcrumb/StyledBreadcrumbWrap';
+import StyledH2 from '@/components/CommonStyled/StyledH2';
 
 interface NavItem {
   path: string;
@@ -14,7 +15,7 @@ interface Props {
 export default function BreadcrumbWrap({ navList, title }: Props) {
   return (
     <StyledBreadcrumbWrap>
-      <h2>{title}</h2>
+      <StyledH2>{title}</StyledH2>
       <Breadcrumb navList={navList} />
     </StyledBreadcrumbWrap>
   );

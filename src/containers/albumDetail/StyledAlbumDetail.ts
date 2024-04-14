@@ -1,36 +1,26 @@
 import styled from 'styled-components';
 
 const StyledAlbum = styled.main`
-  position: relative;
   min-height: calc(100vh - var(--padding-top-pc));
-  display: flex;
-  flex-direction: column;
   padding: 0 var(--margin-pc) 56px;
   margin: var(--padding-top-pc) var(--right-padding-pc) 0 var(--nav-width-pc);
 
   section {
-    position: relative;
-    margin: calc(36px + var(--title-s) * 1.5) auto 0;
-    flex-grow: 1;
+    margin: 0 auto;
     width: min(976px, 100%);
   }
 
   @media (max-width: 1024px) {
-    padding: calc(59px + var(--nav-height-tablet)) var(--margin-tablet) 0;
+    padding: var(--nav-height-tablet) var(--margin-tablet) 0;
     margin: 0;
     min-height: 100vh;
-
-    section {
-      margin-top: calc(12px + var(--title-s) * 1.5);
-    }
   }
 
   @media (max-width: 430px) {
     padding: var(--nav-height-mobile) var(--margin-mobile);
 
     section {
-      margin: 0;
-      padding: 40px 0 0;
+      padding: 16px 0;
     }
   }
 `;

@@ -13,22 +13,15 @@ const StyledMain = styled.main`
     padding: 0 var(--margin-pc);
     margin: var(--padding-top-pc) var(--right-padding-pc) 0 var(--nav-width-pc);
   }
-
-  @media (max-width: 1024px) {
-    .album-title {
-      margin-top: 2.4rem;
-    }
-  }
 `;
 
 const StyledHomeSection = styled.section`
   max-width: 33.3rem;
   margin: auto;
-  padding-top: 30px;
 
   .btn-wrap {
     display: flex;
-    margin: 2.8rem 0 1.6rem;
+    margin: 0 0 1.6rem;
   }
 
   .toggle-btn {
@@ -117,9 +110,6 @@ const StyledHomeSection = styled.section`
       }
     }
 
-    .btn-wrap {
-      margin-top: 0;
-    }
     .array-modal {
       top: 26%;
     }

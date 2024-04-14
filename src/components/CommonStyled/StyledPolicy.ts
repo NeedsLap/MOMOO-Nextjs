@@ -5,12 +5,8 @@ const StyledPolicy = styled.main`
   font-size: var(--text-m);
 
   & > p {
-    margin: 70px auto 40px;
+    margin: 0 auto 24px;
     max-width: 976px;
-  }
-
-  h2 + section {
-    margin: 70px 0 0;
   }
 
   section {
@@ -22,13 +18,14 @@ const StyledPolicy = styled.main`
     }
 
     li + li {
-      margin-top: 40px;
+      margin-top: 24px;
     }
 
     h4 {
       display: block;
-      font-size: var(--text-l);
-      margin-bottom: 10px;
+      font-size: var(--text-m);
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
     p + p {
@@ -37,17 +34,15 @@ const StyledPolicy = styled.main`
   }
 
   ul {
-    margin-top: 10px;
-
     li + li {
-      margin-top: 10px;
+      margin-top: 8px;
       padding-top: 0;
       border-top: none;
     }
   }
 
   ul ul {
-    margin: 10px 0 0 16px;
+    margin: 4px 0 0 16px;
     font-size: var(--text-s);
 
     li + li {
@@ -68,15 +63,7 @@ const StyledPolicy = styled.main`
     padding: calc(var(--nav-height-mobile) + 36px) 16px;
 
     & > p {
-      margin: 0 auto 30px;
-    }
-
-    section {
-      margin-top: 0;
-    }
-
-    ol > li + li {
-      margin-top: 30px;
+      margin: 0 auto;
     }
   }
 `;
