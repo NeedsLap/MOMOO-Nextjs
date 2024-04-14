@@ -106,6 +106,9 @@ export default function Feed({
         {(!feeds || error) && (
           <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
         )}
+        {windowWidth && windowWidth > 430 && (
+          <h2 className="a11y-hidden">게시물</h2>
+        )}
         {windowWidth && windowWidth > 1024 && (
           <Breadcrumb
             navList={[
