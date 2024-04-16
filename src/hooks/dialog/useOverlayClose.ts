@@ -17,7 +17,7 @@ const useOverlayClose = (
     return () => {
       dialog?.removeEventListener('click', handleOverlayClick);
     };
-  }, [dialogRef, closeFunction]);
+  }, []);
 };
 
 export default useOverlayClose;

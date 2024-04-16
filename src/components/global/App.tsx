@@ -35,7 +35,7 @@ export default function App({
         dispatch(deleteAuth());
       }
     });
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

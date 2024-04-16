@@ -25,7 +25,7 @@ export default function Privacy() {
         dispatch(setPrevPath('privacy'));
       };
     }
-  }, [prevPath, dispatch]);
+  }, []);
 
   return (
     <>

@@ -110,7 +110,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         console.error(error);
       }
     })();
-  }, [albumId]);
+  }, []);
 
   const handleDeleteSharedUserBtn = async (index: number) => {
     setDeleteSharedUserIsPending(true);

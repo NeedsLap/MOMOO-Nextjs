@@ -28,7 +28,7 @@ export default function useAlbumItemLayout(node: HTMLLIElement | null) {
     };
 
     setLayout();
-  }, [windowWidth, imgSize, node]);
+  }, [imgSize]);
 
   return { setImgSize, gridRowEnd };
 }
