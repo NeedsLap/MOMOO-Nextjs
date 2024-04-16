@@ -27,7 +27,7 @@ const ArrayModal: React.FC<ArrayModalProps> = ({
     if (selectedOption === null) {
       onOptionClick('latest');
     }
-  }, [selectedOption, onOptionClick]);
+  }, []);
 
   return (
     <StyledArrayModal

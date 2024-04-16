@@ -25,7 +25,7 @@ export default function Terms() {
         dispatch(setPrevPath('terms'));
       };
     }
-  }, [prevPath, dispatch]);
+  }, []);
 
   return (
     <>
