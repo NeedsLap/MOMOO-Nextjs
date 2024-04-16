@@ -5,9 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import AlbumItem from '@/components/AlbumItem/AlbumItem';
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
-import StyledH2 from '@/components/CommonStyled/StyledH2';
 import Toast from '@/components/Toast/Toast';
 import AlbumDetailTopBar from '@/components/Topbar/AlbumDetailTopbar';
 import StyledAlbum, {
@@ -75,28 +73,13 @@ export default function AlbumDetail({
         {(!feeds || error) && (
           <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
         )}
-        {windowWidth && windowWidth > 1024 && (
-          <>
-            <h1 className="a11y-hidden">MOMOO</h1>
-            <StyledH2>{albumName}</StyledH2>
-            <Breadcrumb
-              navList={[
-                { path: '/', text: 'Home' },
-                { path: '', text: albumName },
-              ]}
-            />
-          </>
-        )}
-        {windowWidth && windowWidth > 430 && windowWidth <= 1024 && (
-          <BreadcrumbWrap
-            navList={[
-              { path: '/', text: 'Home' },
-              { path: '', text: albumName },
-            ]}
-            title={albumName}
-          />
-        )}
-
+        <BreadcrumbWrap
+          navList={[
+            { path: '/', text: 'Home' },
+            { path: '', text: albumName },
+          ]}
+          title={albumName}
+        />
         {windowWidth && windowWidth > 430 && (
           <StyledAddFeed>
             <button

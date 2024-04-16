@@ -14,8 +14,8 @@ interface Props {
 export default function Breadcrumb({ navList }: Props) {
   return (
     <StyledBreadcrumb
-      $arrow={'/icons/arrow-s.svg'}
-      $arrowGray={'/icons/arrow-s-gray.svg'}
+      $arrow="/icons/arrow-s.svg"
+      $arrowGray="/icons/arrow-s-gray.svg"
     >
       <ol>
         {navList.map((v, i) => {

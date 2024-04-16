@@ -6,8 +6,6 @@ type Container = {
 };
 
 const StyledBreadcrumb = styled.nav<Container>`
-  position: absolute;
-  right: var(--margin-tablet);
   display: flex;
 
   ol {
@@ -40,6 +38,13 @@ const StyledBreadcrumb = styled.nav<Container>`
 
   li + li {
     margin-left: 20px;
+  }
+
+  @media (max-width: 1024px) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
   }
 
   @media (min-width: 1025px) {

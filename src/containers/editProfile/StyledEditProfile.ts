@@ -6,15 +6,6 @@ const StyledEditProfile = styled(StyledAuth)`
   article {
     justify-content: flex-start;
 
-    h2 {
-      margin-bottom: 80px;
-      line-height: 1.2;
-    }
-
-    h2::after {
-      content: none;
-    }
-
     button + button {
       margin-top: 32px;
     }
