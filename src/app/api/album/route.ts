@@ -31,7 +31,6 @@ export async function GET() {
       item.imageUrl = null;
     }
   });
-  console.log(album);
 
   return NextResponse.json(album);
 }
