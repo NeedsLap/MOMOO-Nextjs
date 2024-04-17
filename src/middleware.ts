@@ -20,11 +20,9 @@ export const config = {
     '/login',
     '/signup',
     '/',
-    '/:uid/:albumName',
-    '/:uid/:albumName/feed',
+    '/:uid/album/:albumName',
+    '/:uid/album/:albumName/feed',
     '/my',
-    '/upload',
-    '/edit-feed', // 경로 확정 전
     '/edit-profile',
   ],
 };

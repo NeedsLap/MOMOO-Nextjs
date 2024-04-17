@@ -53,4 +53,17 @@ const deleteAlbum = async (albumId: string) => {
   return res;
 };
 
-export { postSharing, getSharedUsers, deleteSharedUser, deleteAlbum, getAlbum };
+const getSharedAlbums = async () => {
+  const res = await fetch(`${API_URL}/album/sharing`);
+
+  return res;
+};
+
+export {
+  postSharing,
+  getSharedUsers,
+  deleteSharedUser,
+  deleteAlbum,
+  getAlbum,
+  getSharedAlbums,
+};

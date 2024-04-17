@@ -141,7 +141,7 @@ function UploadModal() {
       if (!user) throw new Error('사용자가 로그인되지 않았습니다.');
       const id = await uploadPost();
       await updateAlbums(id);
-      router.push(`/${user.uid}/${albumNameToAdd[0]}/feed?start=0`);
+      router.push(`/${user.uid}/album/${albumNameToAdd[0]}/feed?start=0`);
     } catch (error) {
       console.error(error);
     } finally {

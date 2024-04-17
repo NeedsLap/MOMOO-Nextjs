@@ -12,6 +12,7 @@ import {
   arrayRemove,
   updateDoc,
   DocumentSnapshot,
+  DocumentReference,
 } from 'firebase/firestore';
 import {
   ref,
@@ -70,7 +71,9 @@ const getFeedsData = async (feedIdList: string[], uid: string) => {
   return feeds;
 };
 
-const getSharedAlbums = async (uid: string) => {
+const getSharedAlbums = async (
+  uid: string,
+): Promise<DocumentReference[] | null> => {
   const userDocRef = doc(appFireStore, uid, uid);
   const userDocSnap = await getDoc(userDocRef);
 

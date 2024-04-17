@@ -30,7 +30,7 @@ const Album = ({ albumData, showDeleteButton }: AlbumProps) => {
 
   return (
     <AlbumContainer $imageUrl={albumData.imageUrl}>
-      <AlbumLink href={`/${albumData.uid || user.uid}/${albumData.name}`}>
+      <AlbumLink href={`/${albumData.uid || user.uid}/album/${albumData.name}`}>
         <div className="txtWrapper">
           <p className="albumTitle">{albumData.name}</p>
           <div className="CountWrapper">
