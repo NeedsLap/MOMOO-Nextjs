@@ -62,6 +62,7 @@ type AuthAction =
 interface UploadFeedModalState {
   isUploadFeedModalOpen: boolean;
   albumNameToAdd: string[];
+  shouldUpdateFeedsData: boolean;
 }
 
 type UploadFeedModalAction =
@@ -69,9 +70,11 @@ type UploadFeedModalAction =
       type: 'open';
       payload: {
         albumNameToAdd: string[];
+        shouldUpdateFeedsData: false;
       };
     }
-  | { type: 'close'; payload: null };
+  | { type: 'close'; payload: null }
+  | { type: 'done'; payload: null };
 
 interface ReduxState {
   signup: SignupState;
