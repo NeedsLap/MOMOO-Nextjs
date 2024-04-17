@@ -141,7 +141,7 @@ const getAlbumList = async (uid: string) => {
 
 const getThumbnail = async (uid: string, feedId: string) => {
   try {
-    const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feeds', feedId));
+    const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feed', feedId));
 
     return docSnap.data();
   } catch (error) {
