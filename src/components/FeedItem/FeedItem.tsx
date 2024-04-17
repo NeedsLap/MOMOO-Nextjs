@@ -79,7 +79,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
                     width={36}
                     height={36}
                     className="emotion"
-                    src={feedData.emotionImage}
+                    src={`/images/${feedData.emotionImage}.svg`}
                     alt="오늘의 기분"
                   />
                 )}
@@ -88,7 +88,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
                     width={36}
                     height={36}
                     className="weather"
-                    src={feedData.weatherImage}
+                    src={`/images/${feedData.weatherImage}.svg`}
                     alt="오늘의 날씨"
                   />
                 )}

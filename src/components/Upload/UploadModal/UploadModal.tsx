@@ -259,7 +259,7 @@ function UploadModal() {
                       <Accordion
                         key={index}
                         question={data.question}
-                        answer={data.answer.join(',')}
+                        answer={data.answer}
                         selectedImages={
                           data.question === '오늘의 날씨'
                             ? selectedWeatherImage

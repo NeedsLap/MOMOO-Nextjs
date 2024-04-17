@@ -1,6 +1,6 @@
 interface AccordionData {
   question: string;
-  answer: string[];
+  answer: { path: string; name: string }[];
 }
 
 interface AlbumIdData {

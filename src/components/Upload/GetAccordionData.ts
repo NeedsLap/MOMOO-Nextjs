@@ -9,6 +9,11 @@ import {
 import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 
+interface AlbumIdData {
+  albumName: string;
+  docId: string;
+}
+
 const GetAccordionData = () => {
   const { user } = useAuthState();
 
@@ -39,30 +44,25 @@ const GetAccordionData = () => {
       {
         question: '오늘의 날씨',
         answer: [
-          '/images/sunny.svg',
-          '/images/partly-sunny.svg',
-          '/images/cloudy.svg',
-          '/images/rainy.svg',
-          '/images/snowy.svg',
+          { path: '/images/sunny.svg', name: 'sunny' },
+          { path: '/images/partly-sunny.svg', name: 'partly-sunny' },
+          { path: '/images/cloudy.svg', name: 'cloudy' },
+          { path: '/images/rainy.svg', name: 'rainy' },
+          { path: '/images/snowy.svg', name: 'snowy' },
         ],
       },
       {
         question: '오늘의 기분',
         answer: [
-          '/images/excited.svg',
-          '/images/smiling.svg',
-          '/images/yummy.svg',
-          '/images/frowning.svg',
-          '/images/sad.svg',
-          '/images/angry.svg',
+          { path: '/images/excited.svg', name: 'excited' },
+          { path: '/images/smiling.svg', name: 'smiling' },
+          { path: '/images/yummy.svg', name: 'yummy' },
+          { path: '/images/frowning.svg', name: 'frowning' },
+          { path: '/images/sad.svg', name: 'sad' },
+          { path: '/images/angry.svg', name: 'angry' },
         ],
       },
     ];
-
-    interface AlbumIdData {
-      albumName: string;
-      docId: string;
-    }
 
     const albumIdData: AlbumIdData[] = [];
 
