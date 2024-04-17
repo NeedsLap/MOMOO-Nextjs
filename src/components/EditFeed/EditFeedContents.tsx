@@ -18,17 +18,8 @@ import {
 } from '@/hooks/useUpdateFeedList';
 import { deleteImg } from '@/utils/SDKUtils';
 
+import { AccordionData, AlbumIdData } from '@/components/Upload/model';
 import type { Feed, FeedToUpdate } from '@/types/feed';
-
-interface AccordionData {
-  question: string;
-  answer: string[];
-}
-
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
 
 export default function EditFeedContents({
   feedData,
@@ -275,7 +266,7 @@ export default function EditFeedContents({
                   <Accordion
                     key={index}
                     question={data.question}
-                    answer={data.answer.join(',')}
+                    answer={data.answer}
                     selectedImages={
                       data.question === '오늘의 날씨'
                         ? selectedWeatherImage
