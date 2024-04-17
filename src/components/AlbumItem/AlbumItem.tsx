@@ -73,7 +73,7 @@ function AlbumItem(
           }}
         >
           <Link
-            href={`/${uid}/${albumName}/feed?start=${index}`}
+            href={`/${uid}/album/${albumName}/feed?start=${index}`}
             onMouseOver={showHoverStyle}
             onFocus={showHoverStyle}
             onMouseLeave={hiddenHoverStyle}
