@@ -7,17 +7,17 @@ import StyledMyNonModal from '@/components/MyNonModal/StyledMyNonModal';
 import useAuthState from '@/hooks/auth/useAuthState';
 import useLogout from '@/hooks/auth/useLogout';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
+import useShowNonModal from '@/hooks/dialog/useShowNonModal';
 import { closeDialogOnClick } from '@/utils/dialog';
-interface Props {
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-export default function MyNonModal({ setIsDialogOpen }: Props) {
+import type { MyNonModalProps } from '@/components/MyNonModal/model';
+
+export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   const { user } = useAuthState();
   const [submitErrMessage, setSubmitErrMessage] = useState('');
   const { logout, error } = useLogout();
+  const { showNonModal } = useShowNonModal();
 
-  const dialogRef = useRef<HTMLDialogElement>();
   const menuFirstItemRef = useRef<HTMLAnchorElement>();
 
   const closeMyNonModal = () => {
@@ -32,13 +32,6 @@ export default function MyNonModal({ setIsDialogOpen }: Props) {
     }
   }, [error]);
 
-  const showNonModal = (node: HTMLDialogElement) => {
-    if (node && !dialogRef.current) {
-      node.show();
-      dialogRef.current = node;
-    }
-  };
-
   const focusOnFirstItem = (node: HTMLAnchorElement) => {
     if (node && !menuFirstItemRef.current) {
       node.focus();
@@ -48,7 +41,6 @@ export default function MyNonModal({ setIsDialogOpen }: Props) {
 
   return (
     <StyledMyNonModal
-      role="dialog"
       onClick={(e) => closeDialogOnClick(e, closeMyNonModal)}
       ref={showNonModal}
     >

@@ -285,7 +285,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               <Image
                 width={45}
                 height={45}
-                src={'/icons/edit-circle.svg'}
+                src="/icons/edit-circle.svg"
                 alt="변경하기"
               />
             </label>
