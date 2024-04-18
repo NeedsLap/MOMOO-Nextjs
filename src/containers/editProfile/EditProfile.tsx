@@ -271,7 +271,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               회원 탈퇴
             </button>
           </article>
-          <form onSubmit={updateProfile}>
+          <form className="auth-form" onSubmit={updateProfile}>
             <label
               htmlFor="profile-inp"
               className={imgHasFocus ? 'profile focus' : 'profile'}
@@ -396,7 +396,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
           <ReauthModal
             setIsModalOpen={setIsReauthForUpdateProfileModalOpen}
             setIsReauthSuccess={setReadyToUpdateProfile}
-            cancel={() => {
+            cancle={() => {
               setIsReauthForUpdateProfileModalOpen(false);
               setDisabledEditButton(false);
             }}
@@ -406,7 +406,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
           <ReauthModal
             setIsModalOpen={setIsReauthForDeleteIdModalOpen}
             setIsReauthSuccess={setReadyToDeleteId}
-            cancel={() => {
+            cancle={() => {
               setIsReauthForDeleteIdModalOpen(false);
               setSelectedBtn('프로필 수정');
             }}
