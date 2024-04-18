@@ -11,6 +11,7 @@ import StyledFeed, { StyledFeedList } from '@/containers/feed/StyledFeed';
 import useAlbumName from '@/hooks/useAlbumName';
 import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import useUploadFeed from '@/hooks/useUploadFeed';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
 import { Feed as FeedType } from '@/types/feed';
@@ -31,6 +32,7 @@ export default function Feed({
   const windowWidth = useWindowWidth();
   const albumName = useAlbumName();
   const { error, getFeeds } = useGetFeeds();
+  const { shouldUpdateFeedsData } = useUploadFeed();
 
   const { uid } = useParams<{ uid: string }>();
   const searchParams = useSearchParams();
@@ -48,6 +50,27 @@ export default function Feed({
       window.scrollTo(0, node.getBoundingClientRect().y - paddingTop);
     }
   };
+
+  useEffect(() => {
+    if (!shouldUpdateFeedsData) {
+      return;
+    }
+
+    const updateFeedsData = async () => {
+      const feedToAdd = await getFeeds({
+        limit: 1,
+        skip: 0,
+        uid,
+        albumName,
+      });
+
+      if (feedToAdd && feedToAdd.length) {
+        setFeedsData((prev) => [...feedToAdd, ...prev]);
+      }
+    };
+
+    updateFeedsData();
+  }, [shouldUpdateFeedsData]);
 
   useEffect(() => {
     if (nextPage === 1) {

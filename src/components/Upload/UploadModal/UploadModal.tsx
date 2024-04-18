@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { SyntheticEvent, useState, useEffect, useRef } from 'react';
 
 import { doc, setDoc } from 'firebase/firestore';
@@ -19,13 +19,17 @@ import useAuthState from '@/hooks/auth/useAuthState';
 import useOverlayClose from '@/hooks/dialog/useOverlayClose';
 import { useAddFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import useUploadFeed from '@/hooks/useUploadFeed';
-import { closeUploadFeedModal } from '@/modules/uploadFeedModal';
+import {
+  closeUploadFeedModal,
+  shouldReloadPostData,
+} from '@/modules/uploadFeedModal';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 
 function UploadModal() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const path = usePathname();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const { user } = useAuthState();
   const { albumNameToAdd } = useUploadFeed();
@@ -142,11 +146,17 @@ function UploadModal() {
       const id = await uploadPost();
       await updateAlbums(id);
       router.push(`/${user.uid}/album/${albumNameToAdd[0]}/feed?start=0`);
+
+      closeUploadModal();
+
+      if (decodeURI(path) === `/${user.uid}/album/${albumNameToAdd[0]}/feed`) {
+        dispatch(shouldReloadPostData());
+      }
     } catch (error) {
       console.error(error);
+      closeUploadModal();
     } finally {
       setIsPending(false);
-      closeUploadModal();
     }
   };
 
