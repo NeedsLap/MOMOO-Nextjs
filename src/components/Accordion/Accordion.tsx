@@ -5,7 +5,7 @@ import { AccordionWrapper } from '@/components/Accordion/StyledAccordion';
 
 interface AccordionProps {
   question: string;
-  answer: string;
+  answer: { path: string; name: string }[];
   selectedImages: string;
   setSelectedImages: (images: string) => void;
 }
@@ -17,7 +17,6 @@ function Accordion({
   setSelectedImages,
 }: AccordionProps) {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-  const answerArray = answer.split(',');
 
   const handleQuestionClick = () => {
     setIsAccordionOpen((prev) => !prev);
@@ -50,19 +49,19 @@ function Accordion({
         </div>
         {isAccordionOpen && (
           <div className="anw" id="answer">
-            {answerArray.map((imagePath, index) => (
+            {answer.map((image, index) => (
               <button
                 type="button"
                 key={index}
-                onClick={() => handleAnswerClick(imagePath.trim())}
+                onClick={() => handleAnswerClick(image.name)}
                 className={
-                  selectedImages.includes(imagePath.trim()) ? 'selected' : ''
+                  selectedImages.includes(image.name) ? 'selected' : ''
                 }
                 aria-label="Toggle Menu"
               >
                 <Image
                   className="btnImg"
-                  src={imagePath.trim()}
+                  src={image.path.trim()}
                   width={36}
                   height={36}
                   alt={`이미지 ${index}`}
