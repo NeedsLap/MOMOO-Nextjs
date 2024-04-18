@@ -34,7 +34,7 @@ const StyledFeedItem = styled.li`
       aspect-ratio: 1/1;
     }
 
-    .weather {
+    .emotion + .weather {
       margin-left: 10px;
     }
   }
