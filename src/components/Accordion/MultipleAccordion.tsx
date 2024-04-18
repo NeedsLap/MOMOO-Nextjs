@@ -8,7 +8,7 @@ import {
 
 interface AccordionProps {
   question: string;
-  answer: string;
+  answer: string[];
   selectedAlbum: string[];
   setSelectedAlbum: (album: string[]) => void;
 }
@@ -20,7 +20,6 @@ function MultipleAccordion({
   setSelectedAlbum,
 }: AccordionProps) {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-  const answerArray = answer.split(',');
 
   const handleQuestionClick = () => {
     setIsAccordionOpen((prev) => !prev);
@@ -57,7 +56,7 @@ function MultipleAccordion({
         {isAccordionOpen && (
           <MultiAccordionWrapper>
             <div className="anw" id="multiAnswer">
-              {answerArray.map((item, index) => (
+              {answer.map((item, index) => (
                 <button
                   type="button"
                   disabled={item === '전체 보기' ? true : false}

@@ -9,6 +9,7 @@ import {
 import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 
+import { AccordionDataType } from '@/components/Upload/model';
 interface AlbumIdData {
   albumName: string;
   docId: string;
@@ -36,7 +37,7 @@ const GetAccordionData = () => {
       console.log(error);
     }
 
-    const accordionData = [
+    const accordionData: AccordionDataType = [
       {
         question: '앨범 선택',
         answer: [],

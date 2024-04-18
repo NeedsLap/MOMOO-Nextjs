@@ -17,11 +17,6 @@ import { closeDialogOnClick } from '@/utils/dialog';
 
 import { Feed } from '@/types/feed';
 
-interface AccordionItemData {
-  question: string;
-  answer: string[];
-}
-
 interface AlbumIdData {
   albumName: string;
   docId: string;
@@ -62,21 +57,20 @@ export default function ChangeAlbumModal({
       }
     };
 
-    const SetAcoordionData = async () => {
+    const SetAccordionData = async () => {
       const result = await getAccordionData();
       setAlbumIdData(result.albumIdData || []);
     };
 
     setSavedAlbumData();
-    SetAcoordionData();
+    SetAccordionData();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await getAccordionData();
       setAlbumIdData(result.albumIdData || []);
-      const accordionData: AccordionItemData[] | null =
-        result.accordionData || null;
+      const accordionData = result.accordionData || null;
 
       if (accordionData) {
         setAnswerArray(accordionData[0].answer);
