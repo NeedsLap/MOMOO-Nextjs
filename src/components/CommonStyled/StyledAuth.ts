@@ -28,7 +28,7 @@ const StyledAuth = styled.main`
     }
   }
 
-  form {
+  .auth-form {
     box-sizing: content-box;
     width: 100%;
 
@@ -131,7 +131,7 @@ const StyledAuth = styled.main`
       }
     }
 
-    form {
+    .auth-form {
       padding-left: 90px;
       max-width: 480px;
     }
@@ -140,7 +140,7 @@ const StyledAuth = styled.main`
   @media (max-width: 1024px) {
     padding: var(--nav-height-tablet) var(--margin-tablet) 0;
 
-    form input:not(#profile-inp) {
+    .auth-form input:not(#profile-inp) {
       padding: 14px 20px;
     }
   }
@@ -180,7 +180,7 @@ const StyledAuth = styled.main`
       }
     }
 
-    form {
+    .auth-form {
       flex-grow: 1;
       margin-left: 24px;
     }
@@ -224,7 +224,7 @@ const StyledAuth = styled.main`
       }
     }
 
-    form {
+    .auth-form {
       input + label + input:not(#profile-inp) {
         margin-top: 15px;
       }

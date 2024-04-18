@@ -8,7 +8,7 @@ import { DocumentData } from 'firebase/firestore';
 import Album from '@/components/Album/Album';
 import StyledH2 from '@/components/CommonStyled/StyledH2';
 import ArrayModal from '@/components/Modal/ArrayModal/ArrayModal';
-import NewAlbumModal from '@/components/Modal/NewAlbumModal/NewAlbumModal';
+import NewAlbumModal from '@/components/Modal/NewAlbumModal';
 import Toast from '@/components/Toast/Toast';
 import HomeTopbar from '@/components/Topbar/HomeTopbar/HomeTopbar';
 import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';

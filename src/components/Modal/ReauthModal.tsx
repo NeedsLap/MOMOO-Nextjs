@@ -1,27 +1,28 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
-import StyledInputModal from '@/components/Modal/StyledInputModal';
+import InputModal from '@/components/Modal/InputModal/InputModal';
 import useReauthenticate from '@/hooks/auth/useReauthenticate';
-import useEscDialog from '@/hooks/dialog/useEscDialog';
-import useShowModal from '@/hooks/dialog/useShowModal';
-import { closeDialogOnClick } from '@/utils/dialog';
 
 export default function ReauthModal({
   setIsModalOpen,
   setIsReauthSuccess,
-  cancel,
+  cancle,
 }: {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   setIsReauthSuccess: Dispatch<SetStateAction<boolean>>;
-  cancel: () => void;
+  cancle: () => void;
 }) {
   const [value, setValue] = useState('');
   const [errMessage, setErrMessage] = useState('');
   const [isPending, setIsPending] = useState(false);
   const { reauthenticate, error } = useReauthenticate();
-  const { showModal } = useShowModal();
-  useEscDialog(cancel);
 
   useEffect(() => {
     if (!error) {
@@ -46,7 +47,8 @@ export default function ReauthModal({
     }
   }, [error]);
 
-  const handleReauth = async () => {
+  const handleReauth = async (e: FormEvent) => {
+    e.preventDefault();
     setIsPending(true);
     const success = await reauthenticate(value);
     setIsPending(false);
@@ -67,33 +69,32 @@ export default function ReauthModal({
   };
 
   return (
-    <StyledInputModal
-      role="dialog"
-      aria-labelledby="modal-select"
-      ref={showModal}
-      onClick={(e) => closeDialogOnClick(e, cancel)}
+    <InputModal
+      onClose={cancle}
+      title="계정 확인"
+      text="현재 비밀번호를 입력해 주세요"
     >
-      <h3>계정 확인</h3>
-      <p>현재 비밀번호를 입력해 주세요</p>
-      <input type="password" placeholder="password" onChange={changeValue} />
-      <strong role="alert">{errMessage ? `*${errMessage}` : ''}</strong>
-      <div className="btn-wrap">
-        <button type="button" onClick={cancel}>
-          취소
-        </button>
-        <button type="button" onClick={handleReauth} disabled={!value}>
-          {isPending ? (
-            <Image
-              width={16}
-              height={16}
-              src="/icons/loading.svg"
-              alt="로딩중"
-            />
-          ) : (
-            '확인'
-          )}
-        </button>
-      </div>
-    </StyledInputModal>
+      <form onSubmit={handleReauth}>
+        <input type="password" placeholder="password" onChange={changeValue} />
+        {errMessage && <strong role="alert">*{errMessage}</strong>}
+        <div className="btn-wrap">
+          <button type="button" onClick={cancle}>
+            취소
+          </button>
+          <button type="submit" disabled={!value || isPending}>
+            {isPending ? (
+              <Image
+                width={16}
+                height={16}
+                src="/icons/loading.svg"
+                alt="로딩중"
+              />
+            ) : (
+              '확인'
+            )}
+          </button>
+        </div>
+      </form>
+    </InputModal>
   );
 }

@@ -215,7 +215,7 @@ export default function Signup() {
           <Link href="/login">Login</Link>
           <h2>Signup</h2>
         </article>
-        <form onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label
             htmlFor="profile-inp"
             className={imgHasFocus ? 'profile focus' : 'profile'}
