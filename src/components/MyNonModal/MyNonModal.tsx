@@ -10,11 +10,9 @@ import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
 import { closeDialogOnClick } from '@/utils/dialog';
 
-interface Props {
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import type { MyNonModalProps } from '@/components/MyNonModal/model';
 
-export default function MyNonModal({ setIsDialogOpen }: Props) {
+export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   const { user } = useAuthState();
   const [submitErrMessage, setSubmitErrMessage] = useState('');
   const { logout, error } = useLogout();
