@@ -16,7 +16,6 @@ const ImageGrid = styled.div`
     aspect-ratio: 1/1;
     display: inline-block;
     position: relative;
-    border: 1px solid red;
   }
 
   .selectedImg {
