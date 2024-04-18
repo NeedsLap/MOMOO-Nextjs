@@ -11,13 +11,15 @@ const ImageGrid = styled.div`
   overflow-x: auto;
 
   .selectedImgList {
+    flex-shrink: 0;
+    width: calc(100% / 8 * 3);
+    aspect-ratio: 1/1;
     display: inline-block;
     position: relative;
+    border: 1px solid red;
   }
 
   .selectedImg {
-    width: 15.2rem;
-    aspect-ratio: 1/1;
     object-fit: contain;
     background-color: var(--gray-900);
   }

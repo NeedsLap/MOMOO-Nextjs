@@ -5,12 +5,6 @@ const MapContainer = styled.div`
   font-size: var(--text-m);
   color: var(--gray-700);
 
-  input {
-    width: 100%;
-    outline: none;
-    background-color: var(--background-color);
-  }
-
   .mapBoxWrapper {
     width: 100%;
     height: 200px;
@@ -23,9 +17,20 @@ const SearchHead = styled.div`
   background-color: var(--background-color);
   padding: 1.3rem 1.6rem;
 
-  .saveBtn:hover img {
-    background-color: var(--point-color);
-    border-radius: 50%;
+  input {
+    width: 100%;
+    outline: none;
+    background-color: var(--background-color);
+  }
+
+  .saveBtn {
+    width: 5rem;
+    color: var(--point-dark-400);
+    text-align: right;
+  }
+
+  .saveBtn:hover {
+    color: var(--point-dark-600);
   }
 `;
 

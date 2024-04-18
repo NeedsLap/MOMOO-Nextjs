@@ -6,6 +6,11 @@ const StyledDialog = styled.dialog`
   overflow: hidden;
   border-radius: 10px;
   z-index: 1001;
+
+  @media (max-width: 430px) {
+    border-radius: 0px;
+    min-height: 100vh;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -14,11 +19,17 @@ const ContentContainer = styled.div`
   border-radius: 10px;
   background-color: var(--background-color);
   color: var(--gray-900);
+
+  @media (max-width: 430px) {
+    height: 100vh;
+    min-height: 100vh;
+  }
 `;
 
 const UploadHeader = styled.header`
   position: relative;
   height: 4.8rem;
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 1.2rem 1.6rem;
@@ -39,12 +50,15 @@ const UploadHeader = styled.header`
   .uploadBtn:hover {
     color: var(--point-dark-600);
   }
-`;
 
-const MobileCloseBtn = styled.button`
-  position: absolute;
-  width: 1.6rem;
-  aspect-ratio: 1/1;
+  @media (max-width: 430px) {
+    position: fixed;
+    width: 100%;
+    height: 4.8rem;
+    margin-bottom: 4.8rem;
+    background-color: var(--background-color);
+    z-index: 999;
+  }
 `;
 
 const TodaysPhoto = styled.div`
@@ -139,6 +153,13 @@ const UploadContents = styled.div`
     }
   }
 
+  &.loading {
+    min-height: calc(43rem - var(--nav-height-mobile));
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
   @media (min-width: 1025px) {
     min-height: 48rem;
   }
@@ -149,14 +170,9 @@ const UploadContents = styled.div`
     overflow-y: scroll;
   }
 
-  &.loading {
-    min-height: calc(43rem - var(--nav-height-mobile));
-    display: flex;
-    height: 100%;
-    align-items: center;
-  }
-
   @media (max-width: 430px) {
+    padding-top: 4.8rem;
+
     &.loading {
       min-height: calc(100vh - var(--nav-height-mobile));
     }
@@ -240,7 +256,6 @@ const CloseBtn = styled.button`
 export {
   StyledDialog,
   ContentContainer,
-  MobileCloseBtn,
   UploadHeader,
   UploadContents,
   TodaysPhoto,
