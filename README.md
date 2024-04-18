@@ -284,7 +284,7 @@
   15. ~~필수 항목을 알 수 없어서 불편함~~[#269](https://github.com/yonainthefish/MoMoo/pull/269)
   16. 앨범 선택 시, 새로운 앨범을 만들어서 그 앨범에 바로 추가할 수 있으면 좋겠음
   17. 사진 업로드 버튼에 포커스가 되면 좋겠음
-  18. ~~사진뿐만 아니라 동영상도 저장할 수 있으면 좋겠음~~[#53](https://github.com/NeedsLap/MOMOO-Nextjs/issues/53)
+  18. 사진뿐만 아니라 동영상도 저장할 수 있으면 좋겠음
   19. 탭바가 있어도 좋을 듯함
   20. ~~업로드되는 사진의 확장명을 추가하면 좋겠음(gif 등)~~[#53](https://github.com/NeedsLap/MOMOO-Nextjs/issues/53)
   21. ~~게시물 제목과 게시물 본문은 공백 포함 500자까지 제한 있음(안내 필요)~~[#269](https://github.com/yonainthefish/MoMoo/pull/269)
