@@ -96,7 +96,7 @@ export default function Login() {
           <h2>Login</h2>
           <Link href="/signup">Signup</Link>
         </article>
-        <form onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email-inp" className="a11y-hidden">
             이메일
           </label>
