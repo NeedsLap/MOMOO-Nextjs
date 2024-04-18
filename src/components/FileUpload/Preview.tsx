@@ -19,8 +19,10 @@ const Preview = ({
 
     if (files && files.length > 0) {
       const file = files[0];
-
-      if (!/^image\/(jpg|svg|png|jpeg|gif|bmp|tif|heic)$/.test(file.type)) {
+      console.log(file.type);
+      if (
+        !/^image\/(jpg|svg(\+xml)?|png|jpeg|gif|bmp|tif|heic)$/.test(file.type)
+      ) {
         setSubmitErrMessage(
           '이미지 파일 확장자는 jpg, svg, png, jpeg, gif, bmp, tif, heic만 가능합니다.',
         );
