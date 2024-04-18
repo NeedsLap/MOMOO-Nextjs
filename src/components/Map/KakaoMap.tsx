@@ -1,10 +1,8 @@
-import Image from 'next/image';
 import React, { useState } from 'react';
 
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 import { MapContainer, SearchHead } from '@/components/Map/StyledKakaoMap';
-
 interface Place {
   y: string;
   x: string;
@@ -74,6 +72,7 @@ function KakaoMap({
             placeholder="주소 또는 키워드 입력해 주세요"
           />
           {searchedLocation && <div></div>}
+
           <button
             type="button"
             className="saveBtn"
@@ -84,13 +83,7 @@ function KakaoMap({
               )
             }
           >
-            <Image
-              src="/icons/select.svg"
-              alt="선택 버튼"
-              className="btnUpload"
-              width={24}
-              height={24}
-            />
+            확인
           </button>
         </SearchHead>
         <div className="mapBoxWrapper">
