@@ -41,7 +41,6 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
 
   return (
     <StyledMyNonModal
-      role="dialog"
       onClick={(e) => closeDialogOnClick(e, closeMyNonModal)}
       ref={showNonModal}
     >
