@@ -6,16 +6,17 @@ const SelectContainer = styled.section`
 `;
 
 const ImageGrid = styled.div`
+  width: 100%;
   display: flex;
   gap: 1px;
   overflow-x: auto;
 
   .selectedImgList {
-    flex-shrink: 0;
     width: calc(100% / 8 * 3);
     aspect-ratio: 1/1;
-    display: inline-block;
     position: relative;
+    flex-shrink: 0;
+    display: inline-block;
   }
 
   .selectedImg {
@@ -35,10 +36,16 @@ const ImageGrid = styled.div`
       opacity: 70%;
     }
   }
+
+  @media (max-width: 430px) {
+    .deleteBtn {
+      width: 15%;
+    }
+  }
 `;
 
 const PreviewSection = styled.label`
-  width: 15.2rem;
+  width: calc(100% / 8 * 3);
   aspect-ratio: 1/1;
   position: relative;
   background-color: var(--gray-900);
@@ -56,10 +63,6 @@ const PreviewSection = styled.label`
 
   #file {
     display: none;
-  }
-
-  @media (max-width: 430px) {
-    width: 11.2rem;
   }
 `;
 
