@@ -3,16 +3,24 @@ import { UploadFeedModalAction, UploadFeedModalState } from '@/modules/model';
 const initState = {
   isUploadFeedModalOpen: false,
   albumNameToAdd: [],
+  shouldUpdateFeedsData: false,
 };
 
 const openUploadFeedModal = (
   albumNameToAdd: string[],
 ): UploadFeedModalAction => {
-  return { type: 'open', payload: { albumNameToAdd } };
+  return {
+    type: 'open',
+    payload: { albumNameToAdd, shouldUpdateFeedsData: false },
+  };
 };
 
 const closeUploadFeedModal = (): UploadFeedModalAction => {
   return { type: 'close', payload: null };
+};
+
+const shouldReloadPostData = (): UploadFeedModalAction => {
+  return { type: 'done', payload: null };
 };
 
 const uploadFeedModalReducer = (
@@ -24,10 +32,12 @@ const uploadFeedModalReducer = (
       return { isUploadFeedModalOpen: true, ...action.payload };
     case 'close':
       return initState;
+    case 'done':
+      return { ...state, shouldUpdateFeedsData: true };
     default:
       return state;
   }
 };
 
 export default uploadFeedModalReducer;
-export { openUploadFeedModal, closeUploadFeedModal };
+export { openUploadFeedModal, closeUploadFeedModal, shouldReloadPostData };

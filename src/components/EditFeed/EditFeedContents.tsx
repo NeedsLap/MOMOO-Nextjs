@@ -18,17 +18,8 @@ import {
 } from '@/hooks/useUpdateFeedList';
 import { deleteImg } from '@/utils/SDKUtils';
 
+import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 import type { Feed, FeedToUpdate } from '@/types/feed';
-
-interface AccordionData {
-  question: string;
-  answer: string[];
-}
-
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
 
 export default function EditFeedContents({
   feedData,
@@ -54,7 +45,7 @@ export default function EditFeedContents({
     feedData.emotionImage,
   );
   const [file, setFile] = useState<FileList | null>(null);
-  const [accordionData, setAccordionData] = useState<AccordionData[]>([]);
+  const [accordionData, setAccordionData] = useState<AccordionDataType>();
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [inputCount, setInputCount] = useState(0);
   const [isPending, setIsPending] = useState(false);
@@ -262,32 +253,28 @@ export default function EditFeedContents({
                 </Styled.KakaoMapContainer>
               )}
               <Styled.AccordionContents>
-                {accordionData.slice(1, 2).map(() => (
-                  <MultipleAccordion
-                    key={0}
-                    question={accordionData[0].question}
-                    answer={accordionData[0].answer.join(',')}
-                    selectedAlbum={selectedAlbumList}
-                    setSelectedAlbum={setSelectedAlbumList}
-                  />
-                ))}
-                {accordionData.slice(1, 3).map((data, index) => (
-                  <Accordion
-                    key={index}
-                    question={data.question}
-                    answer={data.answer.join(',')}
-                    selectedImages={
-                      data.question === '오늘의 날씨'
-                        ? selectedWeatherImage
-                        : selectedEmotionImage
-                    }
-                    setSelectedImages={
-                      data.question === '오늘의 날씨'
-                        ? setSelectedWeatherImage
-                        : setSelectedEmotionImage
-                    }
-                  />
-                ))}
+                {accordionData !== undefined && (
+                  <>
+                    <MultipleAccordion
+                      question={accordionData[0].question}
+                      answer={accordionData[0].answer}
+                      selectedAlbum={selectedAlbumList}
+                      setSelectedAlbum={setSelectedAlbumList}
+                    />
+                    <Accordion
+                      question={accordionData[1].question}
+                      answer={accordionData[1].answer}
+                      selectedImages={selectedWeatherImage}
+                      setSelectedImages={setSelectedWeatherImage}
+                    />
+                    <Accordion
+                      question={accordionData[2].question}
+                      answer={accordionData[2].answer}
+                      selectedImages={selectedEmotionImage}
+                      setSelectedImages={setSelectedEmotionImage}
+                    />
+                  </>
+                )}
               </Styled.AccordionContents>
             </Styled.SelectPart>
           </>
