@@ -24,9 +24,9 @@ export const useLogin = () => {
       } else if (err instanceof Error) {
         setError(err.message);
       }
-    }
 
-    setPending(false);
+      setPending(false);
+    }
   };
   return { error, isPending, login };
 };
