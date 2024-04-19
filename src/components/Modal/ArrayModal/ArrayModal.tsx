@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   StyledArrayModal,
@@ -7,7 +7,6 @@ import {
 } from '@/components/Modal/ArrayModal/StyledArrayModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
-import { closeDialogOnClick } from '@/utils/dialog';
 
 interface ArrayModalProps {
   onClose: () => void;
@@ -22,6 +21,7 @@ const ArrayModal: React.FC<ArrayModalProps> = ({
 }) => {
   const { showNonModal } = useShowNonModal();
   useEscDialog(onClose);
+  const [isOpenNonModal, setIsOpenNonModal] = useState(false);
 
   useEffect(() => {
     if (selectedOption === null) {
@@ -29,12 +29,29 @@ const ArrayModal: React.FC<ArrayModalProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const closeNonModal = (e: MouseEvent) => {
+      if (!isOpenNonModal) {
+        setIsOpenNonModal(true);
+        return;
+      }
+
+      const targetElement = e.target as Element;
+      if (!targetElement.closest('dialog')) {
+        onClose();
+      }
+    };
+
+    window.addEventListener('click', closeNonModal);
+
+    return () => window.removeEventListener('click', closeNonModal);
+  }, [isOpenNonModal]);
+
   return (
     <StyledArrayModal
       role="dialog"
       aria-labelledby="modal-select"
       ref={showNonModal}
-      onClick={(e) => closeDialogOnClick(e, onClose)}
     >
       <div className="modal-wrap">
         <Header className="modal-header" id="modal-select">
