@@ -2,15 +2,15 @@ import styled from 'styled-components';
 
 const StyledMain = styled.main`
   position: relative;
-  padding: 24px var(--margin-mobile) 60px;
+  padding: 24px var(--margin-mobile) calc(var(--nav-height-mobile) + 40px);
 
   @media (min-width: 431px) {
-    padding: var(--nav-height-tablet) var(--margin-tablet) 0;
+    padding: var(--nav-height-tablet) var(--margin-tablet) 40px;
     margin: 0;
   }
 
   @media (min-width: 1025px) {
-    padding: 0 var(--margin-pc);
+    padding: 0 var(--margin-pc) 55px;
     margin: var(--padding-top-pc) var(--right-padding-pc) 0 var(--nav-width-pc);
   }
 `;
