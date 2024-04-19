@@ -7,8 +7,21 @@ const ConfirmModalDialog = styled.dialog`
   font-size: var(--text-l);
   overflow: hidden;
   position: fixed;
+  text-align: center;
 
-  .modalList {
+  h3 {
+    padding: 2rem 2.2rem 0.2rem;
+  }
+
+  p {
+    font-size: var(--text-s);
+    color: var(--gray-600);
+  }
+
+  .btn-wrap {
+    margin: 20px 0 0;
+    border-top: 1px solid var(--gray-200);
+
     button {
       width: 50%;
       text-align: center;
@@ -31,10 +44,4 @@ const ConfirmModalDialog = styled.dialog`
   }
 `;
 
-const Header = styled.header`
-  padding: 2.2rem;
-  border-bottom: 1px solid var(--gray-200);
-  text-align: center;
-`;
-
-export { ConfirmModalDialog, Header };
+export { ConfirmModalDialog };
