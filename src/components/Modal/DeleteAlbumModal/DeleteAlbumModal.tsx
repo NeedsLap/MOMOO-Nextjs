@@ -49,7 +49,7 @@ export default function DeleteAlbumModal({
     } else {
       setAlbum((prev) => {
         if (prev) {
-          return { ...prev, albumName: editAlbumName };
+          return { ...prev, name: editAlbumName };
         } else {
           return prev;
         }
