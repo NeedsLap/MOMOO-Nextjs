@@ -58,13 +58,17 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
         <section className="menu">
           <ul>
             <li>
-              <Link href="/edit-profile" ref={focusOnFirstItem}>
+              <Link
+                href="/edit-profile"
+                ref={focusOnFirstItem}
+                onClick={closeMyNonModal}
+              >
                 <Image width={24} height={24} src="/icons/setting.svg" alt="" />
                 Edit profile
               </Link>
             </li>
             <li>
-              <Link href="/terms">
+              <Link href="/terms" onClick={closeMyNonModal}>
                 <Image
                   width={24}
                   height={24}
@@ -75,7 +79,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
               </Link>
             </li>
             <li>
-              <Link href="/privacy">
+              <Link href="/privacy" onClick={closeMyNonModal}>
                 <Image width={24} height={24} src="/icons/policy.svg" alt="" />
                 Privacy policy
               </Link>
@@ -85,13 +89,20 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
                 href="https://github.com/yonainthefish/MoMoo"
                 rel="noopener noreferrer"
                 target="_blank"
+                onClick={closeMyNonModal}
               >
                 <Image width={24} height={24} src="/icons/github.svg" alt="" />
                 GitHub
               </a>
             </li>
             <li>
-              <button type="button" onClick={logout}>
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  closeMyNonModal();
+                }}
+              >
                 <Image width={24} height={24} src="/icons/logout.svg" alt="" />
                 Logout
               </button>
@@ -102,7 +113,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
         <button
           className="close"
           type="button"
-          onClick={() => setIsDialogOpen(false)}
+          onClick={closeMyNonModal}
           aria-label="닫기"
         >
           <Image width={20} height={20} src="/icons/x.svg" alt="" />
