@@ -22,6 +22,9 @@ const closeUploadFeedModal = (): UploadFeedModalAction => {
 const shouldReloadPostData = (): UploadFeedModalAction => {
   return { type: 'done', payload: null };
 };
+const resetUploadFeedModalState = (): UploadFeedModalAction => {
+  return { type: 'reset', payload: null };
+};
 
 const uploadFeedModalReducer = (
   state = initState,
@@ -34,10 +37,17 @@ const uploadFeedModalReducer = (
       return initState;
     case 'done':
       return { ...state, shouldUpdateFeedsData: true };
+    case 'reset':
+      return initState;
     default:
       return state;
   }
 };
 
 export default uploadFeedModalReducer;
-export { openUploadFeedModal, closeUploadFeedModal, shouldReloadPostData };
+export {
+  openUploadFeedModal,
+  closeUploadFeedModal,
+  shouldReloadPostData,
+  resetUploadFeedModalState,
+};
