@@ -51,6 +51,9 @@ const StyledInputModal = styled.dialog`
     color: var(--point-dark-400);
     border-left: 1px solid var(--gray-200);
   }
+  .btn-wrap button:disabled {
+    cursor: default;
+  }
 `;
 
 const Header = styled.header`

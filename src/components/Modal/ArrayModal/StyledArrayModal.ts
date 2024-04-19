@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 
 const StyledArrayModal = styled.dialog`
-  border-radius: 1rem;
-  background-color: var(--background-color);
-  border: 1px solid var(--gray-200);
-  width: 19.6rem;
-  font-size: var(--text-s);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+
+  .modal-wrap {
+    margin: 205px 318px 0 auto;
+    border-radius: 1rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--gray-200);
+    width: 19.6rem;
+    font-size: var(--text-s);
+  }
 
   .modal-list button {
     display: flex;

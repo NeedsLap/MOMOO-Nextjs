@@ -3,8 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
-
 import Album from '@/components/Album/Album';
 import StyledH2 from '@/components/CommonStyled/StyledH2';
 import ArrayModal from '@/components/Modal/ArrayModal/ArrayModal';
@@ -15,15 +13,17 @@ import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { getSharedAlbums } from '@/services/album';
 
-export default function Home({ album }: { album: DocumentData[] }) {
+import type { Album as AlbumType } from '@/types/album';
+
+export default function Home({ album }: { album: AlbumType[] }) {
   const [selectedAlbumType, setSelectedAlbumType] = useState<
     '나의 앨범' | '공유 앨범'
   >('나의 앨범');
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [albumData, setAlbumData] = useState<DocumentData[]>(album);
-  const [sharedAlbums, setSharedAlbums] = useState<DocumentData[]>([]);
+  const [albumData, setAlbumData] = useState<AlbumType[]>(album);
+  const [sharedAlbums, setSharedAlbums] = useState<AlbumType[]>([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -137,9 +137,11 @@ export default function Home({ album }: { album: DocumentData[] }) {
               {(selectedOption === 'oldest' ? albumData : latestAlbumList).map(
                 (v, index) => {
                   return (
-                    <li key={`${v.name}-${index}`}>
-                      <Album albumData={v} showDeleteButton={index !== 0} />
-                    </li>
+                    <Album
+                      key={`${v.name}-${index}`}
+                      albumData={v}
+                      showDeleteButton={index !== 0}
+                    />
                   );
                 },
               )}
@@ -151,9 +153,11 @@ export default function Home({ album }: { album: DocumentData[] }) {
                 : sharedAlbums.reverse()
               ).map((v, index) => {
                 return (
-                  <li key={v.createdTime}>
-                    <Album albumData={v} showDeleteButton={index !== 0} />
-                  </li>
+                  <Album
+                    key={v.id}
+                    albumData={v}
+                    showDeleteButton={index !== 0}
+                  />
                 );
               })}
             </ul>
