@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, SetStateAction, useEffect } from 'react';
 
 import LoadingComponent from '@/components/Loading/LoadingComponent';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
@@ -14,16 +14,21 @@ import useDeleteAlbum from '@/hooks/useDeleteAlbum';
 import useEditAlbum from '@/hooks/useEditAlbum';
 import { closeDialogOnClick } from '@/utils/dialog';
 
+import type { Album } from '@/types/album';
+
 interface DeleteAlbumModalProps {
   onClose: () => void;
   albumName: string;
   albumId: string;
+  setAlbum: React.Dispatch<SetStateAction<Album | null>>;
 }
-const DeleteAlbumModal: React.FC<DeleteAlbumModalProps> = ({
+
+export default function DeleteAlbumModal({
   onClose,
   albumName,
   albumId,
-}) => {
+  setAlbum,
+}: DeleteAlbumModalProps) {
   const [editAlbumName, setEditAlbumName] = useState(albumName);
   const [errMessage, setErrMessage] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -41,6 +46,14 @@ const DeleteAlbumModal: React.FC<DeleteAlbumModalProps> = ({
     if (!result.success) {
       setErrMessage(result.error!);
       return;
+    } else {
+      setAlbum((prev) => {
+        if (prev) {
+          return { ...prev, albumName: editAlbumName };
+        } else {
+          return prev;
+        }
+      });
     }
     onClose();
   };
@@ -50,75 +63,92 @@ const DeleteAlbumModal: React.FC<DeleteAlbumModalProps> = ({
   };
 
   const handleDeleteSuccess = async () => {
-    await deleteAlbumAndHandleException({ albumId });
+    const { success } = await deleteAlbumAndHandleException({ albumId });
+
+    if (success) {
+      setAlbum(null);
+      setShowConfirmModal(false);
+    }
+  };
+
+  useEffect(() => {
     if (error) {
       setShowConfirmModal(false);
-      return <AlertModal message={'삭제를 실패하였습니다'} onClose={onClose} />;
     }
-    setShowConfirmModal(false);
-  };
+  }, [error]);
 
   return (
     <>
-      <StyledDeleteAlbumDialog
-        role="dialog"
-        aria-labelledby="modal-select"
-        ref={showModal}
-        onClick={(e) => closeDialogOnClick(e, onClose)}
-      >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleEditAlbum();
-          }}
-        >
-          <Header className="modal-header" id="modal-select">
-            <h2>Edit Album</h2>
-          </Header>
-          <div className="modal-list">
-            <p>이름</p>
-            <input
-              type="text"
-              value={editAlbumName}
-              onChange={(e) => {
-                setEditAlbumName(e.target.value);
-              }}
-              placeholder="새로운 앨범명을 입력해주세요"
-            />
-            {errMessage !== '' && <strong role="alert">*{errMessage}</strong>}
-            <button type="button" onClick={handleDeleteAlbum}>
-              Delete
-              <Image
-                width={20}
-                height={20}
-                src="/icons/delete-red.svg"
-                alt="휴지통 아이콘"
-              />
-            </button>
-          </div>
-          <button onClick={handleEditAlbum} className="edit-btn" type="submit">
-            저장
-          </button>
-          <button
-            type="button"
-            className="close-button"
-            onClick={onClose}
-            aria-label="모달 닫기"
+      {error ? (
+        <AlertModal message={'삭제를 실패하였습니다'} onClose={onClose} />
+      ) : (
+        <>
+          <StyledDeleteAlbumDialog
+            role="dialog"
+            aria-labelledby="modal-select"
+            ref={showModal}
+            onClick={(e) => closeDialogOnClick(e, onClose)}
           >
-            <Image width={20} height={20} src="/icons/x.svg" alt="" />
-          </button>
-        </form>
-      </StyledDeleteAlbumDialog>
-      {showConfirmModal && (
-        <ConfirmModal
-          onClose={() => setShowConfirmModal(false)}
-          handleAgreeBtn={handleDeleteSuccess}
-          title={`앨범을 정말 삭제하시겠습니까?`}
-          btnNameList={['취소', '확인']}
-        />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleEditAlbum();
+              }}
+            >
+              <Header className="modal-header" id="modal-select">
+                <h2>Edit Album</h2>
+              </Header>
+              <div className="modal-list">
+                <p>이름</p>
+                <input
+                  type="text"
+                  value={editAlbumName}
+                  onChange={(e) => {
+                    setEditAlbumName(e.target.value);
+                  }}
+                  placeholder="새로운 앨범명을 입력해주세요"
+                />
+                {errMessage !== '' && (
+                  <strong role="alert">*{errMessage}</strong>
+                )}
+                <button type="button" onClick={handleDeleteAlbum}>
+                  Delete
+                  <Image
+                    width={20}
+                    height={20}
+                    src="/icons/delete-red.svg"
+                    alt="휴지통 아이콘"
+                  />
+                </button>
+              </div>
+              <button
+                onClick={handleEditAlbum}
+                className="edit-btn"
+                type="submit"
+              >
+                저장
+              </button>
+              <button
+                type="button"
+                className="close-button"
+                onClick={onClose}
+                aria-label="모달 닫기"
+              >
+                <Image width={20} height={20} src="/icons/x.svg" alt="" />
+              </button>
+            </form>
+          </StyledDeleteAlbumDialog>
+          {showConfirmModal && (
+            <ConfirmModal
+              onClose={() => setShowConfirmModal(false)}
+              handleAgreeBtn={handleDeleteSuccess}
+              title={`앨범을 정말 삭제하시겠습니까?`}
+              btnNameList={['취소', '확인']}
+            />
+          )}
+          {isPending && <LoadingComponent />}
+        </>
       )}
-      {isPending && <LoadingComponent />}
     </>
   );
-};
-export default DeleteAlbumModal;
+}
