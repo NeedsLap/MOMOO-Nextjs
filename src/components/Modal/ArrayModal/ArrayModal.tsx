@@ -9,10 +9,12 @@ import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
 import { closeDialogOnClick } from '@/utils/dialog';
 
+import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
+
 interface ArrayModalProps {
   onClose: () => void;
-  selectedOption: string | null;
-  onOptionClick: (option: string) => void;
+  selectedOption: AlbumSortOpt;
+  onOptionClick: (option: AlbumSortOpt) => void;
 }
 
 const ArrayModal: React.FC<ArrayModalProps> = ({

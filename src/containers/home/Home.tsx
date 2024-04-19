@@ -13,6 +13,7 @@ import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { getSharedAlbums } from '@/services/album';
 
+import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
 import type { Album as AlbumType } from '@/types/album';
 
 export default function Home({ album }: { album: AlbumType[] }) {
@@ -21,7 +22,7 @@ export default function Home({ album }: { album: AlbumType[] }) {
   >('나의 앨범');
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<AlbumSortOpt>('latest');
   const [albumData, setAlbumData] = useState<AlbumType[]>(album);
   const [sharedAlbums, setSharedAlbums] = useState<AlbumType[]>([]);
   const [error, setError] = useState('');
@@ -43,13 +44,6 @@ export default function Home({ album }: { album: AlbumType[] }) {
       }
     })();
   }, []);
-  const latestAlbumList = [...albumData].reverse();
-
-  const allFeedsAlbumData = latestAlbumList.pop();
-
-  if (allFeedsAlbumData) {
-    latestAlbumList.unshift(allFeedsAlbumData);
-  }
 
   const windowWidth = useWindowWidth();
 
@@ -66,8 +60,9 @@ export default function Home({ album }: { album: AlbumType[] }) {
   const HandleAddCloseModal = () => {
     setIsAddModalOpen(false);
   };
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = (option: AlbumSortOpt) => {
     setSelectedOption(option);
+    setAlbumData((prev) => [prev[0], ...prev.slice(1).reverse()]);
   };
 
   const changeSelectedAlbumType = () => {
@@ -134,17 +129,17 @@ export default function Home({ album }: { album: AlbumType[] }) {
           </div>
           {selectedAlbumType === '나의 앨범' ? (
             <ul>
-              {(selectedOption === 'oldest' ? albumData : latestAlbumList).map(
-                (v, index) => {
-                  return (
-                    <Album
-                      key={`${v.name}-${index}`}
-                      albumData={v}
-                      showDeleteButton={index !== 0}
-                    />
-                  );
-                },
-              )}
+              {albumData.map((v, index) => {
+                return (
+                  <Album
+                    key={`${v.name}-${index}`}
+                    index={index}
+                    albumData={v}
+                    setAlbumsData={setAlbumData}
+                    showDeleteButton={index !== 0}
+                  />
+                );
+              })}
             </ul>
           ) : (
             <ul>
@@ -155,7 +150,9 @@ export default function Home({ album }: { album: AlbumType[] }) {
                 return (
                   <Album
                     key={v.id}
+                    index={index}
                     albumData={v}
+                    setAlbumsData={setAlbumData}
                     showDeleteButton={index !== 0}
                   />
                 );
@@ -166,6 +163,7 @@ export default function Home({ album }: { album: AlbumType[] }) {
             <NewAlbumModal
               onClose={HandleAddCloseModal}
               setAlbumData={setAlbumData}
+              selectedOption={selectedOption}
             />
           )}
           {isArrayModalOpen && (
