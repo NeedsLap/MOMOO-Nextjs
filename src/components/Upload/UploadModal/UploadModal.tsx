@@ -26,7 +26,7 @@ import {
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 
-function UploadModal() {
+export default function UploadModal() {
   const dispatch = useDispatch();
   const router = useRouter();
   const path = usePathname();
@@ -300,5 +300,3 @@ function UploadModal() {
     </>
   );
 }
-
-export default UploadModal;
