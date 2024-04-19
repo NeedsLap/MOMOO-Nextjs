@@ -15,13 +15,14 @@ import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { getSharedAlbums } from '@/services/album';
 
-export default function Home(props: { album: DocumentData[] }) {
+export default function Home({ album }: { album: DocumentData[] }) {
   const [selectedAlbumType, setSelectedAlbumType] = useState<
     '나의 앨범' | '공유 앨범'
   >('나의 앨범');
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [albumData, setAlbumData] = useState<DocumentData[]>(album);
   const [sharedAlbums, setSharedAlbums] = useState<DocumentData[]>([]);
   const [error, setError] = useState('');
 
@@ -42,12 +43,14 @@ export default function Home(props: { album: DocumentData[] }) {
       }
     })();
   }, []);
+  const latestAlbumList = [...albumData].reverse();
 
-  const latestAlbumList = [...props.album].reverse();
   const allFeedsAlbumData = latestAlbumList.pop();
+
   if (allFeedsAlbumData) {
     latestAlbumList.unshift(allFeedsAlbumData);
   }
+
   const windowWidth = useWindowWidth();
 
   const HandleArrayModal = () => {
@@ -131,16 +134,15 @@ export default function Home(props: { album: DocumentData[] }) {
           </div>
           {selectedAlbumType === '나의 앨범' ? (
             <ul>
-              {(selectedOption === 'oldest'
-                ? props.album
-                : latestAlbumList
-              ).map((v, index) => {
-                return (
-                  <li key={`${v.name}-${index}`}>
-                    <Album albumData={v} showDeleteButton={index !== 0} />
-                  </li>
-                );
-              })}
+              {(selectedOption === 'oldest' ? albumData : latestAlbumList).map(
+                (v, index) => {
+                  return (
+                    <li key={`${v.name}-${index}`}>
+                      <Album albumData={v} showDeleteButton={index !== 0} />
+                    </li>
+                  );
+                },
+              )}
             </ul>
           ) : (
             <ul>
@@ -156,7 +158,12 @@ export default function Home(props: { album: DocumentData[] }) {
               })}
             </ul>
           )}
-          {isAddModalOpen && <NewAlbumModal onClose={HandleAddCloseModal} />}
+          {isAddModalOpen && (
+            <NewAlbumModal
+              onClose={HandleAddCloseModal}
+              setAlbumData={setAlbumData}
+            />
+          )}
           {isArrayModalOpen && (
             <ArrayModal
               selectedOption={selectedOption}

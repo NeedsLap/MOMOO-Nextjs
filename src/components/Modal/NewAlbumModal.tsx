@@ -1,13 +1,18 @@
 import { useState } from 'react';
 
+import { DocumentData } from 'firebase/firestore';
+
 import InputModal from '@/components/Modal/InputModal/InputModal';
 import useAddAlbum from '@/hooks/useAddAlbum';
-
-const NewAlbumModal = ({ onClose }: { onClose: () => void }) => {
+interface NewAlbumModalProps {
+  onClose: () => void;
+  setAlbumData: React.Dispatch<React.SetStateAction<DocumentData[]>>;
+}
+const NewAlbumModal = ({ onClose, setAlbumData }: NewAlbumModalProps) => {
   const [albumName, setAlbumName] = useState('');
   const [errMessage, setErrMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const addAlbum = useAddAlbum();
+  const validateAndAddAlbum = useAddAlbum();
 
   const handleAlbum = async () => {
     if (isSubmitting) {
@@ -22,9 +27,11 @@ const NewAlbumModal = ({ onClose }: { onClose: () => void }) => {
         return;
       }
 
-      const result = await addAlbum({ albumName });
-
-      if (!result.success) {
+      const result = await validateAndAddAlbum({ albumName });
+      if (result.updateData) {
+        setAlbumData((prevState) => [...prevState, result.updateData]);
+        onClose();
+      } else {
         setErrMessage(result.error!);
         return;
       }
