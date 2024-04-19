@@ -17,8 +17,9 @@ export async function GET() {
   );
   const thumbnailPromises = feedListValues.map(async (feedId) => {
     const thumbnail = await getThumbnail(uid, feedId);
+
     if (thumbnail) {
-      return thumbnail.imageUrl;
+      return thumbnail;
     } else return undefined;
   });
 
@@ -26,7 +27,7 @@ export async function GET() {
   album.forEach((item, i) => {
     if (thumbnails[i] !== undefined) {
       // thumbnails[i]가 정의되어 있는 경우에만 처리
-      item.imageUrl = thumbnails[i].toString();
+      item.imageUrl = thumbnails[i];
     } else {
       item.imageUrl = null;
     }

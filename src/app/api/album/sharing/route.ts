@@ -35,12 +35,10 @@ export async function GET() {
         const sharedAlbumUser = ref.path.split('/')[0];
         albumData.uid = sharedAlbumUser;
         const thumbnail =
-          (
-            await getThumbnail(
-              sharedAlbumUser,
-              albumData.feedList[albumData.feedList.length - 1],
-            )
-          )?.imageUrl || null;
+          (await getThumbnail(
+            sharedAlbumUser,
+            albumData.feedList[albumData.feedList.length - 1],
+          )) || null;
         albumData.imageUrl = thumbnail;
         sharedAlbumsData.push(albumData);
       }
