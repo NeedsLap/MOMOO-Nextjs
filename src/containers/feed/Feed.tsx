@@ -3,6 +3,8 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import FeedItem from '@/components/FeedItem/FeedItem';
 import Toast from '@/components/Toast/Toast';
@@ -13,6 +15,7 @@ import useGetFeeds from '@/hooks/useGetFeeds';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useUploadFeed from '@/hooks/useUploadFeed';
 import useWindowWidth from '@/hooks/useWindowWidth';
+import { resetUploadFeedModalState } from '@/modules/uploadFeedModal';
 
 import { Feed as FeedType } from '@/types/feed';
 
@@ -34,6 +37,7 @@ export default function Feed({
   const { error, getFeeds } = useGetFeeds();
   const { shouldUpdateFeedsData } = useUploadFeed();
 
+  const dispatch = useDispatch();
   const { uid } = useParams<{ uid: string }>();
   const searchParams = useSearchParams();
   const start = parseInt(searchParams.get('start') || '0');
@@ -70,6 +74,7 @@ export default function Feed({
     };
 
     updateFeedsData();
+    dispatch(resetUploadFeedModalState());
   }, [shouldUpdateFeedsData]);
 
   useEffect(() => {

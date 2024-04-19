@@ -74,7 +74,8 @@ type UploadFeedModalAction =
       };
     }
   | { type: 'close'; payload: null }
-  | { type: 'done'; payload: null };
+  | { type: 'done'; payload: null }
+  | { type: 'reset'; payload: null };
 
 interface ReduxState {
   signup: SignupState;
