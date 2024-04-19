@@ -138,7 +138,7 @@ export default function Home({ album }: { album: AlbumType[] }) {
                 (v, index) => {
                   return (
                     <Album
-                      key={v.id}
+                      key={`${v.name}-${index}`}
                       albumData={v}
                       showDeleteButton={index !== 0}
                     />
