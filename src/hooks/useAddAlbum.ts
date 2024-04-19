@@ -10,7 +10,6 @@ interface Props {
 
 export default function useAddAlbum() {
   const { user } = useAuthState();
-
   const validateAndAddAlbum = async ({ albumName }: Props) => {
     const userAlbumDocRef = collection(
       appFireStore,
@@ -22,6 +21,7 @@ export default function useAddAlbum() {
       userAlbumDocRef,
       where('name', '==', albumName),
     );
+
     const duplicateAlbumSnapshot = await getDocs(duplicateAlbumQuery);
     if (!duplicateAlbumSnapshot.empty) {
       // 유효성 검사: 이미 동일한 이름의 앨범이 존재하는 경우 처리
@@ -30,8 +30,14 @@ export default function useAddAlbum() {
 
     try {
       await addAlbum(user.uid, albumName);
-
-      return { success: true };
+      const querySnapshot = await getDocs(duplicateAlbumQuery);
+      if (querySnapshot) {
+        const doc = querySnapshot.docs[0];
+        const updateData = doc.data();
+        return { updateData: updateData, success: true };
+      } else {
+        return { updateData: null, success: true };
+      }
     } catch (error) {
       return {
         success: false,
