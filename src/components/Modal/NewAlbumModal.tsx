@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
-
 import InputModal from '@/components/Modal/InputModal/InputModal';
 import useAddAlbum from '@/hooks/useAddAlbum';
+
+import type { Album } from '@/types/album';
 interface NewAlbumModalProps {
   onClose: () => void;
-  setAlbumData: React.Dispatch<React.SetStateAction<DocumentData[]>>;
+  setAlbumData: React.Dispatch<React.SetStateAction<Album[]>>;
 }
 const NewAlbumModal = ({ onClose, setAlbumData }: NewAlbumModalProps) => {
   const [albumName, setAlbumName] = useState('');
