@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { AlbumContainer, AlbumLink } from '@/components/Album/StyledAlbum';
 import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
-import DeleteAlbumModal from '@/components/Modal/DeleteAlbumModal/DeleteAlbumModal';
+import DeleteAndEditAlbumModal from '@/components/Modal/DeleteAndEditAlbumModal/DeleteAndEditAlbumModal';
 import SharingModal from '@/components/Modal/SharingModal/SharingModal';
 import useAuthState from '@/hooks/auth/useAuthState';
 
@@ -58,7 +58,7 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
               />
             )}
             {isEditAlbumModalOpen && (
-              <DeleteAlbumModal
+              <DeleteAndEditAlbumModal
                 albumId={album.id}
                 albumName={album.name}
                 onClose={() => setIsEditAlbumModalOpen(false)}

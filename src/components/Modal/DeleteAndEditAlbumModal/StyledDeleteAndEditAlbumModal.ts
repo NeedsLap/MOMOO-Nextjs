@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledDeleteAlbumDialog = styled.dialog`
+const StyledDeleteAndEditAlbumDialog = styled.dialog`
   background: var(--background-color);
   border-radius: 10px;
   width: 31.8rem;
@@ -84,4 +84,4 @@ const Header = styled.header`
   }
 `;
 
-export { StyledDeleteAlbumDialog, Header };
+export { StyledDeleteAndEditAlbumDialog, Header };

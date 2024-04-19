@@ -5,9 +5,9 @@ import LoadingComponent from '@/components/Loading/LoadingComponent';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import ConfirmModal from '@/components/Modal/ConfirmModal/ConfirmModal';
 import {
-  StyledDeleteAlbumDialog,
+  StyledDeleteAndEditAlbumDialog,
   Header,
-} from '@/components/Modal/DeleteAlbumModal/StyledDeleteAlbumModal';
+} from '@/components/Modal/DeleteAndEditAlbumModal/StyledDeleteAndEditAlbumModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import useDeleteAlbum from '@/hooks/useDeleteAlbum';
@@ -16,19 +16,19 @@ import { closeDialogOnClick } from '@/utils/dialog';
 
 import type { Album } from '@/types/album';
 
-interface DeleteAlbumModalProps {
+interface DeleteAndEditAlbumModalProps {
   onClose: () => void;
   albumName: string;
   albumId: string;
   setAlbum: React.Dispatch<SetStateAction<Album | null>>;
 }
 
-export default function DeleteAlbumModal({
+export default function DeleteAndEditAlbumModal({
   onClose,
   albumName,
   albumId,
   setAlbum,
-}: DeleteAlbumModalProps) {
+}: DeleteAndEditAlbumModalProps) {
   const [editAlbumName, setEditAlbumName] = useState(albumName);
   const [errMessage, setErrMessage] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -83,7 +83,7 @@ export default function DeleteAlbumModal({
         <AlertModal message={'삭제를 실패하였습니다'} onClose={onClose} />
       ) : (
         <>
-          <StyledDeleteAlbumDialog
+          <StyledDeleteAndEditAlbumDialog
             role="dialog"
             aria-labelledby="modal-select"
             ref={showModal}
@@ -137,7 +137,7 @@ export default function DeleteAlbumModal({
                 <Image width={20} height={20} src="/icons/x.svg" alt="" />
               </button>
             </form>
-          </StyledDeleteAlbumDialog>
+          </StyledDeleteAndEditAlbumDialog>
           {showConfirmModal && (
             <ConfirmModal
               onClose={() => setShowConfirmModal(false)}
