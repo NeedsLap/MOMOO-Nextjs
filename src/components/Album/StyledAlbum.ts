@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 interface Props {
-  $imageUrl?: string;
+  $imageUrl: string | null;
 }
 
 const AlbumContainer = styled.article<Props>`

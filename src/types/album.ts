@@ -8,7 +8,7 @@ interface AlbumMetadata {
 }
 
 interface Album extends AlbumMetadata {
-  imageUrl: string;
+  imageUrl: string | null;
   id: string;
   uid?: string;
 }
