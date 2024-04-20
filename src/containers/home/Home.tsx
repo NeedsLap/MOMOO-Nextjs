@@ -132,10 +132,8 @@ export default function Home({ album }: { album: AlbumType[] }) {
               {albumData.map((v, index) => {
                 return (
                   <Album
-                    key={`${v.name}-${index}`}
-                    index={index}
+                    key={v.id}
                     albumData={v}
-                    setAlbumsData={setAlbumData}
                     showDeleteButton={index !== 0}
                   />
                 );
@@ -150,9 +148,7 @@ export default function Home({ album }: { album: AlbumType[] }) {
                 return (
                   <Album
                     key={v.id}
-                    index={index}
                     albumData={v}
-                    setAlbumsData={setAlbumData}
                     showDeleteButton={index !== 0}
                   />
                 );

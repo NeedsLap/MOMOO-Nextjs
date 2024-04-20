@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 import { AlbumContainer, AlbumLink } from '@/components/Album/StyledAlbum';
 import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
@@ -9,21 +9,15 @@ import useAuthState from '@/hooks/auth/useAuthState';
 import type { Album } from '@/types/album';
 
 interface AlbumProps {
-  index: number;
   albumData: Album;
-  setAlbumsData: Dispatch<SetStateAction<Album[]>>;
   showDeleteButton: boolean;
 }
 
-export default function Album({
-  index,
-  albumData,
-  setAlbumsData,
-  showDeleteButton,
-}: AlbumProps) {
+export default function Album({ albumData, showDeleteButton }: AlbumProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditAlbumModalOpen, setIsEditAlbumModalOpen] = useState(false);
   const [isSharingModalOpen, setIsSharingModalOpen] = useState(false);
+  const [album, setAlbum] = useState<Album | null>(albumData);
 
   const { user } = useAuthState();
 
@@ -35,16 +29,18 @@ export default function Album({
     setIsModalOpen(false);
   };
 
+  if (!album) {
+    return <></>;
+  }
+
   return (
     <li>
-      <AlbumContainer $imageUrl={albumData.imageUrl}>
-        <AlbumLink
-          href={`/${albumData.uid || user.uid}/album/${albumData.name}`}
-        >
+      <AlbumContainer $imageUrl={album.imageUrl}>
+        <AlbumLink href={`/${album.uid || user.uid}/album/${album.name}`}>
           <div className="txtWrapper">
-            <p className="albumTitle">{albumData.name}</p>
+            <p className="albumTitle">{album.name}</p>
             <div className="CountWrapper">
-              <p className="albumCount">{albumData.feedList.length}</p>
+              <p className="albumCount">{album.feedList.length}</p>
               {showDeleteButton && (
                 <button
                   type="button"
@@ -65,16 +61,15 @@ export default function Album({
         )}
         {isEditAlbumModalOpen && (
           <DeleteAndEditAlbumModal
-            albumId={albumData.id}
-            albumName={albumData.name}
+            albumId={album.id}
+            albumName={album.name}
             onClose={() => setIsEditAlbumModalOpen(false)}
-            setAlbumsData={setAlbumsData}
-            index={index}
+            setAlbum={setAlbum}
           />
         )}
         {isSharingModalOpen && (
           <SharingModal
-            albumId={albumData.id}
+            albumId={album.id}
             closeModal={() => setIsSharingModalOpen(false)}
           />
         )}

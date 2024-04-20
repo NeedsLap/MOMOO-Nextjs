@@ -20,16 +20,14 @@ interface DeleteAndEditAlbumModalProps {
   onClose: () => void;
   albumName: string;
   albumId: string;
-  setAlbumsData: React.Dispatch<SetStateAction<Album[]>>;
-  index: number;
+  setAlbum: React.Dispatch<SetStateAction<Album | null>>;
 }
 
 export default function DeleteAndEditAlbumModal({
   onClose,
   albumName,
   albumId,
-  setAlbumsData,
-  index,
+  setAlbum,
 }: DeleteAndEditAlbumModalProps) {
   const [editAlbumName, setEditAlbumName] = useState(albumName);
   const [errMessage, setErrMessage] = useState('');
@@ -49,11 +47,13 @@ export default function DeleteAndEditAlbumModal({
       setErrMessage(result.error!);
       return;
     } else {
-      setAlbumsData((prev) => [
-        ...prev.slice(0, index),
-        { ...prev[index], name: editAlbumName },
-        ...prev.slice(index + 1),
-      ]);
+      setAlbum((prev) => {
+        if (prev) {
+          return { ...prev, name: editAlbumName };
+        } else {
+          return prev;
+        }
+      });
     }
     onClose();
   };
@@ -65,10 +65,7 @@ export default function DeleteAndEditAlbumModal({
   const handleDeleteSuccess = async () => {
     const { success } = await deleteAlbumAndHandleException({ albumId });
     if (success) {
-      setAlbumsData((prev) => [
-        ...prev.slice(0, index),
-        ...prev.slice(index + 1),
-      ]);
+      setAlbum(null);
       setShowConfirmModal(false);
     }
   };
