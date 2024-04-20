@@ -64,6 +64,7 @@ export default function DeleteAndEditAlbumModal({
 
   const handleDeleteSuccess = async () => {
     const { success } = await deleteAlbumAndHandleException({ albumId });
+
     if (success) {
       setAlbum(null);
       setShowConfirmModal(false);
