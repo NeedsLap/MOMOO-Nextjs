@@ -29,51 +29,53 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
     setIsModalOpen(false);
   };
 
-  if (!album) {
-    return <></>;
-  }
-
   return (
-    <li>
-      <AlbumContainer $imageUrl={album.imageUrl}>
-        <AlbumLink href={`/${album.uid || user.uid}/album/${album.name}`}>
-          <div className="txtWrapper">
-            <p className="albumTitle">{album.name}</p>
-            <div className="CountWrapper">
-              <p className="albumCount">{album.feedList.length}</p>
-              {showDeleteButton && (
-                <button
-                  type="button"
-                  onClick={HandleModal}
-                  aria-label="더보기"
-                />
-              )}
-            </div>
-          </div>
-        </AlbumLink>
+    <>
+      {album ? (
+        <li>
+          <AlbumContainer $imageUrl={album.imageUrl}>
+            <AlbumLink href={`/${album.uid || user.uid}/album/${album.name}`}>
+              <div className="txtWrapper">
+                <p className="albumTitle">{album.name}</p>
+                <div className="CountWrapper">
+                  <p className="albumCount">{album.feedList.length}</p>
+                  {showDeleteButton && (
+                    <button
+                      type="button"
+                      onClick={HandleModal}
+                      aria-label="더보기"
+                    />
+                  )}
+                </div>
+              </div>
+            </AlbumLink>
 
-        {isModalOpen && (
-          <AlbumMoreModal
-            closeModal={closeMoreModal}
-            setIsEditAlbumModalOpen={setIsEditAlbumModalOpen}
-            setIsSharingModalOpen={setIsSharingModalOpen}
-          />
-        )}
-        {isEditAlbumModalOpen && (
-          <DeleteAndEditAlbumModal
-            albumId={album.id}
-            albumName={album.name}
-            onClose={() => setIsEditAlbumModalOpen(false)}
-            setAlbum={setAlbum}
-          />
-        )}
-        {isSharingModalOpen && (
-          <SharingModal
-            albumId={album.id}
-            closeModal={() => setIsSharingModalOpen(false)}
-          />
-        )}
-      </AlbumContainer>
-    </li>
+            {isModalOpen && (
+              <AlbumMoreModal
+                closeModal={closeMoreModal}
+                setIsEditAlbumModalOpen={setIsEditAlbumModalOpen}
+                setIsSharingModalOpen={setIsSharingModalOpen}
+              />
+            )}
+            {isEditAlbumModalOpen && (
+              <DeleteAndEditAlbumModal
+                albumId={album.id}
+                albumName={album.name}
+                onClose={() => setIsEditAlbumModalOpen(false)}
+                setAlbum={setAlbum}
+              />
+            )}
+            {isSharingModalOpen && (
+              <SharingModal
+                albumId={album.id}
+                closeModal={() => setIsSharingModalOpen(false)}
+              />
+            )}
+          </AlbumContainer>
+        </li>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
