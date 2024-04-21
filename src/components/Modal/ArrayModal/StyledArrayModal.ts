@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
 const StyledArrayModal = styled.dialog`
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 45px;
+  margin: 0 45px 0 auto;
+  z-index: 1000;
   background: none;
 
   .modal-wrap {
-    margin: 205px 318px 0 auto;
     border-radius: 1rem;
     background-color: var(--background-color);
     border: 1px solid var(--gray-200);

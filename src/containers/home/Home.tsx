@@ -123,6 +123,13 @@ export default function Home({ album }: { album: AlbumType[] }) {
                 alt="정렬방식 아이콘"
               />
             </button>
+            {isArrayModalOpen && (
+              <ArrayModal
+                selectedOption={selectedOption}
+                onOptionClick={handleOptionClick}
+                onClose={HandleArrayCloseModal}
+              />
+            )}
             <button type="button" className="add-btn" onClick={HandleAddModal}>
               <Image
                 width={20}
@@ -166,13 +173,6 @@ export default function Home({ album }: { album: AlbumType[] }) {
             <NewAlbumModal
               onClose={HandleAddCloseModal}
               setAlbumData={setAlbumData}
-            />
-          )}
-          {isArrayModalOpen && (
-            <ArrayModal
-              selectedOption={selectedOption}
-              onOptionClick={handleOptionClick}
-              onClose={HandleArrayCloseModal}
             />
           )}
         </StyledHomeSection>
