@@ -4,7 +4,7 @@ import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 import { addAlbum } from '@/utils/SDKUtils';
 
-import type { Album } from '@/types/album';
+import type { Album, AlbumMetadata } from '@/types/album';
 
 interface Props {
   albumName: string;
@@ -35,8 +35,13 @@ export default function useAddAlbum() {
       const querySnapshot = await getDocs(duplicateAlbumQuery);
       if (querySnapshot) {
         const doc = querySnapshot.docs[0];
-        const updateData = doc.data() as Album;
-        return { updateData: updateData, success: true };
+        const albumData = doc.data() as AlbumMetadata;
+        const updateData: Album = { ...albumData, id: doc.id, imageUrl: null };
+
+        return {
+          updateData,
+          success: true,
+        };
       } else {
         return { updateData: null, success: true };
       }

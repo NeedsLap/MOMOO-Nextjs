@@ -3,12 +3,20 @@ import { useState } from 'react';
 import InputModal from '@/components/Modal/InputModal/InputModal';
 import useAddAlbum from '@/hooks/useAddAlbum';
 
+import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
 import type { Album } from '@/types/album';
+
 interface NewAlbumModalProps {
   onClose: () => void;
   setAlbumData: React.Dispatch<React.SetStateAction<Album[]>>;
+  selectedOption: AlbumSortOpt;
 }
-const NewAlbumModal = ({ onClose, setAlbumData }: NewAlbumModalProps) => {
+
+export default function NewAlbumModal({
+  onClose,
+  setAlbumData,
+  selectedOption,
+}: NewAlbumModalProps) {
   const [albumName, setAlbumName] = useState('');
   const [errMessage, setErrMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
@@ -19,13 +27,20 @@ const NewAlbumModal = ({ onClose, setAlbumData }: NewAlbumModalProps) => {
       return;
     }
     try {
-      const result = await validateAndAddAlbum({ albumName });
-      if (result.updateData) {
-        setAlbumData((prevState) => [...prevState, result.updateData]);
-        onClose();
-      } else {
-        setErrMessage(result.error!);
+      const { updateData, error } = await validateAndAddAlbum({ albumName });
+      if (!updateData) {
+        setErrMessage(error!);
         return;
+      }
+
+      if (selectedOption === 'oldest') {
+        setAlbumData((prevState) => [...prevState, updateData]);
+      } else {
+        setAlbumData((prevState) => [
+          prevState[0],
+          updateData,
+          ...prevState.slice(1),
+        ]);
       }
 
       onClose();
@@ -76,5 +91,4 @@ const NewAlbumModal = ({ onClose, setAlbumData }: NewAlbumModalProps) => {
       </form>
     </InputModal>
   );
-};
-export default NewAlbumModal;
+}
