@@ -152,6 +152,7 @@ export default function UploadModal() {
       if (decodeURI(path) === `/${user.uid}/album/${albumNameToAdd[0]}/feed`) {
         dispatch(shouldReloadPostData());
       }
+      router.refresh();
     } catch (error) {
       console.error(error);
       closeUploadModal();
