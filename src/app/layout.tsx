@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
