@@ -34,11 +34,17 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
       {album ? (
         <li>
           <AlbumContainer $imageUrl={album.imageUrl}>
-            <AlbumLink href={`/${album.uid || user.uid}/album/${album.name}`}>
+            <AlbumLink
+              href={`/${album.user?.uid || user.uid}/album/${album.name}`}
+            >
               <div className="txtWrapper">
                 <p className="albumTitle">{album.name}</p>
                 <div className="CountWrapper">
-                  <p className="albumCount">{album.feedList.length}</p>
+                  <p className="albumCount">
+                    {album.user
+                      ? `${album.user.displayName || album.user.email}님이 생성`
+                      : album.feedList.length}
+                  </p>
                   {showDeleteButton && (
                     <button
                       type="button"

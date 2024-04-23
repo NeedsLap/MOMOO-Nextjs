@@ -1,8 +1,11 @@
-import type { InputState } from '@/containers/signup/model';
+interface InputState {
+  vaild: boolean;
+  value: string;
+}
 
 interface SignupForm {
   profileImgFiles: FileList | null;
-  displayName: string;
+  displayName: InputState;
   email: InputState;
   password: InputState;
   passwordConfirm: InputState;

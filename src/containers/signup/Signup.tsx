@@ -20,13 +20,14 @@ import { ReduxState } from '@/modules/model';
 
 export default function Signup() {
   const [profileImgFiles, setProfileImgFiles] = useState<FileList | null>(null);
-  const [displayName, setDisplayName] = useState('');
+  const [displayName, setDisplayName] = useState({ vaild: false, value: '' });
   const [email, setEmail] = useState({ vaild: false, value: '' });
   const [password, setPassword] = useState({ vaild: false, value: '' });
   const [passwordConfirm, setPasswordConfirm] = useState({
     vaild: false,
     value: '',
   });
+  const [displayNameErrMessage, setDisplayNameErrMessage] = useState('');
   const [emailErrMessage, setEmailErrMessage] = useState('');
   const [passwordErrMessage, setPasswordErrMessage] = useState('');
   const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] =
@@ -52,7 +53,6 @@ export default function Signup() {
   const signupFormdata = useSelector(
     (state: ReduxState) => state.signup.signupForm,
   );
-
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -80,19 +80,22 @@ export default function Signup() {
 
     switch (error) {
       case 'auth/email-already-in-use':
+        setEmail((prev) => {
+          return { ...prev, vaild: false };
+        });
         setEmailErrMessage('이미 사용 중인 이메일입니다');
         break;
       case 'auth/network-request-failed':
         setSubmitErrMessage('네트워크 연결에 실패했습니다');
         break;
       case 'auth/invalid-email':
+        setEmail((prev) => {
+          return { ...prev, vaild: false };
+        });
         setEmailErrMessage('잘못된 이메일 형식입니다');
         break;
       case 'auth/internal-error':
         setSubmitErrMessage('잘못된 요청입니다');
-        break;
-      case 'auth/weak-password':
-        setPasswordErrMessage('6자 이상 입력해주세요');
         break;
       default:
         setSubmitErrMessage('회원가입 중 에러가 발생했습니다');
@@ -100,21 +103,39 @@ export default function Signup() {
   }, [error]);
 
   useEffect(() => {
-    if (email.vaild && password.vaild && passwordConfirm.vaild && allChecked) {
+    if (
+      displayName.vaild &&
+      email.vaild &&
+      password.vaild &&
+      passwordConfirm.vaild &&
+      allChecked
+    ) {
       setDisabledSubmitBtn(false);
     } else {
       setDisabledSubmitBtn(true);
     }
-  }, [email, password, passwordConfirm, allChecked]);
+  }, [displayName, email, password, passwordConfirm, allChecked]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signup({
       email: email.value,
       password: password.value,
-      displayName: displayName,
+      displayName: displayName.value,
       file,
     });
+  };
+
+  const handleDisplayNameInp = (target: HTMLInputElement) => {
+    const value = target.value;
+
+    if (target.validity.valueMissing) {
+      setDisplayNameErrMessage('닉네임을 입력해주세요');
+      setDisplayName({ value, vaild: false });
+    } else {
+      setDisplayNameErrMessage('');
+      setDisplayName({ value, vaild: true });
+    }
   };
 
   const handleEmailInp = (target: HTMLInputElement) => {
@@ -173,7 +194,7 @@ export default function Signup() {
         handlePasswordConfirmInp(e.target.value);
         break;
       case 'displayName-inp':
-        setDisplayName(e.target.value);
+        handleDisplayNameInp(e.target);
     }
   };
 
@@ -229,7 +250,7 @@ export default function Signup() {
             <Image
               width={45}
               height={45}
-              src={'/icons/edit-circle.svg'}
+              src="/icons/edit-circle.svg"
               alt="변경하기"
             />
           </label>
@@ -253,9 +274,13 @@ export default function Signup() {
             placeholder="nickname"
             type="text"
             maxLength={20}
-            value={displayName}
+            value={displayName.value}
             onChange={handleInp}
+            required
           />
+          {displayNameErrMessage && (
+            <strong role="alert">*{displayNameErrMessage}</strong>
+          )}
           <label htmlFor="email-inp" className="a11y-hidden">
             이메일
           </label>
@@ -268,9 +293,7 @@ export default function Signup() {
             onChange={handleInp}
             required
           />
-          {emailErrMessage && (
-            <strong role="alert">{`*${emailErrMessage}`}</strong>
-          )}
+          {emailErrMessage && <strong role="alert">*{emailErrMessage}</strong>}
           <label htmlFor="password-inp" className="a11y-hidden">
             비밀번호
           </label>
@@ -285,7 +308,7 @@ export default function Signup() {
             required
           />
           {passwordErrMessage && (
-            <strong role="alert">{`*${passwordErrMessage}`}</strong>
+            <strong role="alert">*{passwordErrMessage}</strong>
           )}
           <label htmlFor="passwordConfirm-inp" className="a11y-hidden">
             비밀번호 재확인
@@ -301,7 +324,7 @@ export default function Signup() {
             required
           />
           {passwordConfirmErrMessage && (
-            <strong role="alert">{`*${passwordConfirmErrMessage}`}</strong>
+            <strong role="alert">*{passwordConfirmErrMessage}</strong>
           )}
           <div className="agree">
             <h3>MOMOO 서비스 약관에 동의해 주세요.</h3>

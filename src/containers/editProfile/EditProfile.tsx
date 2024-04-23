@@ -25,6 +25,7 @@ import type {
 export default function EditProfile({ profile }: EditProfileProps) {
   const [displayName, setDisplayName] = useState({
     value: profile.displayName,
+    vaild: true,
     changed: false,
   });
   const [email, setEmail] = useState({
@@ -40,6 +41,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     value: '',
     vaild: true,
   });
+  const [displayNameErrMessage, setDisplayNameErrMessage] = useState('');
   const [emailErrMessage, setEmailErrMessage] = useState('');
   const [passwordErrMessage, setPasswordErrMessage] = useState('');
   const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] =
@@ -79,7 +81,12 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
     setSubmitErrMessage('');
 
-    if (!email.vaild || !password.vaild || !passwordConfirm.vaild) {
+    if (
+      !displayName.vaild ||
+      !email.vaild ||
+      !password.vaild ||
+      !passwordConfirm.vaild
+    ) {
       setDisabledEditButton(true);
       return;
     }
@@ -224,8 +231,11 @@ export default function EditProfile({ profile }: EditProfileProps) {
   const handleDisplayNameInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const changed = user.displayName !== value;
+    setDisplayName({ value, vaild: !!value, changed });
 
-    setDisplayName({ value, changed });
+    if (e.target.validity.valueMissing) {
+      setDisplayNameErrMessage('닉네임을 입력해주세요');
+    }
   };
 
   return (
@@ -311,7 +321,11 @@ export default function EditProfile({ profile }: EditProfileProps) {
               value={displayName.value}
               maxLength={20}
               onChange={handleDisplayNameInp}
+              required
             />
+            {displayNameErrMessage && (
+              <strong role="alert">*{displayNameErrMessage}</strong>
+            )}
             <label htmlFor="email-inp" className="a11y-hidden">
               이메일
             </label>
@@ -323,9 +337,9 @@ export default function EditProfile({ profile }: EditProfileProps) {
               maxLength={98}
               onChange={handleEmailInp}
             />
-            <strong role="alert">
-              {emailErrMessage && `*${emailErrMessage}`}
-            </strong>
+            {emailErrMessage && (
+              <strong role="alert">*{emailErrMessage}</strong>
+            )}
             <label htmlFor="password-inp" className="a11y-hidden">
               비밀번호
             </label>
@@ -338,9 +352,9 @@ export default function EditProfile({ profile }: EditProfileProps) {
               value={password.value}
               onChange={handlePasswordInp}
             />
-            <strong role="alert">
-              {passwordErrMessage && `*${passwordErrMessage}`}
-            </strong>
+            {passwordErrMessage && (
+              <strong role="alert">*{passwordErrMessage}</strong>
+            )}
             <label htmlFor="password-inp" className="a11y-hidden">
               비밀번호 재확인
             </label>
@@ -353,9 +367,9 @@ export default function EditProfile({ profile }: EditProfileProps) {
               value={passwordConfirm.value}
               onChange={handlePasswordConfirmInp}
             />
-            <strong role="alert">
-              {passwordConfirmErrMessage && `*${passwordConfirmErrMessage}`}
-            </strong>
+            {passwordConfirmErrMessage && (
+              <strong role="alert">*{passwordConfirmErrMessage}</strong>
+            )}
             <Button size="l" disabled={disabledEditButton}>
               {updateProfileIsPending ? (
                 <Image

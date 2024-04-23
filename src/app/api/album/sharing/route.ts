@@ -1,9 +1,12 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-import { DocumentData, DocumentReference, getDoc } from 'firebase/firestore';
+import { DocumentReference, getDoc } from 'firebase/firestore';
 
+import { adminAppAuth } from '@/firebase/adminConfig';
 import { getSharedAlbums, getThumbnail } from '@/utils/SDKUtils';
+
+import { Album, AlbumMetadata } from '@/types/album';
 
 export async function GET() {
   const uid = cookies().get('uid')?.value;
@@ -26,21 +29,30 @@ export async function GET() {
       return NextResponse.json([]);
     }
 
-    const sharedAlbumsData: DocumentData[] = [];
+    const sharedAlbumsData: Album[] = [];
     const promises = sharedAlbums.map(async (ref: DocumentReference) => {
       const albumDocSnap = await getDoc(ref);
-      const albumData = albumDocSnap.data();
+      const albumData = albumDocSnap.data() as AlbumMetadata;
 
       if (albumData) {
         const sharedAlbumUser = ref.path.split('/')[0];
-        albumData.uid = sharedAlbumUser;
-        const thumbnail =
+        const thumbnail: string | null =
           (await getThumbnail(
             sharedAlbumUser,
             albumData.feedList[albumData.feedList.length - 1],
           )) || null;
-        albumData.imageUrl = thumbnail;
-        sharedAlbumsData.push(albumData);
+        const { displayName, email } = await adminAppAuth.getUser(uid);
+
+        sharedAlbumsData.push({
+          ...albumData,
+          user: {
+            uid: sharedAlbumUser,
+            displayName,
+            email,
+          },
+          imageUrl: thumbnail,
+          id: albumDocSnap.id,
+        });
       }
     });
 
