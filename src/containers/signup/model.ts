@@ -3,9 +3,4 @@ interface StyledSignupProps {
   $checkboxCheckedIcon: string;
 }
 
-interface InputState {
-  vaild: boolean;
-  value: string;
-}
-
-export type { StyledSignupProps, InputState };
+export type { StyledSignupProps };
