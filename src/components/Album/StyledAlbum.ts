@@ -24,7 +24,7 @@ const AlbumContainer = styled.article<Props>`
     padding: 2rem 1.5rem;
     .albumTitle {
       color: var(--background-color);
-      font-size: 2.4rem;
+      font-size: var(--title-m);
     }
     .CountWrapper {
       display: flex;
@@ -32,8 +32,8 @@ const AlbumContainer = styled.article<Props>`
       align-items: center;
       .albumCount {
         color: var(--gray-200);
-        font-family: Prata;
-        font-size: 2rem;
+        font-family: var(--title-font-family);
+        font-size: var(--text-l);
         font-style: normal;
         font-weight: 400;
         line-height: 150%;
