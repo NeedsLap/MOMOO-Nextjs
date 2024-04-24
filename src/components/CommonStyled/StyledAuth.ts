@@ -116,7 +116,7 @@ const StyledAuth = styled.main`
 
   @media (min-width: 1025px) {
     margin: 0 var(--right-padding-pc) 0 var(--nav-width-pc);
-    padding: 0 var(--margin-pc);
+    padding: var(--padding-top-pc) var(--margin-pc);
 
     .container {
       justify-content: center;
