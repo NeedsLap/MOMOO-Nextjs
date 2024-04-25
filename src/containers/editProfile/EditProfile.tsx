@@ -301,6 +301,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
             </label>
             <input
               id="profile-inp"
+              accept="image/*"
               type="file"
               className="a11y-hidden"
               onClick={(e) =>
