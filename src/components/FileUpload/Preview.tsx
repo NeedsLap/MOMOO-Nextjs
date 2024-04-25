@@ -38,12 +38,11 @@ export default function Preview({
 
       if (!valid) {
         setSubmitErrMessage(
-          '이미지 파일 확장자는 jpg, svg, png, jpeg, gif, bmp, tif, heic만 가능합니다.',
+          '이미지 파일 확장자는 jpg, svg, png, jpeg, gif, bmp, tif, heic, webp만 가능합니다.',
         );
         return;
       }
 
-      // 모든 파일이 유효한 경우 이미지 설정 및 업로드
       setImages(files);
     } else {
       setSubmitErrMessage('이미지 파일을 선택해주세요.');
@@ -115,6 +114,9 @@ export default function Preview({
               multiple
               type="file"
               id="file"
+              onClick={(e) =>
+                ((e.currentTarget as HTMLInputElement).value = '')
+              }
               onChange={handleImageUpload}
             />
           </Styled.PreviewSection>
