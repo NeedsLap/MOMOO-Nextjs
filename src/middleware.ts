@@ -17,7 +17,6 @@ export const config = {
   matcher: [
     '/login',
     '/signup',
-    '/',
     '/((?!api).*)/album/:albumName/',
     '/:uid/album/:albumName/feed',
     '/my',
