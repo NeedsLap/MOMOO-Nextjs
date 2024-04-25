@@ -22,7 +22,7 @@ export default function My({ profile }: { profile: Profile }) {
 
   return (
     <StyledMy>
-      <section className="profile">
+      <Link href="/edit-profile" className="profile">
         <Image
           width={70}
           height={70}
@@ -31,7 +31,7 @@ export default function My({ profile }: { profile: Profile }) {
         />
         <div className="displayName">{profile.displayName}</div>
         <div className="email">{profile.email}</div>
-      </section>
+      </Link>
       <section className="menu">
         <ul>
           <li>
