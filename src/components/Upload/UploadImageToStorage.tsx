@@ -6,13 +6,13 @@ import {
 } from 'firebase/storage';
 
 const uploadImageToStorage = async (
-  files: FileList,
+  files: File[],
   folderName: string,
   feedId: string,
 ) => {
   const storage = getStorage();
-  const downloadURLs: string[] = [...files].map(() => '');
-  const uploadPromises = Array.from(files).map((file, i) => {
+  const downloadURLs: string[] = files.map(() => '');
+  const uploadPromises = files.map((file, i) => {
     const storageRef = ref(storage, `${folderName}/${feedId}${i}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
