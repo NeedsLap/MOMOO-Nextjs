@@ -14,6 +14,7 @@ const StyledMyNonModal = styled.dialog`
   }
 
   .profile {
+    display: block;
     padding: 20px 0;
     text-align: center;
 

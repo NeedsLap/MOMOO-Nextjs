@@ -256,6 +256,7 @@ export default function Signup() {
           </label>
           <input
             id="profile-inp"
+            accept="image/*"
             type="file"
             className="a11y-hidden"
             onClick={(e) => ((e.currentTarget as HTMLInputElement).value = '')}

@@ -45,7 +45,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
       ref={showNonModal}
     >
       <div>
-        <section className="profile">
+        <Link href="/edit-profile" className="profile">
           <Image
             width={60}
             height={60}
@@ -54,7 +54,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
           />
           <div className="displayName">{user.displayName}</div>
           <div className="email">{user.email}</div>
-        </section>
+        </Link>
         <section className="menu">
           <ul>
             <li>
@@ -86,7 +86,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
             </li>
             <li>
               <a
-                href="https://github.com/yonainthefish/MoMoo"
+                href="https://github.com/NeedsLap/MOMOO-Nextjs"
                 rel="noopener noreferrer"
                 target="_blank"
                 onClick={closeMyNonModal}
