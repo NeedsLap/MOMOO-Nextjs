@@ -54,7 +54,7 @@ export default function My({ profile }: { profile: Profile }) {
           </li>
           <li>
             <a
-              href="https://github.com/yonainthefish/MoMoo"
+              href="https://github.com/NeedsLap/MOMOO-Nextjs"
               rel="noopener noreferrer"
               target="_blank"
             >
