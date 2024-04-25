@@ -44,7 +44,7 @@ export default function EditFeedContents({
   const [selectedEmotionImage, setSelectedEmotionImage] = useState(
     feedData.emotionImage,
   );
-  const [file, setFile] = useState<FileList | null>(null);
+  const [file, setFile] = useState<File[] | null>(null);
   const [accordionData, setAccordionData] = useState<AccordionDataType>();
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [inputCount, setInputCount] = useState(0);
