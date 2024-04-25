@@ -18,3 +18,5 @@ type AccordionDataType = [
 ];
 
 export type { AlbumIdData, AccordionDataType };
+
+// 공동 커밋 테스트
