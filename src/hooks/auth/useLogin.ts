@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import { appAuth } from '@/firebase/config';
 
-export const useLogin = () => {
+export default function useLogin() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, setPending] = useState(false);
   const router = useRouter();
@@ -17,7 +17,7 @@ export const useLogin = () => {
 
     try {
       await signInWithEmailAndPassword(appAuth, email, password);
-      router.push('/');
+      router.replace('/');
     } catch (err) {
       if (err instanceof FirebaseError) {
         setError(err.code);
@@ -25,8 +25,10 @@ export const useLogin = () => {
         setError(err.message);
       }
 
+      console.error(err);
       setPending(false);
     }
   };
+
   return { error, isPending, login };
-};
+}

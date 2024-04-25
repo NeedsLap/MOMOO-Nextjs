@@ -54,7 +54,7 @@ export default function useSignup() {
       await setDoc(doc(appFireStore, user.uid, user.uid), {
         sharedAlbums: [],
       });
-      router.push('/');
+      router.replace('/');
     } catch (err) {
       if (err instanceof FirebaseError) {
         setError(err.code);
@@ -63,9 +63,8 @@ export default function useSignup() {
       }
 
       console.error(err);
+      setPending(false);
     }
-
-    setPending(false);
   };
 
   return { error, isPending, signup };

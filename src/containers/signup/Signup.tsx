@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -116,7 +116,7 @@ export default function Signup() {
     }
   }, [displayName, email, password, passwordConfirm, allChecked]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signup({
       email: email.value,
@@ -180,7 +180,7 @@ export default function Signup() {
     }
   };
 
-  const handleInp = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInp = (e: ChangeEvent<HTMLInputElement>) => {
     setSubmitErrMessage('');
 
     switch (e.target.id) {

@@ -1,9 +1,7 @@
-import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const hasCookie = cookies().has('uid');
+  const hasCookie = request.cookies.has('uid');
   const nonAuthPaths = ['/login', '/signup'];
 
   if (hasCookie && nonAuthPaths.includes(request.nextUrl.pathname)) {
@@ -19,8 +17,7 @@ export const config = {
   matcher: [
     '/login',
     '/signup',
-    '/',
-    '/:uid/album/:albumName',
+    '/((?!api).*)/album/:albumName/',
     '/:uid/album/:albumName/feed',
     '/my',
     '/edit-profile',
