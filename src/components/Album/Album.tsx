@@ -19,7 +19,7 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
   const [isSharingModalOpen, setIsSharingModalOpen] = useState(false);
   const [album, setAlbum] = useState<Album | null>(albumData);
 
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
 
   const HandleModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -34,9 +34,7 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
       {album ? (
         <li>
           <AlbumContainer $imageUrl={album.imageUrl}>
-            <AlbumLink
-              href={`/${album.user?.uid || user.uid}/album/${album.name}`}
-            >
+            <AlbumLink href={`/${album.user?.uid || uid}/album/${album.name}`}>
               <div className="txtWrapper">
                 <p className="albumTitle">{album.name}</p>
                 <div className="CountWrapper">

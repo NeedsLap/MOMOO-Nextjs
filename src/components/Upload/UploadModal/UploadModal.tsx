@@ -31,7 +31,7 @@ export default function UploadModal() {
   const router = useRouter();
   const path = usePathname();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
   const { albumNameToAdd } = useUploadFeed();
 
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);
@@ -51,7 +51,7 @@ export default function UploadModal() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (user) {
+      if (uid) {
         const result = await getAccordionData();
 
         setAccordionData(result.accordionData || []);
@@ -92,11 +92,7 @@ export default function UploadModal() {
     }
 
     const id = uuidv4();
-    const downloadURLs = await uploadImageToStorage(
-      file,
-      `feed/${user.uid}`,
-      id,
-    );
+    const downloadURLs = await uploadImageToStorage(file, `feed/${uid}`, id);
     const uploadData = {
       title,
       text,
@@ -108,7 +104,7 @@ export default function UploadModal() {
       imageUrl: downloadURLs,
       id,
     };
-    await setDoc(doc(appFireStore, user.uid, user.uid, 'feed', id), uploadData);
+    await setDoc(doc(appFireStore, uid, uid, 'feed', id), uploadData);
     return id;
   };
 
@@ -142,14 +138,14 @@ export default function UploadModal() {
     setIsPending(true);
 
     try {
-      if (!user) throw new Error('사용자가 로그인되지 않았습니다.');
+      if (!uid) throw new Error('사용자가 로그인되지 않았습니다.');
       const id = await uploadPost();
       await updateAlbums(id);
-      router.push(`/${user.uid}/album/${albumNameToAdd[0]}/feed?start=0`);
+      router.push(`/${uid}/album/${albumNameToAdd[0]}/feed?start=0`);
 
       closeUploadModal();
 
-      if (decodeURI(path) === `/${user.uid}/album/${albumNameToAdd[0]}/feed`) {
+      if (decodeURI(path) === `/${uid}/album/${albumNameToAdd[0]}/feed`) {
         dispatch(shouldReloadPostData());
       }
       router.refresh();

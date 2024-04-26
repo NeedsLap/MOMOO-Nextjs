@@ -21,7 +21,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
   const [feedData, setFeedData] = useState<Feed | null>(feed);
 
-  const { uid } = useParams<{
+  const { uid: albumUid } = useParams<{
     uid: string;
     albumName: string;
   }>();
@@ -31,7 +31,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
     openModal: openEditFeedModal,
     closeModal: closeEditFeedModal,
   } = useModalWithWebView();
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
 
   const getFormattedDateFromTimestamp = (timestamp: Timestamp) => {
     const date = new Date(
@@ -94,7 +94,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
                 )}
               </div>
             )}
-            {uid === user.uid && (
+            {albumUid === uid && (
               <button
                 className="more"
                 type="button"

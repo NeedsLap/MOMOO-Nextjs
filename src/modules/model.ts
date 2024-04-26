@@ -45,21 +45,14 @@ type PageAction =
       payload: PageState;
     };
 
-interface UserData {
-  displayName: string;
-  email: string;
-  photoURL: string;
-  uid: string;
-}
+type Uid = string;
 
 interface AuthState {
-  user: UserData;
-  isAuthReady: boolean;
-  loggedIn: boolean;
+  uid: Uid;
 }
 
 type AuthAction =
-  | { type: 'loggedIn'; payload: UserData }
+  | { type: 'loggedIn'; payload: Uid }
   | { type: 'loggedOut'; payload: null };
 
 interface UploadFeedModalState {
@@ -95,7 +88,6 @@ export type {
   Path,
   PageState,
   PageAction,
-  UserData,
   AuthState,
   AuthAction,
   UploadFeedModalState,

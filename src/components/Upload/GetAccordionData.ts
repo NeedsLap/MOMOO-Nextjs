@@ -16,7 +16,7 @@ interface AlbumIdData {
 }
 
 const GetAccordionData = () => {
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
 
   const getAccordionData = async () => {
     const albumDataList: DocumentData[] = [];
@@ -24,7 +24,7 @@ const GetAccordionData = () => {
 
     try {
       const q = query(
-        collection(appFireStore, user.uid, user.uid, 'album'),
+        collection(appFireStore, uid, uid, 'album'),
         orderBy('createdTime'),
       );
       const querySnapshot = await getDocs(q);

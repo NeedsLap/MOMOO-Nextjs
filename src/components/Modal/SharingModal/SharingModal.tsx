@@ -13,10 +13,10 @@ import {
   getSharedUsers,
   postSharing,
 } from '@/services/album';
-import { getUserByEmail } from '@/services/user';
+import { searchUser } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
-import { UserData } from '@/modules/model';
+import type { User } from '@/types/user';
 
 interface Props {
   albumId: string;
@@ -29,13 +29,13 @@ export default function SharingModal({ closeModal, albumId }: Props) {
   const [searchInp, setSearchInp] = useState('');
   const [searchResult, setSearchResult] = useState<{
     seccess: boolean;
-    user: UserData | null;
+    user: User | null;
     shared: boolean;
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [deleteSharedUserIsPending, setDeleteSharedUserIsPending] =
     useState(false);
-  const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
+  const [sharedUsers, setSharedUsers] = useState<User[]>([]);
   const [toastMessage, setToastMessage] = useState('');
 
   const { showModal } = useShowModal();
@@ -55,14 +55,18 @@ export default function SharingModal({ closeModal, albumId }: Props) {
       setSearchResult({ user: sharedUser, seccess: true, shared: true });
     } else {
       try {
-        const res = await getUserByEmail(searchInp);
+        const res = await searchUser(searchInp);
+        const json = await res.json();
 
         if (!res.ok) {
-          throw new Error(await res.text());
+          throw new Error(json.error);
         }
 
-        const { user } = await res.json();
-        setSearchResult({ user, seccess: !!user, shared: false });
+        setSearchResult({
+          user: json.user,
+          seccess: !!json.user,
+          shared: false,
+        });
       } catch (error) {
         setToastMessage('검색 중 에러가 발생했습니다');
         console.error(error);

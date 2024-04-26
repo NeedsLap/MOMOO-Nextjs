@@ -1,4 +1,4 @@
-import { Profile } from '@/utils/model';
+import { Profile } from '@/types/user';
 
 interface ProfileToUpdate {
   file: File | null;

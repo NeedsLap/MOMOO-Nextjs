@@ -25,10 +25,10 @@ export default function DeleteFeedModal({
   const getSavedAlbumList = useGetSavedAlbumList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
 
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
 
   const handleDeletePost = async () => {
-    const postDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
+    const postDocRef = doc(appFireStore, uid, uid, 'feed', id);
 
     try {
       await deleteDoc(postDocRef);

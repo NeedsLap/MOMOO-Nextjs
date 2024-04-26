@@ -16,20 +16,14 @@ interface Props {
 }
 
 export default function useEditAlbum() {
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
 
   const editAlbum = async ({ editAlbumName, albumId }: Props) => {
-    const userAlbumDocRef = doc(
-      appFireStore,
-      user.uid,
-      user.uid,
-      'album',
-      albumId,
-    );
+    const userAlbumDocRef = doc(appFireStore, uid, uid, 'album', albumId);
 
     try {
       const duplicateAlbumQuery = query(
-        collection(appFireStore, user.uid, user.uid, 'album'),
+        collection(appFireStore, uid, uid, 'album'),
         where('name', '==', editAlbumName),
       );
 

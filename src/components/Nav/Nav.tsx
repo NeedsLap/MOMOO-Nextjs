@@ -15,7 +15,8 @@ export default function Nav() {
   const [openMyDialog, setIsOpenMyDialog] = useState(false);
 
   const router = useRouter();
-  const { user } = useAuthState();
+  const { uid } = useAuthState();
+  console.log(uid);
   const windowWidth = useWindowWidth();
   const { openModal } = useUploadFeedModalWithWebView();
 
@@ -38,7 +39,7 @@ export default function Nav() {
             type="button"
             className="home"
             onClick={handleHomeNavigate}
-            disabled={!user}
+            disabled={!uid}
           >
             <Image width={24} height={24} src="/icons/home-pc.svg" alt="" />
             <p>Home</p>
@@ -48,7 +49,7 @@ export default function Nav() {
             type="button"
             className="upload"
             onClick={openUploadModalFunc}
-            disabled={!user}
+            disabled={!uid}
           >
             <Image width={24} height={24} src="/icons/upload-pc.svg" alt="" />
             <p>Upload</p>
@@ -57,13 +58,13 @@ export default function Nav() {
             type="button"
             className="my"
             onClick={openMyDialogFunc}
-            disabled={!user}
+            disabled={!uid}
           >
             <Image width={24} height={24} src="/icons/my-pc.svg" alt="" />
             <p>Mypage</p>
           </button>
         </div>
-        {user ? (
+        {uid ? (
           <Link href="/">
             <h1 className="a11y-hidden">MoMoo</h1>
             {windowWidth && (

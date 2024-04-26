@@ -12,7 +12,6 @@ import DeleteIdModal from '@/components/Modal/DeleteIdModal';
 import ReauthModal from '@/components/Modal/ReauthModal';
 import TopBar from '@/components/Topbar/Topbar';
 import StyledEditProfile from '@/containers/editProfile/StyledEditProfile';
-import useAuthState from '@/hooks/auth/useAuthState';
 import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
 import useProfileImg from '@/hooks/useProfileImg';
 import useWindowWidth from '@/hooks/useWindowWidth';
@@ -61,7 +60,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
   const [updateProfileIsPending, setUpdateProfileIsPending] = useState(false);
   const [imgHasFocus, setImgHasFocus] = useState(false);
 
-  const { user, isAuthReady } = useAuthState();
   const { setProfile, error: updateProfileError } = useUpdateProfile();
   const windowWidth = useWindowWidth();
 
@@ -75,10 +73,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
   } = useProfileImg(profile.photoURL);
 
   useEffect(() => {
-    if (!isAuthReady) {
-      return;
-    }
-
     setSubmitErrMessage('');
 
     if (
@@ -93,7 +87,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
     if (
       email.changed ||
-      user.photoURL !== src ||
+      profile.photoURL !== src ||
       displayName.changed ||
       password.value
     ) {
@@ -104,14 +98,10 @@ export default function EditProfile({ profile }: EditProfileProps) {
   }, [email, src, displayName, password, passwordConfirm]);
 
   useEffect(() => {
-    if (!isAuthReady) {
-      return;
+    if (profile.photoURL) {
+      setSrc(profile.photoURL);
     }
-
-    if (user.photoURL) {
-      setSrc(user.photoURL);
-    }
-  }, [user, isAuthReady, setSrc]);
+  }, [profile, setSrc]);
 
   useEffect(() => {
     if (!readyToUpdateProfile) {
@@ -176,7 +166,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     e.preventDefault();
     setDisabledEditButton(true);
 
-    if (email.value !== user.email || password) {
+    if (email.value !== profile.email || password) {
       setIsReauthForUpdateProfileModalOpen(true);
     } else {
       setReadyToUpdateProfile(true);
@@ -218,7 +208,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
   const handleEmailInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const changed = user.email !== value;
+    const changed = profile.email !== value;
 
     if (e.target.validity.valueMissing) {
       setEmailErrMessage('필수 항목입니다');
@@ -230,7 +220,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
   const handleDisplayNameInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const changed = user.displayName !== value;
+    const changed = profile.displayName !== value;
     setDisplayName({ value, vaild: !!value, changed });
 
     if (e.target.validity.valueMissing) {
