@@ -62,7 +62,7 @@ export default function NewAlbumModal({
     <InputModal
       onClose={onClose}
       title="새로운 앨범"
-      text="이 앨범의 이름을 입력해주세요"
+      text="이 앨범의 이름을 입력해 주세요"
     >
       <form
         onSubmit={(e) => {
@@ -72,7 +72,7 @@ export default function NewAlbumModal({
       >
         <input
           type="text"
-          placeholder="이름을 입력해주세요"
+          placeholder="이름을 입력해 주세요"
           value={albumName}
           onChange={(e) => {
             setAlbumName(e.target.value);
