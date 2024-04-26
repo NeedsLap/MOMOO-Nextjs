@@ -16,7 +16,6 @@ export default function Nav() {
 
   const router = useRouter();
   const { uid } = useAuthState();
-  console.log(uid);
   const windowWidth = useWindowWidth();
   const { openModal } = useUploadFeedModalWithWebView();
 
