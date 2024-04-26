@@ -12,26 +12,22 @@ export async function GET() {
     });
   }
   const album = await getAlbumList(uid);
-  const feedListValues = album.map(
-    (item) => item.feedList[item.feedList.length - 1],
+  const thumbnails = await Promise.allSettled(
+    album.map(async (item) => {
+      const lastFeedId = item.feedList[item.feedList.length - 1];
+      if (lastFeedId === undefined) {
+        return null;
+      }
+      const thumbnail = await getThumbnail(uid, lastFeedId);
+      return thumbnail ?? null;
+    }),
   );
-  const thumbnailPromises = feedListValues.map(async (feedId) => {
-    const thumbnail = await getThumbnail(uid, feedId);
 
-    if (thumbnail) {
-      return thumbnail;
-    } else return undefined;
-  });
-
-  const thumbnails = await Promise.all(thumbnailPromises);
-  album.forEach((item, i) => {
-    if (thumbnails[i] !== undefined) {
-      // thumbnails[i]가 정의되어 있는 경우에만 처리
-      item.imageUrl = thumbnails[i];
-    } else {
-      item.imageUrl = null;
-    }
-  });
+  for (const [i, thumbnailPromise] of thumbnails.entries()) {
+    const thumbnailResult =
+      thumbnailPromise.status === 'fulfilled' ? thumbnailPromise.value : null;
+    album[i].imageUrl = thumbnailResult;
+  }
 
   // 최신순으로 return
   return NextResponse.json([album[0], ...album.slice(1).reverse()]);

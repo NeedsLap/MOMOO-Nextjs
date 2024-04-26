@@ -42,7 +42,7 @@ export default function UploadModal() {
   const [selectedWeatherImage, setSelectedWeatherImage] = useState<string>('');
   const [selectedEmotionImage, setSelectedEmotionImage] = useState<string>('');
   const [selectedAlbum, setSelectedAlbum] = useState<string[]>(albumNameToAdd);
-  const [file, setFile] = useState<FileList | null>(null);
+  const [file, setFile] = useState<File[] | null>(null);
   const [accordionData, setAccordionData] = useState<AccordionDataType>();
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [isPending, setIsPending] = useState(false);

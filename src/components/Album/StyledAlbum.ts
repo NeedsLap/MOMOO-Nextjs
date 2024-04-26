@@ -29,7 +29,7 @@ const AlbumContainer = styled.article<Props>`
     .CountWrapper {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: end;
       .albumCount {
         color: var(--gray-200);
         font-family: var(--title-font-family);
@@ -37,11 +37,20 @@ const AlbumContainer = styled.article<Props>`
         font-style: normal;
         font-weight: 400;
         line-height: 150%;
+        height: 20px;
       }
       button {
-        width: 2rem;
+        width: 3rem;
         height: 2rem;
         background: url('/icons/more-white.svg') no-repeat center/ contain;
+      }
+      button::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 6rem;
+        height: 6rem;
       }
     }
   }

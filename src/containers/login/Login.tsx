@@ -8,7 +8,7 @@ import Button from '@/components/Button/Button/Button';
 import StyledInput from '@/components/CommonStyled/StyledInput';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledLogin from '@/containers/login/StyledLogin';
-import { useLogin } from '@/hooks/auth/useLogin';
+import useLogin from '@/hooks/auth/useLogin';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -107,9 +107,7 @@ export default function Login() {
             onChange={handleEmailInp}
             required
           />
-          <strong role="alert">
-            {emailErrMessage && `*${emailErrMessage}`}
-          </strong>
+          {emailErrMessage && <strong role="alert">*{emailErrMessage}</strong>}
           <label htmlFor="password-inp" className="a11y-hidden">
             비밀번호
           </label>
@@ -120,9 +118,9 @@ export default function Login() {
             onChange={handlePasswordInp}
             required
           />
-          <strong role="alert">
-            {passwordErrMessage ? `*${passwordErrMessage}` : ''}
-          </strong>
+          {passwordErrMessage && (
+            <strong role="alert">*{passwordErrMessage}</strong>
+          )}
           <Button
             size="l"
             disabled={!emailValid || !passwordValid || isPending}

@@ -142,10 +142,19 @@ const getAlbumList = async (uid: string) => {
 const getThumbnail = async (uid: string, feedId: string) => {
   try {
     const docSnap = await getDoc(doc(appFireStore, uid, uid, 'feed', feedId));
-    return docSnap?.data()?.imageUrl[0] || null;
+    if (docSnap && docSnap.exists()) {
+      const data = docSnap.data();
+      if (data && data.imageUrl && data.imageUrl.length > 0) {
+        return data.imageUrl[0];
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
   } catch (error) {
     console.log(error);
-    return undefined;
+    return null;
   }
 };
 

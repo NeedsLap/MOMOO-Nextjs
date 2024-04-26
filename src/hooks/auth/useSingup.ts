@@ -51,7 +51,7 @@ export default function useSignup() {
         sharedAlbums: [],
       });
       dispatch(setAuth(user.uid));
-      router.push('/');
+      router.replace('/');
     } catch (err) {
       if (err instanceof FirebaseError) {
         setError(err.code);
@@ -60,9 +60,8 @@ export default function useSignup() {
       }
 
       console.error(err);
+      setPending(false);
     }
-
-    setPending(false);
   };
 
   return { error, isPending, signup };
