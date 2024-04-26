@@ -83,7 +83,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
           />
           <div className="displayName">{profile.displayName}</div>
           <div className="email">{profile.email}</div>
-        </section>
+        </Link>
         <section className="menu">
           <ul>
             <li>
