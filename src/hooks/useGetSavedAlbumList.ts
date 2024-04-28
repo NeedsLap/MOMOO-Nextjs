@@ -11,12 +11,12 @@ import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 
 export default function useGetSavedAlbumList() {
-  const { uid } = useAuthState();
+  const { user } = useAuthState();
 
   const getSavedAlbumList = async (feedId: string) => {
     try {
       const q = query(
-        collection(appFireStore, uid, uid, 'album'),
+        collection(appFireStore, user.uid, user.uid, 'album'),
         where('feedList', 'array-contains', feedId),
         orderBy('createdTime', 'desc'),
       );

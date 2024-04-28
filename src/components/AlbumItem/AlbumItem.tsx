@@ -20,10 +20,10 @@ function AlbumItem(
   const [feedData, setFeedData] = useState<FeedType | null>(feed);
 
   const liRef = useRef<HTMLLIElement | null>(null);
-  const { uid: albumUid } = useParams();
+  const { uid } = useParams();
 
   const windowWidth = useWindowWidth();
-  const { uid } = useAuthState();
+  const { user } = useAuthState();
   const albumName = useAlbumName();
   const { setImgSize, gridRowEnd } = useAlbumItemLayout(liRef.current);
   const {
@@ -73,7 +73,7 @@ function AlbumItem(
           }}
         >
           <Link
-            href={`/${albumUid}/album/${albumName}/feed?start=${index}`}
+            href={`/${uid}/album/${albumName}/feed?start=${index}`}
             onMouseOver={showHoverStyle}
             onFocus={showHoverStyle}
             onMouseLeave={hiddenHoverStyle}
@@ -81,7 +81,7 @@ function AlbumItem(
           >
             <div className="a11y-hidden">
               <strong>{feedData.title}</strong>
-              {albumUid === uid && (
+              {uid === user.uid && (
                 <button
                   type="button"
                   onClick={(e) => {

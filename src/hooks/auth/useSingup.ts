@@ -4,10 +4,8 @@ import { useState } from 'react';
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useDispatch } from 'react-redux';
 
 import { appAuth, appFireStore } from '@/firebase/config';
-import { setAuth } from '@/modules/auth';
 import { addAlbum, uploadImg } from '@/utils/SDKUtils';
 
 interface Props {
@@ -26,7 +24,6 @@ export default function useSignup() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, setPending] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const signup = async ({ email, password, displayName, file }: Props) => {
     setError(null);
@@ -50,7 +47,6 @@ export default function useSignup() {
       await setDoc(doc(appFireStore, user.uid, user.uid), {
         sharedAlbums: [],
       });
-      dispatch(setAuth(user.uid));
       router.replace('/');
     } catch (err) {
       if (err instanceof FirebaseError) {

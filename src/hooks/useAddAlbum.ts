@@ -11,9 +11,14 @@ interface Props {
 }
 
 export default function useAddAlbum() {
-  const { uid } = useAuthState();
+  const { user } = useAuthState();
   const validateAndAddAlbum = async ({ albumName }: Props) => {
-    const userAlbumDocRef = collection(appFireStore, uid, uid, 'album');
+    const userAlbumDocRef = collection(
+      appFireStore,
+      user.uid,
+      user.uid,
+      'album',
+    );
     const duplicateAlbumQuery = query(
       userAlbumDocRef,
       where('name', '==', albumName),
@@ -26,7 +31,7 @@ export default function useAddAlbum() {
     }
 
     try {
-      await addAlbum(uid, albumName);
+      await addAlbum(user.uid, albumName);
       const querySnapshot = await getDocs(duplicateAlbumQuery);
       if (querySnapshot) {
         const doc = querySnapshot.docs[0];

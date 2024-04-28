@@ -6,10 +6,10 @@ import useAuthState from '@/hooks/auth/useAuthState';
 import type { FeedToUpdate } from '@/types/feed';
 
 export default function useEditFeed() {
-  const { uid } = useAuthState();
+  const { user } = useAuthState();
 
   const editFeed = async (updateData: FeedToUpdate, id: string) => {
-    const feedDocRef = doc(appFireStore, uid, uid, 'feed', id);
+    const feedDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
     await updateDoc(feedDocRef, updateData);
   };
 

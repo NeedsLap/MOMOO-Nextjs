@@ -4,30 +4,21 @@ import { useEffect, useRef, useState } from 'react';
 
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledMyNonModal from '@/components/MyNonModal/StyledMyNonModal';
-import Toast from '@/components/Toast/Toast';
+import useAuthState from '@/hooks/auth/useAuthState';
 import useLogout from '@/hooks/auth/useLogout';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
-import { getUser } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
 import type { MyNonModalProps } from '@/components/MyNonModal/model';
-import type { Profile } from '@/types/user';
 
 export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
+  const { user } = useAuthState();
   const [submitErrMessage, setSubmitErrMessage] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
-  const [profile, setProfile] = useState<Profile>({
-    displayName: '',
-    email: '',
-    photoURL: '',
-  });
-
   const { logout, error } = useLogout();
   const { showNonModal } = useShowNonModal();
 
   const menuFirstItemRef = useRef<HTMLAnchorElement>();
-
   const closeMyNonModal = () => {
     setIsDialogOpen(false);
   };
@@ -35,54 +26,31 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   useEscDialog(closeMyNonModal);
 
   useEffect(() => {
-    const setMyNonModalData = async () => {
-      try {
-        const res = await getUser();
-        const { user } = await res.json();
-        setProfile({
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-        });
-      } catch (error) {
-        if (error instanceof Error) {
-          setToastMessage(error.message);
-        }
-      }
-    };
-
-    setMyNonModalData();
-  }, []);
-
-  useEffect(() => {
     if (error) {
       setSubmitErrMessage(error);
     }
   }, [error]);
-
   const focusOnFirstItem = (node: HTMLAnchorElement) => {
     if (node && !menuFirstItemRef.current) {
       node.focus();
       menuFirstItemRef.current = node;
     }
   };
-
   return (
     <StyledMyNonModal
       onClick={(e) => closeDialogOnClick(e, closeMyNonModal)}
       ref={showNonModal}
     >
-      {error && <Toast message={toastMessage} />}
       <div>
         <Link href="/edit-profile" className="profile">
           <Image
             width={60}
             height={60}
-            src={profile.photoURL || '/images/profile-basic-img.svg'}
+            src={user.photoURL || '/images/profile-basic-img.svg'}
             alt="프로필 사진"
           />
-          <div className="displayName">{profile.displayName}</div>
-          <div className="email">{profile.email}</div>
+          <div className="displayName">{user.displayName}</div>
+          <div className="email">{user.email}</div>
         </Link>
         <section className="menu">
           <ul>

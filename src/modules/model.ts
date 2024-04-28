@@ -1,3 +1,5 @@
+import { User } from '@/types/user';
+
 interface InputState {
   vaild: boolean;
   value: string;
@@ -45,14 +47,14 @@ type PageAction =
       payload: PageState;
     };
 
-type Uid = string;
-
 interface AuthState {
-  uid: Uid;
+  user: User;
+  isAuthReady: boolean;
+  loggedIn: boolean;
 }
 
 type AuthAction =
-  | { type: 'loggedIn'; payload: Uid }
+  | { type: 'loggedIn'; payload: User }
   | { type: 'loggedOut'; payload: null };
 
 interface UploadFeedModalState {

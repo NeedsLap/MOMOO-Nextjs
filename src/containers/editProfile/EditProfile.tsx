@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
 
@@ -12,6 +11,7 @@ import DeleteIdModal from '@/components/Modal/DeleteIdModal';
 import ReauthModal from '@/components/Modal/ReauthModal';
 import TopBar from '@/components/Topbar/Topbar';
 import StyledEditProfile from '@/containers/editProfile/StyledEditProfile';
+import useAuthState from '@/hooks/auth/useAuthState';
 import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
 import useProfileImg from '@/hooks/useProfileImg';
 import useWindowWidth from '@/hooks/useWindowWidth';
@@ -20,7 +20,6 @@ import type {
   EditProfileProps,
   ProfileToUpdate,
 } from '@/containers/editProfile/model';
-
 export default function EditProfile({ profile }: EditProfileProps) {
   const [displayName, setDisplayName] = useState({
     value: profile.displayName,
@@ -60,6 +59,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
   const [updateProfileIsPending, setUpdateProfileIsPending] = useState(false);
   const [imgHasFocus, setImgHasFocus] = useState(false);
 
+  const { user, isAuthReady } = useAuthState();
   const { setProfile, error: updateProfileError } = useUpdateProfile();
   const windowWidth = useWindowWidth();
 
@@ -73,6 +73,10 @@ export default function EditProfile({ profile }: EditProfileProps) {
   } = useProfileImg(profile.photoURL);
 
   useEffect(() => {
+    if (!isAuthReady) {
+      return;
+    }
+
     setSubmitErrMessage('');
 
     if (
@@ -87,7 +91,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
     if (
       email.changed ||
-      profile.photoURL !== src ||
+      user.photoURL !== src ||
       displayName.changed ||
       password.value
     ) {
@@ -98,26 +102,27 @@ export default function EditProfile({ profile }: EditProfileProps) {
   }, [email, src, displayName, password, passwordConfirm]);
 
   useEffect(() => {
-    if (profile.photoURL) {
-      setSrc(profile.photoURL);
+    if (!isAuthReady) {
+      return;
     }
-  }, [profile, setSrc]);
+
+    if (user.photoURL) {
+      setSrc(user.photoURL);
+    }
+  }, [user, isAuthReady, setSrc]);
 
   useEffect(() => {
     if (!readyToUpdateProfile) {
       return;
     }
-
     (async () => {
       setUpdateProfileIsPending(true);
-
       const profile: ProfileToUpdate = {
         file,
         displayName: displayName.value || null,
         email: email.value,
         password: password.value,
       };
-
       await setProfile(profile);
       // 초기화
       setUpdateProfileIsPending(false);
@@ -126,12 +131,10 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setPasswordConfirm({ vaild: true, value: '' });
     })();
   }, [readyToUpdateProfile]);
-
   useEffect(() => {
     if (!updateProfileError) {
       return;
     }
-
     switch (updateProfileError) {
       case 'auth/email-already-in-use':
         setEmailErrMessage('이미 사용 중인 이메일입니다');
@@ -149,33 +152,28 @@ export default function EditProfile({ profile }: EditProfileProps) {
         setSubmitErrMessage('프로필 변경에 실패했습니다');
     }
   }, [updateProfileError]);
-
   useEffect(() => {
     if (readyToDeleteId) {
       setIsDeleteIdModalOpen(true);
       setReadyToDeleteId(false);
     }
   }, [readyToDeleteId]);
-
   const deleteId = async () => {
     setIsReauthForDeleteIdModalOpen(true);
     setSelectedBtn('회원 탈퇴');
   };
-
   const updateProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setDisabledEditButton(true);
 
-    if (email.value !== profile.email || password) {
+    if (email.value !== user.email || password) {
       setIsReauthForUpdateProfileModalOpen(true);
     } else {
       setReadyToUpdateProfile(true);
     }
   };
-
   const handlePasswordInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
     if (e.target.validity.tooShort) {
       setPasswordErrMessage('6자 이상 입력해주세요');
       setPassword({ vaild: false, value });
@@ -183,7 +181,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setPasswordErrMessage('');
       setPassword({ vaild: true, value });
     }
-
     if (value === passwordConfirm.value) {
       setPasswordConfirmErrMessage('');
       setPasswordConfirm({ vaild: true, value });
@@ -193,10 +190,8 @@ export default function EditProfile({ profile }: EditProfileProps) {
       });
     }
   };
-
   const handlePasswordConfirmInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
     if (value !== password.value) {
       setPasswordConfirmErrMessage('비밀번호가 일치하지 않습니다');
       setPasswordConfirm({ vaild: false, value });
@@ -208,7 +203,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
   const handleEmailInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const changed = profile.email !== value;
+    const changed = user.email !== value;
 
     if (e.target.validity.valueMissing) {
       setEmailErrMessage('필수 항목입니다');
@@ -220,14 +215,13 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
   const handleDisplayNameInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const changed = profile.displayName !== value;
+    const changed = user.displayName !== value;
     setDisplayName({ value, vaild: !!value, changed });
 
     if (e.target.validity.valueMissing) {
       setDisplayNameErrMessage('닉네임을 입력해주세요');
     }
   };
-
   return (
     <>
       {windowWidth && windowWidth <= 430 && <TopBar tit="Edit profile" />}
@@ -301,7 +295,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
               onFocus={() => setImgHasFocus(true)}
               onBlur={() => setImgHasFocus(false)}
             />
-
             <label htmlFor="nickname-inp" className="a11y-hidden">
               닉네임
             </label>
@@ -386,7 +379,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
             </button>
           )}
         </div>
-
         {isDeleteIdModalOpen && (
           <DeleteIdModal
             onClose={() => {

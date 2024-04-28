@@ -50,7 +50,7 @@ export default function EditFeedContents({
   const [inputCount, setInputCount] = useState(0);
   const [isPending, setIsPending] = useState(false);
 
-  const { uid } = useAuthState();
+  const { user } = useAuthState();
   const getAccordionData = GetAccordionData();
   const editFeed = useEditFeed();
   const getSavedAlbumList = useGetSavedAlbumList();
@@ -101,7 +101,7 @@ export default function EditFeedContents({
       if (file !== null) {
         downloadURLs = await uploadImageToStorage(
           file,
-          `feed/${uid}`,
+          `feed/${user.uid}`,
           feedData.id,
         );
       }

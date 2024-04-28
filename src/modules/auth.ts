@@ -1,21 +1,31 @@
 import { deleteCookie, setCookie, getCookie } from '@/utils/cookie';
 
 import { AuthState, AuthAction } from '@/modules/model';
+import { User } from '@/types/user';
 
 const uid = getCookie('uid') || '';
 
-const initState = {
+const initUser = {
+  displayName: '',
+  email: '',
+  photoURL: '',
   uid,
 };
 
-const setAuth = (uid: string): AuthAction => {
+const initState = {
+  user: initUser,
+  isAuthReady: false,
+  loggedIn: false,
+};
+
+const setAuth = (user: User): AuthAction => {
   const expires = new Date();
   expires.setFullYear(expires.getFullYear() + 1);
-  setCookie('uid', uid, {
+  setCookie('uid', user.uid, {
     expires,
   });
 
-  return { type: 'loggedIn', payload: uid };
+  return { type: 'loggedIn', payload: user };
 };
 
 const deleteAuth = (): AuthAction => {
@@ -27,9 +37,9 @@ const deleteAuth = (): AuthAction => {
 const authReducer = (state = initState, action: AuthAction): AuthState => {
   switch (action.type) {
     case 'loggedIn':
-      return { uid: action.payload };
+      return { isAuthReady: true, loggedIn: true, user: action.payload };
     case 'loggedOut':
-      return { uid: '' };
+      return { isAuthReady: true, loggedIn: false, user: initUser };
     default:
       return state;
   }
