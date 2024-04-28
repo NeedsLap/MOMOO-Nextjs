@@ -15,27 +15,30 @@ import type { MyNonModalProps } from '@/components/MyNonModal/model';
 export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   const { user } = useAuthState();
   const [submitErrMessage, setSubmitErrMessage] = useState('');
-  const { logout, error } = useLogout();
-  const { showNonModal } = useShowNonModal();
 
   const menuFirstItemRef = useRef<HTMLAnchorElement>();
+
   const closeMyNonModal = () => {
     setIsDialogOpen(false);
   };
 
   useEscDialog(closeMyNonModal);
+  const { logout, error } = useLogout();
+  const { showNonModal } = useShowNonModal();
 
   useEffect(() => {
     if (error) {
       setSubmitErrMessage(error);
     }
   }, [error]);
+
   const focusOnFirstItem = (node: HTMLAnchorElement) => {
     if (node && !menuFirstItemRef.current) {
       node.focus();
       menuFirstItemRef.current = node;
     }
   };
+
   return (
     <StyledMyNonModal
       onClick={(e) => closeDialogOnClick(e, closeMyNonModal)}
