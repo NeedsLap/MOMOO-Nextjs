@@ -19,7 +19,7 @@ export default function useDeleteId() {
       const res = await deleteUser();
 
       if (!res.ok) {
-        const error = await res.text();
+        const { error } = await res.json();
         setError(error);
         throw new Error(error);
       }

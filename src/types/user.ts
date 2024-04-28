@@ -4,4 +4,8 @@ interface Profile {
   photoURL: string;
 }
 
-export type { Profile };
+interface User extends Profile {
+  uid: string;
+}
+
+export type { Profile, User };

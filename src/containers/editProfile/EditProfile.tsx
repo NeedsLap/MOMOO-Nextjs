@@ -64,7 +64,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
   const { user, isAuthReady } = useAuthState();
   const { setProfile, error: updateProfileError } = useUpdateProfile();
   const windowWidth = useWindowWidth();
-
   const {
     file,
     setSrc,
@@ -120,14 +119,12 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
     (async () => {
       setUpdateProfileIsPending(true);
-
       const profile: ProfileToUpdate = {
         file,
         displayName: displayName.value || null,
         email: email.value,
         password: password.value,
       };
-
       await setProfile(profile);
       // 초기화
       setUpdateProfileIsPending(false);
@@ -206,7 +203,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
   const handlePasswordConfirmInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
     if (value !== password.value) {
       setPasswordConfirmErrMessage('비밀번호가 일치하지 않습니다');
       setPasswordConfirm({ vaild: false, value });
@@ -311,7 +307,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
               onFocus={() => setImgHasFocus(true)}
               onBlur={() => setImgHasFocus(false)}
             />
-
             <label htmlFor="nickname-inp" className="a11y-hidden">
               닉네임
             </label>
@@ -396,7 +391,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
             </button>
           )}
         </div>
-
         {isDeleteIdModalOpen && (
           <DeleteIdModal
             onClose={() => {

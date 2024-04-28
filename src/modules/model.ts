@@ -1,3 +1,5 @@
+import { User } from '@/types/user';
+
 interface InputState {
   vaild: boolean;
   value: string;
@@ -45,21 +47,14 @@ type PageAction =
       payload: PageState;
     };
 
-interface UserData {
-  displayName: string;
-  email: string;
-  photoURL: string;
-  uid: string;
-}
-
 interface AuthState {
-  user: UserData;
+  user: User;
   isAuthReady: boolean;
   loggedIn: boolean;
 }
 
 type AuthAction =
-  | { type: 'loggedIn'; payload: UserData }
+  | { type: 'loggedIn'; payload: User }
   | { type: 'loggedOut'; payload: null };
 
 interface UploadFeedModalState {
@@ -95,7 +90,6 @@ export type {
   Path,
   PageState,
   PageAction,
-  UserData,
   AuthState,
   AuthAction,
   UploadFeedModalState,

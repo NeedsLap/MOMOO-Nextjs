@@ -1,12 +1,15 @@
-import { deleteCookie, setCookie } from '@/utils/cookie';
+import { deleteCookie, setCookie, getCookie } from '@/utils/cookie';
 
-import { AuthState, AuthAction, UserData } from '@/modules/model';
+import { AuthState, AuthAction } from '@/modules/model';
+import { User } from '@/types/user';
+
+const uid = getCookie('uid') || '';
 
 const initUser = {
   displayName: '',
   email: '',
   photoURL: '',
-  uid: '',
+  uid,
 };
 
 const initState = {
@@ -15,7 +18,7 @@ const initState = {
   loggedIn: false,
 };
 
-const setAuth = (user: UserData): AuthAction => {
+const setAuth = (user: User): AuthAction => {
   const expires = new Date();
   expires.setFullYear(expires.getFullYear() + 1);
   setCookie('uid', user.uid, {

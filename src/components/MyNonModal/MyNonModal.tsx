@@ -15,8 +15,6 @@ import type { MyNonModalProps } from '@/components/MyNonModal/model';
 export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   const { user } = useAuthState();
   const [submitErrMessage, setSubmitErrMessage] = useState('');
-  const { logout, error } = useLogout();
-  const { showNonModal } = useShowNonModal();
 
   const menuFirstItemRef = useRef<HTMLAnchorElement>();
 
@@ -25,6 +23,8 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   };
 
   useEscDialog(closeMyNonModal);
+  const { logout, error } = useLogout();
+  const { showNonModal } = useShowNonModal();
 
   useEffect(() => {
     if (error) {
