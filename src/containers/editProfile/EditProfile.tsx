@@ -138,6 +138,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     if (!updateProfileError) {
       return;
     }
+
     switch (updateProfileError) {
       case 'auth/email-already-in-use':
         setEmailErrMessage('이미 사용 중인 이메일입니다');
