@@ -1,4 +1,5 @@
 'use client';
+
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
 
@@ -20,6 +21,7 @@ import type {
   EditProfileProps,
   ProfileToUpdate,
 } from '@/containers/editProfile/model';
+
 export default function EditProfile({ profile }: EditProfileProps) {
   const [displayName, setDisplayName] = useState({
     value: profile.displayName,
@@ -62,7 +64,6 @@ export default function EditProfile({ profile }: EditProfileProps) {
   const { user, isAuthReady } = useAuthState();
   const { setProfile, error: updateProfileError } = useUpdateProfile();
   const windowWidth = useWindowWidth();
-
   const {
     file,
     setSrc,
@@ -115,6 +116,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     if (!readyToUpdateProfile) {
       return;
     }
+
     (async () => {
       setUpdateProfileIsPending(true);
       const profile: ProfileToUpdate = {
@@ -131,6 +133,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setPasswordConfirm({ vaild: true, value: '' });
     })();
   }, [readyToUpdateProfile]);
+
   useEffect(() => {
     if (!updateProfileError) {
       return;
@@ -152,16 +155,19 @@ export default function EditProfile({ profile }: EditProfileProps) {
         setSubmitErrMessage('프로필 변경에 실패했습니다');
     }
   }, [updateProfileError]);
+
   useEffect(() => {
     if (readyToDeleteId) {
       setIsDeleteIdModalOpen(true);
       setReadyToDeleteId(false);
     }
   }, [readyToDeleteId]);
+
   const deleteId = async () => {
     setIsReauthForDeleteIdModalOpen(true);
     setSelectedBtn('회원 탈퇴');
   };
+
   const updateProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setDisabledEditButton(true);
@@ -172,8 +178,10 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setReadyToUpdateProfile(true);
     }
   };
+
   const handlePasswordInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
     if (e.target.validity.tooShort) {
       setPasswordErrMessage('6자 이상 입력해주세요');
       setPassword({ vaild: false, value });
@@ -181,6 +189,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setPasswordErrMessage('');
       setPassword({ vaild: true, value });
     }
+
     if (value === passwordConfirm.value) {
       setPasswordConfirmErrMessage('');
       setPasswordConfirm({ vaild: true, value });
@@ -190,6 +199,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
       });
     }
   };
+
   const handlePasswordConfirmInp = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value !== password.value) {
@@ -222,6 +232,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setDisplayNameErrMessage('닉네임을 입력해주세요');
     }
   };
+
   return (
     <>
       {windowWidth && windowWidth <= 430 && <TopBar tit="Edit profile" />}
