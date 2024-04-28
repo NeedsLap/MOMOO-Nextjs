@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from '@/components/Modal/SharingModal/StyledSharingModal';
 import Toast from '@/components/Toast/Toast';
+import useAuthState from '@/hooks/auth/useAuthState';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import {
@@ -28,7 +29,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
   const [focusedOnSearch, setFocusedOnSearch] = useState(false);
   const [searchInp, setSearchInp] = useState('');
   const [searchResult, setSearchResult] = useState<{
-    seccess: boolean;
+    success: boolean;
     user: UserData | null;
     shared: boolean;
   } | null>(null);
@@ -38,21 +39,16 @@ export default function SharingModal({ closeModal, albumId }: Props) {
   const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
   const [toastMessage, setToastMessage] = useState('');
 
+  const { user } = useAuthState();
   const { showModal } = useShowModal();
   useEscDialog(closeModal);
 
-  const searchMember = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!searchInp) {
-      return;
-    }
-
+  const searchUserToShare = async () => {
     setIsPending(true);
     const sharedUser = sharedUsers.find((user) => user.email === searchInp);
 
     if (sharedUser) {
-      setSearchResult({ user: sharedUser, seccess: true, shared: true });
+      setSearchResult({ user: sharedUser, success: true, shared: true });
     } else {
       try {
         const res = await getUserByEmail(searchInp);
@@ -62,7 +58,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         }
 
         const { user } = await res.json();
-        setSearchResult({ user, seccess: !!user, shared: false });
+        setSearchResult({ user, success: !!user, shared: false });
       } catch (error) {
         setToastMessage('검색 중 에러가 발생했습니다');
         console.error(error);
@@ -70,6 +66,21 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     }
 
     setIsPending(false);
+  };
+
+  const searchUser = (e: FormEvent) => {
+    e.preventDefault();
+
+    switch (searchInp) {
+      case '':
+        return;
+      case user.email:
+        setSearchResult({ user, success: true, shared: false });
+        return;
+      default:
+        searchUserToShare();
+        break;
+    }
   };
 
   const inviteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -145,7 +156,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         <section className="search-member">
           <form
             className={focusedOnSearch ? 'search focus' : 'search'}
-            onSubmit={searchMember}
+            onSubmit={searchUser}
           >
             <label htmlFor="sharing" className="a11y-hidden">
               공유 대상 찾기
@@ -173,7 +184,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
                 alt="검색중"
               />
             </div>
-          ) : searchResult && searchResult.seccess ? (
+          ) : searchResult && searchResult.success ? (
             <div className="result member">
               <Image
                 width={32}
@@ -192,7 +203,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
               <button
                 type="button"
                 onClick={inviteUser}
-                disabled={searchResult.shared}
+                disabled={searchResult.shared || searchResult.user === user}
                 className="invite-btn"
               >
                 {searchResult.shared ? '초대됨' : '초대'}
