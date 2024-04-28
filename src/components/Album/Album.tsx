@@ -35,7 +35,7 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
         <li>
           <AlbumContainer $imageUrl={album.imageUrl}>
             <AlbumLink
-              href={`/${album.user?.uid || user.uid}/album/${album.name}`}
+              href={`/${album.user?.uid || user.uid}/album/${encodeURI(album.name)}`}
             >
               <div className="txtWrapper">
                 <p className="albumTitle">{album.name}</p>
