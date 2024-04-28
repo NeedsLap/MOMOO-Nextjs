@@ -51,7 +51,7 @@ export default function UploadModal() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (user.uid) {
+      if (user) {
         const result = await getAccordionData();
 
         setAccordionData(result.accordionData || []);
@@ -142,7 +142,7 @@ export default function UploadModal() {
     setIsPending(true);
 
     try {
-      if (!user.uid) throw new Error('사용자가 로그인되지 않았습니다.');
+      if (!user) throw new Error('사용자가 로그인되지 않았습니다.');
       const id = await uploadPost();
       await updateAlbums(id);
       router.push(`/${user.uid}/album/${albumNameToAdd[0]}/feed?start=0`);
