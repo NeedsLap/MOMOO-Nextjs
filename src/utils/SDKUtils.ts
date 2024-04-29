@@ -39,7 +39,7 @@ async function uploadImg(path: string, file: File) {
 async function getAlbumByName(uid: string, name: string) {
   const albumRef = collection(appFireStore, uid, uid, 'album');
 
-  const querySnapshot: DocumentData = await getDocs(
+  const querySnapshot = await getDocs(
     query(albumRef, where('name', '==', name)),
   );
 
@@ -127,6 +127,7 @@ const removeAlbumFromSharedAlbums = async (
 
   await Promise.all(promises);
 };
+
 const getAlbumList = async (uid: string) => {
   const albumDataList: DocumentData[] = [];
   const albumDocRef = collection(appFireStore, uid, uid, 'album');
