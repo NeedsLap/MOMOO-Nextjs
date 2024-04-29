@@ -6,6 +6,8 @@ import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
 import { getUserByUid } from '@/utils/admin';
 
+import { SharedUsers } from '@/types/album';
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } },
@@ -22,12 +24,14 @@ export async function GET(
       throw new Error('앨범 문서에 데이터가 없습니다');
     }
 
-    if (!albumData.sharedUsers) {
+    const sharedUsers = albumData.sharedUsers as SharedUsers;
+
+    if (!sharedUsers.length) {
       return NextResponse.json([]);
     }
 
-    const promises = albumData.sharedUsers.map(
-      (user: { uid: string; permission: 'read' }) => getUserByUid(user.uid),
+    const promises = sharedUsers.map((sharedUser) =>
+      getUserByUid(sharedUser.uid),
     );
     const sharedUsersProfile = await Promise.all(promises);
 
@@ -35,8 +39,10 @@ export async function GET(
   } catch (error) {
     console.error(error);
 
-    return new Response(
-      '데이터를 불러오는 중 예기치 못한 오류가 발생했습니다',
+    return NextResponse.json(
+      {
+        error: '데이터를 불러오는 중 예기치 못한 에러가 발생했습니다',
+      },
       {
         status: 500,
       },

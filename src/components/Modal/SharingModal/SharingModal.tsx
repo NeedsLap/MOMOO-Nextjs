@@ -111,13 +111,13 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     (async () => {
       try {
         const res = await getSharedUsers(albumId);
+        const json = await res.json();
 
         if (!res.ok) {
-          throw new Error(await res.text());
+          throw new Error(json.error);
         }
 
-        const sharedUsers = await res.json();
-        setSharedUsers(sharedUsers);
+        setSharedUsers(json);
       } catch (error) {
         setToastMessage('공유한 사용자 정보를 불러오는데 실패했습니다');
         console.error(error);
@@ -146,7 +146,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
 
     setDeleteSharedUserIsPending(false);
   };
-  console.log(searchResult);
+
   return (
     <StyledSharingModal
       aria-labelledby="modal"
