@@ -2,6 +2,7 @@ import { getAlbum } from '@/services/album';
 import { getFeeds } from '@/services/feed';
 
 import type { GetFeedsProps } from '@/services/model';
+import { Album } from '@/types/album';
 import type { Feed } from '@/types/feed';
 
 const getFeedsAndHandleException = async (
@@ -36,7 +37,10 @@ const getAlbumListHandle = async (cookie: string) => {
         return 'not-found';
       }
     }
-    return await res.json();
+
+    const json: Album[] = await res.json();
+
+    return json;
   } catch (error) {
     console.error(error);
     return null;
