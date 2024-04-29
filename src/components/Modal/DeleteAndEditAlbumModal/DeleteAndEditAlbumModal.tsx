@@ -106,7 +106,7 @@ export default function DeleteAndEditAlbumModal({
                   onChange={(e) => {
                     setEditAlbumName(e.target.value);
                   }}
-                  placeholder="새로운 앨범명을 입력해주세요"
+                  placeholder="새로운 앨범명을 입력해 주세요"
                 />
                 {errMessage !== '' && (
                   <strong role="alert">*{errMessage}</strong>

@@ -45,7 +45,7 @@ export default function Preview({
 
       setImages(files);
     } else {
-      setSubmitErrMessage('이미지 파일을 선택해주세요.');
+      setSubmitErrMessage('이미지 파일을 선택해 주세요.');
     }
   };
 

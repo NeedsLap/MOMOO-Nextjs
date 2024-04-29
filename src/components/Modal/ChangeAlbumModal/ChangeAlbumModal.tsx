@@ -140,7 +140,7 @@ export default function ChangeAlbumModal({
     >
       <header className="modal-header" id="modal-select">
         <h2>앨범 변경하기</h2>
-        <p> 저장할 앨범을 선택해주세요.</p>
+        <p> 저장할 앨범을 선택해 주세요</p>
       </header>
 
       <MultiAccordionWrapper>

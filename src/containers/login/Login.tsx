@@ -33,7 +33,7 @@ export default function Login() {
         setSubmitErrMessage('존재하지 않는 계정입니다');
         break;
       case 'auth/wrong-password':
-        setPasswordErrMessage('비밀번호를 다시 확인해주세요');
+        setPasswordErrMessage('비밀번호를 다시 확인해 주세요');
         setPasswordValid(false);
         break;
       case 'auth/network-request-failed':
@@ -48,7 +48,7 @@ export default function Login() {
         );
         break;
       default:
-        setSubmitErrMessage('아이디 혹은 비밀번호를 확인해주세요');
+        setSubmitErrMessage('아이디 혹은 비밀번호를 확인해 주세요');
     }
   }, [error]);
 
@@ -63,7 +63,7 @@ export default function Login() {
 
     if (e.target.validity.valueMissing) {
       setEmailValid(false);
-      setEmailErrMessage('이메일을 입력해주세요');
+      setEmailErrMessage('이메일을 입력해 주세요');
     } else if (e.target.validity.typeMismatch) {
       setEmailValid(false);
       setEmailErrMessage('이메일 형식이 올바르지 않습니다');
@@ -79,7 +79,7 @@ export default function Login() {
 
     if (e.target.validity.valueMissing) {
       setPasswordValid(false);
-      setPasswordErrMessage('비밀번호를 입력해주세요');
+      setPasswordErrMessage('비밀번호를 입력해 주세요');
     } else {
       setPasswordValid(true);
       setPasswordErrMessage('');

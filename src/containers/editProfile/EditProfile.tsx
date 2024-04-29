@@ -184,7 +184,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     const value = e.target.value;
 
     if (e.target.validity.tooShort) {
-      setPasswordErrMessage('6자 이상 입력해주세요');
+      setPasswordErrMessage('6자 이상 입력해 주세요');
       setPassword({ vaild: false, value });
     } else {
       setPasswordErrMessage('');
@@ -230,7 +230,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     setDisplayName({ value, vaild: !!value, changed });
 
     if (e.target.validity.valueMissing) {
-      setDisplayNameErrMessage('닉네임을 입력해주세요');
+      setDisplayNameErrMessage('닉네임을 입력해 주세요');
     }
   };
 
