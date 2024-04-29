@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   StyledArrayModal,
@@ -16,11 +16,11 @@ interface ArrayModalProps {
   onOptionClick: (option: AlbumSortOpt) => void;
 }
 
-const ArrayModal: React.FC<ArrayModalProps> = ({
+export default function ArrayModal({
   onClose,
   selectedOption,
   onOptionClick,
-}) => {
+}: ArrayModalProps) {
   const { showNonModal } = useShowNonModal();
   useEscDialog(onClose);
   const [isOpenNonModal, setIsOpenNonModal] = useState(false);
@@ -73,7 +73,7 @@ const ArrayModal: React.FC<ArrayModalProps> = ({
               <Image
                 width={20}
                 height={20}
-                src="/icons/Select.svg"
+                src="/icons/select.svg"
                 alt="선택"
               />
             )}
@@ -91,7 +91,7 @@ const ArrayModal: React.FC<ArrayModalProps> = ({
               <Image
                 width={20}
                 height={20}
-                src="/icons/Select.svg"
+                src="/icons/select.svg"
                 alt="선택"
               />
             )}
@@ -100,6 +100,4 @@ const ArrayModal: React.FC<ArrayModalProps> = ({
       </div>
     </StyledArrayModal>
   );
-};
-
-export default ArrayModal;
+}
