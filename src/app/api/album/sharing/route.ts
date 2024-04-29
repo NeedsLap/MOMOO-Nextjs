@@ -46,6 +46,7 @@ export async function GET() {
 
       sharedAlbumsData.push({
         ...albumData,
+        createdTime: albumData.createdTime.toMillis(),
         user: {
           uid: sharedAlbumUser,
           displayName,

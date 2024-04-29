@@ -14,7 +14,8 @@ interface AlbumMetadata {
   sharedUsers: SharedUsers;
 }
 
-interface Album extends AlbumMetadata {
+interface Album extends Omit<AlbumMetadata, 'createdTime'> {
+  createdTime: number;
   imageUrl: string | null;
   id: string;
   user?: {
@@ -23,5 +24,6 @@ interface Album extends AlbumMetadata {
     email?: string;
   };
 }
+// type GetAlbum = Album & { createdTime: Date };
 
 export type { AlbumMetadata, Album, SharedUser, SharedUsers };
