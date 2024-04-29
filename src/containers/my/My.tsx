@@ -8,7 +8,7 @@ import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledMy from '@/containers/my/StyledMy';
 import useLogout from '@/hooks/auth/useLogout';
 
-import { Profile } from '@/utils/model';
+import { Profile } from '@/types/user';
 
 export default function My({ profile }: { profile: Profile }) {
   const [submitErrMessage, setSubmitErrMessage] = useState('');

@@ -81,7 +81,7 @@ function AlbumItem(
           >
             <div className="a11y-hidden">
               <strong>{feedData.title}</strong>
-              {uid === user?.uid && (
+              {uid === user.uid && (
                 <button
                   type="button"
                   onClick={(e) => {

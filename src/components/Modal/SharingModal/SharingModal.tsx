@@ -14,11 +14,11 @@ import {
   getSharedUsers,
   postSharing,
 } from '@/services/album';
-import { getUserByEmail } from '@/services/user';
+import { searchUser } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
-import { SharingModalProps } from '@/components/Modal/SharingModal/model';
-import type { UserData } from '@/modules/model';
+import type { SharingModalProps } from '@/components/Modal/SharingModal/model';
+import type { User } from '@/types/user';
 
 export default function SharingModal({
   albumId,
@@ -30,13 +30,13 @@ export default function SharingModal({
   const [searchInp, setSearchInp] = useState('');
   const [searchResult, setSearchResult] = useState<{
     success: boolean;
-    user: UserData | null;
+    user: User | null;
     shared: boolean;
   } | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [deleteSharedUserIsPending, setDeleteSharedUserIsPending] =
     useState(false);
-  const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
+  const [sharedUsers, setSharedUsers] = useState<User[]>([]);
   const [toastMessage, setToastMessage] = useState('');
 
   const closeModal = () => {
@@ -61,10 +61,11 @@ export default function SharingModal({
       setSearchResult({ user: sharedUser, success: true, shared: true });
     } else {
       try {
-        const res = await getUserByEmail(searchInp);
+        const res = await searchUser(searchInp);
+        const json = await res.json();
 
         if (!res.ok) {
-          throw new Error(await res.text());
+          throw new Error(json.error);
         }
 
         const { user } = await res.json();

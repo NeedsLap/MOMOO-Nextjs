@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { type NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, listAll, deleteObject } from 'firebase/storage';
@@ -9,19 +9,32 @@ import { appFireStore, storage } from '@/firebase/config';
 import { getUserByUid } from '@/utils/admin';
 import { deleteImg, removeAlbumFromSharedAlbums } from '@/utils/SDKUtils';
 
-export async function GET(req: NextRequest) {
-  const email = req.nextUrl.searchParams.get('email') || '';
+import { User } from '@/types/user';
+
+export async function GET() {
+  const uid = cookies().get('uid')?.value;
+
+  if (!uid) {
+    return NextResponse.json(
+      {
+        error: '인증되지 않은 사용자입니다.',
+      },
+      {
+        status: 401,
+      },
+    );
+  }
 
   try {
-    const user = await adminAppAuth.getUserByEmail(email);
-    const profile = {
-      uid: user.uid,
-      displayName: user.displayName || '',
-      email: user.email || '',
-      photoURL: user.photoURL || '',
+    const result = await adminAppAuth.getUser(uid);
+    const user: User = {
+      uid: result.uid,
+      displayName: result.displayName || '',
+      email: result.email || '',
+      photoURL: result.photoURL || '',
     };
 
-    return NextResponse.json({ user: profile });
+    return NextResponse.json({ user });
   } catch (error) {
     return NextResponse.json({ user: null });
   }
@@ -67,7 +80,18 @@ const deleteFeedDocs = async (uid: string) => {
 };
 
 export async function DELETE() {
-  const uid = cookies().get('uid')?.value || '';
+  const uid = cookies().get('uid')?.value;
+
+  if (!uid) {
+    return NextResponse.json(
+      {
+        error: '인증되지 않은 사용자입니다.',
+      },
+      {
+        status: 401,
+      },
+    );
+  }
 
   try {
     const { photoURL } = await getUserByUid(uid);
@@ -84,12 +108,17 @@ export async function DELETE() {
   } catch (error) {
     console.error(error);
 
-    return new Response('계정 삭제 중 예기치 못한 오류가 발생했습니다', {
-      status: 500,
-    });
+    return NextResponse.json(
+      {
+        error: '계정 삭제 중 예기치 못한 오류가 발생했습니다.',
+      },
+      {
+        status: 500,
+      },
+    );
   }
 
-  return new Response(null, {
+  return NextResponse.json({
     status: 204,
   });
 }
