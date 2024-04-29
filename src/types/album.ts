@@ -1,13 +1,21 @@
 import { Timestamp } from 'firebase/firestore';
 
+interface SharedUser {
+  uid: string;
+  permission: 'read';
+}
+
+type SharedUsers = SharedUser[];
+
 interface AlbumMetadata {
   feedList: string[];
   createdTime: Timestamp;
   name: string;
-  sharedUsers?: string[];
+  sharedUsers: SharedUsers;
 }
 
-interface Album extends AlbumMetadata {
+interface Album extends Omit<AlbumMetadata, 'createdTime'> {
+  createdTime: number;
   imageUrl: string | null;
   id: string;
   user?: {
@@ -17,4 +25,4 @@ interface Album extends AlbumMetadata {
   };
 }
 
-export type { AlbumMetadata, Album };
+export type { AlbumMetadata, Album, SharedUser, SharedUsers };

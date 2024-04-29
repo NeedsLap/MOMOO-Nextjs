@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import Home from '@/containers/home/Home';
 import { getAlbumListHandle } from '@/utils/apis';
@@ -18,6 +18,10 @@ export default async function page() {
 
   const cookie = cookies().toString();
   const album = await getAlbumListHandle(cookie);
+
+  if (album === 'not-found') {
+    return notFound();
+  }
 
   return <Home album={album} />;
 }

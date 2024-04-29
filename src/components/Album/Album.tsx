@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AlbumContainer, AlbumLink } from '@/components/Album/StyledAlbum';
 import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
@@ -6,17 +6,19 @@ import DeleteAndEditAlbumModal from '@/components/Modal/DeleteAndEditAlbumModal/
 import SharingModal from '@/components/Modal/SharingModal/SharingModal';
 import useAuthState from '@/hooks/auth/useAuthState';
 
+import { AlbumProps } from '@/components/Album/model';
 import type { Album } from '@/types/album';
 
-interface AlbumProps {
-  albumData: Album;
-  showDeleteButton: boolean;
-}
-
-export default function Album({ albumData, showDeleteButton }: AlbumProps) {
+export default function Album({
+  albumData,
+  showDeleteButton,
+  setSharedAlbums,
+  sortOpt,
+}: AlbumProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditAlbumModalOpen, setIsEditAlbumModalOpen] = useState(false);
   const [isSharingModalOpen, setIsSharingModalOpen] = useState(false);
+  const [isShared, setIsShared] = useState(!!albumData.sharedUsers.length);
   const [album, setAlbum] = useState<Album | null>(albumData);
 
   const { user } = useAuthState();
@@ -25,9 +27,60 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
     event.preventDefault();
     setIsModalOpen(true);
   };
+
   const closeMoreModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    if (!setSharedAlbums) {
+      return;
+    }
+
+    if (isShared) {
+      setSharedAlbums((prev) => {
+        const isAlbum = prev.some((album) => album.id === albumData.id);
+
+        if (isAlbum) {
+          return prev;
+        }
+
+        const insertIndex = prev.findIndex((album) => {
+          if (sortOpt === 'latest') {
+            return album.createdTime < albumData.createdTime;
+          } else if (sortOpt === 'oldest') {
+            return album.createdTime > albumData.createdTime;
+          }
+          return false;
+        });
+
+        if (insertIndex === -1) {
+          return [...prev, albumData];
+        }
+
+        return [
+          ...prev.slice(0, insertIndex),
+          albumData,
+          ...prev.slice(insertIndex),
+        ];
+      });
+    } else {
+      setSharedAlbums((prev) => {
+        const indexOfAlbumData = prev.findIndex(
+          (album) => album.id === albumData.id,
+        );
+
+        if (indexOfAlbumData !== -1) {
+          return [
+            ...prev.slice(0, indexOfAlbumData),
+            ...prev.slice(indexOfAlbumData + 1),
+          ];
+        }
+
+        return prev;
+      });
+    }
+  }, [isShared]);
 
   return (
     <>
@@ -35,7 +88,7 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
         <li>
           <AlbumContainer $imageUrl={album.imageUrl}>
             <AlbumLink
-              href={`/${album.user?.uid || user.uid}/album/${album.name}`}
+              href={`/${album.user?.uid || user.uid}/album/${encodeURI(album.name)}`}
             >
               <div className="txtWrapper">
                 <p className="albumTitle">{album.name}</p>
@@ -74,7 +127,8 @@ export default function Album({ albumData, showDeleteButton }: AlbumProps) {
             {isSharingModalOpen && (
               <SharingModal
                 albumId={album.id}
-                closeModal={() => setIsSharingModalOpen(false)}
+                setIsModalOpen={setIsSharingModalOpen}
+                setIsShared={setIsShared}
               />
             )}
           </AlbumContainer>

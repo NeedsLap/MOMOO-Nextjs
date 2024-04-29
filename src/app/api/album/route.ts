@@ -30,5 +30,9 @@ export async function GET() {
   }
 
   // 최신순으로 return
-  return NextResponse.json([album[0], ...album.slice(1).reverse()]);
+  return NextResponse.json(
+    [album[0], ...album.slice(1).reverse()].map((v) => {
+      return { ...v, createdTime: v.createdTime.toMillis() };
+    }),
+  );
 }

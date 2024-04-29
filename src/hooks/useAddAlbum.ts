@@ -36,7 +36,12 @@ export default function useAddAlbum() {
       if (querySnapshot) {
         const doc = querySnapshot.docs[0];
         const albumData = doc.data() as AlbumMetadata;
-        const updateData: Album = { ...albumData, id: doc.id, imageUrl: null };
+        const updateData: Album = {
+          ...albumData,
+          createdTime: albumData.createdTime.toMillis(),
+          id: doc.id,
+          imageUrl: null,
+        };
 
         return {
           updateData,

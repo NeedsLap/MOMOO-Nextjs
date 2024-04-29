@@ -75,7 +75,7 @@ export default function NewAlbumModal({
           placeholder="이름을 입력해 주세요"
           value={albumName}
           onChange={(e) => {
-            setAlbumName(e.target.value);
+            setAlbumName(e.target.value.trim());
             handleValidate(e);
           }}
         />

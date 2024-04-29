@@ -16,14 +16,14 @@ import { getSharedAlbums } from '@/services/album';
 import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
 import type { Album as AlbumType } from '@/types/album';
 
-export default function Home({ album }: { album: AlbumType[] }) {
+export default function Home({ album }: { album: AlbumType[] | null }) {
   const [selectedAlbumType, setSelectedAlbumType] = useState<
     '나의 앨범' | '공유 앨범'
   >('나의 앨범');
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<AlbumSortOpt>('latest');
-  const [albumData, setAlbumData] = useState<AlbumType[]>(album);
+  const [albumData, setAlbumData] = useState<AlbumType[]>(album || []);
   const [sharedAlbums, setSharedAlbums] = useState<AlbumType[]>([]);
   const [error, setError] = useState('');
 
@@ -61,8 +61,13 @@ export default function Home({ album }: { album: AlbumType[] }) {
     setIsAddModalOpen(false);
   };
   const handleOptionClick = (option: AlbumSortOpt) => {
+    if (option === selectedOption) {
+      return;
+    }
+
     setSelectedOption(option);
     setAlbumData((prev) => [prev[0], ...prev.slice(1).reverse()]);
+    setSharedAlbums((prev) => prev.reverse());
   };
 
   const changeSelectedAlbumType = () => {
@@ -77,7 +82,9 @@ export default function Home({ album }: { album: AlbumType[] }) {
     <>
       {windowWidth && windowWidth <= 430 && <HomeTopbar />}
       <StyledMain>
-        {error && <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />}
+        {(!album || error) && (
+          <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
+        )}
         <StyledH2 className="album-title">Album</StyledH2>
         <StyledHomeSection>
           <div className="btn-wrap">
@@ -142,22 +149,17 @@ export default function Home({ album }: { album: AlbumType[] }) {
                     key={v.id}
                     albumData={v}
                     showDeleteButton={index !== 0}
+                    sortOpt={selectedOption}
+                    setSharedAlbums={setSharedAlbums}
                   />
                 );
               })}
             </ul>
           ) : (
             <ul>
-              {(selectedOption === 'oldest'
-                ? sharedAlbums
-                : sharedAlbums.reverse()
-              ).map((v, index) => {
+              {sharedAlbums.map((v) => {
                 return (
-                  <Album
-                    key={v.id}
-                    albumData={v}
-                    showDeleteButton={index !== 0}
-                  />
+                  <Album key={v.id} albumData={v} showDeleteButton={false} />
                 );
               })}
             </ul>

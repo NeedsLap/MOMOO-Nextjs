@@ -1,16 +1,41 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
-import { deleteDoc, doc, getDoc } from 'firebase/firestore';
+import {
+  DocumentReference,
+  arrayRemove,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { DocumentData } from 'firebase-admin/firestore';
 
 import { appFireStore } from '@/firebase/config';
 import { removeAlbumFromSharedAlbums } from '@/utils/SDKUtils';
 
+const removeAlbumFromMySharedAlbums = async (
+  uid: string,
+  albumDocRef: DocumentReference<DocumentData, DocumentData>,
+) => {
+  const userDocRef = doc(appFireStore, uid, uid);
+  await updateDoc(userDocRef, {
+    sharedAlbums: arrayRemove(albumDocRef),
+  });
+};
+
 const deleteAlbum = async (uid: string, albumId: string) => {
-  const userAlbumDocRef = doc(appFireStore, uid, uid, 'album', albumId);
-  const albumDoc = await getDoc(userAlbumDocRef);
-  await removeAlbumFromSharedAlbums(albumDoc);
-  await deleteDoc(userAlbumDocRef);
+  const albumDocRef = doc(appFireStore, uid, uid, 'album', albumId);
+  const albumDoc = await getDoc(albumDocRef);
+
+  if (albumDoc.data()?.sharedUsers.length) {
+    await Promise.all([
+      removeAlbumFromMySharedAlbums(uid, albumDocRef),
+      removeAlbumFromSharedAlbums(albumDoc),
+    ]);
+  }
+
+  await deleteDoc(albumDocRef);
 };
 
 export async function DELETE(

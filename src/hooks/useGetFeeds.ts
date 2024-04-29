@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { useState } from 'react';
 
 import { getFeedsAndHandleException } from '@/utils/apis';
@@ -6,7 +6,6 @@ import { getFeedsAndHandleException } from '@/utils/apis';
 import type { GetFeedsProps } from '@/services/model';
 
 export default function useGetFeeds() {
-  const router = useRouter();
   const [error, setError] = useState<null | string>(null);
 
   const getFeeds = async (opts: GetFeedsProps) => {
@@ -14,8 +13,7 @@ export default function useGetFeeds() {
     setError(null);
 
     if (feeds === 'not-found') {
-      router.replace('/404');
-      return;
+      return notFound();
     }
 
     if (!feeds) {

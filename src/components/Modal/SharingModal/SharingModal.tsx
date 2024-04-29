@@ -1,11 +1,12 @@
 import Image from 'next/image';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 
 import {
   StyledSharingModal,
   DialogTitle,
 } from '@/components/Modal/SharingModal/StyledSharingModal';
 import Toast from '@/components/Toast/Toast';
+import useAuthState from '@/hooks/auth/useAuthState';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import {
@@ -16,19 +17,19 @@ import {
 import { searchUser } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
+import type { SharingModalProps } from '@/components/Modal/SharingModal/model';
 import type { User } from '@/types/user';
 
-interface Props {
-  albumId: string;
-  closeModal: () => void;
-}
-
-export default function SharingModal({ closeModal, albumId }: Props) {
+export default function SharingModal({
+  albumId,
+  setIsModalOpen,
+  setIsShared,
+}: SharingModalProps) {
   const urlInputRef = useRef<HTMLInputElement | null>(null);
   const [focusedOnSearch, setFocusedOnSearch] = useState(false);
   const [searchInp, setSearchInp] = useState('');
   const [searchResult, setSearchResult] = useState<{
-    seccess: boolean;
+    success: boolean;
     user: User | null;
     shared: boolean;
   } | null>(null);
@@ -38,21 +39,26 @@ export default function SharingModal({ closeModal, albumId }: Props) {
   const [sharedUsers, setSharedUsers] = useState<User[]>([]);
   const [toastMessage, setToastMessage] = useState('');
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+
+    if (sharedUsers.length) {
+      setIsShared(true);
+    } else {
+      setIsShared(false);
+    }
+  };
+
+  const { user } = useAuthState();
   const { showModal } = useShowModal();
   useEscDialog(closeModal);
 
-  const searchMember = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!searchInp) {
-      return;
-    }
-
+  const searchUserToShare = async () => {
     setIsPending(true);
     const sharedUser = sharedUsers.find((user) => user.email === searchInp);
 
     if (sharedUser) {
-      setSearchResult({ user: sharedUser, seccess: true, shared: true });
+      setSearchResult({ user: sharedUser, success: true, shared: true });
     } else {
       try {
         const res = await searchUser(searchInp);
@@ -62,11 +68,8 @@ export default function SharingModal({ closeModal, albumId }: Props) {
           throw new Error(json.error);
         }
 
-        setSearchResult({
-          user: json.user,
-          seccess: !!json.user,
-          shared: false,
-        });
+        const { user } = await res.json();
+        setSearchResult({ user, success: !!user, shared: false });
       } catch (error) {
         setToastMessage('검색 중 에러가 발생했습니다');
         console.error(error);
@@ -76,22 +79,39 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     setIsPending(false);
   };
 
-  const inviteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.disabled = true;
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    switch (searchInp) {
+      case '':
+        return;
+      case user.email:
+        setSearchResult({ user, success: true, shared: false });
+        return;
+      default:
+        searchUserToShare();
+        break;
+    }
+  };
+
+  const inviteUser = async (e: MouseEvent<HTMLButtonElement>) => {
+    const target = e.currentTarget;
+    target.disabled = true;
     const user = searchResult?.user;
 
     if (user) {
       try {
-        const res = await postSharing(user.uid || '', albumId);
+        const res = await postSharing(user.uid, albumId);
 
         if (!res.ok) {
-          throw new Error(await res.text());
+          const json = await res.json();
+          throw new Error(json.error);
         }
 
         setSearchResult(null);
         setSharedUsers((prev) => [...prev, user]);
       } catch (error) {
-        e.currentTarget.disabled = false;
+        target.disabled = false;
         setToastMessage('공유 대상을 추가하는데 실패했습니다');
         console.error(error);
       }
@@ -102,13 +122,13 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     (async () => {
       try {
         const res = await getSharedUsers(albumId);
+        const json = await res.json();
 
         if (!res.ok) {
-          throw new Error(await res.text());
+          throw new Error(json.error);
         }
 
-        const sharedUsers = await res.json();
-        setSharedUsers(sharedUsers);
+        setSharedUsers(json);
       } catch (error) {
         setToastMessage('공유한 사용자 정보를 불러오는데 실패했습니다');
         console.error(error);
@@ -149,7 +169,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
         <section className="search-member">
           <form
             className={focusedOnSearch ? 'search focus' : 'search'}
-            onSubmit={searchMember}
+            onSubmit={handleSubmit}
           >
             <label htmlFor="sharing" className="a11y-hidden">
               공유 대상 찾기
@@ -177,7 +197,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
                 alt="검색중"
               />
             </div>
-          ) : searchResult && searchResult.seccess ? (
+          ) : searchResult?.success ? (
             <div className="result member">
               <Image
                 width={32}
@@ -196,7 +216,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
               <button
                 type="button"
                 onClick={inviteUser}
-                disabled={searchResult.shared}
+                disabled={searchResult.shared || searchResult.user === user}
                 className="invite-btn"
               >
                 {searchResult.shared ? '초대됨' : '초대'}

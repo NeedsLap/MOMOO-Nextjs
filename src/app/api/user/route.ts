@@ -64,7 +64,7 @@ const deleteAlbumDocs = async (uid: string) => {
   const albumList = await getDocs(collection(appFireStore, uid, uid, 'album'));
   const promises = albumList.docs.map(async (albumDoc) => {
     await removeAlbumFromSharedAlbums(albumDoc);
-    return deleteDoc(doc(appFireStore, uid, uid, 'album', albumDoc.id));
+    return deleteDoc(albumDoc.ref);
   });
 
   await Promise.all(promises);

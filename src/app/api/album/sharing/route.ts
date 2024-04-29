@@ -33,30 +33,39 @@ export async function GET() {
     const promises = sharedAlbums.map(async (ref: DocumentReference) => {
       const albumDocSnap = await getDoc(ref);
       const albumData = albumDocSnap.data() as AlbumMetadata;
+      const sharedAlbumUser = ref.path.split('/')[0];
+      let thumbnail: string | null = null;
 
-      if (albumData) {
-        const sharedAlbumUser = ref.path.split('/')[0];
-        const thumbnail: string | null =
-          (await getThumbnail(
-            sharedAlbumUser,
-            albumData.feedList[albumData.feedList.length - 1],
-          )) || null;
-        const { displayName, email } = await adminAppAuth.getUser(uid);
-
-        sharedAlbumsData.push({
-          ...albumData,
-          user: {
-            uid: sharedAlbumUser,
-            displayName,
-            email,
-          },
-          imageUrl: thumbnail,
-          id: albumDocSnap.id,
-        });
+      if (albumData.feedList.length) {
+        thumbnail = await getThumbnail(
+          sharedAlbumUser,
+          albumData.feedList[albumData.feedList.length - 1],
+        );
       }
+      const { displayName, email } = await adminAppAuth.getUser(uid);
+
+      sharedAlbumsData.push({
+        ...albumData,
+        createdTime: albumData.createdTime.toMillis(),
+        user: {
+          uid: sharedAlbumUser,
+          displayName,
+          email,
+        },
+        imageUrl: thumbnail,
+        id: albumDocSnap.id,
+      });
     });
 
     await Promise.all(promises);
+
+    sharedAlbumsData.sort((a, b) => {
+      if (a.createdTime > b.createdTime) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
 
     return NextResponse.json(sharedAlbumsData);
   } catch (error) {

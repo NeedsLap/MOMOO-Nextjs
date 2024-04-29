@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
-import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { appFireStore } from '@/firebase/config';
 
@@ -16,14 +16,21 @@ export async function DELETE(
   const albumDocRef = doc(appFireStore, userUid, userUid, 'album', albumId);
 
   try {
-    const addSharedAlbum = updateDoc(userDocRef, {
+    const updateSharedAlbum = updateDoc(userDocRef, {
       sharedAlbums: arrayRemove(albumDocRef),
     });
-    const addSharedUser = updateDoc(albumDocRef, {
+    const updateSharedUser = updateDoc(albumDocRef, {
       sharedUsers: arrayRemove({ uid, permission: 'read' }),
     });
+    await Promise.all([updateSharedAlbum, updateSharedUser]);
+    const albumDoc = await getDoc(albumDocRef);
 
-    await Promise.all([addSharedAlbum, addSharedUser]);
+    if (!albumDoc.data()?.sharedUsers.length) {
+      const albumUserDocRef = doc(appFireStore, userUid, userUid);
+      await updateDoc(albumUserDocRef, {
+        sharedAlbums: arrayRemove(albumDocRef),
+      });
+    }
 
     return new Response(null, {
       status: 204,

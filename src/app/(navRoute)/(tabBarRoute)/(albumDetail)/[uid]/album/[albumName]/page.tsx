@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import AlbumDetail from '@/containers/albumDetail/AlbumDetail';
 import { getFeedsAndHandleException } from '@/utils/apis';
@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: AlbumDetailParams }) {
   const feeds = await getFeedsAndHandleException(getFeedsQuery);
 
   if (feeds === 'not-found') {
-    return redirect('/404');
+    return notFound();
   }
 
   return <AlbumDetail feeds={feeds} pageSize={pageSize} />;
