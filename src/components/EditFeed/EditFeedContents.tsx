@@ -223,7 +223,7 @@ export default function EditFeedContents({
                     setText(e.target.value);
                     onInputHandler(e);
                   }}
-                  placeholder="문구를 입력해주세요"
+                  placeholder="문구를 입력해 주세요"
                 ></textarea>
                 <div className="countText">
                   <span>{inputCount}</span> / 1000 자

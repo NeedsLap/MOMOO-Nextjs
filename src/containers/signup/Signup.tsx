@@ -16,7 +16,7 @@ import useProfileImg from '@/hooks/useProfileImg';
 import { resetPageState, setPrevPath } from '@/modules/page';
 import { resetSignupState, setSignupForm } from '@/modules/signup';
 
-import { ReduxState } from '@/modules/model';
+import type { ReduxState } from '@/modules/model';
 
 export default function Signup() {
   const [profileImgFiles, setProfileImgFiles] = useState<FileList | null>(null);
@@ -130,7 +130,7 @@ export default function Signup() {
     const value = target.value;
 
     if (target.validity.valueMissing) {
-      setDisplayNameErrMessage('닉네임을 입력해주세요');
+      setDisplayNameErrMessage('닉네임을 입력해 주세요');
       setDisplayName({ value, vaild: false });
     } else {
       setDisplayNameErrMessage('');
@@ -142,7 +142,7 @@ export default function Signup() {
     const value = target.value;
 
     if (target.validity.valueMissing) {
-      setEmailErrMessage('이메일을 입력해주세요');
+      setEmailErrMessage('이메일을 입력해 주세요');
       setEmail({ value, vaild: false });
     } else {
       setEmailErrMessage('');
@@ -154,10 +154,10 @@ export default function Signup() {
     const value = target.value;
 
     if (target.validity.valueMissing) {
-      setPasswordErrMessage('비밀번호를 입력해주세요');
+      setPasswordErrMessage('비밀번호를 입력해 주세요');
       setPassword({ value, vaild: false });
     } else if (target.validity.tooShort) {
-      setPasswordErrMessage('6자 이상 입력해주세요');
+      setPasswordErrMessage('6자 이상 입력해 주세요');
       setPassword({ value, vaild: false });
     } else {
       setPasswordErrMessage('');

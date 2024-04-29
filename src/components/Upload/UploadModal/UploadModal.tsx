@@ -129,7 +129,7 @@ export default function UploadModal() {
       return false;
     }
     if (file === null) {
-      alert('사진을 선택해주세요');
+      alert('사진을 선택해 주세요');
       return false;
     }
     return true;
@@ -206,7 +206,7 @@ export default function UploadModal() {
                   <div className="inputWrapper">
                     <input
                       type="text"
-                      placeholder="제목을 입력해주세요(필수)"
+                      placeholder="제목을 입력해 주세요(필수)"
                       value={title}
                       onChange={(e) => {
                         setTitle(e.target.value);
@@ -225,7 +225,7 @@ export default function UploadModal() {
                         setText(e.target.value);
                         onInputHandler(e);
                       }}
-                      placeholder="문구를 입력해주세요"
+                      placeholder="문구를 입력해 주세요"
                     ></textarea>
                     <div className="countText">
                       <span>{inputCount}</span> / 1000 자
