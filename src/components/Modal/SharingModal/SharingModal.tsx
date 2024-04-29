@@ -17,14 +17,14 @@ import {
 import { getUserByEmail } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
-import { UserData } from '@/modules/model';
+import { SharingModalProps } from '@/components/Modal/SharingModal/model';
+import type { UserData } from '@/modules/model';
 
-interface Props {
-  albumId: string;
-  closeModal: () => void;
-}
-
-export default function SharingModal({ closeModal, albumId }: Props) {
+export default function SharingModal({
+  albumId,
+  setIsModalOpen,
+  setIsShared,
+}: SharingModalProps) {
   const urlInputRef = useRef<HTMLInputElement | null>(null);
   const [focusedOnSearch, setFocusedOnSearch] = useState(false);
   const [searchInp, setSearchInp] = useState('');
@@ -38,6 +38,16 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     useState(false);
   const [sharedUsers, setSharedUsers] = useState<UserData[]>([]);
   const [toastMessage, setToastMessage] = useState('');
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+
+    if (sharedUsers.length) {
+      setIsShared(true);
+    } else {
+      setIsShared(false);
+    }
+  };
 
   const { user } = useAuthState();
   const { showModal } = useShowModal();

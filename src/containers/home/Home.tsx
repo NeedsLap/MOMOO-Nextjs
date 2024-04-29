@@ -149,6 +149,8 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
                     key={v.id}
                     albumData={v}
                     showDeleteButton={index !== 0}
+                    sortOpt={selectedOption}
+                    setSharedAlbums={setSharedAlbums}
                   />
                 );
               })}
