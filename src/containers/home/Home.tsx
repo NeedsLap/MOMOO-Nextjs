@@ -61,8 +61,13 @@ export default function Home({ album }: { album: AlbumType[] }) {
     setIsAddModalOpen(false);
   };
   const handleOptionClick = (option: AlbumSortOpt) => {
+    if (option === selectedOption) {
+      return;
+    }
+
     setSelectedOption(option);
     setAlbumData((prev) => [prev[0], ...prev.slice(1).reverse()]);
+    setSharedAlbums((prev) => prev.reverse());
   };
 
   const changeSelectedAlbumType = () => {
@@ -148,10 +153,7 @@ export default function Home({ album }: { album: AlbumType[] }) {
             </ul>
           ) : (
             <ul>
-              {(selectedOption === 'oldest'
-                ? sharedAlbums
-                : sharedAlbums.reverse()
-              ).map((v, index) => {
+              {sharedAlbums.map((v, index) => {
                 return (
                   <Album
                     key={v.id}
