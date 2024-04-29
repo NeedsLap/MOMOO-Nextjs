@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 
 import {
   StyledSharingModal,
@@ -83,22 +83,24 @@ export default function SharingModal({ closeModal, albumId }: Props) {
     }
   };
 
-  const inviteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.disabled = true;
+  const inviteUser = async (e: MouseEvent<HTMLButtonElement>) => {
+    const target = e.currentTarget;
+    target.disabled = true;
     const user = searchResult?.user;
 
     if (user) {
       try {
-        const res = await postSharing(user.uid || '', albumId);
+        const res = await postSharing(user.uid, albumId);
 
         if (!res.ok) {
-          throw new Error(await res.text());
+          const json = await res.json();
+          throw new Error(json.error);
         }
 
         setSearchResult(null);
         setSharedUsers((prev) => [...prev, user]);
       } catch (error) {
-        e.currentTarget.disabled = false;
+        target.disabled = false;
         setToastMessage('공유 대상을 추가하는데 실패했습니다');
         console.error(error);
       }
@@ -144,7 +146,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
 
     setDeleteSharedUserIsPending(false);
   };
-
+  console.log(searchResult);
   return (
     <StyledSharingModal
       aria-labelledby="modal"
@@ -184,7 +186,7 @@ export default function SharingModal({ closeModal, albumId }: Props) {
                 alt="검색중"
               />
             </div>
-          ) : searchResult && searchResult.success ? (
+          ) : searchResult?.success ? (
             <div className="result member">
               <Image
                 width={32}

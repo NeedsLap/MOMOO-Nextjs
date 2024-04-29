@@ -4,7 +4,7 @@ interface AlbumMetadata {
   feedList: string[];
   createdTime: Timestamp;
   name: string;
-  sharedUsers?: string[];
+  sharedUsers: string[];
 }
 
 interface Album extends AlbumMetadata {
