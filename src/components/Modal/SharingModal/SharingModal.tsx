@@ -79,7 +79,7 @@ export default function SharingModal({
     setIsPending(false);
   };
 
-  const searchUser = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     switch (searchInp) {
@@ -169,7 +169,7 @@ export default function SharingModal({
         <section className="search-member">
           <form
             className={focusedOnSearch ? 'search focus' : 'search'}
-            onSubmit={searchUser}
+            onSubmit={handleSubmit}
           >
             <label htmlFor="sharing" className="a11y-hidden">
               공유 대상 찾기
