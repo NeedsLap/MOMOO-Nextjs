@@ -58,6 +58,14 @@ export async function GET() {
 
     await Promise.all(promises);
 
+    sharedAlbumsData.sort((a, b) => {
+      if (a.createdTime > b.createdTime) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+
     return NextResponse.json(sharedAlbumsData);
   } catch (error) {
     console.error(error);
