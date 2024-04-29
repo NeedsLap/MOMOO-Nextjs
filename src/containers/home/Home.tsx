@@ -153,13 +153,9 @@ export default function Home({ album }: { album: AlbumType[] }) {
             </ul>
           ) : (
             <ul>
-              {sharedAlbums.map((v, index) => {
+              {sharedAlbums.map((v) => {
                 return (
-                  <Album
-                    key={v.id}
-                    albumData={v}
-                    showDeleteButton={index !== 0}
-                  />
+                  <Album key={v.id} albumData={v} showDeleteButton={false} />
                 );
               })}
             </ul>
