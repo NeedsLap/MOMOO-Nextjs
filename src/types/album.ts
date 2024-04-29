@@ -24,6 +24,5 @@ interface Album extends Omit<AlbumMetadata, 'createdTime'> {
     email?: string;
   };
 }
-// type GetAlbum = Album & { createdTime: Date };
 
 export type { AlbumMetadata, Album, SharedUser, SharedUsers };
