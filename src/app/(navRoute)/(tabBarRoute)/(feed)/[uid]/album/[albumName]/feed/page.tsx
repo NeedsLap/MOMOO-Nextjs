@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import Feed from '@/containers/feed/Feed';
 import { getFeedsAndHandleException } from '@/utils/apis';
@@ -31,7 +31,7 @@ export default async function Page({
   const feeds = await getFeedsAndHandleException(getFeedsQuery);
 
   if (feeds === 'not-found') {
-    return redirect('/404');
+    return notFound();
   }
 
   return <Feed feeds={feeds} pageSize={pageSize} />;
