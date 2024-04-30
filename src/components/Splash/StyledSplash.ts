@@ -47,7 +47,7 @@ const StyledSplash = styled.main`
     }
   }
 
-  img {
+  .logo {
     margin: auto;
     width: var(--width);
     height: auto;
@@ -60,10 +60,10 @@ const StyledSplash = styled.main`
     transform: translateX(100%);
     height: min(96px, calc(var(--width) / 5.88541667));
     aspect-ratio: 89 / 96;
-  }
 
-  path {
-    animation: ${changeColor} 0.5s 0.7s forwards;
+    path {
+      animation: ${changeColor} 0.5s 0.7s forwards;
+    }
   }
 
   div::after {
