@@ -1,5 +1,5 @@
 const getCookie = (name: string) => {
-  if (!document) {
+  if (typeof document === 'undefined') {
     return;
   }
 

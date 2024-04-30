@@ -8,6 +8,11 @@ const StyledEditProfile = styled(StyledAuth)`
 
     h2 {
       margin: 0 0 80px;
+      line-height: 1.2;
+    }
+
+    h2::after {
+      margin-top: -8px;
     }
 
     button + button {
