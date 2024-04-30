@@ -36,7 +36,7 @@ const StyledInputModal = styled.dialog`
     text-align: start;
   }
 
-  .btn-wrap {
+  form .btn-wrap {
     margin: 20px 0 0;
   }
 
@@ -45,14 +45,20 @@ const StyledInputModal = styled.dialog`
     padding: 1rem 1.6rem;
     font-size: var(--text-m);
     border-top: 1px solid var(--gray-200);
+    vertical-align: top;
   }
 
   .btn-wrap button:last-child {
     color: var(--point-dark-400);
     border-left: 1px solid var(--gray-200);
   }
+
   .btn-wrap button:disabled {
     cursor: default;
+  }
+
+  .btn-wrap img {
+    width: calc(var(--text-m) * 1.5);
   }
 `;
 

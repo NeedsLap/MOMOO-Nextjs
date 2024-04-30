@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   Dispatch,
   FormEvent,
@@ -7,6 +6,7 @@ import {
   useState,
 } from 'react';
 
+import { StyledLoadingImg } from '@/components/Loading/StyledLodingImg';
 import InputModal from '@/components/Modal/InputModal/InputModal';
 import useReauthenticate from '@/hooks/auth/useReauthenticate';
 
@@ -82,8 +82,8 @@ export default function ReauthModal({
             취소
           </button>
           <button type="submit" disabled={!value || isPending}>
-            {isPending ? (
-              <Image
+            {!isPending ? (
+              <StyledLoadingImg
                 width={16}
                 height={16}
                 src="/icons/loading.svg"

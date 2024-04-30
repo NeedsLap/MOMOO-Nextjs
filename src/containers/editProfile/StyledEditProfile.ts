@@ -88,12 +88,10 @@ const StyledEditProfile = styled(StyledAuth)`
       margin: 0 auto 55px;
     }
 
-    form {
-      button {
-        margin-top: 35px;
-        position: static;
-        width: 100%;
-      }
+    .auth-form button {
+      margin-top: 35px;
+      position: static;
+      width: 100%;
     }
   }
 `;
