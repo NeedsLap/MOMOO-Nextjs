@@ -23,6 +23,8 @@ import {
 
 import { storage, appFireStore } from '@/firebase/config';
 
+import { Album, AlbumMetadata } from '@/types/album';
+
 async function deleteImg(url: string) {
   const imgRef = ref(storage, url);
 
@@ -66,10 +68,6 @@ const getFeedsData = async (feedIdList: string[], uid: string) => {
     }
   });
 
-  await Promise.all(promises);
-
-  return feeds;
-};
 
 const getSharedAlbums = async (
   uid: string,
@@ -129,12 +127,19 @@ const removeAlbumFromSharedAlbums = async (
 };
 
 const getAlbumList = async (uid: string) => {
-  const albumDataList: DocumentData[] = [];
+  const albumDataList: Album[] = [];
   const albumDocRef = collection(appFireStore, uid, uid, 'album');
   const q = query(albumDocRef, orderBy('createdTime'));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    albumDataList.push({ ...doc.data(), id: doc.id });
+    const data = doc.data() as AlbumMetadata;
+    albumDataList.push({
+      ...data,
+      id: doc.id,
+      user: { uid },
+      createdTime: data.createdTime.toMillis(),
+      imageUrl: '',
+    });
   });
 
   return albumDataList;

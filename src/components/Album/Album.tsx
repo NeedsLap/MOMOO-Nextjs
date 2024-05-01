@@ -4,7 +4,6 @@ import { AlbumContainer, AlbumLink } from '@/components/Album/StyledAlbum';
 import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
 import DeleteAndEditAlbumModal from '@/components/Modal/DeleteAndEditAlbumModal/DeleteAndEditAlbumModal';
 import SharingModal from '@/components/Modal/SharingModal/SharingModal';
-import useAuthState from '@/hooks/auth/useAuthState';
 
 import { AlbumProps } from '@/components/Album/model';
 import type { Album } from '@/types/album';
@@ -20,8 +19,6 @@ export default function Album({
   const [isSharingModalOpen, setIsSharingModalOpen] = useState(false);
   const [isShared, setIsShared] = useState(!!albumData.sharedUsers.length);
   const [album, setAlbum] = useState<Album | null>(albumData);
-
-  const { user } = useAuthState();
 
   const HandleModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -88,7 +85,7 @@ export default function Album({
         <li>
           <AlbumContainer $imageUrl={album.imageUrl}>
             <AlbumLink
-              href={`/${album.user?.uid || user.uid}/album/${encodeURI(album.name)}`}
+              href={`/${album.user.uid}/album/${encodeURI(album.name)}`}
             >
               <div className="txtWrapper">
                 <p className="albumTitle">{album.name}</p>

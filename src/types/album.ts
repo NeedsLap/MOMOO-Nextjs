@@ -18,7 +18,7 @@ interface Album extends Omit<AlbumMetadata, 'createdTime'> {
   createdTime: number;
   imageUrl: string | null;
   id: string;
-  user?: {
+  user: {
     uid: string;
     displayName?: string;
     email?: string;
