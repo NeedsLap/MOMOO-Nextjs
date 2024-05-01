@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+type MainProps = {
+  $scrollbarWidth: number;
+};
 
-const StyledMain = styled.main`
+const StyledMain = styled.main<MainProps>`
   position: relative;
   padding: 24px var(--margin-mobile) calc(var(--nav-height-mobile) + 40px);
 
@@ -11,7 +14,9 @@ const StyledMain = styled.main`
 
   @media (min-width: 1025px) {
     padding: 0 var(--margin-pc) 55px;
-    margin: var(--padding-top-pc) var(--right-padding-pc) 0 var(--nav-width-pc);
+    margin: var(--padding-top-pc)
+      calc(var(--right-padding-pc) - ${(props) => props.$scrollbarWidth}px) 0
+      var(--nav-width-pc);
   }
 `;
 

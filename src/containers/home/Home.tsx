@@ -26,7 +26,14 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
   const [albumData, setAlbumData] = useState<AlbumType[]>(album || []);
   const [sharedAlbums, setSharedAlbums] = useState<AlbumType[]>([]);
   const [error, setError] = useState('');
-
+  const [scrollbarWidth, setScrollbarWidth] = useState(0);
+  useEffect(() => {
+    const updateScrollbarWidth = () => {
+      const width = window.innerWidth - document.documentElement.clientWidth;
+      setScrollbarWidth(width);
+    };
+    updateScrollbarWidth();
+  }, [selectedAlbumType]);
   useEffect(() => {
     (async () => {
       try {
@@ -81,7 +88,7 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
   return (
     <>
       {windowWidth && windowWidth <= 430 && <HomeTopbar />}
-      <StyledMain>
+      <StyledMain $scrollbarWidth={scrollbarWidth}>
         {(!album || error) && (
           <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
         )}
