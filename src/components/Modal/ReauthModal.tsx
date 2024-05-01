@@ -82,7 +82,7 @@ export default function ReauthModal({
             취소
           </button>
           <button type="submit" disabled={!value || isPending}>
-            {!isPending ? (
+            {isPending ? (
               <StyledLoadingImg
                 width={16}
                 height={16}
