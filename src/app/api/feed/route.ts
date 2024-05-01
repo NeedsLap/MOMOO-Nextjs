@@ -8,6 +8,8 @@ import {
   getSharedAlbums,
 } from '@/utils/SDKUtils';
 
+import { AlbumType } from '@/types/feed';
+
 export async function GET(req: NextRequest) {
   const userUid = cookies().get('uid')?.value;
   const limit = req.nextUrl.searchParams.get('limit');
@@ -84,11 +86,13 @@ export async function GET(req: NextRequest) {
 
   // 최신순으로 가져오기 위해 뒤에서부터 slice
   const feedList: string[] = [...albumDoc.data().feedList];
+  const albumType: AlbumType = userUid === uid ? 'my' : 'shared';
   const feeds = await getFeedsData(
     feedList
       .slice(feedList.length - limitNum, feedList.length - skipNum)
       .reverse(),
     uid,
+    albumType,
   );
 
   return NextResponse.json(feeds);
