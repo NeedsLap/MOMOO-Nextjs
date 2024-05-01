@@ -7,7 +7,14 @@ export default function LoadingModal({ text }: { text: string }) {
   const { showModal } = useShowModal();
 
   return (
-    <StyledLoadingModal ref={showModal}>
+    <StyledLoadingModal
+      ref={showModal}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+        }
+      }}
+    >
       {text}
       <Image width={14} height={14} src="/icons/loading.svg" alt="" />
     </StyledLoadingModal>
