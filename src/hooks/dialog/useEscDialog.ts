@@ -9,5 +9,9 @@ export default function useEscDialog(closeDialog: () => void) {
     };
 
     window.addEventListener('keydown', escDialog);
+
+    return () => {
+      window.removeEventListener('keydown', escDialog);
+    };
   }, []);
 }
