@@ -329,7 +329,11 @@ export default function Signup() {
           )}
           <div className="agree">
             <h3>MOMOO 서비스 약관에 동의해 주세요.</h3>
-            <label className={allChecked ? 'checkbox checked' : 'checkbox'}>
+            <label
+              className={allChecked ? 'checkbox checked' : 'checkbox'}
+              onFocus={(e) => e.currentTarget.classList.add('focus')}
+              onBlur={(e) => e.currentTarget.classList.remove('focus')}
+            >
               모두 동의합니다.
               <input
                 type="checkbox"
@@ -353,7 +357,11 @@ export default function Signup() {
             <strong className="a11y-hidden">동의 항목</strong>
             <ul>
               <li>
-                <label className={ageChecked ? 'checkbox checked' : 'checkbox'}>
+                <label
+                  className={ageChecked ? 'checkbox checked' : 'checkbox'}
+                  onFocus={(e) => e.currentTarget.classList.add('focus')}
+                  onBlur={(e) => e.currentTarget.classList.remove('focus')}
+                >
                   [필수] 만 14세 이상입니다.
                   <input
                     type="checkbox"
@@ -366,6 +374,8 @@ export default function Signup() {
               <li>
                 <label
                   className={termsChecked ? 'checkbox checked' : 'checkbox'}
+                  onFocus={(e) => e.currentTarget.classList.add('focus')}
+                  onBlur={(e) => e.currentTarget.classList.remove('focus')}
                 >
                   [필수] 이용약관
                   <input
@@ -391,6 +401,8 @@ export default function Signup() {
               <li>
                 <label
                   className={privacyChecked ? 'checkbox checked' : 'checkbox'}
+                  onFocus={(e) => e.currentTarget.classList.add('focus')}
+                  onBlur={(e) => e.currentTarget.classList.remove('focus')}
                 >
                   [필수] 데이터 정책
                   <input

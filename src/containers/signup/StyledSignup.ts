@@ -20,6 +20,7 @@ const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
   li {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 12px;
   }
 
@@ -47,10 +48,19 @@ const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
     }
   }
 
+  .focus::after {
+    outline: 1px solid var(--gray-900);
+  }
+
   button.link {
-    margin: 0;
-    width: 14px;
-    aspect-ratio: 1/1;
+    padding: 8px;
+    margin: -8px -8px -8px 0;
+    width: min-content;
+
+    img {
+      width: 14px;
+      aspect-ratio: 1/1;
+    }
   }
 
   @media (max-width: 430px) {
