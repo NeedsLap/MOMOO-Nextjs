@@ -10,7 +10,7 @@ const ConfirmModalDialog = styled.dialog`
   text-align: center;
 
   h3 {
-    padding: 2rem 2.2rem 0.2rem;
+    padding: 2rem 2.2rem 0;
   }
 
   p {

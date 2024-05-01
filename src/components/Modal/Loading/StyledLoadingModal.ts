@@ -10,6 +10,10 @@ const StyledLoadingModal = styled.dialog`
   background: var(--background-color);
   border-radius: 8px;
 
+  &:focus {
+    outline: none;
+  }
+
   img {
     width: 14px;
     height: auto;
