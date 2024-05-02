@@ -8,6 +8,7 @@ import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import StyledPolicy from '@/components/CommonStyled/StyledPolicy';
 import TopBar from '@/components/Topbar/Topbar';
 import terms from '@/containers/terms/TermsText';
+import useAuthState from '@/hooks/auth/useAuthState';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { setPrevPath } from '@/modules/page';
 
@@ -18,6 +19,7 @@ export default function Terms() {
 
   const prevPath = useSelector((state: ReduxState) => state.page.prevPath);
   const dispatch = useDispatch();
+  const { loggedIn } = useAuthState();
 
   useEffect(() => {
     if (prevPath === 'signup') {
@@ -32,10 +34,17 @@ export default function Terms() {
       {windowWidth && windowWidth <= 430 && <TopBar tit="MOMOO 이용약관" />}
       <StyledPolicy>
         <BreadcrumbWrap
-          navList={[
-            { path: '/', text: 'Home' },
-            { path: '/terms', text: 'Terms of use' },
-          ]}
+          navList={
+            loggedIn
+              ? [
+                  { path: '/', text: 'Home' },
+                  { path: '/policy', text: 'Privacy policy' },
+                ]
+              : [
+                  { path: '/signup', text: 'Signup' },
+                  { path: '/policy', text: 'Privacy policy' },
+                ]
+          }
           title="MOMOO 이용약관"
         />
         <section>
