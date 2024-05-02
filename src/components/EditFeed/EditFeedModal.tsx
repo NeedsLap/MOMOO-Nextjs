@@ -1,7 +1,10 @@
-import React, { SetStateAction, useRef } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import EditFeedContents from '@/components/EditFeed/EditFeedContents';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
+import useEscDialog from '@/hooks/dialog/useEscDialog';
+import useShowModal from '@/hooks/dialog/useShowModal';
+import { closeDialogOnClick } from '@/utils/dialog';
 
 import type { Feed } from '@/types/feed';
 
@@ -12,18 +15,15 @@ export default function EditFeedModal({
 }: {
   feedData: Feed;
   closeEditFeedModal: () => void;
-  setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
+  setFeedData: Dispatch<SetStateAction<Feed | null>>;
 }) {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const { showModal } = useShowModal();
+  useEscDialog(closeEditFeedModal);
 
   return (
     <Styled.StyledDialog
-      ref={(node) => {
-        if (node && !dialogRef.current) {
-          node.showModal();
-          dialogRef.current = node;
-        }
-      }}
+      ref={showModal}
+      onClick={(e) => closeDialogOnClick(e, closeEditFeedModal)}
     >
       <EditFeedContents
         close={closeEditFeedModal}

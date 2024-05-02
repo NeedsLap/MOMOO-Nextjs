@@ -6,12 +6,13 @@ import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 
 export default function Preview({
   setFile,
-  imgUrlList = [],
+  imageList,
+  setImageList,
 }: {
   setFile: Dispatch<SetStateAction<File[] | null>>;
-  imgUrlList?: string[];
+  imageList: string[];
+  setImageList: Dispatch<SetStateAction<string[]>>;
 }) {
-  const [imageList, setImageList] = useState<string[]>(imgUrlList);
   const [submitErrMessage, setSubmitErrMessage] = useState('');
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +87,13 @@ export default function Preview({
         <Styled.ImageGrid>
           {imageList.map((image, index) => (
             <div key={index} className="selectedImgList">
-              <img className="selectedImg" src={image} alt="이미지" />
+              <Image
+                width={430}
+                height={430}
+                className="selectedImg"
+                src={image}
+                alt="이미지"
+              />
               <button
                 className="deleteBtn"
                 onClick={() => handleRemoveImage(index)}

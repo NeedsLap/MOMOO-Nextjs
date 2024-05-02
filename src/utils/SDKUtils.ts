@@ -23,6 +23,9 @@ import {
 
 import { storage, appFireStore } from '@/firebase/config';
 
+import { Album, AlbumMetadata } from '@/types/album';
+import { AlbumType, Feed, FeedMetadata } from '@/types/feed';
+
 async function deleteImg(url: string) {
   const imgRef = ref(storage, url);
 
@@ -50,19 +53,23 @@ async function getAlbumByName(uid: string, name: string) {
   return querySnapshot.docs[0];
 }
 
-const getFeedsData = async (feedIdList: string[], uid: string) => {
+const getFeedsData = async (
+  feedIdList: string[],
+  uid: string,
+  albumType: AlbumType,
+) => {
   if (!feedIdList.length) {
     return [];
   }
 
-  const feeds: DocumentData[] = [];
+  const feeds: Feed[] = [];
   const promises = feedIdList.map(async (feedId) => {
     const docRef = doc(appFireStore, uid, uid, 'feed', feedId);
     const result = await getDoc(docRef);
-    const feed = result.data();
+    const feed = result.data() as FeedMetadata;
 
     if (feed) {
-      feeds.push(feed);
+      feeds.push({ ...feed, timestamp: feed.timestamp.toMillis(), albumType });
     }
   });
 
@@ -129,12 +136,19 @@ const removeAlbumFromSharedAlbums = async (
 };
 
 const getAlbumList = async (uid: string) => {
-  const albumDataList: DocumentData[] = [];
+  const albumDataList: Album[] = [];
   const albumDocRef = collection(appFireStore, uid, uid, 'album');
   const q = query(albumDocRef, orderBy('createdTime'));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    albumDataList.push({ ...doc.data(), id: doc.id });
+    const data = doc.data() as AlbumMetadata;
+    albumDataList.push({
+      ...data,
+      id: doc.id,
+      user: { uid },
+      createdTime: data.createdTime.toMillis(),
+      imageUrl: '',
+    });
   });
 
   return albumDataList;

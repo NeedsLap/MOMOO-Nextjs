@@ -274,6 +274,7 @@ export default function Signup() {
             id="displayName-inp"
             placeholder="nickname"
             type="text"
+            autoComplete="nickname"
             maxLength={20}
             value={displayName.value}
             onChange={handleInp}
@@ -289,6 +290,7 @@ export default function Signup() {
             id="email-inp"
             placeholder="email"
             type="email"
+            autoComplete="email"
             value={email.value}
             maxLength={98}
             onChange={handleInp}
@@ -302,6 +304,7 @@ export default function Signup() {
             id="password-inp"
             placeholder="password"
             type="password"
+            autoComplete="new-password"
             value={password.value}
             minLength={6}
             maxLength={20}
@@ -318,6 +321,7 @@ export default function Signup() {
             id="passwordConfirm-inp"
             placeholder="password confirm"
             type="password"
+            autoComplete="new-password"
             value={passwordConfirm.value}
             minLength={6}
             maxLength={20}

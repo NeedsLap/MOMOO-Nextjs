@@ -59,6 +59,7 @@ const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
 
     img {
       width: 14px;
+      height: auto;
       aspect-ratio: 1/1;
     }
   }

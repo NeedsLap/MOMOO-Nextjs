@@ -68,7 +68,7 @@ export default function SharingModal({
           throw new Error(json.error);
         }
 
-        const { user } = await res.json();
+        const { user } = json;
         setSearchResult({ user, success: !!user, shared: false });
       } catch (error) {
         setToastMessage('검색 중 에러가 발생했습니다');

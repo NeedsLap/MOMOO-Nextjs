@@ -41,6 +41,7 @@ export default function useAddAlbum() {
           createdTime: albumData.createdTime.toMillis(),
           id: doc.id,
           imageUrl: null,
+          user: { uid: user.uid },
         };
 
         return {

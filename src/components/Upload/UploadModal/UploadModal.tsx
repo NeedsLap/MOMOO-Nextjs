@@ -43,6 +43,7 @@ export default function UploadModal() {
   const [selectedEmotionImage, setSelectedEmotionImage] = useState<string>('');
   const [selectedAlbum, setSelectedAlbum] = useState<string[]>(albumNameToAdd);
   const [file, setFile] = useState<File[] | null>(null);
+  const [imageList, setImageList] = useState<string[]>([]);
   const [accordionData, setAccordionData] = useState<AccordionDataType>();
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [isPending, setIsPending] = useState(false);
@@ -200,7 +201,11 @@ export default function UploadModal() {
                   <span>*10장까지 업로드 가능</span>
                 </Styled.TodaysPhoto>
                 <Styled.PicSelectPart>
-                  <Preview setFile={setFile} />
+                  <Preview
+                    setFile={setFile}
+                    setImageList={setImageList}
+                    imageList={imageList}
+                  />
                 </Styled.PicSelectPart>
                 <Styled.SelectPart>
                   <div className="inputWrapper">

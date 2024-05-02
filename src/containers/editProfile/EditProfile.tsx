@@ -314,6 +314,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               id="nickname-inp"
               placeholder="nickname"
               type="text"
+              autoComplete="nickname"
               value={displayName.value}
               maxLength={20}
               onChange={handleDisplayNameInp}
@@ -329,6 +330,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               id="email-inp"
               placeholder="email"
               type="email"
+              autoComplete="email"
               value={email.value || ''}
               maxLength={98}
               onChange={handleEmailInp}
@@ -343,6 +345,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               id="password-inp"
               placeholder="password"
               type="password"
+              autoComplete="new-password"
               minLength={6}
               maxLength={20}
               value={password.value}
@@ -358,6 +361,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               id="password-inp"
               placeholder="password confirm"
               type="password"
+              autoComplete="new-password"
               minLength={6}
               maxLength={20}
               value={passwordConfirm.value}

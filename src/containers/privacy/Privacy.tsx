@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import StyledPolicy from '@/components/CommonStyled/StyledPolicy';
 import TopBar from '@/components/Topbar/Topbar';
+import useAuthState from '@/hooks/auth/useAuthState';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { setPrevPath } from '@/modules/page';
 
@@ -18,6 +19,7 @@ export default function Privacy() {
 
   const prevPath = useSelector((state: ReduxState) => state.page.prevPath);
   const dispatch = useDispatch();
+  const { loggedIn } = useAuthState();
 
   useEffect(() => {
     if (prevPath === 'signup') {
@@ -34,10 +36,17 @@ export default function Privacy() {
       )}
       <StyledPolicy>
         <BreadcrumbWrap
-          navList={[
-            { path: '/', text: 'Home' },
-            { path: '/policy', text: 'Privacy policy' },
-          ]}
+          navList={
+            loggedIn
+              ? [
+                  { path: '/', text: 'Home' },
+                  { path: '/policy', text: 'Privacy policy' },
+                ]
+              : [
+                  { path: '/signup', text: 'Signup' },
+                  { path: '/policy', text: 'Privacy policy' },
+                ]
+          }
           title="니즈랩 개인정보 처리방침"
         />
         <p>

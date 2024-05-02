@@ -104,6 +104,7 @@ export default function Login() {
             id="email-inp"
             placeholder="email"
             type="email"
+            autoComplete="email"
             onChange={handleEmailInp}
             required
           />
@@ -115,6 +116,7 @@ export default function Login() {
             id="password-inp"
             placeholder="password"
             type="password"
+            autoComplete="new-password"
             onChange={handlePasswordInp}
             required
           />

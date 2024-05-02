@@ -1,8 +1,5 @@
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 import { ForwardedRef, forwardRef, useMemo, useState } from 'react';
-
-import { Timestamp } from 'firebase/firestore';
 
 import Carousel from '@/components/Carousel/Carousel';
 import EditFeedModal from '@/components/EditFeed/EditFeedModal';
@@ -10,7 +7,6 @@ import StyledFeedItem from '@/components/FeedItem/StyledFeedItem';
 import ChangeAlbumModal from '@/components/Modal/ChangeAlbumModal/ChangeAlbumModal';
 import DeleteFeedModal from '@/components/Modal/DeleteFeedModal';
 import FeedMoreModal from '@/components/Modal/FeedMoreModal';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useModalWithWebView from '@/hooks/useModalWithWebView';
 
 import type { Feed } from '@/types/feed';
@@ -21,25 +17,16 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
   const [changeAlbumModalOpen, setChangeAlbumModalOpen] = useState(false);
   const [feedData, setFeedData] = useState<Feed | null>(feed);
 
-  const { uid } = useParams<{
-    uid: string;
-    albumName: string;
-  }>();
-
   const {
     isModalOpen: isEditFeedModalOpen,
     openModal: openEditFeedModal,
     closeModal: closeEditFeedModal,
   } = useModalWithWebView();
-  const { user } = useAuthState();
 
-  const getFormattedDateFromTimestamp = (timestamp: Timestamp) => {
-    const date = new Date(
-      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000,
-    );
-    const formattedDate = new Date(date.setHours(date.getHours() - 12))
-      .toISOString()
-      .slice(0, 10);
+  const getFormattedDateFromTimestamp = (timestamp: number) => {
+    const date = new Date(timestamp);
+    date.setHours(date.getHours() - 12);
+    const formattedDate = new Date(date).toISOString().slice(0, 10);
 
     return formattedDate;
   };
@@ -94,7 +81,7 @@ function FeedItem({ feed }: { feed: Feed }, ref: ForwardedRef<HTMLLIElement>) {
                 )}
               </div>
             )}
-            {uid === user.uid && (
+            {feedData.albumType === 'my' && (
               <button
                 className="more"
                 type="button"

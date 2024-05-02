@@ -57,19 +57,18 @@ const IndicatorList = styled.ul`
   align-items: center;
 `;
 
-interface IndicatorProps {
-  active: boolean;
-}
-
-const IndicatorItem = styled.li<IndicatorProps>`
+const IndicatorItem = styled.li`
   width: 0.6rem;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  background-color: ${(props) =>
-    props.active ? 'var(--gray-900)' : 'var(--gray-300)'};
+  background: var(--gray-300);
   display: flex;
   gap: 2rem;
   margin-right: 0.6rem;
+
+  &.active {
+    background: var(--gray-900);
+  }
 `;
 
 export { SlideImgWrap, IndicatorList, IndicatorItem };

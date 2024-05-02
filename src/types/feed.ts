@@ -14,9 +14,16 @@ interface FeedToUpdate extends FeedBase {
   [key: string]: string | string[];
 }
 
-interface Feed extends FeedBase {
+interface FeedMetadata extends FeedBase {
   id: string;
   timestamp: Timestamp;
 }
 
-export type { FeedToUpdate, Feed };
+type AlbumType = 'shared' | 'my';
+
+interface Feed extends Omit<FeedMetadata, 'timestamp'> {
+  timestamp: number;
+  albumType: AlbumType;
+}
+
+export type { FeedToUpdate, Feed, FeedMetadata, AlbumType };
