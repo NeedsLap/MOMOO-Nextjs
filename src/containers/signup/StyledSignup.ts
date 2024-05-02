@@ -51,6 +51,10 @@ const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
     margin: 0;
     width: 14px;
     aspect-ratio: 1/1;
+
+    img {
+      height: auto;
+    }
   }
 
   @media (max-width: 430px) {
