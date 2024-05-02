@@ -91,7 +91,7 @@ export default function Album({
                 <p className="albumTitle">{album.name}</p>
                 <div className="CountWrapper">
                   <p className="albumCount">
-                    {album.user
+                    {album.user.displayName || album.user.email
                       ? `${album.user.displayName || album.user.email}님이 생성`
                       : album.feedList.length}
                   </p>
