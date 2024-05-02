@@ -5,7 +5,6 @@ import { ForwardedRef, forwardRef, useRef, useState } from 'react';
 
 import StyledAlbumItem from '@/components/AlbumItem/StyledAlbumItem';
 import EditFeedModal from '@/components/EditFeed/EditFeedModal';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useAlbumItemLayout from '@/hooks/useAlbumItemLayout';
 import useAlbumName from '@/hooks/useAlbumName';
 import useModalWithWebView from '@/hooks/useModalWithWebView';
@@ -23,7 +22,6 @@ function AlbumItem(
   const { uid } = useParams();
 
   const windowWidth = useWindowWidth();
-  const { user } = useAuthState();
   const albumName = useAlbumName();
   const { setImgSize, gridRowEnd } = useAlbumItemLayout(liRef.current);
   const {
@@ -81,7 +79,7 @@ function AlbumItem(
           >
             <div className="a11y-hidden">
               <strong>{feedData.title}</strong>
-              {uid === user.uid && (
+              {feedData.albumType === 'my' && (
                 <button
                   type="button"
                   onClick={(e) => {
