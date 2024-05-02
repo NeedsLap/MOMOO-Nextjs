@@ -123,7 +123,10 @@ const Carousel = ({ imgUrlList }: { imgUrlList: string[] }) => {
       {imgUrlList.length > 1 && (
         <Styled.IndicatorList>
           {imgUrlList.map((_, index) => (
-            <Styled.IndicatorItem key={index} active={index === currentIndex}>
+            <Styled.IndicatorItem
+              key={index}
+              className={index === currentIndex ? 'active' : ''}
+            >
               <button
                 type="button"
                 onClick={() => handleIndicatorClick(index)}
