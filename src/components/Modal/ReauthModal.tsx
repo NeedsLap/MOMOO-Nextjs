@@ -75,7 +75,12 @@ export default function ReauthModal({
       text="현재 비밀번호를 입력해 주세요"
     >
       <form onSubmit={handleReauth}>
-        <input type="password" placeholder="password" onChange={changeValue} />
+        <input
+          type="password"
+          placeholder="password"
+          autoComplete="new-password"
+          onChange={changeValue}
+        />
         {errMessage && <strong role="alert">*{errMessage}</strong>}
         <div className="btn-wrap">
           <button type="button" onClick={cancle}>
