@@ -45,6 +45,7 @@ export default function EditFeedContents({
     feedData.emotionImage,
   );
   const [file, setFile] = useState<File[] | null>(null);
+  const [imageList, setImageList] = useState<string[]>(feedData.imageUrl);
   const [accordionData, setAccordionData] = useState<AccordionDataType>();
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [inputCount, setInputCount] = useState(0);
@@ -96,14 +97,20 @@ export default function EditFeedContents({
     try {
       setIsPending(true);
 
-      let downloadURLs: string[] = feedData.imageUrl;
+      const downloadURLs: string[] = [];
 
       if (file !== null) {
-        downloadURLs = await uploadImageToStorage(
+        const newUrls = await uploadImageToStorage(
           file,
           `feed/${user.uid}`,
           feedData.id,
         );
+        downloadURLs.push(
+          ...imageList.slice(0, imageList.length - file.length),
+          ...newUrls,
+        );
+      } else {
+        downloadURLs.push(...imageList);
       }
 
       const editData: FeedToUpdate = {
@@ -158,10 +165,8 @@ export default function EditFeedContents({
 
       // 이미지 삭제 실패 시, 게시물 수정이 중단되지 않도록 try 마지막에 위치
       if (file !== null) {
-        for (let i = downloadURLs.length; i < 3; i++)
-          if (!downloadURLs.includes(feedData.imageUrl[i])) {
-            await deleteImg(feedData.imageUrl[i]);
-          }
+        for (let i = downloadURLs.length; i < feedData.imageUrl.length; i++)
+          await deleteImg(feedData.imageUrl[i]);
       }
     } catch (error) {
       console.error(error);
@@ -198,7 +203,11 @@ export default function EditFeedContents({
               <span>*10장까지 업로드 가능</span>
             </Styled.TodaysPhoto>
             <Styled.PicSelectPart>
-              <Preview setFile={setFile} imgUrlList={feedData.imageUrl} />
+              <Preview
+                setFile={setFile}
+                setImageList={setImageList}
+                imageList={imageList}
+              />
             </Styled.PicSelectPart>
             <Styled.SelectPart>
               <div className="inputWrapper">
