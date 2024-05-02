@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const StyledMain = styled.main`
   position: relative;
-  padding: 24px var(--margin-mobile) calc(var(--nav-height-mobile) + 40px);
+  padding: calc(24px + var(--nav-height-mobile)) var(--margin-mobile)
+    calc(var(--nav-height-mobile) + 40px);
 
   @media (min-width: 431px) {
     padding: var(--nav-height-tablet) var(--margin-tablet) 40px;

@@ -130,7 +130,7 @@ const StyledSharingModal = styled.dialog`
 
     img {
       flex-shrink: 0;
-      width: 3.2rem;
+      width: 3.6rem;
       aspect-ratio: 1/1;
       border-radius: 50%;
       border: 1px solid var(--gray-100);

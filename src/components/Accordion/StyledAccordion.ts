@@ -9,7 +9,7 @@ const AccordionWrapper = styled.div`
   .que {
     position: relative;
     width: 100%;
-    padding: 0.9rem 0rem;
+    padding: 1.3rem 0rem 1rem;
     transition: transform 0.3s ease-in-out;
     font-size: var(--text-m);
     cursor: pointer;
@@ -18,7 +18,7 @@ const AccordionWrapper = styled.div`
   #answer {
     display: flex;
     overflow: hidden;
-    gap: 0.5rem;
+    gap: 0.8rem;
 
     button {
       border-radius: 50%;
@@ -75,38 +75,22 @@ const AccordionWrapper = styled.div`
     width: 1.6rem;
     height: 1.6rem;
   }
-
-  @media (max-width: 430px) {
-    .que {
-      padding: 1.3rem 0rem;
-    }
-
-    button {
-      width: 3rem;
-      height: 3rem;
-    }
-
-    .btnImg {
-      width: 2.6rem;
-      height: 2.6rem;
-    }
-  }
 `;
 
 const MultiAccordionWrapper = styled.div`
+  margin: 0 0 10px;
   #multiAnswer {
     display: flex;
     flex-wrap: wrap;
     gap: 1.2rem;
-    max-height: 7rem;
+    max-height: 7.6rem;
     overflow-y: scroll;
-    padding: 1rem 0;
 
     button {
       min-width: 8.8rem;
       background-color: var(--gray-100);
       padding: 0.7rem 0.1rem;
-      font-size: var(-text-m);
+      font-size: var(--text-s);
       color: var(--gray-900);
       border-radius: 4px;
     }
