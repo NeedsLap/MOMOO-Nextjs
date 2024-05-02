@@ -35,7 +35,7 @@ const StyledSplash = styled.main`
   );
 
   @media (max-width: 430px) {
-    --width: calc(100vw * 0.76923077);
+    --width: calc(100vw - 68px);
   }
 
   @keyframes moveCircle {
@@ -47,10 +47,10 @@ const StyledSplash = styled.main`
     }
   }
 
-  img {
+  .logo {
     margin: auto;
     width: var(--width);
-    height: auto;
+    aspect-ratio: 565 / 96;
   }
 
   div {
@@ -58,12 +58,16 @@ const StyledSplash = styled.main`
     position: absolute;
     right: 0;
     transform: translateX(100%);
-    height: min(96px, calc(var(--width) / 5.88541667));
-    aspect-ratio: 89 / 96;
-  }
+    height: calc(var(--width) / (565 / 96));
+    aspect-ratio: 100 / 96;
 
-  path {
-    animation: ${changeColor} 0.5s 0.7s forwards;
+    svg {
+      height: inherit;
+    }
+
+    path {
+      animation: ${changeColor} 0.5s 0.7s forwards;
+    }
   }
 
   div::after {
@@ -71,9 +75,10 @@ const StyledSplash = styled.main`
     content: '';
     position: absolute;
     width: 50%;
-    height: 100%;
+    height: 110%;
     opacity: 0;
     background: var(--background-color);
+    top: -5%;
     right: 0;
   }
 `;
