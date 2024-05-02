@@ -23,10 +23,11 @@ const StyledNav = styled.nav`
 
   .logoImg {
     width: 6.4rem;
-    height: 37.6rem;
+    height: auto;
     position: absolute;
     bottom: 0rem;
     left: 4.8rem;
+    aspect-ratio: 64 / 376;
   }
 
   @media (min-width: 1025px) {
@@ -63,11 +64,9 @@ const StyledNav = styled.nav`
     }
 
     .logoImg {
-      rotate: 0deg;
+      position: initial;
       width: 19.6rem;
-      height: 10rem;
-      top: -12px;
-      left: 24px;
+      aspect-ratio: 196 / 32;
     }
   }
 `;
