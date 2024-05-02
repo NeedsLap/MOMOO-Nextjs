@@ -1,15 +1,13 @@
-import { deleteCookie, setCookie, getCookie } from '@/utils/cookie';
+import { deleteCookie, setCookie } from '@/utils/cookie';
 
 import { AuthState, AuthAction } from '@/modules/model';
 import { User } from '@/types/user';
-
-const uid = getCookie('uid') || '';
 
 const initUser = {
   displayName: '',
   email: '',
   photoURL: '',
-  uid,
+  uid: '',
 };
 
 const initState = {
