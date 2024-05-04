@@ -3,10 +3,12 @@ import { Noto_Sans_KR, Prata } from 'next/font/google';
 import Head from 'next/head';
 import { cookies } from 'next/headers';
 import Script from 'next/script';
+import { ReactNode, Suspense } from 'react';
 
 import App from '@/components/global/App';
 import ReduxProvider from '@/components/global/ReduxProvider';
 import RootStyle from '@/components/global/RootStyle';
+import LoadingComponent from '@/components/Loading/LoadingComponent';
 
 const notoSans = Noto_Sans_KR({
   subsets: ['latin'],
@@ -35,7 +37,7 @@ export const viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   const splashRendered = cookies().get('splash') ? true : false;
 
@@ -47,7 +49,9 @@ export default function RootLayout({
       <body>
         <RootStyle>
           <ReduxProvider>
-            <App splashRendered={splashRendered}>{children}</App>
+            <App splashRendered={splashRendered}>
+              <Suspense fallback={<LoadingComponent />}>{children}</Suspense>
+            </App>
           </ReduxProvider>
         </RootStyle>
       </body>
