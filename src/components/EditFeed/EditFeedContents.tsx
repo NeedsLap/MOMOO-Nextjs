@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { SetStateAction, useEffect, useState } from 'react';
 
 import Accordion from '@/components/Accordion/Accordion';
 import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
@@ -50,6 +51,8 @@ export default function EditFeedContents({
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [inputCount, setInputCount] = useState(0);
   const [isPending, setIsPending] = useState(false);
+
+  const router = useRouter();
 
   const { user } = useAuthState();
   const getAccordionData = GetAccordionData();
@@ -168,6 +171,8 @@ export default function EditFeedContents({
         for (let i = downloadURLs.length; i < feedData.imageUrl.length; i++)
           await deleteImg(feedData.imageUrl[i]);
       }
+
+      router.refresh();
     } catch (error) {
       console.error(error);
     }

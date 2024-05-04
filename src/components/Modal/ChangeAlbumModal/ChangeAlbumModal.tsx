@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
 
 import {
@@ -33,11 +34,12 @@ export default function ChangeAlbumModal({
 }) {
   const { showModal } = useShowModal();
   useEscDialog(onClose);
-
   const [selectedAlbumList, setSelectedAlbumList] = useState<string[]>([]);
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [savedAlbumList, setSavedAlbumList] = useState<string[]>([]);
   const [answerArray, setAnswerArray] = useState<string[] | null>();
+
+  const router = useRouter();
 
   const getAccordionData = GetAccordionData();
   const getSavedAlbumList = useGetSavedAlbumList();
@@ -115,6 +117,7 @@ export default function ChangeAlbumModal({
         setFeedData(null);
       }
 
+      router.refresh();
       onClose();
     } catch (error) {
       console.error(error);

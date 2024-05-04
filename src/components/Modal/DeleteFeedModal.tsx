@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React, { SetStateAction } from 'react';
 
 import { doc, deleteDoc, DocumentData } from 'firebase/firestore';
@@ -24,8 +25,9 @@ export default function DeleteFeedModal({
 }) {
   const getSavedAlbumList = useGetSavedAlbumList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
-
   const { user } = useAuthState();
+
+  const router = useRouter();
 
   const handleDeletePost = async () => {
     const postDocRef = doc(appFireStore, user.uid, user.uid, 'feed', id);
@@ -42,6 +44,7 @@ export default function DeleteFeedModal({
 
       imgUrlList.forEach(async (url) => await deleteImg(url));
       setFeedData(null);
+      router.refresh();
     } catch (error) {
       console.error('게시글 삭제 오류:', error);
     }
