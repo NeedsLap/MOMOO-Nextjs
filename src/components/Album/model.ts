@@ -4,8 +4,9 @@ import { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
 import { Album } from '@/types/album';
 
 interface AlbumProps {
-  albumData: Album;
+  album: Album;
   showDeleteButton: boolean;
+  setAlbums?: Dispatch<SetStateAction<Album[]>>;
   setSharedAlbums?: Dispatch<SetStateAction<Album[]>>;
   sortOpt?: AlbumSortOpt;
 }

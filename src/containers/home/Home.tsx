@@ -147,8 +147,9 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
                 return (
                   <Album
                     key={v.id}
-                    albumData={v}
+                    album={v}
                     showDeleteButton={index !== 0}
+                    setAlbums={setAlbumData}
                     sortOpt={selectedOption}
                     setSharedAlbums={setSharedAlbums}
                   />
@@ -158,9 +159,7 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
           ) : (
             <ul>
               {sharedAlbums.map((v) => {
-                return (
-                  <Album key={v.id} albumData={v} showDeleteButton={false} />
-                );
+                return <Album key={v.id} album={v} showDeleteButton={false} />;
               })}
             </ul>
           )}
