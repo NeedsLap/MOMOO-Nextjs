@@ -141,7 +141,7 @@ export default function Feed({
           <Breadcrumb
             navList={[
               { path: '/', text: 'Home' },
-              { path: `/${albumName}`, text: albumName },
+              { path: `/${uid}/album/${albumName}`, text: albumName },
               { path: '', text: '게시물' },
             ]}
           />
