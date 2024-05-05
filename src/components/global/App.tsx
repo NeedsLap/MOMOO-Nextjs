@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ export default function App({
   children,
   splashRendered,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   splashRendered: boolean;
 }) {
   const dispatch = useDispatch();
