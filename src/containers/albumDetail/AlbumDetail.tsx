@@ -105,6 +105,7 @@ export default function AlbumDetail({
                     ref={
                       i === feedsData.length - 1 ? setItemToObserveRef : null
                     }
+                    setFeedsData={setFeedsData}
                   ></AlbumItem>
                 );
               })}
