@@ -26,11 +26,11 @@ interface AlbumIdData {
 export default function ChangeAlbumModal({
   onClose,
   id,
-  setFeedData,
+  setFeedsData,
 }: {
   onClose: () => void;
   id: string;
-  setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
+  setFeedsData: React.Dispatch<SetStateAction<Feed[]>>;
 }) {
   const { showModal } = useShowModal();
   useEscDialog(onClose);
@@ -114,7 +114,7 @@ export default function ChangeAlbumModal({
       });
 
       if (!selectedAlbumList.includes(albumName)) {
-        setFeedData(null);
+        setFeedsData((prev) => prev.filter((v) => v.id !== id));
       }
 
       router.refresh();

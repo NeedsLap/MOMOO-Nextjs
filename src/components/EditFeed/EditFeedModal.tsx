@@ -9,13 +9,13 @@ import { closeDialogOnClick } from '@/utils/dialog';
 import type { Feed } from '@/types/feed';
 
 export default function EditFeedModal({
-  feedData,
+  feed,
   closeEditFeedModal,
-  setFeedData,
+  setFeedsData,
 }: {
-  feedData: Feed;
+  feed: Feed;
   closeEditFeedModal: () => void;
-  setFeedData: Dispatch<SetStateAction<Feed | null>>;
+  setFeedsData: Dispatch<SetStateAction<Feed[]>>;
 }) {
   const { showModal } = useShowModal();
   useEscDialog(closeEditFeedModal);
@@ -27,8 +27,8 @@ export default function EditFeedModal({
     >
       <EditFeedContents
         close={closeEditFeedModal}
-        feedData={feedData}
-        setFeedData={setFeedData}
+        feed={feed}
+        setFeedsData={setFeedsData}
       />
       <Styled.CloseBtn
         className="closeBtn"

@@ -16,12 +16,12 @@ export default function DeleteFeedModal({
   id,
   onClose,
   imgUrlList,
-  setFeedData,
+  setFeedsData,
 }: {
   id: string;
   onClose: () => void;
   imgUrlList: string[];
-  setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
+  setFeedsData: React.Dispatch<SetStateAction<Feed[]>>;
 }) {
   const getSavedAlbumList = useGetSavedAlbumList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
@@ -43,7 +43,7 @@ export default function DeleteFeedModal({
       }
 
       imgUrlList.forEach(async (url) => await deleteImg(url));
-      setFeedData(null);
+      setFeedsData((prev) => prev.filter((v) => v.id !== id));
       router.refresh();
     } catch (error) {
       console.error('게시글 삭제 오류:', error);

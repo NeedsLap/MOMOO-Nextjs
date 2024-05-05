@@ -153,6 +153,7 @@ export default function Feed({
               if (!stopToObserveLastItem && i === feedsData.length - 1) {
                 return (
                   <FeedItem
+                    setFeedsData={setFeedsData}
                     key={v.id}
                     feed={v}
                     ref={setLastItemToObserveRef}
@@ -163,6 +164,7 @@ export default function Feed({
               if (!stopToObserveFirstItem && i === 0) {
                 return (
                   <FeedItem
+                    setFeedsData={setFeedsData}
                     key={v.id}
                     feed={v}
                     ref={setFirstItemToObserveRef}
@@ -177,6 +179,7 @@ export default function Feed({
               ) {
                 return (
                   <FeedItem
+                    setFeedsData={setFeedsData}
                     key={v.id}
                     feed={v}
                     ref={setStartFeedItemRef}
@@ -184,7 +187,13 @@ export default function Feed({
                 );
               }
 
-              return <FeedItem key={v.id} feed={v}></FeedItem>;
+              return (
+                <FeedItem
+                  setFeedsData={setFeedsData}
+                  key={v.id}
+                  feed={v}
+                ></FeedItem>
+              );
             })}
           </StyledFeedList>
         )}
