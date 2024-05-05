@@ -8,4 +8,6 @@ interface User extends Profile {
   uid: string;
 }
 
-export type { Profile, User };
+interface ProfileToUpdate extends Partial<Profile> {}
+
+export type { Profile, User, ProfileToUpdate };

@@ -1,4 +1,4 @@
-import { User } from '@/types/user';
+import { User, ProfileToUpdate } from '@/types/user';
 
 interface InputState {
   vaild: boolean;
@@ -54,8 +54,9 @@ interface AuthState {
 }
 
 type AuthAction =
-  | { type: 'loggedIn'; payload: User }
-  | { type: 'loggedOut'; payload: null };
+  | { type: 'login'; payload: User }
+  | { type: 'logout'; payload: null }
+  | { type: 'editProfile'; payload: ProfileToUpdate };
 
 interface UploadFeedModalState {
   isUploadFeedModalOpen: boolean;

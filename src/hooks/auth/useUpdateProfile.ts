@@ -2,8 +2,10 @@ import { useState } from 'react';
 
 import { FirebaseError } from 'firebase/app';
 import { updateProfile, updateEmail, updatePassword } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
 
 import { appAuth } from '@/firebase/config';
+import { updateAuth } from '@/modules/auth';
 import { uploadImg } from '@/utils/SDKUtils';
 
 import type { ProfileToUpdate } from '@/containers/editProfile/model';
@@ -11,6 +13,7 @@ import type { UpdateProfileOpt } from '@/hooks/auth/model';
 
 export const useUpdateProfile = () => {
   const [error, setError] = useState<null | string>(null);
+  const dispatch = useDispatch();
   const user = appAuth.currentUser;
 
   const setProfile = async ({
@@ -45,6 +48,10 @@ export const useUpdateProfile = () => {
 
       if (password) {
         await updatePassword(user, password);
+      }
+
+      if (opt.displayName || opt.photoURL || email !== user.email) {
+        dispatch(updateAuth({ ...opt, email }));
       }
 
       setError(null);
