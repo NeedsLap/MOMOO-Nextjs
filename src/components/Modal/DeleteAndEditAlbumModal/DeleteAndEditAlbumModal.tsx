@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import React, { useState, SetStateAction, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, SetStateAction, useEffect } from 'react';
 
 import LoadingComponent from '@/components/Loading/LoadingComponent';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
@@ -37,6 +38,8 @@ export default function DeleteAndEditAlbumModal({
   const { showModal } = useShowModal();
   useEscDialog(onClose);
 
+  const router = useRouter();
+
   const handleEditAlbum = async () => {
     if (editAlbumName.trim() === '') {
       setErrMessage('제목을 입력해 주세요');
@@ -51,6 +54,8 @@ export default function DeleteAndEditAlbumModal({
         prev.map((v) => (v.id === albumId ? { ...v, name: editAlbumName } : v)),
       );
     }
+
+    router.refresh();
     onClose();
   };
 
@@ -63,6 +68,7 @@ export default function DeleteAndEditAlbumModal({
 
     if (success) {
       setAlbums((prev) => prev.filter((v) => v.id !== albumId));
+      router.refresh();
       setShowConfirmModal(false);
     }
   };

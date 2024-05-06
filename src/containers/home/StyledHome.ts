@@ -20,7 +20,7 @@ const StyledHomeSection = styled.section`
   max-width: 33.3rem;
   margin: auto;
 
-  .btn-wrap {
+  & > .btn-wrap {
     position: relative;
     display: flex;
     margin: 0 0 1.6rem;

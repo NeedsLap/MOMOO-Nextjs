@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ConfirmModalDialog = styled.dialog`
+const StyledConfirmModal = styled.dialog`
   background: var(--background-color);
   border-radius: 1rem;
   width: 25.2rem;
@@ -44,4 +44,4 @@ const ConfirmModalDialog = styled.dialog`
   }
 `;
 
-export { ConfirmModalDialog };
+export default StyledConfirmModal;
