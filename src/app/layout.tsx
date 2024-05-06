@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import Script from 'next/script';
 import { ReactNode, Suspense } from 'react';
 
+import ogImg from '@/app/opengraph-image.png';
 import App from '@/components/global/App';
 import ReduxProvider from '@/components/global/ReduxProvider';
 import RootStyle from '@/components/global/RootStyle';
@@ -25,6 +26,36 @@ export const metadata: Metadata = {
   title: 'MOMOO',
   description:
     'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
+  openGraph: {
+    type: 'website',
+    url: 'https://momoo.kr/',
+    siteName: 'MOMOO',
+    title: '[MOMOO] 사이트 튜토리얼',
+    description:
+      'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
+    images: [
+      {
+        url: ogImg.src,
+        width: ogImg.width,
+        height: ogImg.height,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: 'MOMOO',
+    title: '[MOMOO] 사이트 튜토리얼',
+    description:
+      'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
+    images: [
+      {
+        url: ogImg.src,
+        width: ogImg.width,
+        height: ogImg.height,
+      },
+    ],
+  },
+  keywords: ['photo', 'archive', 'Album', 'diary'],
 };
 
 export const viewport = {
