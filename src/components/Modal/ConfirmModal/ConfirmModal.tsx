@@ -1,4 +1,4 @@
-import { ConfirmModalDialog } from '@/components/Modal/ConfirmModal/StyledConfirmModal';
+import StyledConfirmModal from '@/components/Modal/ConfirmModal/StyledConfirmModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import { closeDialogOnClick } from '@/utils/dialog';
@@ -20,7 +20,7 @@ export default function ConfirmModal({
   useEscDialog(onClose);
 
   return (
-    <ConfirmModalDialog
+    <StyledConfirmModal
       ref={showModal}
       onClick={(e) => closeDialogOnClick(e, onClose)}
     >
@@ -34,6 +34,6 @@ export default function ConfirmModal({
           {btnNameList[1]}
         </button>
       </div>
-    </ConfirmModalDialog>
+    </StyledConfirmModal>
   );
 }
