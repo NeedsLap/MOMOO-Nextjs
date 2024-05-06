@@ -2,8 +2,10 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface SharingModalProps {
   albumId: string;
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  isShared: boolean;
   setIsShared: Dispatch<SetStateAction<boolean>>;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  setShouldFetchSharedAlbums: Dispatch<SetStateAction<boolean>>;
 }
 
 export type { SharingModalProps };

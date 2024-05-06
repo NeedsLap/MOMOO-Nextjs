@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AlbumContainer, AlbumLink } from '@/components/Album/StyledAlbum';
 import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
@@ -27,12 +27,6 @@ export default function Album({
   const closeMoreModal = () => {
     setIsModalOpen(false);
   };
-
-  useEffect(() => {
-    if (setShouldFetchSharedAlbums) {
-      setShouldFetchSharedAlbums(true);
-    }
-  }, [isShared]);
 
   return (
     <li>
@@ -72,11 +66,13 @@ export default function Album({
             setAlbums={setAlbums}
           />
         )}
-        {isSharingModalOpen && (
+        {setShouldFetchSharedAlbums && isSharingModalOpen && (
           <SharingModal
             albumId={album.id}
-            setIsModalOpen={setIsSharingModalOpen}
+            isShared={isShared}
             setIsShared={setIsShared}
+            setIsModalOpen={setIsSharingModalOpen}
+            setShouldFetchSharedAlbums={setShouldFetchSharedAlbums}
           />
         )}
       </AlbumContainer>

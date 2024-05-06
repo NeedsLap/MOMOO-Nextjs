@@ -22,8 +22,10 @@ import type { User } from '@/types/user';
 
 export default function SharingModal({
   albumId,
-  setIsModalOpen,
+  isShared,
   setIsShared,
+  setIsModalOpen,
+  setShouldFetchSharedAlbums,
 }: SharingModalProps) {
   const urlInputRef = useRef<HTMLInputElement | null>(null);
   const [focusedOnSearch, setFocusedOnSearch] = useState(false);
@@ -42,10 +44,9 @@ export default function SharingModal({
   const closeModal = () => {
     setIsModalOpen(false);
 
-    if (sharedUsers.length) {
-      setIsShared(true);
-    } else {
-      setIsShared(false);
+    if (!!sharedUsers.length !== isShared) {
+      setShouldFetchSharedAlbums(true);
+      setIsShared(!sharedUsers.length);
     }
   };
 
