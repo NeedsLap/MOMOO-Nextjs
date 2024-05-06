@@ -23,8 +23,8 @@ import {
 
 import { storage, appFireStore } from '@/firebase/config';
 
-import { Album, AlbumMetadata } from '@/types/album';
-import { AlbumType, Feed, FeedMetadata } from '@/types/feed';
+import { Album, AlbumMetadata, AlbumType } from '@/types/album';
+import { Feed, FeedMetadata } from '@/types/feed';
 
 async function deleteImg(url: string) {
   const imgRef = ref(storage, url);

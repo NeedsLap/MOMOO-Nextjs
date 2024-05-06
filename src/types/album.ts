@@ -25,4 +25,6 @@ interface Album extends Omit<AlbumMetadata, 'createdTime'> {
   };
 }
 
-export type { AlbumMetadata, Album, SharedUser, SharedUsers };
+type AlbumType = 'shared' | 'my';
+
+export type { AlbumMetadata, Album, SharedUser, SharedUsers, AlbumType };

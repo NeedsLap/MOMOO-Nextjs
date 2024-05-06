@@ -11,6 +11,7 @@ import type { Album } from '@/types/album';
 export default function Album({
   album,
   showDeleteButton,
+  albumType,
   setAlbums,
   setShouldFetchSharedAlbums,
 }: AlbumProps) {
@@ -36,9 +37,9 @@ export default function Album({
             <p className="albumTitle">{album.name}</p>
             <div className="CountWrapper">
               <p className="albumCount">
-                {album.user.displayName || album.user.email
-                  ? `${album.user.displayName || album.user.email}님이 생성`
-                  : album.feedList.length}
+                {albumType === 'my'
+                  ? album.feedList.length
+                  : `${album.user.displayName + '님이' || album.user.email + '님이' || '내가'} 생성`}
               </p>
               {showDeleteButton && (
                 <button
