@@ -9,11 +9,7 @@ import {
 import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 
-import { AccordionDataType } from '@/components/Upload/model';
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
+import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 
 const GetAccordionData = () => {
   const { user } = useAuthState();
