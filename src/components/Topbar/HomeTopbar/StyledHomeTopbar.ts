@@ -8,6 +8,10 @@ const StyledHomeTopBar = styled.header`
   width: 100%;
   border-bottom: 1px solid var(--gray-200);
 
+  button {
+    width: 100%;
+  }
+
   img {
     margin: auto;
     width: 112px;
