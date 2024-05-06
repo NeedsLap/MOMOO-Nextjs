@@ -12,8 +12,7 @@ export default function Album({
   album,
   showDeleteButton,
   setAlbums,
-  setSharedAlbums,
-  sortOpt,
+  setShouldFetchSharedAlbums,
 }: AlbumProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditAlbumModalOpen, setIsEditAlbumModalOpen] = useState(false);
@@ -30,50 +29,8 @@ export default function Album({
   };
 
   useEffect(() => {
-    if (!setSharedAlbums) {
-      return;
-    }
-
-    if (isShared) {
-      setSharedAlbums((prev) => {
-        const isAlbum = prev.some((v) => v.id === album.id);
-
-        if (isAlbum) {
-          return prev;
-        }
-
-        const insertIndex = prev.findIndex((album) => {
-          if (sortOpt === 'latest') {
-            return album.createdTime < album.createdTime;
-          } else if (sortOpt === 'oldest') {
-            return album.createdTime > album.createdTime;
-          }
-          return false;
-        });
-
-        if (insertIndex === -1) {
-          return [...prev, album];
-        }
-
-        return [
-          ...prev.slice(0, insertIndex),
-          album,
-          ...prev.slice(insertIndex),
-        ];
-      });
-    } else {
-      setSharedAlbums((prev) => {
-        const indexOfAlbumData = prev.findIndex((v) => v.id === album.id);
-
-        if (indexOfAlbumData !== -1) {
-          return [
-            ...prev.slice(0, indexOfAlbumData),
-            ...prev.slice(indexOfAlbumData + 1),
-          ];
-        }
-
-        return prev;
-      });
+    if (setShouldFetchSharedAlbums) {
+      setShouldFetchSharedAlbums(true);
     }
   }, [isShared]);
 

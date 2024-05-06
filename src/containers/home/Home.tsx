@@ -26,8 +26,13 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
   const [albumData, setAlbumData] = useState<AlbumType[]>(album || []);
   const [sharedAlbums, setSharedAlbums] = useState<AlbumType[]>([]);
   const [error, setError] = useState('');
+  const [shouldFetchSharedAlbums, setShouldFetchSharedAlbums] = useState(true);
 
   useEffect(() => {
+    if (!shouldFetchSharedAlbums) {
+      return;
+    }
+
     (async () => {
       try {
         const res = await getSharedAlbums();
@@ -43,7 +48,9 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
         setError('데이터를 불러오는 중 에러가 발생했습니다');
       }
     })();
-  }, []);
+
+    setShouldFetchSharedAlbums(false);
+  }, [shouldFetchSharedAlbums]);
 
   const windowWidth = useWindowWidth();
 
@@ -150,8 +157,7 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
                     album={v}
                     showDeleteButton={index !== 0}
                     setAlbums={setAlbumData}
-                    sortOpt={selectedOption}
-                    setSharedAlbums={setSharedAlbums}
+                    setShouldFetchSharedAlbums={setShouldFetchSharedAlbums}
                   />
                 );
               })}
