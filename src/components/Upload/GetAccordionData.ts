@@ -9,11 +9,7 @@ import {
 import { appFireStore } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 
-import { AccordionDataType } from '@/components/Upload/model';
-interface AlbumIdData {
-  albumName: string;
-  docId: string;
-}
+import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 
 const GetAccordionData = () => {
   const { user } = useAuthState();
@@ -46,7 +42,7 @@ const GetAccordionData = () => {
         question: '오늘의 날씨',
         answer: [
           { path: '/images/sunny.svg', name: 'sunny' },
-          { path: '/images/partly-sunny.svg', name: 'partly-sunny' },
+          { path: '/images/partly-sunny.svg', name: 'partly-Sunny' },
           { path: '/images/cloudy.svg', name: 'cloudy' },
           { path: '/images/rainy.svg', name: 'rainy' },
           { path: '/images/snowy.svg', name: 'snowy' },
