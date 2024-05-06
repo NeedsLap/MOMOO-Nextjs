@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import InputModal from '@/components/Modal/InputModal/InputModal';
@@ -21,6 +22,7 @@ export default function NewAlbumModal({
   const [errMessage, setErrMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const validateAndAddAlbum = useAddAlbum();
+  const router = useRouter();
 
   const handleAlbum = async () => {
     if (isDisabled) {
@@ -43,6 +45,7 @@ export default function NewAlbumModal({
         ]);
       }
 
+      router.refresh();
       onClose();
     } finally {
       setIsDisabled(true);
