@@ -5,7 +5,6 @@ import { cookies } from 'next/headers';
 import Script from 'next/script';
 import { ReactNode, Suspense } from 'react';
 
-import ogImg from '@/app/opengraph-image.png';
 import App from '@/components/global/App';
 import ReduxProvider from '@/components/global/ReduxProvider';
 import RootStyle from '@/components/global/RootStyle';
@@ -35,9 +34,9 @@ export const metadata: Metadata = {
       'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
     images: [
       {
-        url: ogImg.src,
-        width: ogImg.width,
-        height: ogImg.height,
+        url: 'https://momoo.kr/images/og.png',
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -49,9 +48,9 @@ export const metadata: Metadata = {
       'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
     images: [
       {
-        url: ogImg.src,
-        width: ogImg.width,
-        height: ogImg.height,
+        url: 'https://momoo.kr/images/og.png',
+        width: 1200,
+        height: 630,
       },
     ],
   },
