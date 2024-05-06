@@ -8,7 +8,7 @@ import {
   getSharedAlbums,
 } from '@/utils/SDKUtils';
 
-import { AlbumType } from '@/types/feed';
+import { AlbumType } from '@/types/album';
 
 export async function GET(req: NextRequest) {
   const userUid = cookies().get('uid')?.value;

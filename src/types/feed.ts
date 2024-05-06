@@ -1,5 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
+import { AlbumType } from '@/types/album';
+
 interface FeedBase {
   imageUrl: string[];
   title: string;
@@ -19,11 +21,9 @@ interface FeedMetadata extends FeedBase {
   timestamp: Timestamp;
 }
 
-type AlbumType = 'shared' | 'my';
-
 interface Feed extends Omit<FeedMetadata, 'timestamp'> {
   timestamp: number;
   albumType: AlbumType;
 }
 
-export type { FeedToUpdate, Feed, FeedMetadata, AlbumType };
+export type { FeedToUpdate, Feed, FeedMetadata };

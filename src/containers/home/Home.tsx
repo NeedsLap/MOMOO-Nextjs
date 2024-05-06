@@ -156,6 +156,7 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
                     key={v.id}
                     album={v}
                     showDeleteButton={index !== 0}
+                    albumType="my"
                     setAlbums={setAlbumData}
                     setShouldFetchSharedAlbums={setShouldFetchSharedAlbums}
                   />
@@ -165,7 +166,14 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
           ) : (
             <ul>
               {sharedAlbums.map((v) => {
-                return <Album key={v.id} album={v} showDeleteButton={false} />;
+                return (
+                  <Album
+                    key={v.id}
+                    album={v}
+                    showDeleteButton={false}
+                    albumType="shared"
+                  />
+                );
               })}
             </ul>
           )}
