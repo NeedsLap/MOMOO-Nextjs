@@ -54,9 +54,7 @@ function Accordion({
                 type="button"
                 key={index}
                 onClick={() => handleAnswerClick(image.name)}
-                className={
-                  selectedImages.includes(image.name) ? 'selected' : ''
-                }
+                className={selectedImages === image.name ? 'selected' : ''}
                 aria-label="Toggle Menu"
               >
                 <Image

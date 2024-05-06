@@ -42,7 +42,7 @@ const GetAccordionData = () => {
         question: '오늘의 날씨',
         answer: [
           { path: '/images/sunny.svg', name: 'sunny' },
-          { path: '/images/partly-sunny.svg', name: 'partly-Sunny' },
+          { path: '/images/partly-sunny.svg', name: 'partly-sunny' },
           { path: '/images/cloudy.svg', name: 'cloudy' },
           { path: '/images/rainy.svg', name: 'rainy' },
           { path: '/images/snowy.svg', name: 'snowy' },
