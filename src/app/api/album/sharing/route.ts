@@ -33,22 +33,23 @@ export async function GET() {
     const promises = sharedAlbums.map(async (ref: DocumentReference) => {
       const albumDocSnap = await getDoc(ref);
       const albumData = albumDocSnap.data() as AlbumMetadata;
-      const sharedAlbumUser = ref.path.split('/')[0];
+      const sharedAlbumUserUid = ref.path.split('/')[0];
       let thumbnail: string | null = null;
 
       if (albumData.feedList.length) {
         thumbnail = await getThumbnail(
-          sharedAlbumUser,
+          sharedAlbumUserUid,
           albumData.feedList[albumData.feedList.length - 1],
         );
       }
-      const { displayName, email } = await adminAppAuth.getUser(uid);
+      const { displayName, email } =
+        await adminAppAuth.getUser(sharedAlbumUserUid);
 
       sharedAlbumsData.push({
         ...albumData,
         createdTime: albumData.createdTime.toMillis(),
         user: {
-          uid: sharedAlbumUser,
+          uid: sharedAlbumUserUid,
           displayName,
           email,
         },
