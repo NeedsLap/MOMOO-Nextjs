@@ -1,7 +1,7 @@
 import { deleteCookie, setCookie } from '@/utils/cookie';
 
 import { AuthState, AuthAction } from '@/modules/model';
-import { User } from '@/types/user';
+import { ProfileToUpdate, User } from '@/types/user';
 
 const initUser = {
   displayName: '',
@@ -23,25 +23,31 @@ const setAuth = (user: User): AuthAction => {
     expires,
   });
 
-  return { type: 'loggedIn', payload: user };
+  return { type: 'login', payload: user };
 };
 
 const deleteAuth = (): AuthAction => {
   deleteCookie('uid');
 
-  return { type: 'loggedOut', payload: null };
+  return { type: 'logout', payload: null };
+};
+
+const updateAuth = (profileToUpdate: ProfileToUpdate): AuthAction => {
+  return { type: 'editProfile', payload: profileToUpdate };
 };
 
 const authReducer = (state = initState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case 'loggedIn':
+    case 'login':
       return { isAuthReady: true, loggedIn: true, user: action.payload };
-    case 'loggedOut':
+    case 'logout':
       return { isAuthReady: true, loggedIn: false, user: initUser };
+    case 'editProfile':
+      return { ...state, user: { ...state.user, ...action.payload } };
     default:
       return state;
   }
 };
 
 export default authReducer;
-export { setAuth, deleteAuth };
+export { setAuth, deleteAuth, updateAuth };

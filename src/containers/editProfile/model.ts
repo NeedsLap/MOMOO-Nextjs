@@ -2,7 +2,7 @@ import { Profile } from '@/types/user';
 
 interface ProfileToUpdate {
   file: File | null;
-  displayName: string | null;
+  displayName: string;
   email: string;
   password: string;
 }

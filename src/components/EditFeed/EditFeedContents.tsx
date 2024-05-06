@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import Accordion from '@/components/Accordion/Accordion';
 import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
@@ -10,6 +11,7 @@ import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import useAuthState from '@/hooks/auth/useAuthState';
+import useAlbumName from '@/hooks/useAlbumName';
 import useEditFeed from '@/hooks/useEditFeed';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
 import {
@@ -22,35 +24,36 @@ import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 import type { Feed, FeedToUpdate } from '@/types/feed';
 
 export default function EditFeedContents({
-  feedData,
+  feed,
   close,
-  setFeedData,
+  setFeedsData,
 }: {
-  feedData: Feed;
+  feed: Feed;
   close: () => void;
-  setFeedData?: React.Dispatch<SetStateAction<Feed | null>>;
+  setFeedsData: Dispatch<SetStateAction<Feed[]>>;
 }) {
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);
-  const [title, setTitle] = useState(feedData.title);
-  const [text, setText] = useState(feedData.text);
+  const [title, setTitle] = useState(feed.title);
+  const [text, setText] = useState(feed.text);
   const [selectedAlbumList, setSelectedAlbumList] = useState<string[]>([]);
   const [savedAlbumList, setSavedAlbumList] = useState<string[]>([]);
-  const [selectedAddress, setSelectedAddress] = useState(
-    feedData.selectedAddress,
-  );
+  const [selectedAddress, setSelectedAddress] = useState(feed.selectedAddress);
   const [selectedWeatherImage, setSelectedWeatherImage] = useState(
-    feedData.weatherImage,
+    feed.weatherImage,
   );
   const [selectedEmotionImage, setSelectedEmotionImage] = useState(
-    feedData.emotionImage,
+    feed.emotionImage,
   );
   const [file, setFile] = useState<File[] | null>(null);
-  const [imageList, setImageList] = useState<string[]>(feedData.imageUrl);
+  const [imageList, setImageList] = useState<string[]>(feed.imageUrl);
   const [accordionData, setAccordionData] = useState<AccordionDataType>();
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [inputCount, setInputCount] = useState(0);
   const [isPending, setIsPending] = useState(false);
 
+  const router = useRouter();
+
+  const albumName = useAlbumName();
   const { user } = useAuthState();
   const getAccordionData = GetAccordionData();
   const editFeed = useEditFeed();
@@ -60,7 +63,7 @@ export default function EditFeedContents({
 
   useEffect(() => {
     const setSavedAlbumData = async () => {
-      const userAlbumList = await getSavedAlbumList(feedData.id);
+      const userAlbumList = await getSavedAlbumList(feed.id);
 
       if (userAlbumList) {
         setSelectedAlbumList(userAlbumList.map((v) => v.data().name));
@@ -103,7 +106,7 @@ export default function EditFeedContents({
         const newUrls = await uploadImageToStorage(
           file,
           `feed/${user.uid}`,
-          feedData.id,
+          feed.id,
         );
         downloadURLs.push(
           ...imageList.slice(0, imageList.length - file.length),
@@ -123,7 +126,7 @@ export default function EditFeedContents({
         emotionImage: selectedEmotionImage,
       };
 
-      await editFeed(editData, feedData.id);
+      await editFeed(editData, feed.id);
 
       selectedAlbumList.forEach(async (selectedAlbumName) => {
         let selectedAlbumId = '';
@@ -135,7 +138,7 @@ export default function EditFeedContents({
         }
 
         if (!savedAlbumList.includes(selectedAlbumId)) {
-          await addFeedIdFromFeedList(feedData.id, selectedAlbumId);
+          await addFeedIdFromFeedList(feed.id, selectedAlbumId);
         }
       });
 
@@ -149,25 +152,25 @@ export default function EditFeedContents({
         }
 
         if (!selectedAlbumList.includes(savedAlbumName)) {
-          await removeFeedIdFromFeedList(feedData.id, savedAlbumId);
+          await removeFeedIdFromFeedList(feed.id, savedAlbumId);
         }
       });
 
-      if (setFeedData) {
-        setFeedData((prev) => {
-          if (prev) {
-            return { ...prev, ...editData };
-          } else {
-            return null;
-          }
-        });
+      if (selectedAlbumList.includes(albumName)) {
+        setFeedsData((prev) =>
+          prev.map((v) => (v.id === feed.id ? { ...v, ...editData } : v)),
+        );
+      } else {
+        setFeedsData((prev) => prev.filter((v) => v.id !== feed.id));
       }
 
       // 이미지 삭제 실패 시, 게시물 수정이 중단되지 않도록 try 마지막에 위치
       if (file !== null) {
-        for (let i = downloadURLs.length; i < feedData.imageUrl.length; i++)
-          await deleteImg(feedData.imageUrl[i]);
+        for (let i = downloadURLs.length; i < feed.imageUrl.length; i++)
+          await deleteImg(feed.imageUrl[i]);
       }
+
+      router.refresh();
     } catch (error) {
       console.error(error);
     }

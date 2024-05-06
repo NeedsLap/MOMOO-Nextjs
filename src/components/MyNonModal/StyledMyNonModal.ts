@@ -23,6 +23,7 @@ const StyledMyNonModal = styled.dialog`
       aspect-ratio: 1/1;
       margin: 0 auto 8px;
       border-radius: 50%;
+      border: 3px solid white;
     }
 
     .displayName {

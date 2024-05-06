@@ -1,3 +1,5 @@
+'use client';
+
 import { StyledLoadingComponent } from '@/components/Loading/StyledLodingImg';
 
 export default function LoadingComponent() {

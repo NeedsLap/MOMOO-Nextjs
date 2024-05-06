@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
 
 import {
@@ -25,19 +26,20 @@ interface AlbumIdData {
 export default function ChangeAlbumModal({
   onClose,
   id,
-  setFeedData,
+  setFeedsData,
 }: {
   onClose: () => void;
   id: string;
-  setFeedData: React.Dispatch<SetStateAction<Feed | null>>;
+  setFeedsData: React.Dispatch<SetStateAction<Feed[]>>;
 }) {
   const { showModal } = useShowModal();
   useEscDialog(onClose);
-
   const [selectedAlbumList, setSelectedAlbumList] = useState<string[]>([]);
   const [albumIdData, setAlbumIdData] = useState<AlbumIdData[]>([]);
   const [savedAlbumList, setSavedAlbumList] = useState<string[]>([]);
   const [answerArray, setAnswerArray] = useState<string[] | null>();
+
+  const router = useRouter();
 
   const getAccordionData = GetAccordionData();
   const getSavedAlbumList = useGetSavedAlbumList();
@@ -112,9 +114,10 @@ export default function ChangeAlbumModal({
       });
 
       if (!selectedAlbumList.includes(albumName)) {
-        setFeedData(null);
+        setFeedsData((prev) => prev.filter((v) => v.id !== id));
       }
 
+      router.refresh();
       onClose();
     } catch (error) {
       console.error(error);

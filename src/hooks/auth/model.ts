@@ -1,5 +1,5 @@
 interface UpdateProfileOpt {
-  displayName?: string | null;
+  displayName?: string;
   photoURL?: string;
 }
 

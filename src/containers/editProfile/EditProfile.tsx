@@ -121,7 +121,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setUpdateProfileIsPending(true);
       const profile: ProfileToUpdate = {
         file,
-        displayName: displayName.value || null,
+        displayName: displayName.value,
         email: email.value,
         password: password.value,
       };

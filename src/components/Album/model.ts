@@ -1,13 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
 import { Album } from '@/types/album';
 
 interface AlbumProps {
-  albumData: Album;
+  album: Album;
   showDeleteButton: boolean;
-  setSharedAlbums?: Dispatch<SetStateAction<Album[]>>;
-  sortOpt?: AlbumSortOpt;
+  setAlbums?: Dispatch<SetStateAction<Album[]>>;
+  setShouldFetchSharedAlbums?: Dispatch<SetStateAction<boolean>>;
 }
 
 export type { AlbumProps };
