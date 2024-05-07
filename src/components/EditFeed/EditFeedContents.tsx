@@ -11,6 +11,7 @@ import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import useAuthState from '@/hooks/auth/useAuthState';
+import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import useAlbumName from '@/hooks/useAlbumName';
 import useEditFeed from '@/hooks/useEditFeed';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
@@ -22,7 +23,6 @@ import { deleteImg } from '@/utils/SDKUtils';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 import type { Feed, FeedToUpdate } from '@/types/feed';
-import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 
 export default function EditFeedContents({
   feed,

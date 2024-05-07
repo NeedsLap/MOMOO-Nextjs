@@ -17,6 +17,7 @@ import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import { appFireStore, Timestamp } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 import useOverlayClose from '@/hooks/dialog/useOverlayClose';
+import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import { useAddFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import useUploadFeed from '@/hooks/useUploadFeed';
 import {
@@ -25,7 +26,6 @@ import {
 } from '@/modules/uploadFeedModal';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
-import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 
 export default function UploadModal() {
   const dispatch = useDispatch();

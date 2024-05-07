@@ -1,5 +1,6 @@
-import useWindowWidth from '@/hooks/useWindowWidth';
 import { useEffect } from 'react';
+
+import useWindowWidth from '@/hooks/useWindowWidth';
 
 export default function useScrollLockForDimmed() {
   const windowWidth = useWindowWidth();
