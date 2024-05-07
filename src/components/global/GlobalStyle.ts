@@ -2,6 +2,7 @@
 
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import '@/components/global/classes.css';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -77,37 +78,10 @@ const GlobalStyle = createGlobalStyle`
     --toastify-font-family: inherit;
   }
 
-  /* #root {
-    min-height: 100vh;
-  }
-
-  @media (min-width: 1025px) {
-    #root {
-      display: flex;
-    }
-  } */
-
   body {
     color: inherit;
     font-family: var(--font-noto-sans), sans-serif;
     line-height: 1.5;
-  }
-
-  .ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .a11y-hidden {
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
   }
 
   a {

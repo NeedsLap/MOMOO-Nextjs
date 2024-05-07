@@ -22,6 +22,7 @@ import { deleteImg } from '@/utils/SDKUtils';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 import type { Feed, FeedToUpdate } from '@/types/feed';
+import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 
 export default function EditFeedContents({
   feed,
@@ -53,13 +54,15 @@ export default function EditFeedContents({
 
   const router = useRouter();
 
+  useScrollLockForDimmed();
   const albumName = useAlbumName();
   const { user } = useAuthState();
-  const getAccordionData = GetAccordionData();
   const editFeed = useEditFeed();
   const getSavedAlbumList = useGetSavedAlbumList();
   const addFeedIdFromFeedList = useAddFeedIdFromFeedList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
+
+  const getAccordionData = GetAccordionData();
 
   useEffect(() => {
     const setSavedAlbumData = async () => {

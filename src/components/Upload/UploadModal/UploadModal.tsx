@@ -25,6 +25,7 @@ import {
 } from '@/modules/uploadFeedModal';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
+import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 
 export default function UploadModal() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ export default function UploadModal() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const { user } = useAuthState();
   const { albumNameToAdd } = useUploadFeed();
+  useScrollLockForDimmed();
 
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);
   const [title, setTitle] = useState('');
