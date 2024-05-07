@@ -18,7 +18,9 @@ export const config = {
     '/login',
     '/signup',
     '/((?!api).*)/album/:albumName/',
+    '/((?!api).*)/album/', // albumName '.'인 경우
     '/:uid/album/:albumName/feed',
+    '/:uid/album/feed', // albumName '.'인 경우
     '/my',
     '/edit-profile',
   ],
