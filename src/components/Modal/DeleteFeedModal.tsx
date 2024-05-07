@@ -61,7 +61,7 @@ export default function DeleteFeedModal({
         })();
       }}
       title="게시물을 삭제하시겠습니까?"
-      text="해당 앨범에서만 삭제됩니다"
+      text="모든 앨범에서 삭제됩니다"
       btnNameList={['아니요', '예']}
     />
   );
