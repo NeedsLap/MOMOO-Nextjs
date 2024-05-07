@@ -17,7 +17,7 @@ export default function useLogin() {
 
     try {
       await signInWithEmailAndPassword(appAuth, email, password);
-      router.replace('/');
+      router.refresh();
     } catch (err) {
       if (err instanceof FirebaseError) {
         setError(err.code);
