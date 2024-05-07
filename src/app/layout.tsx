@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://momoo.kr/',
     siteName: 'MOMOO',
-    title: '[MOMOO] 사이트 튜토리얼',
+    title: '[MOMOO] 네컷사진 보관 서비스',
     description:
       'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: 'MOMOO',
-    title: '[MOMOO] 사이트 튜토리얼',
+    title: '[MOMOO] 네컷사진 보관 서비스',
     description:
       'MOMOO는 네컷사진 보관 서비스입니다. 네컷에 담긴 특별한 하루와 그날의 MOMENT & MOOD를 간편하게 기록하세요.',
     images: [
