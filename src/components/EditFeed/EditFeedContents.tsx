@@ -11,6 +11,7 @@ import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import useAuthState from '@/hooks/auth/useAuthState';
+import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import useAlbumName from '@/hooks/useAlbumName';
 import useEditFeed from '@/hooks/useEditFeed';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
@@ -53,13 +54,15 @@ export default function EditFeedContents({
 
   const router = useRouter();
 
+  useScrollLockForDimmed();
   const albumName = useAlbumName();
   const { user } = useAuthState();
-  const getAccordionData = GetAccordionData();
   const editFeed = useEditFeed();
   const getSavedAlbumList = useGetSavedAlbumList();
   const addFeedIdFromFeedList = useAddFeedIdFromFeedList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
+
+  const getAccordionData = GetAccordionData();
 
   useEffect(() => {
     const setSavedAlbumData = async () => {

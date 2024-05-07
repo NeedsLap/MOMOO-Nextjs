@@ -17,6 +17,7 @@ import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import { appFireStore, Timestamp } from '@/firebase/config';
 import useAuthState from '@/hooks/auth/useAuthState';
 import useOverlayClose from '@/hooks/dialog/useOverlayClose';
+import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import { useAddFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import useUploadFeed from '@/hooks/useUploadFeed';
 import {
@@ -33,6 +34,7 @@ export default function UploadModal() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const { user } = useAuthState();
   const { albumNameToAdd } = useUploadFeed();
+  useScrollLockForDimmed();
 
   const [kakaoMapVisible, setKakaoMapVisible] = useState(false);
   const [title, setTitle] = useState('');
