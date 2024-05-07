@@ -53,6 +53,7 @@ const UploadHeader = styled.header`
 
   @media (max-width: 430px) {
     position: fixed;
+    top: 0;
     width: 100%;
     height: 4.8rem;
     margin-bottom: 4.8rem;
@@ -171,7 +172,8 @@ const UploadContents = styled.div`
   }
 
   @media (max-width: 430px) {
-    padding-top: 4.8rem;
+    position: fixed;
+    top: 4.8rem;
 
     &.loading {
       min-height: calc(100vh - var(--nav-height-mobile));
