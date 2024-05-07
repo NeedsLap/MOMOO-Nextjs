@@ -6,7 +6,7 @@ import { getFeedsAndHandleException } from '@/utils/apis';
 
 import type { AlbumDetailParams } from '@/app/(navRoute)/(tabBarRoute)/(albumDetail)/[uid]/album/[albumName]/model';
 
-export const generateMetadata = ({ params }: { params: AlbumDetailParams }) => {
+export const generateMetadata = () => {
   return { title: `. | MOMOO` };
 };
 
