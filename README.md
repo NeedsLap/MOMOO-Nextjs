@@ -13,9 +13,9 @@
 
 |프로젝트 기간|2023.09.29 - 2023.11.16|
 |:--:|:--|
-|리팩토링 기간|2023.11.20 ~|
 |**웹사이트**|**[바로가기] 👉 https://momoo.kr**|
 |**플레이스토어**|**[바로가기] 👉 https://play.google.com/store/apps/details?id=com.momoo&hl=en-KR**|
+|리팩토링 기간|2023.11.20 ~ 2024.05.07|
 |체험계정|ID: momoo@gmail.com / PW: 123qwe|
 |React Native 레포|https://github.com/NeedsLap/MOMOO-RN|
 |(Migration 전) React 레포|https://github.com/yonainthefish/MoMoo|
@@ -138,7 +138,7 @@
   **기능 소개**
   1. 사용자를 email(id)로 검색할 수 있다.
   2. 앨범을 공유하거나, 공유한 대상을 삭제할 수 있다.
-  3. 홈에서 공유 앨범 리스트를 볼 수 있다.
+  3. 홈에서 공유 앨범을 볼 수 있다.
   4. 공유 받은 앨범에 저장된 사진을 볼 수 있다.
   <br>
   
@@ -166,8 +166,38 @@
 
   <br>
 
-  3. 홈 - 공유 앨범 리스트
-     
+  3. 홈 - 공유 앨범
+  - Firestore에서 로그인한 사용자의 공유 앨범 리스트를 가져온다.
+    ```js
+      // src/utils/SDKUtils.ts
+      
+      const getSharedAlbums = async (
+        uid: string,
+      ): Promise<DocumentReference[]> => {
+        const userDocRef = doc(appFireStore, uid, uid);
+        const userDoc = (await getDoc(userDocRef)).data();
+        return userDoc.sharedAlbums;
+      };
+    ```
+
+  - 공유 앨범 데이터를 불러온다.
+    ```js
+      // src/app/api/album/sharing
+      
+      sharedAlbums.map(async (ref: DocumentReference) => {
+        const albumData = await getDoc(ref).data();
+        // (중략)
+      });
+    ```
+
+  - 공유한 사용자 데이터를 불러온다.
+    ```js
+      // src/app/api/album/sharing
+      
+      const { displayName, email } =
+        await adminAppAuth.getUser(sharedAlbumUserUid);
+    ```
+    
   <br>
 
   4. 공유 앨범 상세
@@ -176,11 +206,11 @@
     ```js
       // src/services/feed.ts
       // Path Parameter(uid, albumName)를 쿼리 매개변수로 요청에 추가하여 전송
-      // 앨범 상세페이지 경로: {uid}/{albumName}
-      // 피드 상세페이지 경로: {uid}/{albumName}/feed
+      // 앨범 상세페이지 경로: {uid}/album/{albumName}
+      // 피드 상세페이지 경로: {uid}/album/{albumName}/feed
   
-      const feeds = await fetch(
-        `${url}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
+      await fetch(
+        `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
       );
     ```
 
