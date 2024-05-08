@@ -304,17 +304,19 @@
       }
     ```
 
-    - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
-      ```js
-        <img
-          onLoad={(e) =>
-            setImgSize({
-              width: e.currentTarget.naturalWidth,
-              height: e.currentTarget.naturalHeight,
-            })
-          }
-        />
-      ```
+  - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
+    ```js
+      // src/components/AlbumItem/AlbumItem.tsx
+    
+      <img
+        onLoad={(e) =>
+          setImgSize({
+            width: e.currentTarget.naturalWidth,
+            height: e.currentTarget.naturalHeight,
+          })
+        }
+      />
+    ```
         
 </details>
 
