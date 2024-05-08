@@ -91,42 +91,47 @@
 
 ## 4. Firebase 구조
 
-### Firestore Database
 
-```
-  // {uid}/{uid}
-  {
-    sharedAlbums: Reference(albumDoc){}
-  }
+<details>
+  <summary><h3>Firestore Database</h3></summary>
+  
+  ```
+    // {uid}/{uid}
+    {
+      sharedAlbums: Reference(albumDoc){}
+    }
+  
+  
+    // {uid}/{uid}/album/{albumId}
+    {
+      createdTime: Timestamp;
+      feedList: String(feedId)[];
+      name: String;
+      sharedUsers: {uid:String; permission: "read"}[];
+    }
+  
+    // {uid}/{uid}/feed/{feedId}
+    {
+      id: String;
+      title: String;
+      text: String;
+      seletedAddress: String;
+      album: String(albumName)[];
+      emotionImage: String;
+      weatherImage: String;
+      timestamp: Timestamp;
+    }
+  ```
+</details>
 
+<details>
+  <summary><h3>Storage</h3></summary>
 
-  // {uid}/{uid}/album/{albumId}
-  {
-    createdTime: Timestamp;
-    feedList: String(feedId)[];
-    name: String;
-    sharedUsers: {uid:String; permission: "read"}[];
-  }
-
-  // {uid}/{uid}/feed/{feedId}
-  {
-    id: String;
-    title: String;
-    text: String;
-    seletedAddress: String;
-    album: String(albumName)[];
-    emotionImage: String;
-    weatherImage: String;
-    timestamp: Timestamp;
-  }
-```
-
-### Storage
-
-```
-  feed/{feedId + imageIndex}.{확장자}
-  profile/{uid}.{확장자}
-```
+  ```
+    feed/{feedId + imageIndex}.{확장자}
+    profile/{uid}.{확장자}
+  ```
+</details>
 
 <br><br>
 
@@ -244,6 +249,73 @@
 
 <details>
   <summary><h3>Masonry Layout</h3></summary>
+
+  **CSS**
+  - 부모 요소 CSS
+    ```js
+      // src/containers/albumDetail/StyledFeed.ts
+      
+      const StyledFeedList = styled.ul`
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: -8px -8px;
+        grid-auto-rows: 1px;
+      `;
+    ```
+  
+  - 아이템 CSS
+    ```js
+      // src/components/AlbumItem/StyledAlbumItem.ts
+    
+      const StyledAlbumItem = styled.li`
+        margin: 8px;
+        position: relative;
+      `;
+    ```
+
+  **JS**
+  - gridRowEnd 값을 계산하는 커스텀훅
+    ```js
+      // src/hooks/useAlbumItemLayout.ts
+
+      interface ImgSize {
+        width: number;
+        height: number;
+      }
+      
+      function useAlbumItemLayout(node: HTMLLIElement) {
+        const [imgSize, setImgSize] = useState<ImgSize | null>(null);
+        const [gridRowEnd, setGridRowEnd] = useState('');
+      
+        useEffect(() => {
+          const setLayout = async () => {
+            if (!imgSize || !node) {
+              return;
+            }
+      
+            const height = node.clientWidth * (imgSize.height / imgSize.width);
+            setGridRowEnd(`span ${Math.round(height + 16)}`);
+          };
+      
+          setLayout();
+        }, [imgSize]);
+      
+        return { setImgSize, gridRowEnd };
+      }
+    ```
+
+    - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
+      ```js
+        <img
+          onLoad={(e) =>
+            setImgSize({
+              width: e.currentTarget.naturalWidth,
+              height: e.currentTarget.naturalHeight,
+            })
+          }
+        />
+      ```
+        
 </details>
 
 <br><br>
