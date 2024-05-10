@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 
+import a11yHidden from '@/components/CommonStyled/a11yHidden';
+
 const StyledAlbumItem = styled.li`
   margin: 8px;
   position: relative;
   box-sizing: content-box;
 
-  .hover-wrap {
+  .album-item-wrap:not(:hover) > div {
+    ${a11yHidden}
+  }
+
+  .album-item-wrap:hover > div {
     position: absolute;
     inset: 0;
     background: #00000080;
@@ -32,7 +38,7 @@ const StyledAlbumItem = styled.li`
   @media (max-width: 430px) {
     margin: 6px;
 
-    .hover-wrap {
+    .album-item-wrap > div:hover {
       strong {
         font-size: var(--text-m);
       }
