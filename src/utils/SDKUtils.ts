@@ -78,13 +78,15 @@ const getFeedsData = async (
   return feeds;
 };
 
-const getSharedAlbums = async (
-  uid: string,
-): Promise<DocumentReference[] | null> => {
+const getSharedAlbums = async (uid: string): Promise<DocumentReference[]> => {
   const userDocRef = doc(appFireStore, uid, uid);
-  const userDocSnap = await getDoc(userDocRef);
+  const userDoc = (await getDoc(userDocRef)).data();
 
-  return userDocSnap.data()?.sharedAlbums || null;
+  if (!userDoc) {
+    throw new Error('사용자 데이터를 불러오는 중 에러가 발생했습니다.');
+  }
+
+  return userDoc.sharedAlbums;
 };
 
 const checkAlbumPermission = async (

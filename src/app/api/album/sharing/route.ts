@@ -25,7 +25,7 @@ export async function GET() {
   try {
     const sharedAlbums = await getSharedAlbums(uid);
 
-    if (!sharedAlbums) {
+    if (!sharedAlbums.length) {
       return NextResponse.json([]);
     }
 
