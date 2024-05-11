@@ -23,8 +23,8 @@ import {
 
 import { storage, appFireStore } from '@/firebase/config';
 
-import { Album, AlbumMetadata, AlbumType } from '@/types/album';
-import { Feed, FeedMetadata } from '@/types/feed';
+import { Album, AlbumOfDatabase, AlbumType } from '@/types/album';
+import { Feed, FeedOfDatabase } from '@/types/feed';
 
 async function deleteImg(url: string) {
   const imgRef = ref(storage, url);
@@ -66,7 +66,7 @@ const getFeedsData = async (
   const promises = feedIdList.map(async (feedId) => {
     const docRef = doc(appFireStore, uid, uid, 'feed', feedId);
     const result = await getDoc(docRef);
-    const feed = result.data() as FeedMetadata;
+    const feed = result.data() as FeedOfDatabase;
 
     if (feed) {
       feeds.push({ ...feed, timestamp: feed.timestamp.toMillis(), albumType });
@@ -141,7 +141,7 @@ const getAlbumList = async (uid: string) => {
   const q = query(albumDocRef, orderBy('createdTime'));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    const data = doc.data() as AlbumMetadata;
+    const data = doc.data() as AlbumOfDatabase;
     albumDataList.push({
       ...data,
       id: doc.id,
