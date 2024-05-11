@@ -42,26 +42,6 @@ function AlbumItem(
     closeModal: closeEditFeedModal,
   } = useModalWithWebView();
 
-  const showHoverStyle = (
-    e:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.FocusEvent<HTMLAnchorElement>,
-  ) => {
-    if (e.currentTarget.firstElementChild) {
-      e.currentTarget.firstElementChild.className = 'hover-wrap';
-    }
-  };
-
-  const hiddenHoverStyle = (
-    e:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.FocusEvent<HTMLAnchorElement>,
-  ) => {
-    if (e.currentTarget.firstElementChild) {
-      e.currentTarget.firstElementChild.className = 'a11y-hidden';
-    }
-  };
-
   return (
     <StyledAlbumItem
       key={feed.id}
@@ -79,13 +59,10 @@ function AlbumItem(
       }}
     >
       <Link
+        className="album-item-wrap"
         href={`/${uid}/album/${albumName}/feed?start=${index}`}
-        onMouseOver={showHoverStyle}
-        onFocus={showHoverStyle}
-        onMouseLeave={hiddenHoverStyle}
-        onBlur={hiddenHoverStyle}
       >
-        <div className="a11y-hidden">
+        <div>
           <strong>{feed.title}</strong>
           {feed.albumType === 'my' && (
             <button
