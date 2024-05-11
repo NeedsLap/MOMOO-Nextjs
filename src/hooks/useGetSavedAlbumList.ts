@@ -2,7 +2,6 @@ import {
   collection,
   getDocs,
   query,
-  orderBy,
   where,
   DocumentData,
 } from 'firebase/firestore';
@@ -18,7 +17,6 @@ export default function useGetSavedAlbumList() {
       const q = query(
         collection(appFireStore, user.uid, user.uid, 'album'),
         where('feedList', 'array-contains', feedId),
-        orderBy('createdTime', 'desc'),
       );
 
       const querySnapshot = await getDocs(q);
