@@ -44,7 +44,7 @@
   
 ## 2. 🛠️ 기술 및 개발 환경
 
-<br><br>
+<br>
 
 <div align="center">
 
@@ -116,7 +116,6 @@
       title: String;
       text: String;
       seletedAddress: String;
-      album: String(albumName)[];
       emotionImage: String;
       weatherImage: String;
       timestamp: Timestamp;
