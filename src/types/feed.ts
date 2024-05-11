@@ -6,7 +6,6 @@ interface FeedBase {
   imageUrl: string[];
   title: string;
   text: string;
-  album: string[];
   selectedAddress: string;
   emotionImage: string;
   weatherImage: string;

@@ -107,7 +107,6 @@ export default function UploadModal() {
       selectedAddress,
       weatherImage: selectedWeatherImage,
       emotionImage: selectedEmotionImage,
-      album: selectedAlbum,
       imageUrl: downloadURLs,
       id,
     };
