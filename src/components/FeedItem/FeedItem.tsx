@@ -37,7 +37,6 @@ function FeedItem(
 
   const getFormattedDateFromTimestamp = (timestamp: number) => {
     const date = new Date(timestamp);
-    date.setHours(date.getHours() - 12);
     const formattedDate = new Date(date).toISOString().slice(0, 10);
 
     return formattedDate;
