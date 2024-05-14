@@ -124,7 +124,6 @@ export default function EditFeedContents({
         title: title,
         text: text,
         selectedAddress: selectedAddress,
-        album: selectedAlbumList,
         weatherImage: selectedWeatherImage,
         emotionImage: selectedEmotionImage,
       };

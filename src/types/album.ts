@@ -7,14 +7,14 @@ interface SharedUser {
 
 type SharedUsers = SharedUser[];
 
-interface AlbumMetadata {
+interface AlbumOfDatabase {
   feedList: string[];
   createdTime: Timestamp;
   name: string;
   sharedUsers: SharedUsers;
 }
 
-interface Album extends Omit<AlbumMetadata, 'createdTime'> {
+interface Album extends Omit<AlbumOfDatabase, 'createdTime'> {
   createdTime: number;
   imageUrl: string | null;
   id: string;
@@ -27,4 +27,4 @@ interface Album extends Omit<AlbumMetadata, 'createdTime'> {
 
 type AlbumType = 'shared' | 'my';
 
-export type { AlbumMetadata, Album, SharedUser, SharedUsers, AlbumType };
+export type { AlbumOfDatabase, Album, SharedUser, SharedUsers, AlbumType };

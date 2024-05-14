@@ -6,7 +6,7 @@ import { DocumentReference, getDoc } from 'firebase/firestore';
 import { adminAppAuth } from '@/firebase/adminConfig';
 import { getSharedAlbums, getThumbnail } from '@/utils/SDKUtils';
 
-import { Album, AlbumMetadata } from '@/types/album';
+import { Album, AlbumOfDatabase } from '@/types/album';
 
 export async function GET() {
   const uid = cookies().get('uid')?.value;
@@ -32,7 +32,7 @@ export async function GET() {
     const sharedAlbumsData: Album[] = [];
     const promises = sharedAlbums.map(async (ref: DocumentReference) => {
       const albumDocSnap = await getDoc(ref);
-      const albumData = albumDocSnap.data() as AlbumMetadata;
+      const albumData = albumDocSnap.data() as AlbumOfDatabase;
       const sharedAlbumUserUid = ref.path.split('/')[0];
       let thumbnail: string | null = null;
 
