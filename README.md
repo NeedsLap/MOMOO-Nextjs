@@ -521,8 +521,8 @@
 <br><br>
 
 ## 8. React -> Next.js Migration
-- 공유 기능 개발을 위해 firebase Admin SDK가 필요했다.
-- 서버 개발을 위해 Express.js와 Next.js API를 검토했다.
+- 공유 기능 개발을 위해 firebase Admin SDK를 사용해야 했다.
+- Node.js 환경을 위해 Express.js와 Next.js를 검토했다.
 - 크게 두 가지 이유로 Next.js를 사용하기로 결정했다.
   - 차질 없이 무료로 배포할 수 있다.
   - 서비스에서 문제가 되었던 초기 로딩 속도를 SSR을 통해 개선할 수 있다.
