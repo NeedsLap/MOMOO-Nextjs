@@ -13,19 +13,16 @@
 
 |프로젝트 기간|2023.09.29 - 2023.11.16|
 |:--:|:--|
-|**웹사이트**|**[바로가기] 👉 https://momoo.kr**|
-|**플레이스토어**|**[바로가기] 👉 https://play.google.com/store/apps/details?id=com.momoo&hl=en-KR**|
-|리팩토링 기간|2023.11.20 ~ 2024.05.07|
+|**웹사이트**|https://momoo.kr|
+|**플레이스토어**|[바로가기](https://play.google.com/store/apps/details?id=com.momoo&hl=en-KR)|
+|리팩토링 기간|2023.11.20 - (진행중)|
 |체험계정|ID: momoo@gmail.com / PW: 123qwe|
-|React Native 레포|https://github.com/NeedsLap/MOMOO-RN|
-|(Migration 전) React 레포|https://github.com/yonainthefish/MoMoo|
+|React Native|[Repository](https://github.com/NeedsLap/MOMOO-RN)|
+|(Migration 전) React|[Repository](https://github.com/yonainthefish/MOMOO-React)|
 
 </div>
 
 <br><br>
-<br><br>
-
-## 0. React -> Next.js Migration
 
 ## 1. ✍🏻 팀원 
 
@@ -39,8 +36,6 @@
 </div>
 
 <br><br>
-<br><br>
-
   
 ## 2. 🛠️ 기술 및 개발 환경
 
@@ -54,7 +49,6 @@
 
 </div>
 
-<br><br>
 <br><br>
 
 ## 3. 주요기능
@@ -90,7 +84,6 @@
 <br><br>
 
 ## 4. Firebase 구조
-
 
 <details>
   <summary><h3>Firestore Database</h3></summary>
@@ -326,7 +319,7 @@
   
 ## 6. 유저 피드백 
 
-### 비공개 테스트
+### 비공개 유저 테스트
 
 <details>
   <summary>피드백 목록</summary>
@@ -440,6 +433,58 @@
 
 **총 71개의 피드백 중 현재 46개 반영*
 
+<br>
+
+### 2차 유저 테스트
+
+<details>
+  <summary>사용 만족도 개선</summary>
+
+  <br>
+  
+  - 1차 만족도 조사 대비 평균 약 **29% 향상**됨 (4번 제외)
+  - ⭐ 10점 만점
+
+  <br>
+
+  1. 회원가입/로그인/프로필 수정: ⭐ 7.3 -> ⭐ 10
+  2. 앨범 생성/수정/삭제: ⭐ 7.7 -> ⭐ 9.5
+  3. 게시물 업로드/수정/삭제: ⭐ 6.7 -> ⭐ 10
+  4. 앨범 공유: 10
+</details>
+
+<details>
+  <summary>피드백 목록</summary>
+
+  <br>**홈**
+  1. '더보기'를 누르면 (수정하기, 공유 대상) 이외에 삭제하기도 있었으면 함
+  2. 앨범에서 사진을 누르거나 확대를 통해 사진을 좀 더 자세히 볼 수 있으면 좋을 것 같음
+  3. ~~앨범 클릭 시, 404 화면이 뜨는 경우가 있음
+    -> 앨범 이름이 '.'인 경우~~[#145](https://github.com/NeedsLap/MOMOO-Nextjs/issues/145)
+
+  <br>**게시물 상세**
+  1. ~~실제 업로드한 날짜의 다음날로 나옴~~[412e163](https://github.com/NeedsLap/MOMOO-Nextjs/commit/412e163181c16642dc70ad1ad12699b59ab75dd2)
+  
+  <br>**게시물 업로드/수정/삭제**
+  1. 기존엔 앨범에 들어가 있는 상태에서 업로드를 눌러도 앨범 선택을 따로 눌러야 하는데, 만약 앨범에 들어간 상태에서 업로드하고자 하면 저절로 어떤 앨범인지 선택되면 좋겠음
+  2. 시간이 오래 걸리는 경우 있음
+  3. 사진을 여러장 올릴 때 다중 선택이 가능하면 좋겠음
+     
+  <br>**공유 앨범**
+  1. 공유 앨범을 만들고 사용자를 초대하면 사진을 같이 볼 수 있다는 게 재밌는 부분인 거 같음
+  2. 공유 앨범을 만들 때, 사용자를 초대해야만 공유 앨범(홈)에 앨범이 생기는 것을 몰랐음. 설명이 필요할 것 같음
+
+  <br>**기타**
+  1. ~~업로드 모달에서 기기의 뒤로가기를 누르면 어플이 종료되는 현상이 나타남
+    -> AndroidManifest.xml에서 더는 지원하지 않는 속성을 제거한 후 해결됨~~[832a5ab](https://github.com/NeedsLap/MOMOO-RN/commit/832a5abf8f97173ea1e7e9b60a04fe5ab67bfe76)
+  2. 앱스토어로도 설치하고 싶음
+  3. 공유 앨범에 반응을 남길 수 있으면 좋겠음. 좋아요 혹은 스티커. 다양한 스티커를 판매했으면 좋겠음
+  4. 공유받은 앨범에 사진을 올리고 싶음
+  5. 사진 보정도 할 수 있으면 좋겠음. 밝기 조정, 채도 조정 등
+  6. 업로드 날짜는 현재 자동으로 저장되는데, 직접 수정 가능하면 좋겠음
+
+</details>
+
 <br><br>
   
 ## 7. 🐛 트러블 슈팅
@@ -475,8 +520,15 @@
 
 <br><br>
 
-## 8. 📚 프로젝트 관련 문서
+## 8. React -> Next.js Migration
+- 공유 기능 개발을 위해 firebase Admin SDK가 필요했다.
+- 서버 개발을 위해 Express.js와 Next.js API를 검토했다.
+- 크게 두 가지 이유로 Next.js를 사용하기로 결정했다.
+  - 차질 없이 무료로 배포할 수 있다.
+  - 서비스에서 문제가 되었던 초기 로딩 속도를 SSR을 통해 개선할 수 있다.
+    
+<br><br>
+
+## 9. 📚 프로젝트 관련 문서
 - 💡 [노션: 기획 및 회의록](https://lumbar-distance-384.notion.site/momoo-moment-mood-33ccb07d75264f9d9bd1b1ca265f8db3)
 - 💡 [피그마: 와이어프레임 & 디자인](https://www.figma.com/file/IXS4UPRbunlz1cI0ka5koi/momoo-design?type=design&node-id=74-2789&mode=design&t=pVd3Uehs4a6wFHNW-0)
-<br><br>
-<br><br>
