@@ -24,15 +24,6 @@
 
 <br><br>
 
-## 0. React -> Next.js Migration
-- 공유 기능 개발을 위해 firebase Admin SDK가 필요했다.
-- 서버 개발을 위해 Express.js와 Next.js API를 검토했다.
-- 크게 두 가지 이유로 Next.js를 사용하기로 결정했다.
-  - 차질 없이 무료로 배포할 수 있다.
-  - 서비스에서 문제가 되었던 초기 로딩 속도를 SSR을 통해 개선할 수 있다.
-    
-<br><br>
-
 ## 1. ✍🏻 팀원 
 
 <div align=center>
@@ -93,7 +84,6 @@
 <br><br>
 
 ## 4. Firebase 구조
-
 
 <details>
   <summary><h3>Firestore Database</h3></summary>
@@ -478,6 +468,15 @@
 
 <br><br>
 
-## 8. 📚 프로젝트 관련 문서
+## 8. React -> Next.js Migration
+- 공유 기능 개발을 위해 firebase Admin SDK가 필요했다.
+- 서버 개발을 위해 Express.js와 Next.js API를 검토했다.
+- 크게 두 가지 이유로 Next.js를 사용하기로 결정했다.
+  - 차질 없이 무료로 배포할 수 있다.
+  - 서비스에서 문제가 되었던 초기 로딩 속도를 SSR을 통해 개선할 수 있다.
+    
+<br><br>
+
+## 9. 📚 프로젝트 관련 문서
 - 💡 [노션: 기획 및 회의록](https://lumbar-distance-384.notion.site/momoo-moment-mood-33ccb07d75264f9d9bd1b1ca265f8db3)
 - 💡 [피그마: 와이어프레임 & 디자인](https://www.figma.com/file/IXS4UPRbunlz1cI0ka5koi/momoo-design?type=design&node-id=74-2789&mode=design&t=pVd3Uehs4a6wFHNW-0)
