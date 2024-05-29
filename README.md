@@ -1,30 +1,17 @@
-<div align=center>
+<h1 align=center>MOMOO | 모무</h1>
 
-<h1> MOMOO |  모무 </h1>
+![KakaoTalk_Photo_2024-05-29-18-03-19](https://github.com/NeedsLap/MOMOO-Nextjs/assets/108985221/edaa9b0c-4e1b-4a1a-b0f8-b168884ccd4c)
+[웹사이트](https://momoo.kr/)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[플레이스토어](https://play.google.com/store/apps/details?id=com.momoo&hl=en-KR)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[React Native GitHub](https://github.com/NeedsLap/MOMOO-RN)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[React GitHub (Migration 전)](https://github.com/yonainthefish/MOMOO-React)
 
-<br>
-
-<h3> 네컷에 담긴 특별한 하루와 그 날의 MOMENT & MOOD를 기록하는 저장소 <br>  MOMOO 입니다.</h3>
-<br><br>
-
-</div>
-
-<div align=center>
-
-|프로젝트 기간|2023.09.29 - 2023.11.16|
-|:--:|:--|
-|**웹사이트**|https://momoo.kr|
-|**플레이스토어**|[바로가기](https://play.google.com/store/apps/details?id=com.momoo&hl=en-KR)|
-|리팩토링 기간|2023.11.20 - (진행중)|
-|체험계정|ID: momoo@gmail.com / PW: 123qwe|
-|React Native|[Repository](https://github.com/NeedsLap/MOMOO-RN)|
-|(Migration 전) React|[Repository](https://github.com/yonainthefish/MOMOO-React)|
-
-</div>
+프로젝트 기간: 2023.09.29 ~ 2023.11.16 | 리팩토링 기간: 2023.11.20 ~ 진행 중<br>
+**체험계정** ID: momoo@gmail.com | PW: 123qwe
 
 <br><br>
 
-## 1. ✍🏻 팀원 
+## 1. 🧑‍💻 팀원 
 
 <div align=center>
 
@@ -51,7 +38,7 @@
 
 <br><br>
 
-## 3. 주요기능
+## 3. 💡 주요 기능
 
 ### 인트로
 - 스플래시
@@ -83,51 +70,7 @@
 
 <br><br>
 
-## 4. Firebase 구조
-
-<details>
-  <summary><h3>Firestore Database</h3></summary>
-  
-  ```
-    // {uid}/{uid}
-    {
-      sharedAlbums: Reference(albumDoc){}
-    }
-  
-  
-    // {uid}/{uid}/album/{albumId}
-    {
-      createdTime: Timestamp;
-      feedList: String(feedId)[];
-      name: String;
-      sharedUsers: {uid:String; permission: "read"}[];
-    }
-  
-    // {uid}/{uid}/feed/{feedId}
-    {
-      id: String;
-      title: String;
-      text: String;
-      seletedAddress: String;
-      emotionImage: String;
-      weatherImage: String;
-      timestamp: Timestamp;
-    }
-  ```
-</details>
-
-<details>
-  <summary><h3>Storage</h3></summary>
-
-  ```
-    feed/{feedId + imageIndex}.{확장자}
-    profile/{uid}.{확장자}
-  ```
-</details>
-
-<br><br>
-
-## 5. 📝 핵심기술
+## 4. 📝 핵심기술
 
 <details>
   <summary><h3>앨범 공유</h3></summary>
@@ -317,7 +260,7 @@
 
 <br><br>
 
-## 6. 🐛 트러블 슈팅
+## 5. 🐛 트러블 슈팅
 
 <details>
   <summary><h3>안드로이드 기기의 뒤로가기</h3></summary>
@@ -338,16 +281,37 @@
 
 <details>
   <summary><h3>이미지 확장자 유효성 검사 - SVG</h3></summary>
+
+  - 문제: 이미지 선택 후 유효성 검사 시, svg 파일이 통과하지 못하는 버그
+  - 원인: 기존에 svg 파일을 image/svg로 검사하고 있었으나, 표준 MIME 타입은 image/svg+xml이기 때문
+  - 해결: image/svg+xml을 통과시키도록 정규 표현식 수정
+
+    ```js
+      /^image\/(jpg|svg|png|jpeg|gif|bmp|tif|heic)$/ // 기존
+      /^image\/(jpg|svg(\+xml)?|png|jpeg|gif|bmp|tif|heic)$/ // 변경
+    ```
 </details>
 
 <details>
-  <summary><h3>Firestore - 이모티콘 저장 방식</h3></summary>
+  <summary><h3>모달 배경 콘텐츠 스크롤</h3></summary>
+
+  - 문제: 모바일에서 게시물 업로드/수정 모달 내 스크롤 시도 시, 배경 콘텐츠가 스크롤되는 경우가 있음
+  - 원인: 해당 요소의 스크롤을 (더) 내릴/올릴 수 없는 경우, window에 스크롤 이벤트 발생 (chrome 동작 방식)
+  - 해결: 모바일에서 해당 모달 open 시, body에 scroll-rock 클래스 추가 (close 시, scroll-rock 클래스 삭제)
+    
+    ```js
+      .scroll-lock {
+        position: fixed;
+        height: 100vh;
+        overflow: hidden;
+      }
+    ```
 </details>
 
 <br><br>
 
   
-## 7. 유저 피드백 
+## 6. 🙋‍♂️ 유저 피드백 
 
 ### 비공개 유저 테스트
 
@@ -517,7 +481,7 @@
 
 <br><br>
   
-## 8. v1 -> v2
+## 7. 🚀 버전 2
 
 ### React -> Next.js Migration
 공유 기능 개발을 위해 Firebase Admin SDK가 필요했음.<br>
@@ -581,7 +545,52 @@
 <br>
 
 ### 사용성 개선 및 버그 수정
-*[7. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#7-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
+*[6. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#6-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
+
+<br><br>
+
+
+## 8. 🔥 Firebase 구조
+
+<details>
+  <summary><h3>Firestore Database</h3></summary>
+  
+  ```
+    // {uid}/{uid}
+    {
+      sharedAlbums: Reference(albumDoc){}
+    }
+  
+  
+    // {uid}/{uid}/album/{albumId}
+    {
+      createdTime: Timestamp;
+      feedList: String(feedId)[];
+      name: String;
+      sharedUsers: {uid:String; permission: "read"}[];
+    }
+  
+    // {uid}/{uid}/feed/{feedId}
+    {
+      id: String;
+      title: String;
+      text: String;
+      seletedAddress: String;
+      emotionImage: String;
+      weatherImage: String;
+      timestamp: Timestamp;
+    }
+  ```
+</details>
+
+<details>
+  <summary><h3>Storage</h3></summary>
+
+  ```
+    feed/{feedId + imageIndex}.{확장자}
+    profile/{uid}.{확장자}
+  ```
+</details>
 
 <br><br>
 
