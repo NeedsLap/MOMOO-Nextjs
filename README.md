@@ -316,8 +316,38 @@
 </details>
 
 <br><br>
+
+## 6. 🐛 트러블 슈팅
+
+<details>
+  <summary><h3>안드로이드 기기의 뒤로가기</h3></summary>
   
-## 6. 유저 피드백 
+  1. **뒤로가기 클릭 시, 앱이 닫히는 이슈**<br>
+    - 해결: 이전 페이지가 존재할 경우, 이전 페이지로 이동하도록 수정
+
+  2. **뒤로가기 클릭 시, 게시물 업로드/수정 모달이 계속 열려있는 이슈**<br>
+    - 원인: 게시물 업로드/수정 모달이 페이지 상위 컴포넌트에서 렌더링되기 때문에, 이전 페이지로 이동해도 모달은 닫히지 않음<br>
+    - 해결: 모바일에선 게시물 업로드/수정 모달을 페이지로 변경
+
+  3. **게시물 업로드/수정 후 게시물 상세페이지에서 뒤로가기 클릭 시, 게시물 업로드/수정 페이지로 돌아가는 이슈**<br>
+    - 상황: 게시물 업로드/수정 화면으로 돌아가는 흐름이 불편하다는 피드백을 받음<br>
+    - 해결: 모바일에서도 게시물 업로드/수정을 모달로 되돌리고, 뒤로가기 클릭 시 모달이 닫히도록 변경
+  
+  [자세한 내용 | MOMOO-RN](https://github.com/NeedsLap/MOMOO-RN?tab=readme-ov-file#%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EA%B8%B0%EA%B8%B0%EC%9D%98-%EB%92%A4%EB%A1%9C%EA%B0%80%EA%B8%B0)
+</details>
+
+<details>
+  <summary><h3>이미지 확장자 유효성 검사 - SVG</h3></summary>
+</details>
+
+<details>
+  <summary><h3>Firestore - 이모티콘 저장 방식</h3></summary>
+</details>
+
+<br><br>
+
+  
+## 7. 유저 피드백 
 
 ### 비공개 유저 테스트
 
@@ -487,46 +517,72 @@
 
 <br><br>
   
-## 7. 🐛 트러블 슈팅
+## 8. v1 -> v2
+
+### React -> Next.js Migration
+공유 기능 개발을 위해 Firebase Admin SDK가 필요했음.<br>
+따라서 Node.js 환경에서 구동되고, 초기 로딩 속도 개선도 기대할 수 있는 Next.js로 Migration함
+
+<br>
+
+### 달라진 기능
 
 <details>
-  <summary><h3>안드로이드 기기의 뒤로가기</h3></summary>
-  
-  1. **뒤로가기 클릭 시, 앱이 닫히는 이슈**<br>
-    - 해결: 이전 페이지가 존재할 경우, 이전 페이지로 이동하도록 수정
+  <summary><strong>앨범 공유 (신기능)</strong></summary>
 
-  2. **뒤로가기 클릭 시, 게시물 업로드/수정 모달이 계속 열려있는 이슈**<br>
-    - 원인: 게시물 업로드/수정 모달이 페이지 상위 컴포넌트에서 렌더링되기 때문에, 이전 페이지로 이동해도 모달은 닫히지 않음<br>
-    - 해결: 모바일에선 게시물 업로드/수정 모달을 페이지로 변경
-
-  3. **게시물 업로드/수정 후 게시물 상세페이지에서 뒤로가기 클릭 시, 게시물 업로드/수정 페이지로 돌아가는 이슈**<br>
-    - 상황: 게시물 업로드/수정 화면으로 돌아가는 흐름이 불편하다는 피드백을 받음<br>
-    - 해결: 모바일에서도 게시물 업로드/수정을 모달로 되돌리고, 뒤로가기 클릭 시 모달이 닫히도록 변경
-  
-  [자세한 내용 | MOMOO-RN](https://github.com/NeedsLap/MOMOO-RN?tab=readme-ov-file#%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EA%B8%B0%EA%B8%B0%EC%9D%98-%EB%92%A4%EB%A1%9C%EA%B0%80%EA%B8%B0)
-</details>
-
-<details>
-  <summary><h3>이미지 확장자 유효성 검사 - SVG</h3></summary>
-</details>
-
-<details>
-  <summary><h3>Firestore - 이모티콘 저장 방식</h3></summary>
-</details>
-
-<details>
-  <summary><h3>input - 유효성 알림</h3></summary>
-</details>
-
-<br><br>
-
-## 8. React -> Next.js Migration
-- 공유 기능 개발을 위해 Firebase Admin SDK를 사용해야 했다.
-- Node.js 환경을 위해 Express.js와 Next.js를 검토했다.
-- 크게 두 가지 이유로 Next.js를 사용하기로 결정했다.
-  - 차질 없이 무료로 배포할 수 있다.
-  - 서비스에서 문제가 되었던 초기 로딩 속도를 SSR을 통해 개선할 수 있다.
+  - 앨범 공유 모달을 통해, 공유 대상을 검색/추가/삭제할 수 있다
     
+    <img src='https://github.com/NeedsLap/MOMOO-Nextjs/assets/108985221/5bf64396-41cf-4cdf-8974-c935a3464ef3' width=200>
+    
+  <br>
+    
+  - 홈에서 공유 앨범을 확인할 수 있다
+  
+    <table>
+      <tr>
+        <td><img src="https://github.com/NeedsLap/MOMOO-Nextjs/assets/108985221/efdc9c82-01a8-4fac-aeb6-b53166aa2a53" width="200px"></td>
+        <td>👉</td>
+        <td><img src="https://github.com/KimHayeon1/Dopamine_Frontend/assets/108985221/9150f3b5-0326-4cd0-9441-a872b56f98ad" width="200px"></td>
+      </tr>
+      <tr align="center">
+        <td>v1</td>
+        <td></td>
+        <td>v2</td>
+      </tr>
+    </table>
+    
+    <br>
+  
+  - 공유 받은 사용자는 해당 앨범의 모든 사진을 볼 수 있다
+  - 현재 read 권한까지 개발 완료. write, admin 권한 추가 예정
+</details>
+
+<details>
+  <summary><strong>게시물 업로드 모달</strong></summary>
+
+  - 기존: 사진 선택 및 전체 재선택 가능
+  - 개선: 사진 선택 후, 일부 삭제 및 추가 선택 가능
+
+  <table>
+    <tr>
+      <td><img src="https://github.com/NeedsLap/MOMOO-Nextjs/assets/108985221/a05bf5ba-a30c-46eb-9909-2cee775d0d98" width="300px"></td>
+      <td>👉</td>
+      <td><img src="https://github.com/NeedsLap/MOMOO-Nextjs/assets/108985221/0ffdf58c-3abe-4af0-84d5-24c9c0fc190c" width="300px"></td>
+    </tr>
+    <tr align="center">
+      <td>v1</td>
+      <td></td>
+      <td>v2</td>
+    </tr>
+  </table>
+  
+</details>
+
+<br>
+
+### 사용성 개선 및 버그 수정
+*[7. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#7-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
+
 <br><br>
 
 ## 9. 📚 프로젝트 관련 문서
