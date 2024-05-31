@@ -10,8 +10,21 @@
 **체험계정** ID: momoo@gmail.com | PW: 123qwe
 
 <br><br>
+   
+## <span id="index">목차</span>
+1. [👨‍💻👩‍💻 팀 소개](#team)
+2. [🛠️ 기술 및 개발 환경](#skill)
+3. [💡 주요 기능](#main)
+4. [📝 핵심기술](#point)
+5. [🐛 트러블 슈팅](#trouble)
+6. [🙋‍♂️ 유저 피드백](#feedback)
+7. [🚀 버전 2(마이그레이션, 기능추가)](#version)
+8. [🔥 Firebase 구조](#firebase)
+9. [📚 프로젝트 관련 문서](#docs)
 
-## 1. 🧑‍💻 팀원 
+<br><br>
+
+## <span id="team">👨‍💻👩‍💻 1. 팀 소개</span>
 
 <div align=center>
 
@@ -21,10 +34,12 @@
 |:---:|:---:|:---:|
 
 </div>
+<!-- Top Button -->
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
-  
-## 2. 🛠️ 기술 및 개발 환경
+
+## <span id="skill">2. 🛠️ 기술 및 개발 환경</span>
 
 <br>
 
@@ -36,55 +51,60 @@
 
 </div>
 
+
 <br><br>
 
-## 3. 💡 주요 기능
+## <span id="main">3. 💡 주요 기능</span>
 
-### 인트로
+### 1) 인트로
 - 스플래시
 - 로그인 및 회원가입
 
-### 홈
+### 2) 홈
 - 나의 앨범/공유 앨범 리스트
 - 앨범 정렬(최신순/오래된순)
 - 앨범 추가/수정/삭제
 - 앨범 공유
 
-### 앨범 상세페이지
+### 3) 앨범 상세페이지
 - 앨범의 피드 앨범형
 - 앨범에 사진 추가
 - 피드 수정
 
-### 피드 상세페이지
+### 4) 피드 상세페이지
 - 앨범의 피드 리스트형
 - 피드 수정/삭제/앨범 변경
 
-### 피드 업로드
+### 5) 피드 업로드
 - 사진 및 제목 (필수)
 - 본문, 날씨/기분 이모티콘, 위치 (선택)
 
-### 마이페이지
+### 6) 마이페이지
 - 프로필 수정
 - 회원탈퇴 및 로그아웃
 - 이용약관 및 개인정보처리방침
 
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+
 <br><br>
 
-## 4. 📝 핵심기술
+## <span id="point">4. 📝 핵심기술</span>
 
 <details>
-  <summary><h3>앨범 공유</h3></summary>
-
-  **기능 소개**
+  <summary><strong> 1) 앨범 공유</strong> </summary>
+  
+ <br>
+ 
+  - **기능 소개**
   1. 공유할 사용자를 검색할 수 있다.
   2. 앨범을 공유하거나, 공유한 대상을 삭제할 수 있다.
   3. 홈에서 공유하거나 공유 받은 앨범을 볼 수 있다.
   4. 앨범을 공유 받으면, 해당 앨범에 저장된 사진을 볼 수 있다.
   <br>
   
-  코드**
+  - **코드**
   1. **사용자 검색**
-  - Firebase Admin SDK를 사용하여, 사용자를 불러온다.
+    - Firebase Admin SDK를 사용하여, 사용자를 불러온다.
        
     ```js
       // src/app/api/user/route.ts
@@ -94,7 +114,7 @@
   <br>
    
   2. **공유/공유 취소**
-  - Firestore Database에 공유 정보 저장&삭제
+    - Firestore Database에 공유 정보 저장&삭제
     
     ```
       // [uid]/[uid]
@@ -107,7 +127,7 @@
   <br>
 
   3. 홈 - 공유 앨범
-  - Firestore에서 로그인한 사용자의 공유 앨범 리스트를 가져온다.
+    - Firestore에서 로그인한 사용자의 공유 앨범 리스트를 가져온다.
     ```js
       // src/utils/SDKUtils.ts
       
@@ -122,7 +142,7 @@
 
   <br>
 
-  - 공유 앨범 데이터를 불러온다.
+    - 공유 앨범 데이터를 불러온다.
     ```js
       // src/app/api/album/sharing
       
@@ -134,7 +154,7 @@
     
   <br>
 
-  - 공유한 사용자 데이터를 불러온다.
+    - 공유한 사용자 데이터를 불러온다.
     ```js
       // src/app/api/album/sharing
       
@@ -145,7 +165,7 @@
   <br>
 
   4. 공유 앨범 상세
-  - 피드 리스트를 얻기 위해 공유 앨범/나의 앨범 구분없이 요청을 보낸다.  
+    - 피드 리스트를 얻기 위해 공유 앨범/나의 앨범 구분없이 요청을 보낸다.  
 
     ```js
       // src/services/feed.ts
@@ -160,7 +180,7 @@
 
   <br>
   
-  - 쿠키의 uid(로그인한 사용자)와 쿼리 매개변수로 받은 uid(앨범 생성자)가 다를 경우 권한을 검사한다.
+    - 쿠키의 uid(로그인한 사용자)와 쿼리 매개변수로 받은 uid(앨범 생성자)가 다를 경우 권한을 검사한다.
   
     ```js
       // src/app/api/route.ts
@@ -187,10 +207,10 @@
 </details>
 
 <details>
-  <summary><h3>Masonry Layout</h3></summary>
+  <summary> <strong>2) Masonry Layout </strong> </summary>
 
-  **CSS**
-  - 부모 요소 CSS
+  - **CSS**
+    - 부모 요소 CSS
     ```js
       // src/containers/albumDetail/StyledFeed.ts
       
@@ -202,7 +222,7 @@
       `;
     ```
   
-  - 아이템 CSS
+    - 아이템 CSS
     ```js
       // src/components/AlbumItem/StyledAlbumItem.ts
     
@@ -211,8 +231,8 @@
       `;
     ```
 
-  **JS**
-  - gridRowEnd 값을 계산하는 커스텀훅
+  - **JS**
+    - gridRowEnd 값을 계산하는 커스텀훅
     ```js
       // src/hooks/useAlbumItemLayout.ts
 
@@ -242,7 +262,7 @@
       }
     ```
 
-  - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
+    - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
     ```js
       // src/components/AlbumItem/AlbumItem.tsx
     
@@ -257,13 +277,14 @@
     ```
         
 </details>
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
-## 5. 🐛 트러블 슈팅
+## <span id="trouble">5. 🐛 트러블 슈팅</span>
 
 <details>
-  <summary><h3>안드로이드 기기의 뒤로가기</h3></summary>
+  <summary> <strong> 1) 안드로이드 기기의 뒤로가기 </strong> </summary>
   
   1. **뒤로가기 클릭 시, 앱이 닫히는 이슈**<br>
     - 해결: 이전 페이지가 존재할 경우, 이전 페이지로 이동하도록 수정
@@ -280,7 +301,7 @@
 </details>
 
 <details>
-  <summary><h3>이미지 확장자 유효성 검사 - SVG</h3></summary>
+  <summary><strong>2) 이미지 확장자 유효성 검사 - SVG </strong> </summary>
 
   - 문제: 이미지 선택 후 유효성 검사 시, svg 파일이 통과하지 못하는 버그
   - 원인: 기존에 svg 파일을 image/svg로 검사하고 있었으나, 표준 MIME 타입은 image/svg+xml이기 때문
@@ -293,7 +314,7 @@
 </details>
 
 <details>
-  <summary><h3>모달 배경 콘텐츠 스크롤</h3></summary>
+  <summary>3)<strong> 모달 배경 콘텐츠 스크롤 </strong></summary>
 
   - 문제: 모바일에서 게시물 업로드/수정 모달 내 스크롤 시도 시, 배경 콘텐츠가 스크롤되는 경우가 있음
   - 원인: 해당 요소의 스크롤을 (더) 내릴/올릴 수 없는 경우, window에 스크롤 이벤트 발생 (chrome 동작 방식)
@@ -309,7 +330,7 @@
 </details>
 
 <details>
-  <summary><h3>데이터 업데이트와 캐싱</h3></summary>
+  <summary><strong> 4) 데이터 업데이트와 캐싱</strong> </summary>
 
   - 문제: 데이터 업데이트 시, 다른 경로로 이동한 후 돌아오면 이전 데이터가 렌더링됨
   <br>
@@ -350,16 +371,17 @@
         }, [shouldFetchSharedAlbums]);
       ```
 </details>
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
-  
-## 6. 🙋‍♂️ 유저 피드백 
+## <span id="feedback">6. 🙋‍♂️ 유저 피드백</span>
 
-### 비공개 유저 테스트
+
+### 1) 1차 유저 테스트
 
 <details>
-  <summary>피드백 목록</summary>
+  <summary><strong>피드백 목록</strong></summary>
   
   <br>**회원가입**
   1. ~~이용약관 읽고 뒤로 오면 입력해 놓았던 내용이 사라지고, 모든 체크 박스가 해제됨~~[5a0b0d0](https://github.com/yonainthefish/MoMoo/commit/4a7aa70099d156101e2e70cfc2a4101454b5481b)
@@ -401,12 +423,11 @@
 
   
   <br>**게시물 업로드**
-  1. 한 번에 여러 장의 사진을 등록할 수 있으면 좋겠음
-    -> input 파일 선택이 익숙하지 않은 사용자로 추정
+  1. ~~한 번에 여러 장의 사진을 등록할 수 있으면 좋겠음~~ => 이미 존재하는 기능
   2. 처음에 모든 selectbox가 닫혀있어서 한 번 더 눌러야 하는 게 사용성이 안 좋은 것 같음
   3. 뭔가 지도의 핀을 움직여서 위치를 선택할 수 있는 기능이 있으면 좋겠음
   4. ~~체크 표시가 위치 추가 버튼이라는 것을 알기 어려웠음~~[#52](https://github.com/NeedsLap/MOMOO-Nextjs/issues/52)
-  5. 업로드 버튼은 포커스가 마지막에 되면 좋겠음[#74](https://github.com/NeedsLap/MOMOO-Nextjs/issues/74)
+  5. ~~업로드 버튼은 포커스가 마지막에 되면 좋겠음~~[#74](https://github.com/NeedsLap/MOMOO-Nextjs/issues/74)
   6. ~~오늘의 날씨에서 비와 눈의 구분이 모호함~~[89f4104](https://github.com/NeedsLap/MOMOO-Nextjs/commit/89f4104e0bba45b261f2f2e03a2e4469c2d4d58c)
   7. 지도에서 내가 원하는 부분을 터치하여 지정할 수 있으면 좋겠음
   8. 위치 추가란을 열었을 때, 아래로 드래그하여 오늘의 날씨도 볼 수 있으면 좋겠음
@@ -418,7 +439,7 @@
   14. 검색어를 모호하게 입력했을 때 선택지가 없는게 아쉬움(서울로 입력하면 경복궁이 선택됨)
   15. ~~필수 항목을 알 수 없어서 불편함~~[#269](https://github.com/yonainthefish/MoMoo/pull/269)
   16. 앨범 선택 시, 새로운 앨범을 만들어서 그 앨범에 바로 추가할 수 있으면 좋겠음
-  17. 사진 업로드 버튼에 포커스가 되면 좋겠음[#74](https://github.com/NeedsLap/MOMOO-Nextjs/issues/74)
+  17. ~~사진 업로드 버튼에 포커스가 되면 좋겠음~~[#74](https://github.com/NeedsLap/MOMOO-Nextjs/issues/74)
   18. 사진뿐만 아니라 동영상도 저장할 수 있으면 좋겠음
   19. 탭바가 있어도 좋을 듯함
   20. ~~업로드되는 사진의 확장명을 추가하면 좋겠음(gif 등)~~[#53](https://github.com/NeedsLap/MOMOO-Nextjs/issues/53)
@@ -427,7 +448,7 @@
   23. ~~날씨와 기분 셀렉트 박스가 선택되지 않는 버그(위치 선택 오픈 시, 지도가 뜨지 않지만 영역을 차지하며 날씨/기분 셀렉트 박스를 가리고 있어서 선택되지 않음)~~
   
   <br>**게시물 수정**
-  1. 원래 있던 정보들이 사라짐. 기존 정보들이 함께 떠 있는 상태에서 수정할 수 있으면 좋겠음
+  1. ~~원래 있던 정보들이 사라짐. 기존 정보들이 함께 떠 있는 상태에서 수정할 수 있으면 좋겠음~~
 
   <br>**앱**
   1. ~~안드로이드 기기의 뒤로가기 버튼을 누르면 앱이 종료됨~~[dc43540](https://github.com/NeedsLap/MOMOO-RN/commit/dc4354035b1fa3dd67586967f4874495e55c53f5)
@@ -438,44 +459,44 @@
      상황: 회원가입 시, '전체 보기' 앨범이 자동 생성되나 사용자는 인지하지 못함<br>
      해결1: 기존엔 업로드 후 이동한 피드 상세 페이지에서 해당 피드에 대한 정보만 볼 수 있음. '전체 보기'의 피드 상세 페이지로 이동하도록 변경하여, '전체 보기' 앨범이 자동 생성되고 해당 앨범에 저장되었음을 인지할 수 있도록 함~~(`${userUid}/전체 보기/feed`)<br>
      해결2: 회원가입 시, 튜토리얼
-  4. ~~사진 슬라이드가 동작하지 않음<br>
-    4-1. 업로드~~[3aabb70](https://github.com/yonainthefish/MoMoo/commits/71ad3d4470e98d2c34df6fbbe5391596f54aeee5)<br>
-    ~~4-2. 게시물 상세 페이지~~[#35](https://github.com/NeedsLap/MOMOO-Nextjs/pull/35)
-  5. ~~게시글 수정 후 게시글에서 `<` 뒤로가기 아이콘을 누르면 다시 게시글 수정 페이지가 나와서 불편함<br>
+  3. ~~사진 슬라이드가 동작하지 않음<br>
+     3-1. 업로드~~[3aabb70](https://github.com/yonainthefish/MoMoo/commits/71ad3d4470e98d2c34df6fbbe5391596f54aeee5)<br>
+    ~~3-2. 게시물 상세 페이지~~[#35](https://github.com/NeedsLap/MOMOO-Nextjs/pull/35)
+  4. ~~게시글 수정 후 게시글에서 `<` 뒤로가기 아이콘을 누르면 다시 게시글 수정 페이지가 나와서 불편함<br>
     - 개선: 게시물 수정 페이지 -> 모달로 통일~~[#32](https://github.com/NeedsLap/MOMOO-Nextjs/issues/32)
-  6. ~~게시글 삭제를 하면 기존에 있던 페이지가 아니라 새 게시글 작성하는 페이지가 나와서 불편함
+  5. ~~게시글 삭제를 하면 기존에 있던 페이지가 아니라 새 게시글 작성하는 페이지가 나와서 불편함
     - 상황: 게시물 생성 후 삭제 시 이전 페이지인 새 게시글 페이지로 이동됨
     - 개선: 새 게시글 페이지(게시물 업로드 페이지) -> 모달로 통일~~[#39](https://github.com/NeedsLap/MOMOO-Nextjs/pull/39)
-  7. ~~confirm 창이나 alert창을 직접 만들지 않아서 UI가 예쁘지 않음~~[#191](https://github.com/yonainthefish/MoMoo/issues/191)
-  8. 캘린더 형식으로 업로드한 날짜를 지정해 확인할 수 있는 기능이 있으면 좋겠음
-  9. 앱 잠금 기능이 있으면 좋겠음
-  10. ~~공유 기능 추가 희망~~[#253](https://github.com/yonainthefish/MoMoo/issues/253)
-  11. 예쁜 이미지 사진으로 만들어져 사진으로 공유할 수 있으면 좋겠음
-  12. ~~내비게이션 바에 홈 버튼이 a 태그와 button 태그로 이루어져서 포커스가 두 번 됨~~(#241)[https://github.com/yonainthefish/MoMoo/issues/241](270938c)[https://github.com/yonainthefish/MoMoo/commit/270938caf1635d0ee1eb806c8d0c7cd91535da98]
-  13. ~~모달이 나왔을 땐, 모달 내에서만 포커스가 이동하면 좋겠음~~(#245)[https://github.com/yonainthefish/MoMoo/issues/245]
-  14. ~~유효하지 않은 URL 접속 시, 내비게이션바는 나오면 좋을 것 같음~~(#231)[https://github.com/yonainthefish/MoMoo/issues/231]
-  15. 아이콘의 퀄리티가 더 발전하면 좋겠음
-  16. 앱의 컨셉이 더 분명하면 좋을 것 같음<br>
-    16-1. 사진 업로드 메인일 경우, 앨범 상세 페이지에서 사용자가 업로드한 사진들이 모였을 때 뿌듯함을 느낄 만한 디자인 요소 추가하면 좋겠음<br>
-    16-2. 일기 기능이 메인일 경우,<br>
+  6. ~~confirm 창이나 alert창을 직접 만들지 않아서 UI가 예쁘지 않음~~[#191](https://github.com/yonainthefish/MoMoo/issues/191)
+  7. 캘린더 형식으로 업로드한 날짜를 지정해 확인할 수 있는 기능이 있으면 좋겠음
+  8. 앱 잠금 기능이 있으면 좋겠음
+  9. ~~공유 기능 추가 희망~~[#253](https://github.com/yonainthefish/MoMoo/issues/253)
+  10. 예쁜 이미지 사진으로 만들어져 사진으로 공유할 수 있으면 좋겠음
+  11. ~~내비게이션 바에 홈 버튼이 a 태그와 button 태그로 이루어져서 포커스가 두 번 됨~~(#241)[https://github.com/yonainthefish/MoMoo/issues/241](270938c)[https://github.com/yonainthefish/MoMoo/commit/270938caf1635d0ee1eb806c8d0c7cd91535da98]
+  12. ~~모달이 나왔을 땐, 모달 내에서만 포커스가 이동하면 좋겠음~~(#245)[https://github.com/yonainthefish/MoMoo/issues/245]
+  13. ~~유효하지 않은 URL 접속 시, 내비게이션바는 나오면 좋을 것 같음~~(#231)[https://github.com/yonainthefish/MoMoo/issues/231]
+  14. ~~아이콘의 퀄리티가 더 발전하면 좋겠음~~
+  15. 앱의 컨셉이 더 분명하면 좋을 것 같음<br>
+      15-1. 사진 업로드 메인일 경우, 앨범 상세 페이지에서 사용자가 업로드한 사진들이 모였을 때 뿌듯함을 느낄 만한 디자인 요소 추가하면 좋겠음<br>
+      15-2. 일기 기능이 메인일 경우,<br>
       - 폰트 속성 변화 기능을 추가하면 좋겠음<br>
       - 나의 하루 기분을 주간/월간 그래프로 확인할 수 있는 기능 추가하면 좋겠음
-  17. ~~튜토리얼이나 사용법을 알려주는 기능이 있으면 좋겠음~~ [이용가이드](https://www.notion.so/MOMOO-081ebf94df754542a17ad20bcf2e6fd4)
-  18. 앨범이 여러 개가 되는 경우 스크롤이 너무 길어져서 핸드폰의 갤러리처럼 작아도 좋을 듯 함
-  19. 전체보기가 시선을 강탈함
-  20. ~~마이페이지 창에서 유저 프로필 기능을 따로 사용하지 않는다면 빼면 좋겠음(되는 줄 알고 몇 번 클릭함)~~[#91](https://github.com/NeedsLap/MOMOO-Nextjs/issues/91)
-  21. 다른 사람과의 채팅 기능이 있었으면 신선할 것 같음
+  16. ~~튜토리얼이나 사용법을 알려주는 기능이 있으면 좋겠음~~ [이용가이드](https://www.notion.so/MOMOO-081ebf94df754542a17ad20bcf2e6fd4)
+  17. ~~앨범이 여러 개가 되는 경우 스크롤이 너무 길어져서 핸드폰의 갤러리처럼 작아도 좋을 듯 함~~
+  18. 전체보기가 시선을 강탈함
+  19. ~~마이페이지 창에서 유저 프로필 기능을 따로 사용하지 않는다면 빼면 좋겠음(되는 줄 알고 몇 번 클릭함)~~[#91](https://github.com/NeedsLap/MOMOO-Nextjs/issues/91)
+  20. 다른 사람과의 채팅 기능이 있었으면 신선할 것 같음
 
 </details>
 
-**총 71개의 피드백 중 현재 46개 반영*
+**총 71개의 피드백을 받았습니다. 테스터의 조작 미숙으로 받은 피드백을 제외한 **65개**의 피드백 중 **현재 53개**를 반영 완료했습니다.*
 
 <br>
 
-### 2차 유저 테스트
+### 2) 2차 유저 테스트
 
 <details>
-  <summary>사용 만족도 개선</summary>
+  <summary><strong>사용 만족도 개선</strong></summary>
 
   <br>
   
@@ -491,7 +512,7 @@
 </details>
 
 <details>
-  <summary>피드백 목록</summary>
+  <summary><strong>피드백 목록</strong></summary>
 
   <br>**홈**
   1. '더보기'를 누르면 (수정하기, 공유 대상) 이외에 삭제하기도 있었으면 함
@@ -521,18 +542,19 @@
   6. 업로드 날짜는 현재 자동으로 저장되는데, 직접 수정 가능하면 좋겠음
 
 </details>
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
   
-## 7. 🚀 버전 2
+## <span id="version">7. 🚀 버전 2(마이그레이션, 기능추가)</span>
 
-### React -> Next.js Migration
-공유 기능 개발을 위해 Firebase Admin SDK가 필요했음.<br>
-따라서 Node.js 환경에서 구동되고, 초기 로딩 속도 개선도 기대할 수 있는 Next.js로 Migration함
+### 1) React -> Next.js Migration 이유
+>공유 기능 개발을 위해 Firebase Admin SDK가 필요했음.<br>
+>따라서 Node.js 환경에서 구동되고, 초기 로딩 속도 개선도 기대할 수 있는 Next.js로 Migration함
 
 <br>
 
-### 달라진 기능
+### 2) 달라진 기능
 
 <details>
   <summary><strong>앨범 공유 (신기능)</strong></summary>
@@ -541,7 +563,6 @@
     
     <img src='https://github.com/NeedsLap/MOMOO-Nextjs/assets/108985221/5bf64396-41cf-4cdf-8974-c935a3464ef3' width=200>
     
-  <br>
     
   - 홈에서 공유 앨범을 확인할 수 있다
   
@@ -563,6 +584,8 @@
   - 공유 받은 사용자는 해당 앨범의 모든 사진을 볼 수 있다
   - 현재 read 권한까지 개발 완료. write, admin 권한 추가 예정
 </details>
+
+
 
 <details>
   <summary><strong>게시물 업로드 모달</strong></summary>
@@ -587,16 +610,17 @@
 
 <br>
 
-### 사용성 개선 및 버그 수정
+### 3) 사용성 개선 및 버그 수정
 *[6. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#6-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
+
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
-
-## 8. 🔥 Firebase 구조
+## <span id="firebase">8. 🔥 Firebase 구조</span>
 
 <details>
-  <summary><h3>Firestore Database</h3></summary>
+  <summary><strong>Firestore Database</strong></summary>
   
   ```
     // {uid}/{uid}
@@ -627,16 +651,22 @@
 </details>
 
 <details>
-  <summary><h3>Storage</h3></summary>
+  <summary><strong>Storage</strong></summary>
 
   ```
     feed/{feedId + imageIndex}.{확장자}
     profile/{uid}.{확장자}
   ```
 </details>
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
-## 9. 📚 프로젝트 관련 문서
+## <span id="docs">9. 📚 프로젝트 관련 문서</span>
+
 - 💡 [노션: 기획 및 회의록](https://lumbar-distance-384.notion.site/momoo-moment-mood-33ccb07d75264f9d9bd1b1ca265f8db3)
 - 💡 [피그마: 와이어프레임 & 디자인](https://www.figma.com/file/IXS4UPRbunlz1cI0ka5koi/momoo-design?type=design&node-id=74-2789&mode=design&t=pVd3Uehs4a6wFHNW-0)
+- 💡 [이용가이드](https://www.notion.so/MOMOO-081ebf94df754542a17ad20bcf2e6fd4)
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; margin-right: auto;'>
+  <a href="#index" style='color: white;'>목차로 ▲</a>
+</p>
