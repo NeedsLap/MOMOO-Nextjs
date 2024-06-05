@@ -35,7 +35,7 @@
 
 </div>
 <!-- Top Button -->
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
@@ -84,7 +84,7 @@
 - 회원탈퇴 및 로그아웃
 - 이용약관 및 개인정보처리방침
 
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
@@ -277,7 +277,7 @@
     ```
         
 </details>
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
@@ -371,7 +371,7 @@
         }, [shouldFetchSharedAlbums]);
       ```
 </details>
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
@@ -539,7 +539,7 @@
   6. 업로드 날짜는 현재 자동으로 저장되는데, 직접 수정 가능하면 좋겠음
 
 </details>
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
   
@@ -610,7 +610,7 @@
 ### 3) 사용성 개선 및 버그 수정
 *[6. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#6-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
 
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
@@ -655,7 +655,7 @@
     profile/{uid}.{확장자}
   ```
 </details>
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
 <br><br>
 
@@ -664,6 +664,6 @@
 - 💡 [노션: 기획 및 회의록](https://lumbar-distance-384.notion.site/momoo-moment-mood-33ccb07d75264f9d9bd1b1ca265f8db3)
 - 💡 [피그마: 와이어프레임 & 디자인](https://www.figma.com/file/IXS4UPRbunlz1cI0ka5koi/momoo-design?type=design&node-id=74-2789&mode=design&t=pVd3Uehs4a6wFHNW-0)
 - 💡 [이용가이드](https://www.notion.so/MOMOO-081ebf94df754542a17ad20bcf2e6fd4)
-<p style='background: black; width: 32px; height: 32px; border-radius: 50%; margin-right: auto;'>
+<p align="right">
   <a href="#index" style='color: white;'>목차로 ▲</a>
 </p>
