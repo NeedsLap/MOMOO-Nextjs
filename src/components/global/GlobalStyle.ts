@@ -68,14 +68,6 @@ const GlobalStyle = createGlobalStyle`
     --margin-mobile: 16px;
 
     background: var(--background-color);
-
-    --toastify-toast-min-height: 44px;
-    --toastify-toast-bottom: 0px;
-    --toastify-toast-width: 100%;
-    --toastify-toast-bd-radius: 0px;
-    --toastify-text-color-light: white;
-    --toastify-color-light: rgba(0, 0, 0, 0.9);
-    --toastify-font-family: inherit;
   }
 
   body {
