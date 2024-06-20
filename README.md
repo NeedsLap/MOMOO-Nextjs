@@ -330,46 +330,16 @@
 </details>
 
 <details>
-  <summary><strong> 4) 데이터 업데이트와 캐싱</strong> </summary>
+  <summary><strong> 4) 데이터 업데이트와 UI</strong> </summary>
 
   - 문제: 데이터 업데이트 시, 다른 경로로 이동한 후 돌아오면 이전 데이터가 렌더링됨
-  <br>
-  
-  - SSR에서 데이터를 불러오는 경우
-    - 원인: 이전에 서버에서 생성된 HTML을 사용하기 때문
-    - 해결: 데이터 업데이트 시 라우트 새로고침
+ - 원인: 이전에 서버에서 생성된 HTML을 사용하기 때문
+ - 해결: 데이터 업데이트 시 라우트 새로고침
       
-      ```js
-        import { useRouter } from 'next/navigation';
-        router.refresh();
-      ```
-  <br>
-  
-  - CSR에서 첫 렌더링 후 불러오는 데이터
-    - 원인: Next.js에서 캐시한 데이터를 사용하기 때문
-    - 시도: 응답을 캐시하지 않도록 설정하여 성공했으나 더 나은 방향 검토
-      
-      ```js
-        fetch(resource, {
-          method: 'GET',
-          cache: 'no-store'
-        }
-      ```
-      
-    - 해결: 응답을 캐시하고 필요할 때만 데이터를 다시 불러오도록 수정
-      
-      ```js
-        const [shouldFetchSharedAlbums, setShouldFetchSharedAlbums] = useState(true);
-
-        useEffect(() => {
-          if (!shouldFetchSharedAlbums) {
-            return;
-          }
-      
-          // fetch
-          setShouldFetchSharedAlbums(false);
-        }, [shouldFetchSharedAlbums]);
-      ```
+   ```js
+     import { useRouter } from 'next/navigation';
+     router.refresh();
+   ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
