@@ -79,7 +79,7 @@ const Carousel = ({ imgUrlList }: { imgUrlList: string[] }) => {
                 width={0}
                 height={0}
                 sizes=" 500px
-                (max-width: 431px) calc(100vw - 48px),
+                (max-width: 1280px) calc(100vw - 48px),
                (max-width: 430px) calc(100vw - 32px)"
                 alt="사진"
               ></Image>
