@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import Accordion from '@/components/Accordion/Accordion';
 import MultipleAccordion from '@/components/Accordion/MultipleAccordion';
 import Preview from '@/components/FileUpload/Preview';
@@ -10,7 +12,6 @@ import KakaoMap from '@/components/Map/KakaoMap';
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import useAlbumName from '@/hooks/useAlbumName';
 import useEditFeed from '@/hooks/useEditFeed';
@@ -22,6 +23,7 @@ import {
 import { deleteImg } from '@/utils/SDKUtils';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
+import { ReduxState } from '@/modules/model';
 import type { Feed, FeedBase } from '@/types/feed';
 
 export default function EditFeedContents({
@@ -56,7 +58,7 @@ export default function EditFeedContents({
 
   useScrollLockForDimmed();
   const albumName = useAlbumName();
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
   const editFeed = useEditFeed();
   const getSavedAlbumList = useGetSavedAlbumList();
   const addFeedIdFromFeedList = useAddFeedIdFromFeedList();

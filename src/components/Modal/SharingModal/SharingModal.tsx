@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import {
   StyledSharingModal,
   DialogTitle,
 } from '@/components/Modal/SharingModal/StyledSharingModal';
 import Toast from '@/components/Toast/Toast';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import {
@@ -18,6 +19,7 @@ import { searchUser } from '@/services/user';
 import { closeDialogOnClick } from '@/utils/dialog';
 
 import type { SharingModalProps } from '@/components/Modal/SharingModal/model';
+import { ReduxState } from '@/modules/model';
 import type { User } from '@/types/user';
 
 export default function SharingModal({
@@ -50,7 +52,8 @@ export default function SharingModal({
     }
   };
 
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
+
   const { showModal } = useShowModal();
   useEscDialog(closeModal);
 

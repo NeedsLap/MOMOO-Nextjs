@@ -2,18 +2,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledMyNonModal from '@/components/MyNonModal/StyledMyNonModal';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useLogout from '@/hooks/auth/useLogout';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
 import { closeDialogOnClick } from '@/utils/dialog';
 
 import type { MyNonModalProps } from '@/components/MyNonModal/model';
+import { ReduxState } from '@/modules/model';
 
 export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
   const [submitErrMessage, setSubmitErrMessage] = useState('');
 
   const menuFirstItemRef = useRef<HTMLAnchorElement>();

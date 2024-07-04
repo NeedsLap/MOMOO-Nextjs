@@ -1,9 +1,10 @@
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
 import { addAlbum } from '@/utils/SDKUtils';
 
+import { ReduxState } from '@/modules/model';
 import type { Album, AlbumOfDatabase } from '@/types/album';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export default function useAddAlbum() {
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
   const validateAndAddAlbum = async ({ albumName }: Props) => {
     const userAlbumDocRef = collection(
       appFireStore,

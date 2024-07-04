@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import StyledPolicy from '@/components/CommonStyled/StyledPolicy';
 import TopBar from '@/components/Topbar/Topbar';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { setPrevPath } from '@/modules/page';
 
@@ -17,9 +16,11 @@ import { ReduxState } from '@/modules/model';
 export default function Privacy() {
   const windowWidth = useWindowWidth();
 
-  const prevPath = useSelector((state: ReduxState) => state.page.prevPath);
+  const { prevPath, loggedIn } = useSelector((state: ReduxState) => ({
+    prevPath: state.page.prevPath,
+    loggedIn: state.auth.loggedIn,
+  }));
   const dispatch = useDispatch();
-  const { loggedIn } = useAuthState();
 
   useEffect(() => {
     if (prevPath === 'signup') {
