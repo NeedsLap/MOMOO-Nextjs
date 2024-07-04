@@ -515,8 +515,10 @@
 ## <span id="version">7. 🚀 버전 2(마이그레이션, 기능추가)</span>
 
 ### 1) React -> Next.js Migration 이유
->공유 기능 개발을 위해 Firebase Admin SDK가 필요했음.<br>
->따라서 Node.js 환경에서 구동되고, 초기 로딩 속도 개선도 기대할 수 있는 Next.js로 Migration함
+- **Admin SDK 사용**: v2의 앨범 공유 기능 추가를 위해 Admin SDK를 사용해야 했고, 이를 위해 Node.js 환경이 필요했습니다.
+  
+- **서버 사이드 렌더링 (SSR) 지원**: SSR을 통해 SEO를 향상시키고 초기 페이지 로딩 속도를 개선할 수 있습니다.
+   >초기 렌더링 속도 약 78% 개선 (FCP, LCO, Speed Index)
 
 <br>
 
