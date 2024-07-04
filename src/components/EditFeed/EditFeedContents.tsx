@@ -22,7 +22,7 @@ import {
 import { deleteImg } from '@/utils/SDKUtils';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
-import type { Feed, FeedToUpdate } from '@/types/feed';
+import type { Feed, FeedBase } from '@/types/feed';
 
 export default function EditFeedContents({
   feed,
@@ -119,7 +119,7 @@ export default function EditFeedContents({
         downloadURLs.push(...imageList);
       }
 
-      const editData: FeedToUpdate = {
+      const editData: FeedBase = {
         imageUrl: downloadURLs,
         title: title,
         text: text,
