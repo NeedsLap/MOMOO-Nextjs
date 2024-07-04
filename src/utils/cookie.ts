@@ -5,7 +5,6 @@ interface CookieOpt {
   'max-age'?: number;
   secure?: 'secure';
   samesite?: 'strict' | 'lax';
-  [key: string]: string | number | Date | undefined; // 인덱스 시그니처 추가
 }
 
 const setCookie = (name: string, value: string, options: CookieOpt = {}) => {
@@ -21,13 +20,8 @@ const setCookie = (name: string, value: string, options: CookieOpt = {}) => {
   let updatedCookie =
     encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
-  for (const optionKey in options) {
-    updatedCookie += '; ' + optionKey;
-    const optionValue = options[optionKey];
-
-    if (optionValue) {
-      updatedCookie += '=' + optionValue;
-    }
+  for (const [key, value] of Object.entries(options)) {
+    updatedCookie += `; ${key}=${value}`;
   }
 
   document.cookie = updatedCookie;
