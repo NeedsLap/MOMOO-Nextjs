@@ -2,14 +2,15 @@ import { useRouter } from 'next/navigation';
 import React, { SetStateAction } from 'react';
 
 import { doc, deleteDoc, DocumentData } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 import ConfirmModal from '@/components/Modal/ConfirmModal/ConfirmModal';
 import { appFireStore } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
 import { useRemoveFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import { deleteImg } from '@/utils/SDKUtils';
 
+import { ReduxState } from '@/modules/model';
 import type { Feed } from '@/types/feed';
 
 export default function DeleteFeedModal({
@@ -25,7 +26,7 @@ export default function DeleteFeedModal({
 }) {
   const getSavedAlbumList = useGetSavedAlbumList();
   const removeFeedIdFromFeedList = useRemoveFeedIdFromFeedList();
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
 
   const router = useRouter();
 

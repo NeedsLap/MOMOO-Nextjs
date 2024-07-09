@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
 import Button from '@/components/Button/Button/Button';
@@ -12,7 +14,6 @@ import DeleteIdModal from '@/components/Modal/DeleteIdModal';
 import ReauthModal from '@/components/Modal/ReauthModal';
 import TopBar from '@/components/Topbar/Topbar';
 import StyledEditProfile from '@/containers/editProfile/StyledEditProfile';
-import useAuthState from '@/hooks/auth/useAuthState';
 import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
 import useProfileImg from '@/hooks/useProfileImg';
 import useWindowWidth from '@/hooks/useWindowWidth';
@@ -21,6 +22,7 @@ import type {
   EditProfileProps,
   ProfileToUpdate,
 } from '@/containers/editProfile/model';
+import { ReduxState } from '@/modules/model';
 
 export default function EditProfile({ profile }: EditProfileProps) {
   const [displayName, setDisplayName] = useState({
@@ -61,7 +63,11 @@ export default function EditProfile({ profile }: EditProfileProps) {
   const [updateProfileIsPending, setUpdateProfileIsPending] = useState(false);
   const [imgHasFocus, setImgHasFocus] = useState(false);
 
-  const { user, isAuthReady } = useAuthState();
+  const { user, isAuthReady } = useSelector((state: ReduxState) => ({
+    user: state.auth.user,
+    isAuthReady: state.auth.isAuthReady,
+  }));
+
   const { setProfile, error: updateProfileError } = useUpdateProfile();
   const windowWidth = useWindowWidth();
   const {

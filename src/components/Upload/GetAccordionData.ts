@@ -5,14 +5,15 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
+import { ReduxState } from '@/modules/model';
 
 const GetAccordionData = () => {
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
 
   const getAccordionData = async () => {
     const albumDataList: DocumentData[] = [];
