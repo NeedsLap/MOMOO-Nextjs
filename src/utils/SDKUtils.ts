@@ -179,6 +179,34 @@ const getFeed = async (feedId: string, uid: string) => {
   return docSnap.data();
 };
 
+const getSavedAlbumList = async (feedId: string, uid: string) => {
+  const q = query(
+    collection(appFireStore, uid, uid, 'album'),
+    where('feedList', 'array-contains', feedId),
+  );
+
+  const querySnapshot = await getDocs(q);
+  const albumList: DocumentData[] = [];
+
+  querySnapshot.forEach((doc) => {
+    albumList.push(doc);
+  });
+
+  return albumList;
+};
+
+const removeFeedIdFromFeedList = async (
+  feedId: string,
+  albumId: string,
+  uid: string,
+) => {
+  const albumRefQuery = doc(appFireStore, uid, uid, 'album', albumId);
+
+  await updateDoc(albumRefQuery, {
+    feedList: arrayRemove(feedId),
+  });
+};
+
 export {
   deleteImg,
   uploadImg,
@@ -191,4 +219,6 @@ export {
   getFeed,
   getAlbumList,
   getThumbnail,
+  getSavedAlbumList,
+  removeFeedIdFromFeedList,
 };

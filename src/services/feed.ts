@@ -23,6 +23,14 @@ const getFeed = async ({ id, cookie }: GetFeedProps) => {
   return res;
 };
 
+const deleteFeed = async (id: string) => {
+  const res = await fetch(`${API_URL}/feed/${id}`, {
+    method: 'Delete',
+  });
+
+  return res;
+};
+
 const getFeeds = async ({
   limit,
   skip,
@@ -48,4 +56,4 @@ const getFeeds = async ({
   return res;
 };
 
-export { getFeed, getFeeds };
+export { getFeed, deleteFeed, getFeeds };
