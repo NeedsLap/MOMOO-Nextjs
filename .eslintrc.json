@@ -9,7 +9,11 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript"
   ],
   "overrides": [
     {
@@ -28,7 +32,9 @@
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.eslint.json",
+    "tsconfigRootDir": "./"
   },
   "settings": {
     "react": {
