@@ -4,6 +4,7 @@ import { SyntheticEvent, useState, useEffect, useRef } from 'react';
 
 import { doc, setDoc } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import Accordion from '@/components/Accordion/Accordion';
@@ -15,7 +16,6 @@ import GetAccordionData from '@/components/Upload/GetAccordionData';
 import uploadImageToStorage from '@/components/Upload/UploadImageToStorage';
 import * as Styled from '@/components/Upload/UploadModal/StyledUploadModal';
 import { appFireStore, Timestamp } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useOverlayClose from '@/hooks/dialog/useOverlayClose';
 import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import { useAddFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
@@ -26,13 +26,15 @@ import {
 } from '@/modules/uploadFeedModal';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
+import { ReduxState } from '@/modules/model';
 
 export default function UploadModal() {
   const dispatch = useDispatch();
   const router = useRouter();
   const path = usePathname();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
+
   const { albumNameToAdd } = useUploadFeed();
   useScrollLockForDimmed();
 

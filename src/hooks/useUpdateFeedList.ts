@@ -1,10 +1,12 @@
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
+
+import { ReduxState } from '@/modules/model';
 
 export function useRemoveFeedIdFromFeedList() {
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
 
   const removeFeedIdFromFeedList = async (feedId: string, albumId: string) => {
     const albumRefQuery = doc(appFireStore, user.uid, user.uid, 'album', albumId);
@@ -18,7 +20,7 @@ export function useRemoveFeedIdFromFeedList() {
 }
 
 export function useAddFeedIdFromFeedList() {
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
 
   const addFeedIdFromFeedList = async (feedId: string, selectedAlbumId: string) => {
     const albumRefQuery = doc(appFireStore, user.uid, user.uid, 'album', selectedAlbumId);

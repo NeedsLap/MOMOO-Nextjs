@@ -5,12 +5,14 @@ import {
   where,
   DocumentData,
 } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 import { appFireStore } from '@/firebase/config';
-import useAuthState from '@/hooks/auth/useAuthState';
+
+import { ReduxState } from '@/modules/model';
 
 export default function useGetSavedAlbumList() {
-  const { user } = useAuthState();
+  const user = useSelector((state: ReduxState) => state.auth.user);
 
   const getSavedAlbumList = async (feedId: string) => {
     try {

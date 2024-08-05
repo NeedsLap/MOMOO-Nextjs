@@ -9,7 +9,7 @@ import type { Feed } from '@/types/feed';
 export default function DeleteFeedModal({
   id,
   onClose,
-  setFeedsData,
+  setFeedsData
 }: {
   id: string;
   onClose: () => void;
@@ -20,7 +20,7 @@ export default function DeleteFeedModal({
   const handleDeletePost = async () => {
     try {
       await deleteFeed(id);
-      setFeedsData((prev) => prev.filter((v) => v.id !== id));
+      setFeedsData(prev => prev.filter(v => v.id !== id));
       router.refresh();
     } catch (error) {
       console.error('게시글 삭제 오류:', error);

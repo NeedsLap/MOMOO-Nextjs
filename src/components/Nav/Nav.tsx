@@ -5,17 +5,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import MyNonModal from '@/components/MyNonModal/MyNonModal';
 import StyledNav from '@/components/Nav/StyledNav';
-import useAuthState from '@/hooks/auth/useAuthState';
 import useUploadFeedModalWithWebView from '@/hooks/useUploadFeedModalWithWebView';
 import useWindowWidth from '@/hooks/useWindowWidth';
+
+import { ReduxState } from '@/modules/model';
 
 export default function Nav() {
   const [openMyDialog, setIsOpenMyDialog] = useState(false);
 
   const router = useRouter();
-  const { loggedIn } = useAuthState();
+  const loggedIn = useSelector((state: ReduxState) => state.auth.loggedIn);
   const windowWidth = useWindowWidth();
   const { openModal } = useUploadFeedModalWithWebView();
 
