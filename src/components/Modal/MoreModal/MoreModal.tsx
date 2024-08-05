@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { StyledDialog, Header } from '@/components/Modal/MoreModal/StyledMoreModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
-import { closeDialogOnClick } from '@/utils/dialog';
+import closeDialogOnClick from '@/utils/dialog';
 
 import type MoreModalProps from '@/components/Modal/MoreModal/model';
 

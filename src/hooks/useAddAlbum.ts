@@ -14,16 +14,8 @@ interface Props {
 export default function useAddAlbum() {
   const user = useSelector((state: ReduxState) => state.auth.user);
   const validateAndAddAlbum = async ({ albumName }: Props) => {
-    const userAlbumDocRef = collection(
-      appFireStore,
-      user.uid,
-      user.uid,
-      'album',
-    );
-    const duplicateAlbumQuery = query(
-      userAlbumDocRef,
-      where('name', '==', albumName),
-    );
+    const userAlbumDocRef = collection(appFireStore, user.uid, user.uid, 'album');
+    const duplicateAlbumQuery = query(userAlbumDocRef, where('name', '==', albumName));
 
     const duplicateAlbumSnapshot = await getDocs(duplicateAlbumQuery);
     if (!duplicateAlbumSnapshot.empty) {
@@ -42,20 +34,19 @@ export default function useAddAlbum() {
           createdTime: albumData.createdTime.toMillis(),
           id: doc.id,
           imageUrl: null,
-          user: { uid: user.uid },
+          user: { uid: user.uid }
         };
 
         return {
           updateData,
-          success: true,
+          success: true
         };
-      } else {
-        return { updateData: null, success: true };
       }
+      return { updateData: null, success: true };
     } catch (error) {
       return {
         success: false,
-        error: '앨범을 추가하는 동안 오류가 발생했습니다.',
+        error: '앨범을 추가하는 동안 오류가 발생했습니다.'
       };
     }
   };

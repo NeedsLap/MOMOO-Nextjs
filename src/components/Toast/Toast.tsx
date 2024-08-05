@@ -13,5 +13,5 @@ export default function Toast({ message }: { message: string }) {
     }, 3000);
   }, [message]);
 
-  return <>{!timeOver && <StyledToast role="alert">{message}</StyledToast>}</>;
+  return !timeOver && <StyledToast role="alert">{message}</StyledToast>;
 }

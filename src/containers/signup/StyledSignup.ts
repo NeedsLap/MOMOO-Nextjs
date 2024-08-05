@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import StyledAuth from '@/components/CommonStyled/StyledAuth';
 
-import { StyledSignupProps } from '@/containers/signup/model';
+import StyledSignupProps from '@/containers/signup/model';
 
 const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
   .agree {
@@ -34,8 +34,7 @@ const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
 
     &::after {
       content: '';
-      background: center / contain url(${(props) => props.$checkboxIcon})
-        no-repeat;
+      background: center / contain url(${props => props.$checkboxIcon}) no-repeat;
       margin: 1px 8px 0 0;
       width: 14px;
       aspect-ratio: 1/1;
@@ -43,7 +42,7 @@ const StyledSignup = styled(StyledAuth)<StyledSignupProps>`
     }
 
     &.checked::after {
-      background-image: url(${(props) => props.$checkboxCheckedIcon});
+      background-image: url(${props => props.$checkboxCheckedIcon});
       margin: 1px 8px 0 0;
     }
   }

@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react';
 
 import { StyledLoadingImg } from '@/components/Loading/StyledLodingImg';
 import InputModal from '@/components/Modal/InputModal/InputModal';
@@ -13,7 +7,7 @@ import useReauthenticate from '@/hooks/auth/useReauthenticate';
 export default function ReauthModal({
   setIsModalOpen,
   setIsReauthSuccess,
-  cancle,
+  cancle
 }: {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   setIsReauthSuccess: Dispatch<SetStateAction<boolean>>;
@@ -69,11 +63,7 @@ export default function ReauthModal({
   };
 
   return (
-    <InputModal
-      onClose={cancle}
-      title="계정 확인"
-      text="현재 비밀번호를 입력해 주세요"
-    >
+    <InputModal onClose={cancle} title="계정 확인" text="현재 비밀번호를 입력해 주세요">
       <form onSubmit={handleReauth}>
         <input
           type="password"
@@ -88,12 +78,7 @@ export default function ReauthModal({
           </button>
           <button type="submit" disabled={!value || isPending}>
             {isPending ? (
-              <StyledLoadingImg
-                width={16}
-                height={16}
-                src="/icons/loading.svg"
-                alt="로딩중"
-              />
+              <StyledLoadingImg width={16} height={16} src="/icons/loading.svg" alt="로딩중" />
             ) : (
               '확인'
             )}

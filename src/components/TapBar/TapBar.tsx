@@ -16,16 +16,12 @@ export default function TabBar() {
           <Image
             width={22}
             height={22}
-            src={
-              pathname === '/'
-                ? '/icons/home-mobile-active.svg'
-                : '/icons/home-mobile.svg'
-            }
+            src={pathname === '/' ? '/icons/home-mobile-active.svg' : '/icons/home-mobile.svg'}
             alt=""
           />
           Home
         </Link>
-        <button onClick={() => openModal(['전체 보기'])}>
+        <button type="button" onClick={() => openModal(['전체 보기'])}>
           <Image width={22} height={22} src="/icons/upload-mobile.svg" alt="" />
           Upload
         </button>
@@ -33,11 +29,7 @@ export default function TabBar() {
           <Image
             width={22}
             height={22}
-            src={
-              pathname === '/my'
-                ? '/icons/my-mobile-active.svg'
-                : '/icons/my-mobile.svg'
-            }
+            src={pathname === '/my' ? '/icons/my-mobile-active.svg' : '/icons/my-mobile.svg'}
             alt=""
           />
           Mypage

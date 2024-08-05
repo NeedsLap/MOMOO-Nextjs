@@ -7,57 +7,49 @@ import { useSelector } from 'react-redux';
 
 import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import BreadcrumbWrap from '@/components/Breadcrumb/BreadcrumbWrap';
-import Button from '@/components/Button/Button/Button';
+import Button from '@/components/Button/Button';
 import StyledInput from '@/components/CommonStyled/StyledInput';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import DeleteIdModal from '@/components/Modal/DeleteIdModal';
 import ReauthModal from '@/components/Modal/ReauthModal';
 import TopBar from '@/components/Topbar/Topbar';
 import StyledEditProfile from '@/containers/editProfile/StyledEditProfile';
-import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
+import useUpdateProfile from '@/hooks/auth/useUpdateProfile';
 import useProfileImg from '@/hooks/useProfileImg';
 import useWindowWidth from '@/hooks/useWindowWidth';
 
-import type {
-  EditProfileProps,
-  ProfileToUpdate,
-} from '@/containers/editProfile/model';
+import type { EditProfileProps, ProfileToUpdate } from '@/containers/editProfile/model';
 import { ReduxState } from '@/modules/model';
 
 export default function EditProfile({ profile }: EditProfileProps) {
   const [displayName, setDisplayName] = useState({
     value: profile.displayName,
     vaild: true,
-    changed: false,
+    changed: false
   });
   const [email, setEmail] = useState({
     value: profile.email,
     vaild: true,
-    changed: false,
+    changed: false
   });
   const [password, setPassword] = useState({
     value: '',
-    vaild: true,
+    vaild: true
   });
   const [passwordConfirm, setPasswordConfirm] = useState({
     value: '',
-    vaild: true,
+    vaild: true
   });
   const [displayNameErrMessage, setDisplayNameErrMessage] = useState('');
   const [emailErrMessage, setEmailErrMessage] = useState('');
   const [passwordErrMessage, setPasswordErrMessage] = useState('');
-  const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] =
-    useState('');
+  const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] = useState('');
   const [submitErrMessage, setSubmitErrMessage] = useState('');
   const [disabledEditButton, setDisabledEditButton] = useState(true);
   const [selectedBtn, setSelectedBtn] = useState('프로필 수정');
   const [isDeleteIdModalOpen, setIsDeleteIdModalOpen] = useState(false);
-  const [isReauthForDeleteIdModalOpen, setIsReauthForDeleteIdModalOpen] =
-    useState(false);
-  const [
-    isReauthForUpdateProfileModalOpen,
-    setIsReauthForUpdateProfileModalOpen,
-  ] = useState(false);
+  const [isReauthForDeleteIdModalOpen, setIsReauthForDeleteIdModalOpen] = useState(false);
+  const [isReauthForUpdateProfileModalOpen, setIsReauthForUpdateProfileModalOpen] = useState(false);
   const [readyToUpdateProfile, setReadyToUpdateProfile] = useState(false);
   const [readyToDeleteId, setReadyToDeleteId] = useState(false);
   const [updateProfileIsPending, setUpdateProfileIsPending] = useState(false);
@@ -65,7 +57,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
   const { user, isAuthReady } = useSelector((state: ReduxState) => ({
     user: state.auth.user,
-    isAuthReady: state.auth.isAuthReady,
+    isAuthReady: state.auth.isAuthReady
   }));
 
   const { setProfile, error: updateProfileError } = useUpdateProfile();
@@ -76,7 +68,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
     src,
     setProfileImg,
     error: imgErrMessage,
-    setError: setImgErrMessage,
+    setError: setImgErrMessage
   } = useProfileImg(profile.photoURL);
 
   useEffect(() => {
@@ -86,22 +78,12 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
     setSubmitErrMessage('');
 
-    if (
-      !displayName.vaild ||
-      !email.vaild ||
-      !password.vaild ||
-      !passwordConfirm.vaild
-    ) {
+    if (!displayName.vaild || !email.vaild || !password.vaild || !passwordConfirm.vaild) {
       setDisabledEditButton(true);
       return;
     }
 
-    if (
-      email.changed ||
-      user.photoURL !== src ||
-      displayName.changed ||
-      password.value
-    ) {
+    if (email.changed || user.photoURL !== src || displayName.changed || password.value) {
       setDisabledEditButton(false);
     } else {
       setDisabledEditButton(true);
@@ -125,13 +107,13 @@ export default function EditProfile({ profile }: EditProfileProps) {
 
     (async () => {
       setUpdateProfileIsPending(true);
-      const profile: ProfileToUpdate = {
+      const toUpdateProfile: ProfileToUpdate = {
         file,
         displayName: displayName.value,
         email: email.value,
-        password: password.value,
+        password: password.value
       };
-      await setProfile(profile);
+      await setProfile(toUpdateProfile);
       // 초기화
       setUpdateProfileIsPending(false);
       setReadyToUpdateProfile(false);
@@ -187,7 +169,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
   };
 
   const handlePasswordInp = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
 
     if (e.target.validity.tooShort) {
       setPasswordErrMessage('6자 이상 입력해 주세요');
@@ -201,14 +183,14 @@ export default function EditProfile({ profile }: EditProfileProps) {
       setPasswordConfirmErrMessage('');
       setPasswordConfirm({ vaild: true, value });
     } else {
-      setPasswordConfirm((prev) => {
+      setPasswordConfirm(prev => {
         return { ...prev, vaild: false };
       });
     }
   };
 
   const handlePasswordConfirmInp = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
     if (value !== password.value) {
       setPasswordConfirmErrMessage('비밀번호가 일치하지 않습니다');
       setPasswordConfirm({ vaild: false, value });
@@ -219,7 +201,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
   };
 
   const handleEmailInp = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
     const changed = user.email !== value;
 
     if (e.target.validity.valueMissing) {
@@ -231,7 +213,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
   };
 
   const handleDisplayNameInp = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
     const changed = user.displayName !== value;
     setDisplayName({ value, vaild: !!value, changed });
 
@@ -248,7 +230,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
           <Breadcrumb
             navList={[
               { path: '/', text: 'Home' },
-              { path: '/edit-profile', text: 'Edit profile' },
+              { path: '/edit-profile', text: 'Edit profile' }
             ]}
           />
         )}
@@ -256,7 +238,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
           <BreadcrumbWrap
             navList={[
               { path: '/', text: 'Home' },
-              { path: '/edit-profile', text: 'Edit profile' },
+              { path: '/edit-profile', text: 'Edit profile' }
             ]}
             title="Edit profile"
           />
@@ -284,32 +266,24 @@ export default function EditProfile({ profile }: EditProfileProps) {
             </button>
           </article>
           <form className="auth-form" onSubmit={updateProfile}>
-            <label
-              htmlFor="profile-inp"
-              className={imgHasFocus ? 'profile focus' : 'profile'}
-            >
+            <label htmlFor="profile-inp" className={imgHasFocus ? 'profile focus' : 'profile'}>
               <Image
                 width={171}
                 height={171}
                 src={src || '/images/profile-basic-img.svg'}
                 alt="프로필 사진"
               />
-              <Image
-                width={45}
-                height={45}
-                src="/icons/edit-circle.svg"
-                alt="변경하기"
-              />
+              <Image width={45} height={45} src="/icons/edit-circle.svg" alt="변경하기" />
             </label>
             <input
               id="profile-inp"
               accept="image/*"
               type="file"
               className="a11y-hidden"
-              onClick={(e) =>
-                ((e.currentTarget as HTMLInputElement).value = '')
-              }
-              onChange={(e) => setProfileImg(e.target.files)}
+              onClick={e => {
+                (e.currentTarget as HTMLInputElement).value = '';
+              }}
+              onChange={e => setProfileImg(e.target.files)}
               onFocus={() => setImgHasFocus(true)}
               onBlur={() => setImgHasFocus(false)}
             />
@@ -326,9 +300,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               onChange={handleDisplayNameInp}
               required
             />
-            {displayNameErrMessage && (
-              <strong role="alert">*{displayNameErrMessage}</strong>
-            )}
+            {displayNameErrMessage && <strong role="alert">*{displayNameErrMessage}</strong>}
             <label htmlFor="email-inp" className="a11y-hidden">
               이메일
             </label>
@@ -341,9 +313,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               maxLength={98}
               onChange={handleEmailInp}
             />
-            {emailErrMessage && (
-              <strong role="alert">*{emailErrMessage}</strong>
-            )}
+            {emailErrMessage && <strong role="alert">*{emailErrMessage}</strong>}
             <label htmlFor="password-inp" className="a11y-hidden">
               비밀번호
             </label>
@@ -357,9 +327,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
               value={password.value}
               onChange={handlePasswordInp}
             />
-            {passwordErrMessage && (
-              <strong role="alert">*{passwordErrMessage}</strong>
-            )}
+            {passwordErrMessage && <strong role="alert">*{passwordErrMessage}</strong>}
             <label htmlFor="password-inp" className="a11y-hidden">
               비밀번호 재확인
             </label>
@@ -378,12 +346,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
             )}
             <Button size="l" disabled={disabledEditButton}>
               {updateProfileIsPending ? (
-                <Image
-                  width={29}
-                  height={29}
-                  src="/icons/loading-black.svg"
-                  alt="저장 중"
-                />
+                <Image width={29} height={29} src="/icons/loading-black.svg" alt="저장 중" />
               ) : (
                 'Save'
               )}
@@ -392,12 +355,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
           {windowWidth && windowWidth <= 430 && (
             <button type="button" className="delete-btn" onClick={deleteId}>
               Delete account
-              <Image
-                width={20}
-                height={20}
-                src="/icons/delete-red.svg"
-                alt=""
-              />
+              <Image width={20} height={20} src="/icons/delete-red.svg" alt="" />
             </button>
           )}
         </div>
@@ -441,10 +399,7 @@ export default function EditProfile({ profile }: EditProfileProps) {
           />
         )}
         {imgErrMessage && (
-          <AlertModal
-            message={imgErrMessage}
-            onClose={() => setImgErrMessage('')}
-          />
+          <AlertModal message={imgErrMessage} onClose={() => setImgErrMessage('')} />
         )}
       </StyledEditProfile>
     </>

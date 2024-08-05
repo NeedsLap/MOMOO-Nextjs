@@ -21,18 +21,18 @@ export default function useModalWithWebView() {
 
   useEffect(() => {
     if (!window.ReactNativeWebView || !isModalOpen) {
-      return;
+      return () => {};
     }
 
-    const closeModal = (e: MessageEvent) => {
+    const closeModalOnMessage = (e: MessageEvent) => {
       if (e.data === 'closeModal') {
         setIsModalOpen(false);
       }
     };
-    window.addEventListener('message', closeModal, true);
+    window.addEventListener('message', closeModalOnMessage, true);
 
     return () => {
-      window.removeEventListener('message', closeModal, true);
+      window.removeEventListener('message', closeModalOnMessage, true);
     };
   }, [isModalOpen]);
 

@@ -29,10 +29,7 @@ const StyledSplash = styled.main`
   overflow: hidden;
   background: var(--background-color);
 
-  --width: min(
-    565px,
-    calc(var(--column-tablet) * 6 + var(--gutter-tablet) * 7)
-  );
+  --width: min(565px, calc(var(--column-tablet) * 6 + var(--gutter-tablet) * 7));
 
   @media (max-width: 430px) {
     --width: calc(100vw - 68px);

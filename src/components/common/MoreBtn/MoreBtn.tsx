@@ -1,22 +1,18 @@
 import Image from 'next/image';
-import { ButtonHTMLAttributes } from 'react';
 
-import * as Styled from '@/components/common/MoreBtn/StyledMoreBtn';
+import StyledMoreBtn from '@/components/common/MoreBtn/StyledMoreBtn';
 
-interface MoreBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  handleOnClick: () => void;
-  color?: 'white';
-}
+import MoreBtnProps from '@/components/common/MoreBtn/model';
 
-export default function MoreBtn({ handleOnClick, color, ...props }: MoreBtnProps) {
+export default function MoreBtn({ handleOnClick, color, style }: MoreBtnProps) {
   return (
-    <Styled.MoreBtn aria-label="더보기" type="button" onClick={handleOnClick} {...props}>
+    <StyledMoreBtn aria-label="더보기" type="button" onClick={handleOnClick} style={style}>
       <Image
         width={20}
         height={20}
         alt=""
         src={color === 'white' ? '/icons/more-white.svg' : '/icons/more.svg'}
       />
-    </Styled.MoreBtn>
+    </StyledMoreBtn>
   );
 }

@@ -1,3 +1,3 @@
 type AlbumSortOpt = 'latest' | 'oldest';
 
-export type { AlbumSortOpt };
+export default AlbumSortOpt;

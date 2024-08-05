@@ -94,5 +94,5 @@ export type {
   AuthState,
   AuthAction,
   UploadFeedModalState,
-  UploadFeedModalAction,
+  UploadFeedModalAction
 };

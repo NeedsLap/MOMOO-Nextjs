@@ -9,9 +9,9 @@ import StyledMyNonModal from '@/components/MyNonModal/StyledMyNonModal';
 import useLogout from '@/hooks/auth/useLogout';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
-import { closeDialogOnClick } from '@/utils/dialog';
+import closeDialogOnClick from '@/utils/dialog';
 
-import type { MyNonModalProps } from '@/components/MyNonModal/model';
+import type MyNonModalProps from '@/components/MyNonModal/model';
 import { ReduxState } from '@/modules/model';
 
 export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
@@ -42,10 +42,7 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
   };
 
   return (
-    <StyledMyNonModal
-      onClick={(e) => closeDialogOnClick(e, closeMyNonModal)}
-      ref={showNonModal}
-    >
+    <StyledMyNonModal onClick={e => closeDialogOnClick(e, closeMyNonModal)} ref={showNonModal}>
       <div>
         <Link href="/edit-profile" className="profile">
           <Image
@@ -60,23 +57,14 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
         <section className="menu">
           <ul>
             <li>
-              <Link
-                href="/edit-profile"
-                ref={focusOnFirstItem}
-                onClick={closeMyNonModal}
-              >
+              <Link href="/edit-profile" ref={focusOnFirstItem} onClick={closeMyNonModal}>
                 <Image width={24} height={24} src="/icons/setting.svg" alt="" />
                 Edit profile
               </Link>
             </li>
             <li>
               <Link href="/terms" onClick={closeMyNonModal}>
-                <Image
-                  width={24}
-                  height={24}
-                  src="/icons/document.svg"
-                  alt=""
-                />
+                <Image width={24} height={24} src="/icons/document.svg" alt="" />
                 Terms of use
               </Link>
             </li>
@@ -112,20 +100,12 @@ export default function MyNonModal({ setIsDialogOpen }: MyNonModalProps) {
           </ul>
         </section>
         <div className="footer">MOMOO 2023. All Right Reserved.</div>
-        <button
-          className="close"
-          type="button"
-          onClick={closeMyNonModal}
-          aria-label="닫기"
-        >
+        <button className="close" type="button" onClick={closeMyNonModal} aria-label="닫기">
           <Image width={20} height={20} src="/icons/x.svg" alt="" />
         </button>
       </div>
       {submitErrMessage && (
-        <AlertModal
-          message={submitErrMessage}
-          onClose={() => setSubmitErrMessage('')}
-        />
+        <AlertModal message={submitErrMessage} onClose={() => setSubmitErrMessage('')} />
       )}
     </StyledMyNonModal>
   );

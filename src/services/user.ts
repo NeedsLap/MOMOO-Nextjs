@@ -1,4 +1,4 @@
-import { API_URL } from '@/services/constant';
+import API_URL from '@/services/constant';
 
 const searchUser = async (email: string) => {
   const res = await fetch(`${API_URL}/user/search?email=${email}`);
@@ -14,7 +14,7 @@ const getUser = async () => {
 
 const deleteUser = async () => {
   const res = await fetch(`${API_URL}/user`, {
-    method: 'DELETE',
+    method: 'DELETE'
   });
 
   return res;

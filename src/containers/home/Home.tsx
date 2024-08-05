@@ -13,13 +13,13 @@ import { StyledMain, StyledHomeSection } from '@/containers/home/StyledHome';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { getSharedAlbums } from '@/services/album';
 
-import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
+import type AlbumSortOpt from '@/components/Modal/ArrayModal/model';
 import type { Album as AlbumType } from '@/types/album';
 
 export default function Home({ album }: { album: AlbumType[] | null }) {
-  const [selectedAlbumType, setSelectedAlbumType] = useState<
-    '나의 앨범' | '공유 앨범'
-  >('나의 앨범');
+  const [selectedAlbumType, setSelectedAlbumType] = useState<'나의 앨범' | '공유 앨범'>(
+    '나의 앨범'
+  );
   const [isArrayModalOpen, setIsArrayModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<AlbumSortOpt>('latest');
@@ -43,8 +43,8 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
         }
 
         setSharedAlbums(json);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
         setError('데이터를 불러오는 중 에러가 발생했습니다');
       }
     })();
@@ -73,8 +73,8 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
     }
 
     setSelectedOption(option);
-    setAlbumData((prev) => [prev[0], ...prev.slice(1).reverse()]);
-    setSharedAlbums((prev) => prev.reverse());
+    setAlbumData(prev => [prev[0], ...prev.slice(1).reverse()]);
+    setSharedAlbums(prev => prev.reverse());
   };
 
   const changeSelectedAlbumType = () => {
@@ -89,18 +89,12 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
     <>
       {windowWidth && windowWidth <= 430 && <HomeTopbar />}
       <StyledMain>
-        {(!album || error) && (
-          <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
-        )}
+        {(!album || error) && <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />}
         <StyledH2 className="album-title">Album</StyledH2>
         <StyledHomeSection>
           <div className="btn-wrap">
             <button
-              className={
-                selectedAlbumType === '나의 앨범'
-                  ? 'toggle-btn selected'
-                  : 'toggle-btn'
-              }
+              className={selectedAlbumType === '나의 앨범' ? 'toggle-btn selected' : 'toggle-btn'}
               type="button"
               disabled={selectedAlbumType === '나의 앨범'}
               onClick={changeSelectedAlbumType}
@@ -109,28 +103,15 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
             </button>
 
             <button
-              className={
-                selectedAlbumType === '나의 앨범'
-                  ? 'toggle-btn'
-                  : 'toggle-btn selected'
-              }
+              className={selectedAlbumType === '나의 앨범' ? 'toggle-btn' : 'toggle-btn selected'}
               type="button"
               disabled={selectedAlbumType === '공유 앨범'}
               onClick={changeSelectedAlbumType}
             >
               공유 앨범
             </button>
-            <button
-              className="sort-btn"
-              type="button"
-              onClick={HandleArrayModal}
-            >
-              <Image
-                width={20}
-                height={20}
-                src="/icons/array.svg"
-                alt="정렬방식 아이콘"
-              />
+            <button className="sort-btn" type="button" onClick={HandleArrayModal}>
+              <Image width={20} height={20} src="/icons/array.svg" alt="정렬방식 아이콘" />
             </button>
             {isArrayModalOpen && (
               <ArrayModal
@@ -140,12 +121,7 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
               />
             )}
             <button type="button" className="add-btn" onClick={HandleAddModal}>
-              <Image
-                width={20}
-                height={20}
-                src="/icons/add.svg"
-                alt="이미지 추가 아이콘"
-              />
+              <Image width={20} height={20} src="/icons/add.svg" alt="이미지 추가 아이콘" />
             </button>
           </div>
           {selectedAlbumType === '나의 앨범' ? (
@@ -165,15 +141,8 @@ export default function Home({ album }: { album: AlbumType[] | null }) {
             </ul>
           ) : (
             <ul>
-              {sharedAlbums.map((v) => {
-                return (
-                  <Album
-                    key={v.id}
-                    album={v}
-                    showDeleteButton={false}
-                    albumType="shared"
-                  />
-                );
+              {sharedAlbums.map(v => {
+                return <Album key={v.id} album={v} showDeleteButton={false} albumType="shared" />;
               })}
             </ul>
           )}

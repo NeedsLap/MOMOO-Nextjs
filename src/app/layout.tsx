@@ -13,12 +13,12 @@ import LoadingComponent from '@/components/Loading/LoadingComponent';
 const notoSans = Noto_Sans_KR({
   subsets: ['latin'],
   weight: ['400', '600'],
-  variable: '--font-noto-sans',
+  variable: '--font-noto-sans'
 });
 const prata = Prata({
   subsets: ['latin'],
   weight: ['400'],
-  variable: '--font-prata',
+  variable: '--font-prata'
 });
 
 export const metadata: Metadata = {
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
       {
         url: 'https://momoo.kr/images/og.png',
         width: 1200,
-        height: 630,
-      },
-    ],
+        height: 630
+      }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
@@ -50,26 +50,26 @@ export const metadata: Metadata = {
       {
         url: 'https://momoo.kr/images/og.png',
         width: 1200,
-        height: 630,
-      },
-    ],
+        height: 630
+      }
+    ]
   },
-  keywords: ['photo', 'archive', 'Album', 'diary'],
+  keywords: ['photo', 'archive', 'Album', 'diary']
 };
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false,
+  userScalable: false
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const splashRendered = cookies().get('splash') ? true : false;
+  const splashRendered = !!cookies().get('splash');
 
   return (
     <html lang="ko" className={`${notoSans.variable} ${prata.variable}`}>

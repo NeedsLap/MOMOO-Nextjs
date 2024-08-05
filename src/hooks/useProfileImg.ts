@@ -13,9 +13,7 @@ export default function useProfileImg(photoURL?: string) {
     const fileToChange = files[0];
 
     if (!/^image\/(jpg|png|jpeg|bmp|tif|heic)$/.test(fileToChange.type)) {
-      setError(
-        '이미지 파일 확장자는 jpg, png, jpeg, bmp, tif, heic만 가능합니다.',
-      );
+      setError('이미지 파일 확장자는 jpg, png, jpeg, bmp, tif, heic만 가능합니다.');
       return;
     }
 

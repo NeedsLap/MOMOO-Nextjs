@@ -7,7 +7,7 @@ import useDeleteId from '@/hooks/auth/useDeleteId';
 export default function DeleteIdModal({
   onClose,
   setSubmitErrMessage,
-  setIsModalOpen,
+  setIsModalOpen
 }: {
   onClose: () => void;
   setSubmitErrMessage: Dispatch<SetStateAction<string>>;

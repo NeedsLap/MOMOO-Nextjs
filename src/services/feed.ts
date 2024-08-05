@@ -1,20 +1,15 @@
-import { API_URL } from '@/services/constant';
+import API_URL from '@/services/constant';
 
-import type {
-  GetFeedOpts,
-  GetFeedProps,
-  GetFeedsOpts,
-  GetFeedsProps,
-} from '@/services/model';
+import type { GetFeedOpts, GetFeedProps, GetFeedsOpts, GetFeedsProps } from '@/services/model';
 
 const getFeed = async ({ id, cookie }: GetFeedProps) => {
   const opts: GetFeedOpts = {
-    method: 'GET',
+    method: 'GET'
   };
 
   if (cookie) {
     opts.headers = {
-      Cookie: cookie,
+      Cookie: cookie
     };
   }
 
@@ -25,32 +20,26 @@ const getFeed = async ({ id, cookie }: GetFeedProps) => {
 
 const deleteFeed = async (id: string) => {
   const res = await fetch(`${API_URL}/feed/${id}`, {
-    method: 'Delete',
+    method: 'Delete'
   });
 
   return res;
 };
 
-const getFeeds = async ({
-  limit,
-  skip,
-  albumName,
-  uid,
-  cookie,
-}: GetFeedsProps) => {
+const getFeeds = async ({ limit, skip, albumName, uid, cookie }: GetFeedsProps) => {
   const opts: GetFeedsOpts = {
-    method: 'GET',
+    method: 'GET'
   };
 
   if (cookie) {
     opts.headers = {
-      Cookie: cookie,
+      Cookie: cookie
     };
   }
 
   const res = await fetch(
     `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
-    opts,
+    opts
   );
 
   return res;

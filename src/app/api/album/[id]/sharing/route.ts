@@ -8,10 +8,7 @@ import { getUserByUid } from '@/utils/admin';
 
 import { SharedUsers } from '@/types/album';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
   const albumId = params.id;
   const uid = cookies().get('uid')?.value || '';
   const albumDocRef = doc(appFireStore, uid, uid, 'album', albumId);
@@ -30,9 +27,7 @@ export async function GET(
       return NextResponse.json([]);
     }
 
-    const promises = sharedUsers.map((sharedUser) =>
-      getUserByUid(sharedUser.uid),
-    );
+    const promises = sharedUsers.map(sharedUser => getUserByUid(sharedUser.uid));
     const sharedUsersProfile = await Promise.all(promises);
 
     return NextResponse.json(sharedUsersProfile);
@@ -41,29 +36,26 @@ export async function GET(
 
     return NextResponse.json(
       {
-        error: '데이터를 불러오는 중 예기치 못한 에러가 발생했습니다',
+        error: '데이터를 불러오는 중 예기치 못한 에러가 발생했습니다'
       },
       {
-        status: 500,
-      },
+        status: 500
+      }
     );
   }
 }
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const uid = cookies().get('uid')?.value;
 
   if (!uid) {
     return NextResponse.json(
       {
-        error: '인증되지 않은 사용자입니다.',
+        error: '인증되지 않은 사용자입니다.'
       },
       {
-        status: 401,
-      },
+        status: 401
+      }
     );
   }
 
@@ -74,11 +66,11 @@ export async function POST(
   if (!albumId || !invitedUid) {
     return NextResponse.json(
       {
-        error: '요청 매개변수가 누락되었습니다.',
+        error: '요청 매개변수가 누락되었습니다.'
       },
       {
-        status: 400,
-      },
+        status: 400
+      }
     );
   }
 
@@ -88,34 +80,30 @@ export async function POST(
 
   try {
     const addSharedAlbumToUser = updateDoc(userDocRef, {
-      sharedAlbums: arrayUnion(albumDocRef),
+      sharedAlbums: arrayUnion(albumDocRef)
     });
     const addSharedAlbumToInvitedUser = updateDoc(invitedUserDocRef, {
-      sharedAlbums: arrayUnion(albumDocRef),
+      sharedAlbums: arrayUnion(albumDocRef)
     });
     const addSharedUser = updateDoc(albumDocRef, {
-      sharedUsers: arrayUnion({ uid: invitedUid, permission: 'read' }),
+      sharedUsers: arrayUnion({ uid: invitedUid, permission: 'read' })
     });
 
-    await Promise.all([
-      addSharedAlbumToUser,
-      addSharedAlbumToInvitedUser,
-      addSharedUser,
-    ]);
+    await Promise.all([addSharedAlbumToUser, addSharedAlbumToInvitedUser, addSharedUser]);
 
     return new Response(null, {
-      status: 204,
+      status: 204
     });
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
       {
-        error: '공유 대상 등록 중 예기치 못한 오류가 발생했습니다.',
+        error: '공유 대상 등록 중 예기치 못한 오류가 발생했습니다.'
       },
       {
-        status: 500,
-      },
+        status: 500
+      }
     );
   }
 }

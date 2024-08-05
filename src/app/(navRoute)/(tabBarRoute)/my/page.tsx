@@ -4,7 +4,7 @@ import My from '@/containers/my/My';
 import { getProfile } from '@/utils/admin';
 
 export const metadata: Metadata = {
-  title: 'My | MOMOO',
+  title: 'My | MOMOO'
 };
 
 export default async function page() {

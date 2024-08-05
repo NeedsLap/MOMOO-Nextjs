@@ -1,14 +1,11 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-import {
-  StyledArrayModal,
-  Header,
-} from '@/components/Modal/ArrayModal/StyledArrayModal';
+import { StyledArrayModal, Header } from '@/components/Modal/ArrayModal/StyledArrayModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowNonModal from '@/hooks/dialog/useShowNonModal';
 
-import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
+import type AlbumSortOpt from '@/components/Modal/ArrayModal/model';
 
 interface ArrayModalProps {
   onClose: () => void;
@@ -16,11 +13,7 @@ interface ArrayModalProps {
   onOptionClick: (option: AlbumSortOpt) => void;
 }
 
-export default function ArrayModal({
-  onClose,
-  selectedOption,
-  onOptionClick,
-}: ArrayModalProps) {
+export default function ArrayModal({ onClose, selectedOption, onOptionClick }: ArrayModalProps) {
   const { showNonModal } = useShowNonModal();
   useEscDialog(onClose);
   const [isOpenNonModal, setIsOpenNonModal] = useState(false);
@@ -50,11 +43,7 @@ export default function ArrayModal({
   }, [isOpenNonModal]);
 
   return (
-    <StyledArrayModal
-      role="dialog"
-      aria-labelledby="modal-select"
-      ref={showNonModal}
-    >
+    <StyledArrayModal role="dialog" aria-labelledby="modal-select" ref={showNonModal}>
       <div className="modal-wrap">
         <Header className="modal-header" id="modal-select">
           <h2>정렬기준</h2>
@@ -70,12 +59,7 @@ export default function ArrayModal({
           >
             최신순
             {selectedOption === 'latest' && (
-              <Image
-                width={20}
-                height={20}
-                src="/icons/select.svg"
-                alt="선택"
-              />
+              <Image width={20} height={20} src="/icons/select.svg" alt="선택" />
             )}
           </button>
           <button
@@ -88,12 +72,7 @@ export default function ArrayModal({
           >
             오래된순
             {selectedOption === 'oldest' && (
-              <Image
-                width={20}
-                height={20}
-                src="/icons/select.svg"
-                alt="선택"
-              />
+              <Image width={20} height={20} src="/icons/select.svg" alt="선택" />
             )}
           </button>
         </div>

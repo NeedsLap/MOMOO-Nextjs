@@ -10,16 +10,11 @@ interface AccordionProps {
   setSelectedImages: (images: string) => void;
 }
 
-function Accordion({
-  question,
-  answer,
-  selectedImages,
-  setSelectedImages,
-}: AccordionProps) {
+function Accordion({ question, answer, selectedImages, setSelectedImages }: AccordionProps) {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   const handleQuestionClick = () => {
-    setIsAccordionOpen((prev) => !prev);
+    setIsAccordionOpen(prev => !prev);
   };
 
   const handleAnswerClick = (imagePath: string) => {
@@ -33,26 +28,26 @@ function Accordion({
   return (
     <AccordionWrapper>
       <div id="Accordion_wrap">
-        <div className="que" onClick={handleQuestionClick}>
+        <button type="button" className="que" onClick={handleQuestionClick}>
           <span>{question}</span>
-          <div className="arrow-wrap">
+          <div className="asrrow-wrap">
             <span className={isAccordionOpen ? 'arrow-top' : 'arrow-bottom'}>
               <Image
                 className="directionIcon"
                 src="/icons/arrow.svg"
                 width={16}
                 height={16}
-                alt={'Arrow Direction'}
-              ></Image>
+                alt="Arrow Direction"
+              />
             </span>
           </div>
-        </div>
+        </button>
         {isAccordionOpen && (
           <div className="anw" id="answer">
             {answer.map((image, index) => (
               <button
                 type="button"
-                key={index}
+                key={image.name}
                 onClick={() => handleAnswerClick(image.name)}
                 className={selectedImages === image.name ? 'selected' : ''}
                 aria-label="Toggle Menu"
@@ -63,7 +58,7 @@ function Accordion({
                   width={36}
                   height={36}
                   alt={`이미지 ${index}`}
-                ></Image>
+                />
               </button>
             ))}
           </div>

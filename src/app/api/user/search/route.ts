@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { FirebaseError } from 'firebase/app';
 
-import { adminAppAuth } from '@/firebase/adminConfig';
+import adminAppAuth from '@/firebase/adminConfig';
 
 export async function GET(req: NextRequest) {
   const uid = cookies().get('uid')?.value;
@@ -11,11 +11,11 @@ export async function GET(req: NextRequest) {
   if (!uid) {
     return NextResponse.json(
       {
-        error: '인증되지 않은 사용자입니다.',
+        error: '인증되지 않은 사용자입니다.'
       },
       {
-        status: 401,
-      },
+        status: 401
+      }
     );
   }
 
@@ -24,11 +24,11 @@ export async function GET(req: NextRequest) {
   if (!email) {
     return NextResponse.json(
       {
-        error: '요청 매개변수가 누락되었습니다.',
+        error: '요청 매개변수가 누락되었습니다.'
       },
       {
-        status: 400,
-      },
+        status: 400
+      }
     );
   }
 
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
       uid: user.uid,
       displayName: user.displayName || '',
       email: user.email || '',
-      photoURL: user.photoURL || '',
+      photoURL: user.photoURL || ''
     };
 
     return NextResponse.json({ user: profile });
@@ -52,11 +52,11 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       {
-        error: '사용자 검색 중 에러가 발생했습니다.',
+        error: '사용자 검색 중 에러가 발생했습니다.'
       },
       {
-        status: 500,
-      },
+        status: 500
+      }
     );
   }
 }

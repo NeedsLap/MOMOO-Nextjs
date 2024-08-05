@@ -16,10 +16,7 @@ import useScrollLockForDimmed from '@/hooks/dialog/useScrollLockForDimmed';
 import useAlbumName from '@/hooks/useAlbumName';
 import useEditFeed from '@/hooks/useEditFeed';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
-import {
-  useAddFeedIdFromFeedList,
-  useRemoveFeedIdFromFeedList,
-} from '@/hooks/useUpdateFeedList';
+import { useAddFeedIdFromFeedList, useRemoveFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
 import { deleteImg } from '@/utils/SDKUtils';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
@@ -29,7 +26,7 @@ import type { Feed, FeedBase } from '@/types/feed';
 export default function EditFeedContents({
   feed,
   close,
-  setFeedsData,
+  setFeedsData
 }: {
   feed: Feed;
   close: () => void;
@@ -41,12 +38,8 @@ export default function EditFeedContents({
   const [selectedAlbumList, setSelectedAlbumList] = useState<string[]>([]);
   const [savedAlbumList, setSavedAlbumList] = useState<string[]>([]);
   const [selectedAddress, setSelectedAddress] = useState(feed.selectedAddress);
-  const [selectedWeatherImage, setSelectedWeatherImage] = useState(
-    feed.weatherImage,
-  );
-  const [selectedEmotionImage, setSelectedEmotionImage] = useState(
-    feed.emotionImage,
-  );
+  const [selectedWeatherImage, setSelectedWeatherImage] = useState(feed.weatherImage);
+  const [selectedEmotionImage, setSelectedEmotionImage] = useState(feed.emotionImage);
   const [file, setFile] = useState<File[] | null>(null);
   const [imageList, setImageList] = useState<string[]>(feed.imageUrl);
   const [accordionData, setAccordionData] = useState<AccordionDataType>();
@@ -71,8 +64,8 @@ export default function EditFeedContents({
       const userAlbumList = await getSavedAlbumList(feed.id);
 
       if (userAlbumList) {
-        setSelectedAlbumList(userAlbumList.map((v) => v.data().name));
-        setSavedAlbumList(userAlbumList.map((v) => v.id));
+        setSelectedAlbumList(userAlbumList.map(v => v.data().name));
+        setSavedAlbumList(userAlbumList.map(v => v.id));
       }
     };
 
@@ -90,8 +83,8 @@ export default function EditFeedContents({
     setKakaoMapVisible(!kakaoMapVisible);
   };
 
-  const handleAddressSelect = (selectedAddress: string) => {
-    setSelectedAddress(selectedAddress);
+  const handleAddressSelect = (address: string) => {
+    setSelectedAddress(address);
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -108,52 +101,45 @@ export default function EditFeedContents({
       const downloadURLs: string[] = [];
 
       if (file !== null) {
-        const newUrls = await uploadImageToStorage(
-          file,
-          `feed/${user.uid}`,
-          feed.id,
-        );
-        downloadURLs.push(
-          ...imageList.slice(0, imageList.length - file.length),
-          ...newUrls,
-        );
+        const newUrls = await uploadImageToStorage(file, `feed/${user.uid}`, feed.id);
+        downloadURLs.push(...imageList.slice(0, imageList.length - file.length), ...newUrls);
       } else {
         downloadURLs.push(...imageList);
       }
 
       const editData: FeedBase = {
         imageUrl: downloadURLs,
-        title: title,
-        text: text,
-        selectedAddress: selectedAddress,
+        title,
+        text,
+        selectedAddress,
         weatherImage: selectedWeatherImage,
-        emotionImage: selectedEmotionImage,
+        emotionImage: selectedEmotionImage
       };
 
       await editFeed(editData, feed.id);
 
-      selectedAlbumList.forEach(async (selectedAlbumName) => {
+      selectedAlbumList.forEach(async selectedAlbumName => {
         let selectedAlbumId = '';
 
-        for (const iterator of albumIdData) {
+        albumIdData.forEach(iterator => {
           if (selectedAlbumName === iterator.albumName) {
             selectedAlbumId = iterator.docId;
           }
-        }
+        });
 
         if (!savedAlbumList.includes(selectedAlbumId)) {
           await addFeedIdFromFeedList(feed.id, selectedAlbumId);
         }
       });
 
-      savedAlbumList.forEach(async (savedAlbumId) => {
+      savedAlbumList.forEach(async savedAlbumId => {
         let savedAlbumName = '';
 
-        for (const iterator of albumIdData) {
+        albumIdData.forEach(iterator => {
           if (savedAlbumId === iterator.docId) {
             savedAlbumName = iterator.albumName;
           }
-        }
+        });
 
         if (!selectedAlbumList.includes(savedAlbumName)) {
           await removeFeedIdFromFeedList(feed.id, savedAlbumId);
@@ -161,17 +147,17 @@ export default function EditFeedContents({
       });
 
       if (selectedAlbumList.includes(albumName)) {
-        setFeedsData((prev) =>
-          prev.map((v) => (v.id === feed.id ? { ...v, ...editData } : v)),
-        );
+        setFeedsData(prev => prev.map(v => (v.id === feed.id ? { ...v, ...editData } : v)));
       } else {
-        setFeedsData((prev) => prev.filter((v) => v.id !== feed.id));
+        setFeedsData(prev => prev.filter(v => v.id !== feed.id));
       }
 
       // 이미지 삭제 실패 시, 게시물 수정이 중단되지 않도록 try 마지막에 위치
       if (file !== null) {
-        for (let i = downloadURLs.length; i < feed.imageUrl.length; i++)
-          await deleteImg(feed.imageUrl[i]);
+        const deleteFeedImgsPromises = downloadURLs
+          .slice(feed.imageUrl.length)
+          .map(async (_, i) => deleteImg(feed.imageUrl[i]));
+        await Promise.all(deleteFeedImgsPromises);
       }
 
       router.refresh();
@@ -197,12 +183,7 @@ export default function EditFeedContents({
       </Styled.UploadHeader>
       <Styled.UploadContents className={isPending ? 'loading' : ''}>
         {isPending ? (
-          <StyledLoadingImg
-            src="/icons/loading.svg"
-            alt="로딩중"
-            width={36}
-            height={36}
-          />
+          <StyledLoadingImg src="/icons/loading.svg" alt="로딩중" width={36} height={36} />
         ) : (
           <>
             <Styled.TodaysPhoto>
@@ -210,11 +191,7 @@ export default function EditFeedContents({
               <span>*10장까지 업로드 가능</span>
             </Styled.TodaysPhoto>
             <Styled.PicSelectPart>
-              <Preview
-                setFile={setFile}
-                setImageList={setImageList}
-                imageList={imageList}
-              />
+              <Preview setFile={setFile} setImageList={setImageList} imageList={imageList} />
             </Styled.PicSelectPart>
             <Styled.SelectPart>
               <div className="inputWrapper">
@@ -222,7 +199,7 @@ export default function EditFeedContents({
                   type="text"
                   placeholder="제목을 입력해 주세요 (필수)"
                   value={title}
-                  onChange={(e) => {
+                  onChange={e => {
                     setTitle(e.target.value);
                   }}
                   required
@@ -235,37 +212,31 @@ export default function EditFeedContents({
                   cols={30}
                   rows={10}
                   value={text}
-                  onChange={(e) => {
+                  onChange={e => {
                     setText(e.target.value);
                     onInputHandler(e);
                   }}
                   placeholder="문구를 입력해 주세요"
-                ></textarea>
+                />
                 <div className="countText">
                   <span>{inputCount}</span> / 1000 자
                 </div>
               </form>
               <Styled.LocationContents onClick={toggleKakaoMap}>
                 <div className="locationHead">
-                  {selectedAddress ? (
-                    <p>선택한 주소: {selectedAddress}</p>
-                  ) : (
-                    <h2>위치 추가</h2>
-                  )}
+                  {selectedAddress ? <p>선택한 주소: {selectedAddress}</p> : <h2>위치 추가</h2>}
                   <Image
                     className={kakaoMapVisible ? 'rotate' : ''}
                     src="/icons/arrow.svg"
                     width={16}
                     height={16}
                     alt="위치 토글 아이콘"
-                  ></Image>
+                  />
                 </div>
               </Styled.LocationContents>
               {kakaoMapVisible && (
                 <Styled.KakaoMapContainer>
-                  <KakaoMap
-                    onAddressSelect={(address) => handleAddressSelect(address)}
-                  />
+                  <KakaoMap onAddressSelect={address => handleAddressSelect(address)} />
                 </Styled.KakaoMapContainer>
               )}
               <Styled.AccordionContents>

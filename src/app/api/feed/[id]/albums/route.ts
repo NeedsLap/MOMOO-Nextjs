@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { getSavedAlbumList } from '@/utils/SDKUtils';
 
-async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
   const userUid = cookies().get('uid')?.value;
   const { id } = params;
 
@@ -46,5 +46,3 @@ async function GET(_: NextRequest, { params }: { params: { id: string } }) {
     );
   }
 }
-
-export { GET };

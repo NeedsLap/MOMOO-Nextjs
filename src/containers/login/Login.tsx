@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
-import Button from '@/components/Button/Button/Button';
+import Button from '@/components/Button/Button';
 import StyledInput from '@/components/CommonStyled/StyledInput';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledLogin from '@/containers/login/StyledLogin';
@@ -44,7 +44,7 @@ export default function Login() {
         break;
       case 'auth/too-many-requests':
         setSubmitErrMessage(
-          '여러 번 로그인에 실패하여 해당 계정에 대한 로그인이 비활성화되었습니다. 나중에 다시 시도해 주세요',
+          '여러 번 로그인에 실패하여 해당 계정에 대한 로그인이 비활성화되었습니다. 나중에 다시 시도해 주세요'
         );
         break;
       default:
@@ -120,20 +120,10 @@ export default function Login() {
             onChange={handlePasswordInp}
             required
           />
-          {passwordErrMessage && (
-            <strong role="alert">*{passwordErrMessage}</strong>
-          )}
-          <Button
-            size="l"
-            disabled={!emailValid || !passwordValid || isPending}
-          >
+          {passwordErrMessage && <strong role="alert">*{passwordErrMessage}</strong>}
+          <Button size="l" disabled={!emailValid || !passwordValid || isPending}>
             {isPending ? (
-              <Image
-                width={29}
-                height={29}
-                src="/icons/loading-black.svg"
-                alt="로그인 중"
-              />
+              <Image width={29} height={29} src="/icons/loading-black.svg" alt="로그인 중" />
             ) : (
               'Login'
             )}
@@ -142,10 +132,7 @@ export default function Login() {
       </div>
 
       {submitErrMessage && (
-        <AlertModal
-          message={submitErrMessage}
-          onClose={() => setSubmitErrMessage('')}
-        />
+        <AlertModal message={submitErrMessage} onClose={() => setSubmitErrMessage('')} />
       )}
     </StyledLogin>
   );

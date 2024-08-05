@@ -11,6 +11,8 @@ export function middleware(request: NextRequest) {
   if (!hasCookie && !nonAuthPaths.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
@@ -22,6 +24,6 @@ export const config = {
     '/:uid/album/:albumName/feed',
     '/:uid/album/feed', // albumName '.'인 경우
     '/my',
-    '/edit-profile',
-  ],
+    '/edit-profile'
+  ]
 };

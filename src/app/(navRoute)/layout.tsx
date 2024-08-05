@@ -11,7 +11,7 @@ import { ReduxState } from '@/modules/model';
 export default function NavLayout({ children }: { children: React.ReactNode }) {
   const windowWidth = useWindowWidth();
   const isUploadModalOpen = useSelector(
-    (state: ReduxState) => state.uploadFeedModal.isUploadFeedModalOpen,
+    (state: ReduxState) => state.uploadFeedModal.isUploadFeedModalOpen
   );
 
   return (

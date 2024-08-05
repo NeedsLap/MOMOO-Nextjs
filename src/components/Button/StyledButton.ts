@@ -19,7 +19,7 @@ const sizeStyles = {
         width: calc(var(--title-s) * 1.2);
       }
     }
-  `,
+  `
 };
 
 const BtnStyle = styled.button<{ size?: 'l' }>`

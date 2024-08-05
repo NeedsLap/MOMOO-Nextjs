@@ -7,7 +7,7 @@ export default function useScrollLockForDimmed() {
 
   useEffect(() => {
     if (!windowWidth || windowWidth > 430) {
-      return;
+      return () => {};
     }
 
     document.body.classList.add('scroll-lock');

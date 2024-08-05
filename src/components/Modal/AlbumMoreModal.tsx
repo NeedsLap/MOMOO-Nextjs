@@ -9,7 +9,7 @@ interface Props {
 export default function AlbumMoreModal({
   closeModal,
   setIsEditAlbumModalOpen,
-  setIsSharingModalOpen,
+  setIsSharingModalOpen
 }: Props) {
   const openEditAlbumModal = () => {
     setIsEditAlbumModalOpen(true);
@@ -26,12 +26,12 @@ export default function AlbumMoreModal({
       btnList={[
         {
           name: '수정하기',
-          clickEventHandler: openEditAlbumModal,
+          clickEventHandler: openEditAlbumModal
         },
         {
           name: '공유 대상',
-          clickEventHandler: openSharingModalOpen,
-        },
+          clickEventHandler: openSharingModalOpen
+        }
       ]}
     />
   );

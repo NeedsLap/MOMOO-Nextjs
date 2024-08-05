@@ -76,8 +76,8 @@ const StyledHomeSection = styled.section`
   .add-btn:focus {
     background-color: var(--gray-800);
     img {
-      filter: invert(99%) sepia(13%) saturate(487%) hue-rotate(187deg)
-        brightness(113%) contrast(84%);
+      filter: invert(99%) sepia(13%) saturate(487%) hue-rotate(187deg) brightness(113%)
+        contrast(84%);
     }
   }
 

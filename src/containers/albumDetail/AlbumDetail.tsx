@@ -10,7 +10,7 @@ import Toast from '@/components/Toast/Toast';
 import AlbumDetailTopBar from '@/components/Topbar/AlbumDetailTopbar';
 import StyledAlbum, {
   StyledAddFeed,
-  StyledFeedList,
+  StyledFeedList
 } from '@/containers/albumDetail/StyledAlbumDetail';
 import useAlbumName from '@/hooks/useAlbumName';
 import useGetFeeds from '@/hooks/useGetFeeds';
@@ -22,9 +22,9 @@ import type { Feed } from '@/types/feed';
 
 export default function AlbumDetail({
   feeds,
-  pageSize,
+  pageSize
 }: {
-  feeds: Feed[] | undefined;
+  feeds: Feed[] | null;
   pageSize: number;
 }) {
   const albumName = useAlbumName();
@@ -55,11 +55,11 @@ export default function AlbumDetail({
         limit: pageSize * page,
         skip: pageSize * page - pageSize,
         uid,
-        albumName,
+        albumName
       });
 
       if (feedsToAdd) {
-        setFeedsData((prev) => [...prev, ...feedsToAdd]);
+        setFeedsData(prev => [...prev, ...feedsToAdd]);
       }
     })();
   }, [page]);
@@ -70,23 +70,17 @@ export default function AlbumDetail({
         <AlbumDetailTopBar tit={albumName} openUploadModal={openUploadModal} />
       )}
       <StyledAlbum>
-        {(!feeds || error) && (
-          <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
-        )}
+        {(!feeds || error) && <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />}
         <BreadcrumbWrap
           navList={[
             { path: '/', text: 'Home' },
-            { path: '', text: albumName },
+            { path: '', text: albumName }
           ]}
           title={albumName}
         />
         {windowWidth && windowWidth > 430 && (
           <StyledAddFeed>
-            <button
-              type="button"
-              aria-label="사진 추가하기"
-              onClick={openUploadModal}
-            >
+            <button type="button" aria-label="사진 추가하기" onClick={openUploadModal}>
               <Image width={24} height={24} src="/icons/add-l.svg" alt="" />
             </button>
           </StyledAddFeed>
@@ -102,11 +96,9 @@ export default function AlbumDetail({
                     key={v.id}
                     index={i}
                     feed={v}
-                    ref={
-                      i === feedsData.length - 1 ? setItemToObserveRef : null
-                    }
+                    ref={i === feedsData.length - 1 ? setItemToObserveRef : null}
                     setFeedsData={setFeedsData}
-                  ></AlbumItem>
+                  />
                 );
               })}
             </StyledFeedList>

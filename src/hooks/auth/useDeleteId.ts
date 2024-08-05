@@ -19,15 +19,15 @@ export default function useDeleteId() {
       const res = await deleteUser();
 
       if (!res.ok) {
-        const { error } = await res.json();
-        setError(error);
-        throw new Error(error);
+        const { err } = await res.json();
+        setError(err);
+        throw new Error(err);
       }
 
       dispatch(deleteAuth());
       router.push('/login');
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
 
     setIsPending(false);

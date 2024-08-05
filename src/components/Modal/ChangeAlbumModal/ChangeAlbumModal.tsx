@@ -3,18 +3,15 @@ import { SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
 
 import {
   ChangeModalDialog,
-  MultiAccordionWrapper,
+  MultiAccordionWrapper
 } from '@/components/Modal/ChangeAlbumModal/StyledChangeAlbumModal';
 import GetAccordionData from '@/components/Upload/GetAccordionData';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
 import useAlbumName from '@/hooks/useAlbumName';
 import useGetSavedAlbumList from '@/hooks/useGetSavedAlbumList';
-import {
-  useAddFeedIdFromFeedList,
-  useRemoveFeedIdFromFeedList,
-} from '@/hooks/useUpdateFeedList';
-import { closeDialogOnClick } from '@/utils/dialog';
+import { useAddFeedIdFromFeedList, useRemoveFeedIdFromFeedList } from '@/hooks/useUpdateFeedList';
+import closeDialogOnClick from '@/utils/dialog';
 
 import { Feed } from '@/types/feed';
 
@@ -26,7 +23,7 @@ interface AlbumIdData {
 export default function ChangeAlbumModal({
   onClose,
   id,
-  setFeedsData,
+  setFeedsData
 }: {
   onClose: () => void;
   id: string;
@@ -52,10 +49,8 @@ export default function ChangeAlbumModal({
       const data = await getSavedAlbumList(id);
 
       if (data) {
-        setSelectedAlbumList(data.map((v) => v.data().name));
-        setSavedAlbumList(data.map((v) => v.id));
-      } else {
-        return;
+        setSelectedAlbumList(data.map(v => v.data().name));
+        setSavedAlbumList(data.map(v => v.id));
       }
     };
 
@@ -85,28 +80,28 @@ export default function ChangeAlbumModal({
     e.preventDefault();
 
     try {
-      selectedAlbumList.forEach(async (selectedAlbumName) => {
+      selectedAlbumList.forEach(async selectedAlbumName => {
         let selectedAlbumId = '';
 
-        for (const iterator of albumIdData) {
+        albumIdData.forEach(iterator => {
           if (selectedAlbumName === iterator.albumName) {
             selectedAlbumId = iterator.docId;
           }
-        }
+        });
 
         if (!savedAlbumList.includes(selectedAlbumId)) {
           await addFeedIdFromFeedList(id, selectedAlbumId);
         }
       });
 
-      savedAlbumList.forEach(async (savedAlbumId) => {
+      savedAlbumList.forEach(async savedAlbumId => {
         let savedAlbumName = '';
 
-        for (const iterator of albumIdData) {
+        albumIdData.forEach(iterator => {
           if (savedAlbumId === iterator.docId) {
             savedAlbumName = iterator.albumName;
           }
-        }
+        });
 
         if (!selectedAlbumList.includes(savedAlbumName)) {
           await removeFeedIdFromFeedList(id, savedAlbumId);
@@ -114,7 +109,7 @@ export default function ChangeAlbumModal({
       });
 
       if (!selectedAlbumList.includes(albumName)) {
-        setFeedsData((prev) => prev.filter((v) => v.id !== id));
+        setFeedsData(prev => prev.filter(v => v.id !== id));
       }
 
       router.refresh();
@@ -128,7 +123,7 @@ export default function ChangeAlbumModal({
     const isSelected = selectedAlbumList.includes(text);
 
     if (isSelected) {
-      setSelectedAlbumList(selectedAlbumList.filter((album) => album !== text));
+      setSelectedAlbumList(selectedAlbumList.filter(album => album !== text));
     } else {
       setSelectedAlbumList([...selectedAlbumList, text]);
     }
@@ -139,7 +134,7 @@ export default function ChangeAlbumModal({
       role="dialog"
       aria-labelledby="modal-select"
       ref={showModal}
-      onClick={(e) => closeDialogOnClick(e, onClose)}
+      onClick={e => closeDialogOnClick(e, onClose)}
     >
       <header className="modal-header" id="modal-select">
         <h2>앨범 변경하기</h2>
@@ -148,12 +143,12 @@ export default function ChangeAlbumModal({
 
       <MultiAccordionWrapper>
         <div className="anw" id="multiAnswer">
-          {answerArray?.map((item, index) => {
+          {answerArray?.map(item => {
             return (
               <button
                 type="button"
-                disabled={item === '전체 보기' ? true : false}
-                key={index}
+                disabled={item === '전체 보기'}
+                key={item}
                 onClick={() => MultiAnswerClick(item)}
                 className={selectedAlbumList.includes(item) ? 'selected' : ''}
               >

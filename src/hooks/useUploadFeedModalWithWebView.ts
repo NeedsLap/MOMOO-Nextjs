@@ -1,19 +1,15 @@
 import { useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  closeUploadFeedModal,
-  openUploadFeedModal,
-} from '@/modules/uploadFeedModal';
+import { closeUploadFeedModal, openUploadFeedModal } from '@/modules/uploadFeedModal';
 
 import { ReduxState } from '@/modules/model';
 
 export default function useUploadFeedModalWithWebView() {
   const dispatch = useDispatch();
   const isUploadFeedModalOpen = useSelector(
-    (state: ReduxState) => state.uploadFeedModal.isUploadFeedModalOpen,
+    (state: ReduxState) => state.uploadFeedModal.isUploadFeedModalOpen
   );
 
   const openModal = (albumNameToAdd: string[]) => {
@@ -26,7 +22,7 @@ export default function useUploadFeedModalWithWebView() {
 
   useEffect(() => {
     if (!window.ReactNativeWebView || !isUploadFeedModalOpen) {
-      return;
+      return () => {};
     }
 
     const closeModal = (e: MessageEvent) => {

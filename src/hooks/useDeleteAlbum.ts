@@ -18,7 +18,7 @@ export default function useDeleteAlbum() {
       setIsPending(false);
 
       return { success: true, message: '앨범이 삭제되었습니다.' };
-    } catch (error) {
+    } catch (err) {
       setError('앨범 삭제 중 오류가 발생했습니다.');
       setIsPending(false);
       return { success: false, message: '앨범 삭제 중 오류가 발생했습니다.' };

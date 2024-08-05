@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const MoreBtn = styled.button`
+const StyledMoreBtn = styled.button`
   margin: -6px;
   padding: 6px;
   width: 2rem;
@@ -16,4 +16,4 @@ const MoreBtn = styled.button`
   }
 `;
 
-export { MoreBtn };
+export default StyledMoreBtn;

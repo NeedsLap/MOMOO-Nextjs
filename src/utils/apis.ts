@@ -6,8 +6,8 @@ import { Album } from '@/types/album';
 import type { Feed } from '@/types/feed';
 
 const getFeedsAndHandleException = async (
-  getFeedsProps: GetFeedsProps,
-): Promise<undefined | Feed[] | 'not-found'> => {
+  getFeedsProps: GetFeedsProps
+): Promise<null | Feed[] | 'not-found'> => {
   try {
     const res = await getFeeds(getFeedsProps);
     const json = await res.json();
@@ -21,9 +21,10 @@ const getFeedsAndHandleException = async (
       throw new Error(json.error);
     }
 
-    return await json;
+    return json;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 

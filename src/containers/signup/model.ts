@@ -1,6 +1,4 @@
-interface StyledSignupProps {
+export default interface StyledSignupProps {
   $checkboxIcon: string;
   $checkboxCheckedIcon: string;
 }
-
-export type { StyledSignupProps };

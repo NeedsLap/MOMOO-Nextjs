@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   page: pageReducer,
   signup: signupReducer,
-  uploadFeedModal: uploadFeedModalReducer,
+  uploadFeedModal: uploadFeedModalReducer
 });
 
 export default rootReducer;

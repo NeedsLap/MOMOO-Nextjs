@@ -1,7 +1,7 @@
 import { PageAction, PageState, Path } from '@/modules/model';
 
 const initState = {
-  prevPath: null,
+  prevPath: null
 };
 
 const setPrevPath = (prevPath: Path): PageAction => {
@@ -12,7 +12,7 @@ const resetPageState = (): PageAction => {
   return { type: 'reset', payload: initState };
 };
 
-const pageReducer = (state = initState, action: PageAction): PageState => {
+const pageReducer = (action: PageAction, state = initState): PageState => {
   switch (action.type) {
     case 'savePrevPath':
       return action.payload;

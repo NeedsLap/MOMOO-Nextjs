@@ -9,7 +9,7 @@ export default function LoadingModal({ text }: { text: string }) {
   return (
     <StyledLoadingModal
       ref={showModal}
-      onKeyDown={(e) => {
+      onKeyDown={e => {
         if (e.key === 'Escape') {
           e.preventDefault();
         }

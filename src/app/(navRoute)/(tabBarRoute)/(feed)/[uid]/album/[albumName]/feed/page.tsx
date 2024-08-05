@@ -6,27 +6,27 @@ import Feed from '@/containers/feed/Feed';
 import { getFeedsAndHandleException } from '@/utils/apis';
 
 export const metadata: Metadata = {
-  title: 'Feed | MOMOO',
+  title: 'Feed | MOMOO'
 };
 
 export default async function Page({
   params,
-  searchParams,
+  searchParams
 }: {
   params: { albumName: string; uid: string };
   searchParams: { start?: string };
 }) {
   const pageSize = 15;
 
-  const albumName = params.albumName;
-  const uid = params.uid;
-  const start = parseInt(searchParams.start || '0');
+  const { albumName } = params;
+  const { uid } = params;
+  const start = parseInt(searchParams.start || '0', 10);
   const getFeedsQuery = {
     limit: start + pageSize,
     skip: start,
     uid,
     albumName,
-    cookie: cookies().toString(),
+    cookie: cookies().toString()
   };
   const feeds = await getFeedsAndHandleException(getFeedsQuery);
 

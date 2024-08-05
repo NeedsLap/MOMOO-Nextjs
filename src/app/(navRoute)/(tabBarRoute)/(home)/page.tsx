@@ -6,7 +6,7 @@ import Home from '@/containers/home/Home';
 import { getAlbumListHandle } from '@/utils/apis';
 
 export const metadata: Metadata = {
-  title: 'Home | MOMOO',
+  title: 'Home | MOMOO'
 };
 
 export default async function page() {
