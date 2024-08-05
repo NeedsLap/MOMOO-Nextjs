@@ -1,4 +1,4 @@
-import { StyledText } from '@/components/CommonStyled/StyledText';
+import { StyledText } from '@/components/CommonStyled/StyledTypography';
 
 export default function Content({ text }: { text: string }) {
   return (

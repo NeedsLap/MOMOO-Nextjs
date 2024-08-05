@@ -1,5 +1,5 @@
 import CalendarIcon from '@/components/common/icons/CalendarIcon';
-import { StyledText } from '@/components/CommonStyled/StyledText';
+import { StyledText } from '@/components/CommonStyled/StyledTypography';
 
 export default function DateTime({ dateTime }: { dateTime: string }) {
   return (

@@ -1,4 +1,4 @@
-import { StyledText } from '@/components/CommonStyled/StyledText';
+import { StyledText } from '@/components/CommonStyled/StyledTypography';
 
 export default function Title({ title }: { title: string }) {
   return (

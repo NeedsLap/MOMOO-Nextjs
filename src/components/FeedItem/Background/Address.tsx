@@ -1,5 +1,5 @@
 import LocationIcon from '@/components/common/icons/LocationIcon';
-import { StyledText } from '@/components/CommonStyled/StyledText';
+import { StyledText } from '@/components/CommonStyled/StyledTypography';
 
 export default function Address({ address }: { address: string }) {
   return (
