@@ -5,10 +5,9 @@ export default function Icons({ emotion, weather }: { emotion: string; weather: 
   return (
     <>
       {emotion && <EmotionImg emotion={emotion} />}
-      {emotion && weather && (
-        <WeatherImg weather={weather} style={{ marginLeft: 'var(--space-100)' }} />
+      {weather && (
+        <WeatherImg weather={weather} style={emotion ? { marginLeft: 'var(--space-100)' } : {}} />
       )}
-      {!emotion && weather && <WeatherImg weather={weather} />}
     </>
   );
 }
