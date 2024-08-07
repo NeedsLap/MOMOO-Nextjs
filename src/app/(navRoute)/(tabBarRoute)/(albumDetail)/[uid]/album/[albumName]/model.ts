@@ -1,6 +1,4 @@
-interface AlbumDetailParams {
+export default interface AlbumDetailParams {
   albumName: string;
   uid: string;
 }
-
-export type { AlbumDetailParams };

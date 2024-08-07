@@ -10,20 +10,15 @@ import { updateAuth } from '@/modules/auth';
 import { uploadImg } from '@/utils/SDKUtils';
 
 import type { ProfileToUpdate } from '@/containers/editProfile/model';
-import type { UpdateProfileOpt } from '@/hooks/auth/model';
+import type UpdateProfileOpt from '@/hooks/auth/model';
 
-export const useUpdateProfile = () => {
+export default function useUpdateProfile() {
   const [error, setError] = useState<null | string>(null);
   const dispatch = useDispatch();
   const router = useRouter();
   const user = appAuth.currentUser;
 
-  const setProfile = async ({
-    email,
-    password,
-    displayName,
-    file,
-  }: ProfileToUpdate) => {
+  const setProfile = async ({ email, password, displayName, file }: ProfileToUpdate) => {
     if (user === null) {
       return;
     }
@@ -68,4 +63,4 @@ export const useUpdateProfile = () => {
   };
 
   return { error, setProfile };
-};
+}

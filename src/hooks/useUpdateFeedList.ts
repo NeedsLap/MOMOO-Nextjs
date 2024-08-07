@@ -7,20 +7,12 @@ import { ReduxState } from '@/modules/model';
 
 export function useRemoveFeedIdFromFeedList() {
   const user = useSelector((state: ReduxState) => state.auth.user);
-  const removeFeedIdFromFeedList = async (
-    feedId: string,
-    unSelectedAlbumId: string,
-  ) => {
-    const albumRefQuery = doc(
-      appFireStore,
-      user.uid,
-      user.uid,
-      'album',
-      unSelectedAlbumId,
-    );
+
+  const removeFeedIdFromFeedList = async (feedId: string, albumId: string) => {
+    const albumRefQuery = doc(appFireStore, user.uid, user.uid, 'album', albumId);
 
     await updateDoc(albumRefQuery, {
-      feedList: arrayRemove(feedId),
+      feedList: arrayRemove(feedId)
     });
   };
 
@@ -30,20 +22,11 @@ export function useRemoveFeedIdFromFeedList() {
 export function useAddFeedIdFromFeedList() {
   const user = useSelector((state: ReduxState) => state.auth.user);
 
-  const addFeedIdFromFeedList = async (
-    feedId: string,
-    selectedAlbumId: string,
-  ) => {
-    const albumRefQuery = doc(
-      appFireStore,
-      user.uid,
-      user.uid,
-      'album',
-      selectedAlbumId,
-    );
+  const addFeedIdFromFeedList = async (feedId: string, selectedAlbumId: string) => {
+    const albumRefQuery = doc(appFireStore, user.uid, user.uid, 'album', selectedAlbumId);
 
     await updateDoc(albumRefQuery, {
-      feedList: arrayUnion(feedId),
+      feedList: arrayUnion(feedId)
     });
   };
 

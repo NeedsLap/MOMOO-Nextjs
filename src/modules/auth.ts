@@ -7,20 +7,20 @@ const initUser = {
   displayName: '',
   email: '',
   photoURL: '',
-  uid: '',
+  uid: ''
 };
 
 const initState = {
   user: initUser,
   isAuthReady: false,
-  loggedIn: false,
+  loggedIn: false
 };
 
 const setAuth = (user: User): AuthAction => {
   const expires = new Date();
   expires.setFullYear(expires.getFullYear() + 1);
   setCookie('uid', user.uid, {
-    expires,
+    expires
   });
 
   return { type: 'login', payload: user };
@@ -36,7 +36,7 @@ const updateAuth = (profileToUpdate: ProfileToUpdate): AuthAction => {
   return { type: 'editProfile', payload: profileToUpdate };
 };
 
-const authReducer = (state = initState, action: AuthAction): AuthState => {
+const authReducer = (action: AuthAction, state = initState): AuthState => {
   switch (action.type) {
     case 'login':
       return { isAuthReady: true, loggedIn: true, user: action.payload };

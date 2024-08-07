@@ -1,29 +1,22 @@
 import StyledConfirmModal from '@/components/Modal/ConfirmModal/StyledConfirmModal';
 import useEscDialog from '@/hooks/dialog/useEscDialog';
 import useShowModal from '@/hooks/dialog/useShowModal';
-import { closeDialogOnClick } from '@/utils/dialog';
+import closeDialogOnClick from '@/utils/dialog';
+
+import ConfirmModalProps from '@/components/Modal/ConfirmModal/model';
 
 export default function ConfirmModal({
   onClose,
   handleAgreeBtn,
   title,
   text,
-  btnNameList,
-}: {
-  onClose: () => void;
-  handleAgreeBtn: () => void;
-  title: string;
-  text?: string;
-  btnNameList: string[];
-}) {
+  btnNameList
+}: ConfirmModalProps) {
   const { showModal } = useShowModal();
   useEscDialog(onClose);
 
   return (
-    <StyledConfirmModal
-      ref={showModal}
-      onClick={(e) => closeDialogOnClick(e, onClose)}
-    >
+    <StyledConfirmModal ref={showModal} onClick={e => closeDialogOnClick(e, onClose)}>
       <h3>{title}</h3>
       <p>{text}</p>
       <div className="btn-wrap">

@@ -28,12 +28,12 @@ const StyledBreadcrumb = styled.nav<Container>`
     margin-right: 20px;
     width: 12px;
     aspect-ratio: 1/1;
-    background: ${(props) => `url(${props.$arrowGray}) no-repeat`};
+    background: ${props => `url(${props.$arrowGray}) no-repeat`};
     transform: rotateZ(-90deg);
   }
 
   li.current::before {
-    background: ${(props) => `url(${props.$arrow}) no-repeat`};
+    background: ${props => `url(${props.$arrow}) no-repeat`};
   }
 
   li + li {

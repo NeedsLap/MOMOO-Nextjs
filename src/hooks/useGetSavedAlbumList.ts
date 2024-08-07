@@ -1,10 +1,4 @@
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  DocumentData,
-} from 'firebase/firestore';
+import { collection, getDocs, query, where, DocumentData } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
 import { appFireStore } from '@/firebase/config';
@@ -18,19 +12,20 @@ export default function useGetSavedAlbumList() {
     try {
       const q = query(
         collection(appFireStore, user.uid, user.uid, 'album'),
-        where('feedList', 'array-contains', feedId),
+        where('feedList', 'array-contains', feedId)
       );
 
       const querySnapshot = await getDocs(q);
       const albumList: DocumentData[] = [];
 
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(doc => {
         albumList.push(doc);
       });
 
       return albumList;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 

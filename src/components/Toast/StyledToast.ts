@@ -1,27 +1,40 @@
-import { ToastContainer } from 'react-toastify';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-const StyledToast = styled(ToastContainer)`
+const pop = keyframes`
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+`;
+
+const hide = keyframes`
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+`;
+
+const StyledToast = styled.div`
+  animation:
+    ${pop} 0.2s forwards,
+    ${hide} 0.2s 2.6s forwards;
+  position: fixed;
+  z-index: 2000;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
   font-size: var(--text-m);
-  padding: 0;
+  padding: 16px;
+  color: white;
+  background: rgba(0, 0, 0, 0.9);
 
   @media (max-width: 430px) {
     bottom: 56px;
-    padding: 0 16px;
-
-    .Toastify__toast {
-      border-radius: 6px;
-    }
-  }
-
-  .Toastify__toast {
-    padding: 0 16px;
-    margin: 0;
-  }
-
-  .Toastify__toast-body {
-    padding: 0;
-    margin: 0;
+    border-radius: 6px;
   }
 `;
 

@@ -5,15 +5,14 @@ import AlbumMoreModal from '@/components/Modal/AlbumMoreModal';
 import DeleteAndEditAlbumModal from '@/components/Modal/DeleteAndEditAlbumModal/DeleteAndEditAlbumModal';
 import SharingModal from '@/components/Modal/SharingModal/SharingModal';
 
-import { AlbumProps } from '@/components/Album/model';
-import type { Album } from '@/types/album';
+import AlbumProps from '@/components/Album/model';
 
 export default function Album({
   album,
   showDeleteButton,
   albumType,
   setAlbums,
-  setShouldFetchSharedAlbums,
+  setShouldFetchSharedAlbums
 }: AlbumProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditAlbumModalOpen, setIsEditAlbumModalOpen] = useState(false);
@@ -39,14 +38,10 @@ export default function Album({
               <p className="albumCount">
                 {albumType === 'my'
                   ? album.feedList.length
-                  : `${album.user.displayName + '님이' || album.user.email + '님이' || '내가'} 생성`}
+                  : `${`${album.user.displayName}님이` || `${album.user.email}님이` || '내가'} 생성`}
               </p>
               {showDeleteButton && (
-                <button
-                  type="button"
-                  onClick={HandleModal}
-                  aria-label="더보기"
-                />
+                <button type="button" onClick={HandleModal} aria-label="더보기" />
               )}
             </div>
           </div>

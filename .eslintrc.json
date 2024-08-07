@@ -9,6 +9,10 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
     "plugin:prettier/recommended"
   ],
   "overrides": [
@@ -20,6 +24,33 @@
       "parserOptions": {
         "sourceType": "script"
       }
+    },
+    {
+      "files": ["src/app/api/**/*.ts"],
+      "rules": {
+        "import/prefer-default-export": "off"
+      }
+    },
+    {
+      "files": ["src/**/*.tsx"],
+      "rules": {
+        "jsx-a11y/label-has-associated-control": [
+          "error",
+          {
+            "required": {
+              "some": ["nesting", "id"]
+            }
+          }
+        ],
+        "jsx-a11y/label-has-for": [
+          "error",
+          {
+            "required": {
+              "some": ["nesting", "id"]
+            }
+          }
+        ]
+      }
     }
   ],
   "parser": "@typescript-eslint/parser",
@@ -28,7 +59,9 @@
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.eslint.json",
+    "tsconfigRootDir": "./"
   },
   "settings": {
     "react": {

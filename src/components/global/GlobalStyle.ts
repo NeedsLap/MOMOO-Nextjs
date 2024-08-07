@@ -49,6 +49,45 @@ const GlobalStyle = createGlobalStyle`
     --text-l: 1.6rem;
     --text-m: 1.4rem;
     --text-s: 1.2rem;
+    --text-xs: 1rem;
+    --text-xxs: 0.8rem;
+
+    /* 리뉴얼 */
+    /* --headline-l: 5rem;
+    --headline-m: 3.2rem;
+    --headline-s: 2.4rem;
+    --title-l: 2.4rem;
+    --title-m: 2rem;
+    --title-s: 1.6rem;
+    --text-l: 1.6rem;
+    --text-m: 1.4rem;
+    --text-s: 1.2rem;
+    --text-xs: 1rem;
+    --text-xxs: 0.8rem; */
+
+    --font-weight-base: 400;
+    --font-weight-priminent: 600;
+
+    --scale-xxs: 2px;
+    --scale-xs: 4px;
+    --scale-s: 8px;
+    --scale-m: 12px;
+    --scale-base: 16px;
+    --scale-l: 24px;
+    --scale-xl: 32px;
+    --scale-xxl: 40px;
+    --scale-xxxl: 48px;
+
+    --space-025: 2px;
+    --space-050: 4px;
+    --space-075: 8px;
+    --space-100: 8px;
+    --space-150: 12px;
+    --space-200: 16px;
+    --space-250: 20px;
+    --space-300: 24px;
+    --space-400: 32px;
+    --space-500: 40px;
 
     --nav-width-pc: 200px;
     --nav-height-tablet: 80px;
@@ -67,15 +106,8 @@ const GlobalStyle = createGlobalStyle`
 
     --margin-mobile: 16px;
 
+    color: var(--gray-900);
     background: var(--background-color);
-
-    --toastify-toast-min-height: 44px;
-    --toastify-toast-bottom: 0px;
-    --toastify-toast-width: 100%;
-    --toastify-toast-bd-radius: 0px;
-    --toastify-text-color-light: white;
-    --toastify-color-light: rgba(0, 0, 0, 0.9);
-    --toastify-font-family: inherit;
   }
 
   body {
@@ -109,7 +141,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   img {
-    display: block;
+    display: inline-block;
+    vertical-align: top;
     width: 100%;
     height: 100%;
   }

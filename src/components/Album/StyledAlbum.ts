@@ -11,11 +11,11 @@ const AlbumContainer = styled.article<Props>`
   width: 100%;
   height: 100%;
   border-radius: 1rem;
-  background: ${(props) => {
+  background: ${props => {
     if (!props.$imageUrl) {
       return 'linear-gradient(0deg, #343434 5.58%, rgba(126, 126, 126, 0) 40.58%, rgba(225, 225, 225, 0) 105.15%), var(--gray-200)';
-    } else
-      return `linear-gradient(0deg, #343434 5.58%, rgba(126, 126, 126, 0) 40.58%, rgba(225, 225, 225, 0) 105.15%), url('${props.$imageUrl}') no-repeat center / cover`;
+    }
+    return `linear-gradient(0deg, #343434 5.58%, rgba(126, 126, 126, 0) 40.58%, rgba(225, 225, 225, 0) 105.15%), url('${props.$imageUrl}') no-repeat center / cover`;
   }};
   .txtWrapper {
     width: 100%;

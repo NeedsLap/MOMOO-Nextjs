@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 
-import { adminAppAuth } from '@/firebase/adminConfig';
+import adminAppAuth from '@/firebase/adminConfig';
 
 const getProfile = async () => {
   const uid = cookies().get('uid')?.value || '';
@@ -8,7 +8,7 @@ const getProfile = async () => {
   const profile = {
     displayName: user.displayName || '',
     email: user.email || '',
-    photoURL: user.photoURL || '',
+    photoURL: user.photoURL || ''
   };
 
   return profile;
@@ -20,7 +20,7 @@ const getUserByUid = async (uid: string) => {
     uid,
     displayName: user.displayName || '',
     email: user.email || '',
-    photoURL: user.photoURL || '',
+    photoURL: user.photoURL || ''
   };
 
   return userData;

@@ -1,10 +1,4 @@
-import {
-  collection,
-  getDocs,
-  DocumentData,
-  query,
-  orderBy,
-} from 'firebase/firestore';
+import { collection, getDocs, DocumentData, query, orderBy } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
 import { appFireStore } from '@/firebase/config';
@@ -22,11 +16,11 @@ const GetAccordionData = () => {
     try {
       const q = query(
         collection(appFireStore, user.uid, user.uid, 'album'),
-        orderBy('createdTime'),
+        orderBy('createdTime')
       );
       const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(doc => {
         albumDataList.push({ ...doc.data(), id: doc.id });
         albumIdList.push(doc.id);
       });
@@ -37,7 +31,7 @@ const GetAccordionData = () => {
     const accordionData: AccordionDataType = [
       {
         question: '앨범 선택',
-        answer: [],
+        answer: []
       },
       {
         question: '오늘의 날씨',
@@ -46,8 +40,8 @@ const GetAccordionData = () => {
           { path: '/images/partly-sunny.svg', name: 'partly-sunny' },
           { path: '/images/cloudy.svg', name: 'cloudy' },
           { path: '/images/rainy.svg', name: 'rainy' },
-          { path: '/images/snowy.svg', name: 'snowy' },
-        ],
+          { path: '/images/snowy.svg', name: 'snowy' }
+        ]
       },
       {
         question: '오늘의 기분',
@@ -57,9 +51,9 @@ const GetAccordionData = () => {
           { path: '/images/yummy.svg', name: 'yummy' },
           { path: '/images/frowning.svg', name: 'frowning' },
           { path: '/images/sad.svg', name: 'sad' },
-          { path: '/images/angry.svg', name: 'angry' },
-        ],
-      },
+          { path: '/images/angry.svg', name: 'angry' }
+        ]
+      }
     ];
 
     const albumIdData: AlbumIdData[] = [];
@@ -68,7 +62,7 @@ const GetAccordionData = () => {
       accordionData[0].answer.push(albumData.name);
       albumIdData.push({
         albumName: albumData.name,
-        docId: albumIdList[i],
+        docId: albumIdList[i]
       });
     });
 

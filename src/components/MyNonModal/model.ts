@@ -1,5 +1,5 @@
-interface MyNonModalProps {
-  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { Dispatch, SetStateAction } from 'react';
 
-export type { MyNonModalProps };
+export default interface MyNonModalProps {
+  setIsDialogOpen: Dispatch<SetStateAction<boolean>>;
+}

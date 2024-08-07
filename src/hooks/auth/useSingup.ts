@@ -30,11 +30,7 @@ export default function useSignup() {
     setPending(true);
 
     try {
-      const { user } = await createUserWithEmailAndPassword(
-        appAuth,
-        email,
-        password,
-      );
+      const { user } = await createUserWithEmailAndPassword(appAuth, email, password);
 
       const opt: Opt = { displayName };
 
@@ -45,7 +41,7 @@ export default function useSignup() {
       await updateProfile(user, opt);
       await addAlbum(user.uid, '전체 보기');
       await setDoc(doc(appFireStore, user.uid, user.uid), {
-        sharedAlbums: [],
+        sharedAlbums: []
       });
       router.replace('/');
     } catch (err) {

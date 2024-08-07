@@ -13,14 +13,11 @@ interface Props {
 
 export default function Breadcrumb({ navList }: Props) {
   return (
-    <StyledBreadcrumb
-      $arrow="/icons/arrow-s.svg"
-      $arrowGray="/icons/arrow-s-gray.svg"
-    >
+    <StyledBreadcrumb $arrow="/icons/arrow-s.svg" $arrowGray="/icons/arrow-s-gray.svg">
       <ol>
         {navList.map((v, i) => {
           return (
-            <li key={i} className={i === navList.length - 1 ? 'current' : ''}>
+            <li key={v.text} className={i === navList.length - 1 ? 'current' : ''}>
               <Link href={`${v.path}`}>{v.text}</Link>
             </li>
           );

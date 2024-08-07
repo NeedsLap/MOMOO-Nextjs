@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 import { DocumentReference, getDoc } from 'firebase/firestore';
 
-import { adminAppAuth } from '@/firebase/adminConfig';
+import adminAppAuth from '@/firebase/adminConfig';
 import { getSharedAlbums, getThumbnail } from '@/utils/SDKUtils';
 
 import { Album, AlbumOfDatabase } from '@/types/album';
@@ -14,11 +14,11 @@ export async function GET() {
   if (!uid) {
     return NextResponse.json(
       {
-        error: '인증되지 않은 사용자입니다.',
+        error: '인증되지 않은 사용자입니다.'
       },
       {
-        status: 401,
-      },
+        status: 401
+      }
     );
   }
 
@@ -39,11 +39,10 @@ export async function GET() {
       if (albumData.feedList.length) {
         thumbnail = await getThumbnail(
           sharedAlbumUserUid,
-          albumData.feedList[albumData.feedList.length - 1],
+          albumData.feedList[albumData.feedList.length - 1]
         );
       }
-      const { displayName, email } =
-        await adminAppAuth.getUser(sharedAlbumUserUid);
+      const { displayName, email } = await adminAppAuth.getUser(sharedAlbumUserUid);
 
       sharedAlbumsData.push({
         ...albumData,
@@ -51,10 +50,10 @@ export async function GET() {
         user: {
           uid: sharedAlbumUserUid,
           displayName,
-          email,
+          email
         },
         imageUrl: thumbnail,
-        id: albumDocSnap.id,
+        id: albumDocSnap.id
       });
     });
 
@@ -63,9 +62,8 @@ export async function GET() {
     sharedAlbumsData.sort((a, b) => {
       if (a.createdTime > b.createdTime) {
         return -1;
-      } else {
-        return 1;
       }
+      return 1;
     });
 
     return NextResponse.json(sharedAlbumsData);
@@ -74,11 +72,11 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        error: '데이터를 불러오는 중 예기치 못한 에러가 발생했습니다',
+        error: '데이터를 불러오는 중 예기치 못한 에러가 발생했습니다'
       },
       {
-        status: 500,
-      },
+        status: 500
+      }
     );
   }
 }

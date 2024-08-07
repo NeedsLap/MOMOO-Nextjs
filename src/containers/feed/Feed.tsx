@@ -19,17 +19,9 @@ import { resetUploadFeedModalState } from '@/modules/uploadFeedModal';
 
 import { Feed as FeedType } from '@/types/feed';
 
-export default function Feed({
-  feeds,
-  pageSize,
-}: {
-  feeds: FeedType[] | undefined;
-  pageSize: number;
-}) {
-  const { page: nextPage, setItemToObserveRef: setLastItemToObserveRef } =
-    useInfiniteScroll();
-  const { page: prevPage, setItemToObserveRef: setFirstItemToObserveRef } =
-    useInfiniteScroll();
+export default function Feed({ feeds, pageSize }: { feeds: FeedType[] | null; pageSize: number }) {
+  const { page: nextPage, setItemToObserveRef: setLastItemToObserveRef } = useInfiniteScroll();
+  const { page: prevPage, setItemToObserveRef: setFirstItemToObserveRef } = useInfiniteScroll();
   const startItemRef = useRef<HTMLLIElement | null>(null);
 
   const windowWidth = useWindowWidth();
@@ -40,17 +32,28 @@ export default function Feed({
   const dispatch = useDispatch();
   const { uid } = useParams<{ uid: string }>();
   const searchParams = useSearchParams();
-  const start = parseInt(searchParams.get('start') || '0');
+  const start = parseInt(searchParams.get('start') || '0', 10);
 
   const [feedsData, setFeedsData] = useState<FeedType[]>(feeds || []);
   const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!start);
   const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
   const [startFeedItemIndex, setStartFeedItemIndex] = useState(0);
 
+  const getFeedGap = () => {
+    if (windowWidth && windowWidth > 1024) {
+      return 100;
+    }
+    if (windowWidth && windowWidth > 430) {
+      return 80;
+    }
+
+    return 48;
+  };
+
   const setStartFeedItemRef = (node: HTMLLIElement | null) => {
-    if (windowWidth && node && node !== startItemRef.current) {
+    if (node && node !== startItemRef.current) {
       startItemRef.current = node;
-      const paddingTop = windowWidth > 1024 ? 100 : windowWidth > 430 ? 80 : 48;
+      const paddingTop = getFeedGap();
       window.scrollTo(0, node.getBoundingClientRect().y - paddingTop);
     }
   };
@@ -65,11 +68,11 @@ export default function Feed({
         limit: 1,
         skip: 0,
         uid,
-        albumName,
+        albumName
       });
 
       if (feedToAdd && feedToAdd.length) {
-        setFeedsData((prev) => [...feedToAdd, ...prev]);
+        setFeedsData(prev => [...feedToAdd, ...prev]);
       }
     };
 
@@ -87,7 +90,7 @@ export default function Feed({
         limit: start + pageSize * nextPage,
         skip: start + pageSize * (nextPage - 1),
         uid,
-        albumName,
+        albumName
       });
 
       if (!feedsToAdd) {
@@ -98,7 +101,7 @@ export default function Feed({
         setStopToObserveLastItem(true);
       }
 
-      setFeedsData((prev) => [...prev, ...feedsToAdd]);
+      setFeedsData(prev => [...prev, ...feedsToAdd]);
     })();
   }, [nextPage]);
 
@@ -113,7 +116,7 @@ export default function Feed({
         limit: start - pageSize * (prevPage - 2),
         skip: skip > 0 ? skip : 0,
         uid,
-        albumName,
+        albumName
       });
 
       if (skip <= 0) {
@@ -121,7 +124,7 @@ export default function Feed({
       }
 
       if (feedsToAdd) {
-        setFeedsData((prev) => [...feedsToAdd, ...prev]);
+        setFeedsData(prev => [...feedsToAdd, ...prev]);
         setStartFeedItemIndex(feedsToAdd.length);
       }
     })();
@@ -131,18 +134,14 @@ export default function Feed({
     <>
       {windowWidth && windowWidth <= 430 && <TopBar tit="게시물" />}
       <StyledFeed>
-        {(!feeds || error) && (
-          <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
-        )}
-        {windowWidth && windowWidth > 430 && (
-          <h2 className="a11y-hidden">게시물</h2>
-        )}
+        {(!feeds || error) && <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />}
+        {windowWidth && windowWidth > 430 && <h2 className="a11y-hidden">게시물</h2>}
         {windowWidth && windowWidth > 1024 && (
           <Breadcrumb
             navList={[
               { path: '/', text: 'Home' },
               { path: `/${uid}/album/${albumName}`, text: albumName },
-              { path: '', text: '게시물' },
+              { path: '', text: '게시물' }
             ]}
           />
         )}
@@ -157,7 +156,7 @@ export default function Feed({
                     key={v.id}
                     feed={v}
                     ref={setLastItemToObserveRef}
-                  ></FeedItem>
+                  />
                 );
               }
 
@@ -168,32 +167,22 @@ export default function Feed({
                     key={v.id}
                     feed={v}
                     ref={setFirstItemToObserveRef}
-                  ></FeedItem>
+                  />
                 );
               }
 
-              if (
-                prevPage !== 1 &&
-                startFeedItemIndex &&
-                i === startFeedItemIndex
-              ) {
+              if (prevPage !== 1 && startFeedItemIndex && i === startFeedItemIndex) {
                 return (
                   <FeedItem
                     setFeedsData={setFeedsData}
                     key={v.id}
                     feed={v}
                     ref={setStartFeedItemRef}
-                  ></FeedItem>
+                  />
                 );
               }
 
-              return (
-                <FeedItem
-                  setFeedsData={setFeedsData}
-                  key={v.id}
-                  feed={v}
-                ></FeedItem>
-              );
+              return <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} />;
             })}
           </StyledFeedList>
         )}

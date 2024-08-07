@@ -1,23 +1,17 @@
-import { useEffect } from 'react';
-
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 
 import StyledToast from '@/components/Toast/StyledToast';
 
-import 'react-toastify/dist/ReactToastify.css';
-
 export default function Toast({ message }: { message: string }) {
+  const [timeOver, setTimeOver] = useState(false);
+
   useEffect(() => {
-    if (message) {
-      toast(message);
-    }
+    setTimeOver(false);
+
+    setTimeout(() => {
+      setTimeOver(true);
+    }, 3000);
   }, [message]);
 
-  return (
-    <StyledToast
-      position="bottom-center"
-      closeButton={false}
-      hideProgressBar={true}
-    />
-  );
+  return !timeOver && <StyledToast role="alert">{message}</StyledToast>;
 }

@@ -11,7 +11,7 @@ import { deleteAuth, setAuth } from '@/modules/auth';
 
 export default function App({
   children,
-  splashRendered,
+  splashRendered
 }: {
   children: ReactNode;
   splashRendered: boolean;
@@ -20,7 +20,7 @@ export default function App({
   const [splashIsOver, setSplashIsOver] = useState(splashRendered);
 
   useEffect(() => {
-    onAuthStateChanged(appAuth, (user) => {
+    onAuthStateChanged(appAuth, user => {
       if (user) {
         const { displayName, email, photoURL, uid } = user;
         dispatch(
@@ -28,8 +28,8 @@ export default function App({
             displayName: displayName || '',
             email: email || '',
             photoURL: photoURL || '',
-            uid,
-          }),
+            uid
+          })
         );
       } else {
         dispatch(deleteAuth());
@@ -37,13 +37,5 @@ export default function App({
     });
   }, []);
 
-  return (
-    <>
-      {splashIsOver ? (
-        <>{children}</>
-      ) : (
-        <Splash setSplashIsOver={setSplashIsOver} />
-      )}
-    </>
-  );
+  return splashIsOver ? children : <Splash setSplashIsOver={setSplashIsOver} />;
 }

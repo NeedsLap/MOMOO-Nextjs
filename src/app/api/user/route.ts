@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, listAll, deleteObject } from 'firebase/storage';
 
-import { adminAppAuth } from '@/firebase/adminConfig';
+import adminAppAuth from '@/firebase/adminConfig';
 import { appFireStore, storage } from '@/firebase/config';
 import { getUserByUid } from '@/utils/admin';
 import { deleteImg, removeAlbumFromSharedAlbums } from '@/utils/SDKUtils';
@@ -17,11 +17,11 @@ export async function GET() {
   if (!uid) {
     return NextResponse.json(
       {
-        error: '인증되지 않은 사용자입니다.',
+        error: '인증되지 않은 사용자입니다.'
       },
       {
-        status: 401,
-      },
+        status: 401
+      }
     );
   }
 
@@ -31,7 +31,7 @@ export async function GET() {
       uid: result.uid,
       displayName: result.displayName || '',
       email: result.email || '',
-      photoURL: result.photoURL || '',
+      photoURL: result.photoURL || ''
     };
 
     return NextResponse.json({ user });
@@ -49,7 +49,7 @@ const deletePhothURL = async (photoURL: string) => {
 const deleteFeedsImg = async (uid: string) => {
   const listRef = ref(storage, `feed/${uid}`);
   const res = await listAll(listRef);
-  const promises = res.items.map(async (itemRef) => {
+  const promises = res.items.map(async itemRef => {
     return deleteObject(itemRef);
   });
 
@@ -62,7 +62,7 @@ const deleteUserDoc = async (uid: string) => {
 
 const deleteAlbumDocs = async (uid: string) => {
   const albumList = await getDocs(collection(appFireStore, uid, uid, 'album'));
-  const promises = albumList.docs.map(async (albumDoc) => {
+  const promises = albumList.docs.map(async albumDoc => {
     await removeAlbumFromSharedAlbums(albumDoc);
     return deleteDoc(albumDoc.ref);
   });
@@ -72,7 +72,7 @@ const deleteAlbumDocs = async (uid: string) => {
 
 const deleteFeedDocs = async (uid: string) => {
   const feedList = await getDocs(collection(appFireStore, uid, uid, 'feed'));
-  const promises = feedList.docs.map((feedDoc) => {
+  const promises = feedList.docs.map(feedDoc => {
     return deleteDoc(doc(appFireStore, uid, uid, 'feed', feedDoc.id));
   });
 
@@ -85,11 +85,11 @@ export async function DELETE() {
   if (!uid) {
     return NextResponse.json(
       {
-        error: '인증되지 않은 사용자입니다.',
+        error: '인증되지 않은 사용자입니다.'
       },
       {
-        status: 401,
-      },
+        status: 401
+      }
     );
   }
 
@@ -101,7 +101,7 @@ export async function DELETE() {
       deleteFeedsImg(uid),
       deleteUserDoc(uid),
       deleteAlbumDocs(uid),
-      deleteFeedDocs(uid),
+      deleteFeedDocs(uid)
     ]);
 
     await adminAppAuth.deleteUser(uid);
@@ -110,15 +110,15 @@ export async function DELETE() {
 
     return NextResponse.json(
       {
-        error: '계정 삭제 중 예기치 못한 오류가 발생했습니다.',
+        error: '계정 삭제 중 예기치 못한 오류가 발생했습니다.'
       },
       {
-        status: 500,
-      },
+        status: 500
+      }
     );
   }
 
   return NextResponse.json({
-    status: 204,
+    status: 204
   });
 }

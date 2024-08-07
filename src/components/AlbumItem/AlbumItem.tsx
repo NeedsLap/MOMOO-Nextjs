@@ -1,13 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import {
-  Dispatch,
-  ForwardedRef,
-  SetStateAction,
-  forwardRef,
-  useRef,
-} from 'react';
+import { Dispatch, ForwardedRef, SetStateAction, forwardRef, useRef } from 'react';
 
 import StyledAlbumItem from '@/components/AlbumItem/StyledAlbumItem';
 import EditFeedModal from '@/components/EditFeed/EditFeedModal';
@@ -22,13 +16,13 @@ function AlbumItem(
   {
     feed,
     index,
-    setFeedsData,
+    setFeedsData
   }: {
     feed: Feed;
     index: number;
     setFeedsData: Dispatch<SetStateAction<Feed[]>>;
   },
-  ref: ForwardedRef<HTMLLIElement>,
+  ref: ForwardedRef<HTMLLIElement>
 ) {
   const liRef = useRef<HTMLLIElement | null>(null);
   const { uid } = useParams();
@@ -39,16 +33,14 @@ function AlbumItem(
   const {
     isModalOpen: isEditFeedModalOpen,
     openModal: openEditFeedModal,
-    closeModal: closeEditFeedModal,
+    closeModal: closeEditFeedModal
   } = useModalWithWebView();
 
   return (
     <StyledAlbumItem
       key={feed.id}
-      style={
-        gridRowEnd ? { gridRowEnd, border: '1px solid var(--gray-100)' } : {}
-      }
-      ref={(node) => {
+      style={gridRowEnd ? { gridRowEnd, border: '1px solid var(--gray-100)' } : {}}
+      ref={node => {
         if (node && !liRef.current) {
           liRef.current = node;
         }
@@ -58,16 +50,13 @@ function AlbumItem(
         }
       }}
     >
-      <Link
-        className="album-item-wrap"
-        href={`/${uid}/album/${albumName}/feed?start=${index}`}
-      >
+      <Link className="album-item-wrap" href={`/${uid}/album/${albumName}/feed?start=${index}`}>
         <div>
           <strong>{feed.title}</strong>
           {feed.albumType === 'my' && (
             <button
               type="button"
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
 
                 if (!windowWidth) {
@@ -77,12 +66,7 @@ function AlbumItem(
                 openEditFeedModal();
               }}
             >
-              <Image
-                width={20}
-                height={20}
-                src="/icons/edit.svg"
-                alt="수정하기"
-              />
+              <Image width={20} height={20} src="/icons/edit.svg" alt="수정하기" />
             </button>
           )}
         </div>
@@ -93,10 +77,10 @@ function AlbumItem(
           sizes="(max-width: 430px) calc((100vw - 32px - 24px) / 2), (max-width: 800px) calc((100vw - 48px - 32px) / 2), min(calc((100vw - 48px - 32px) / 3), 315px)"
           src={feed.imageUrl[0]}
           alt=""
-          onLoad={(e) =>
+          onLoad={e =>
             setImgSize({
               width: e.currentTarget.naturalWidth,
-              height: e.currentTarget.naturalHeight,
+              height: e.currentTarget.naturalHeight
             })
           }
         />

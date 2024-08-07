@@ -18,7 +18,7 @@ export default function Terms() {
 
   const { prevPath, loggedIn } = useSelector((state: ReduxState) => ({
     prevPath: state.page.prevPath,
-    loggedIn: state.auth.loggedIn,
+    loggedIn: state.auth.loggedIn
   }));
   const dispatch = useDispatch();
 
@@ -39,21 +39,21 @@ export default function Terms() {
             loggedIn
               ? [
                   { path: '/', text: 'Home' },
-                  { path: '/policy', text: 'Privacy policy' },
+                  { path: '/policy', text: 'Privacy policy' }
                 ]
               : [
                   { path: '/signup', text: 'Signup' },
-                  { path: '/policy', text: 'Privacy policy' },
+                  { path: '/policy', text: 'Privacy policy' }
                 ]
           }
           title="MOMOO 이용약관"
         />
         <section>
           <ol>
-            {terms.map((v, i) => {
+            {terms.map(v => {
               if (typeof v.text === 'string') {
                 return (
-                  <li key={i}>
+                  <li key={v.title}>
                     <h4>{v.title}</h4>
                     <p>{v.text}</p>
                   </li>
@@ -61,20 +61,20 @@ export default function Terms() {
               }
 
               return (
-                <li key={i}>
+                <li key={v.title}>
                   <h4>{v.title}</h4>
                   <ul>
-                    {v.text.map((v, i) => {
-                      if (typeof v === 'string') {
-                        return <li key={i}>{v}</li>;
+                    {v.text.map(w => {
+                      if (typeof w === 'string') {
+                        return <li key={w}>{w}</li>;
                       }
 
                       return (
-                        <li key={i}>
-                          {v.subTitle}
+                        <li key={w.subTitle}>
+                          {w.subTitle}
                           <ul>
-                            {v.text.map((item, i) => (
-                              <li key={i}>{item}</li>
+                            {w.text.map(item => (
+                              <li key={w.subTitle}>{item}</li>
                             ))}
                           </ul>
                         </li>

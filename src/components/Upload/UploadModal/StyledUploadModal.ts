@@ -266,5 +266,5 @@ export {
   LocationContents,
   KakaoMapContainer,
   AccordionContents,
-  CloseBtn,
+  CloseBtn
 };

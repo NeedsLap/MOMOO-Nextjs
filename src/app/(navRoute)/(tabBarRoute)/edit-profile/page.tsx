@@ -4,7 +4,7 @@ import EditProfile from '@/containers/editProfile/EditProfile';
 import { getProfile } from '@/utils/admin';
 
 export const metadata: Metadata = {
-  title: 'Edit profile | MOMOO',
+  title: 'Edit profile | MOMOO'
 };
 
 export default async function page() {

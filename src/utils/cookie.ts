@@ -8,28 +8,27 @@ interface CookieOpt {
 }
 
 const setCookie = (name: string, value: string, options: CookieOpt = {}) => {
-  options = {
+  const cookieOpts = {
     path: '/',
-    ...options,
+    ...options
   };
 
-  if (options.expires instanceof Date) {
-    options.expires = options.expires.toUTCString();
+  if (cookieOpts.expires instanceof Date) {
+    cookieOpts.expires = cookieOpts.expires.toUTCString();
   }
 
-  let updatedCookie =
-    encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  let updatedCookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
 
-  for (const [key, value] of Object.entries(options)) {
-    updatedCookie += `; ${key}=${value}`;
-  }
+  Object.entries(cookieOpts).forEach(([key, v]) => {
+    updatedCookie += `; ${key}=${v}`;
+  });
 
   document.cookie = updatedCookie;
 };
 
 const deleteCookie = (name: string) => {
   setCookie(name, '', {
-    'max-age': -1,
+    'max-age': -1
   });
 };
 

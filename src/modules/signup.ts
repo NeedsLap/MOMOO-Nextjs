@@ -1,21 +1,18 @@
 import { SignupAction, SignupForm, SignupState } from '@/modules/model';
 
 const initState = {
-  signupForm: null,
+  signupForm: null
 };
 
 const setSignupForm = (signupForm: SignupForm): SignupAction => {
-  return { type: 'prevSignup', payload: { signupForm: signupForm } };
+  return { type: 'prevSignup', payload: { signupForm } };
 };
 
 const resetSignupState = (): SignupAction => {
   return { type: 'reset', payload: initState };
 };
 
-const signupReducer = (
-  state = initState,
-  action: SignupAction,
-): SignupState => {
+const signupReducer = (action: SignupAction, state = initState): SignupState => {
   switch (action.type) {
     case 'prevSignup':
       return action.payload;

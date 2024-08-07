@@ -17,7 +17,7 @@ export default function useLogout() {
     try {
       await signOut(appAuth);
       router.push('/login');
-    } catch (error) {
+    } catch (err) {
       setError('로그아웃에 실패했습니다');
     }
 

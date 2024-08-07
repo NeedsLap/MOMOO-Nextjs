@@ -4,7 +4,7 @@ import { useState } from 'react';
 import InputModal from '@/components/Modal/InputModal/InputModal';
 import useAddAlbum from '@/hooks/useAddAlbum';
 
-import type { AlbumSortOpt } from '@/components/Modal/ArrayModal/model';
+import type AlbumSortOpt from '@/components/Modal/ArrayModal/model';
 import type { Album } from '@/types/album';
 
 interface NewAlbumModalProps {
@@ -16,7 +16,7 @@ interface NewAlbumModalProps {
 export default function NewAlbumModal({
   onClose,
   setAlbumData,
-  selectedOption,
+  selectedOption
 }: NewAlbumModalProps) {
   const [albumName, setAlbumName] = useState('');
   const [errMessage, setErrMessage] = useState('');
@@ -36,13 +36,9 @@ export default function NewAlbumModal({
       }
 
       if (selectedOption === 'oldest') {
-        setAlbumData((prevState) => [...prevState, updateData]);
+        setAlbumData(prevState => [...prevState, updateData]);
       } else {
-        setAlbumData((prevState) => [
-          prevState[0],
-          updateData,
-          ...prevState.slice(1),
-        ]);
+        setAlbumData(prevState => [prevState[0], updateData, ...prevState.slice(1)]);
       }
 
       router.refresh();
@@ -62,13 +58,9 @@ export default function NewAlbumModal({
     }
   };
   return (
-    <InputModal
-      onClose={onClose}
-      title="새로운 앨범"
-      text="이 앨범의 이름을 입력해 주세요"
-    >
+    <InputModal onClose={onClose} title="새로운 앨범" text="이 앨범의 이름을 입력해 주세요">
       <form
-        onSubmit={(e) => {
+        onSubmit={e => {
           e.preventDefault();
           handleAlbum();
         }}
@@ -77,7 +69,7 @@ export default function NewAlbumModal({
           type="text"
           placeholder="이름을 입력해 주세요"
           value={albumName}
-          onChange={(e) => {
+          onChange={e => {
             setAlbumName(e.target.value.trim());
             handleValidate(e);
           }}

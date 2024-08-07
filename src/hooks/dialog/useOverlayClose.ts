@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 const useOverlayClose = (
   dialogRef: React.RefObject<HTMLDialogElement>,
-  closeFunction: () => void,
+  closeFunction: () => void
 ) => {
   useEffect(() => {
     const handleOverlayClick = (event: MouseEvent) => {

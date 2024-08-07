@@ -73,10 +73,7 @@ export default function My({ profile }: { profile: Profile }) {
       <div className="footer">MOMOO 2023. All Right Reserved.</div>
 
       {submitErrMessage && (
-        <AlertModal
-          message={submitErrMessage}
-          onClose={() => setSubmitErrMessage('')}
-        />
+        <AlertModal message={submitErrMessage} onClose={() => setSubmitErrMessage('')} />
       )}
     </StyledMy>
   );

@@ -7,7 +7,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import Button from '@/components/Button/Button/Button';
+import Button from '@/components/Button/Button';
 import StyledInput from '@/components/CommonStyled/StyledInput';
 import AlertModal from '@/components/Modal/AlertModal/AlertModal';
 import StyledSignup from '@/containers/signup/StyledSignup';
@@ -25,13 +25,12 @@ export default function Signup() {
   const [password, setPassword] = useState({ vaild: false, value: '' });
   const [passwordConfirm, setPasswordConfirm] = useState({
     vaild: false,
-    value: '',
+    value: ''
   });
   const [displayNameErrMessage, setDisplayNameErrMessage] = useState('');
   const [emailErrMessage, setEmailErrMessage] = useState('');
   const [passwordErrMessage, setPasswordErrMessage] = useState('');
-  const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] =
-    useState('');
+  const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] = useState('');
   const [submitErrMessage, setSubmitErrMessage] = useState('');
   const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(true);
   const [allChecked, setAllChecked] = useState(false);
@@ -46,13 +45,11 @@ export default function Signup() {
     src,
     setProfileImg,
     error: imgErrMessage,
-    setError: setImgErrMessage,
+    setError: setImgErrMessage
   } = useProfileImg();
 
   const prevPath = useSelector((state: ReduxState) => state.page.prevPath);
-  const signupFormdata = useSelector(
-    (state: ReduxState) => state.signup.signupForm,
-  );
+  const signupFormdata = useSelector((state: ReduxState) => state.signup.signupForm);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -80,7 +77,7 @@ export default function Signup() {
 
     switch (error) {
       case 'auth/email-already-in-use':
-        setEmail((prev) => {
+        setEmail(prev => {
           return { ...prev, vaild: false };
         });
         setEmailErrMessage('이미 사용 중인 이메일입니다');
@@ -89,7 +86,7 @@ export default function Signup() {
         setSubmitErrMessage('네트워크 연결에 실패했습니다');
         break;
       case 'auth/invalid-email':
-        setEmail((prev) => {
+        setEmail(prev => {
           return { ...prev, vaild: false };
         });
         setEmailErrMessage('잘못된 이메일 형식입니다');
@@ -103,13 +100,7 @@ export default function Signup() {
   }, [error]);
 
   useEffect(() => {
-    if (
-      displayName.vaild &&
-      email.vaild &&
-      password.vaild &&
-      passwordConfirm.vaild &&
-      allChecked
-    ) {
+    if (displayName.vaild && email.vaild && password.vaild && passwordConfirm.vaild && allChecked) {
       setDisabledSubmitBtn(false);
     } else {
       setDisabledSubmitBtn(true);
@@ -122,12 +113,12 @@ export default function Signup() {
       email: email.value,
       password: password.value,
       displayName: displayName.value,
-      file,
+      file
     });
   };
 
   const handleDisplayNameInp = (target: HTMLInputElement) => {
-    const value = target.value;
+    const { value } = target;
 
     if (target.validity.valueMissing) {
       setDisplayNameErrMessage('닉네임을 입력해 주세요');
@@ -139,7 +130,7 @@ export default function Signup() {
   };
 
   const handleEmailInp = (target: HTMLInputElement) => {
-    const value = target.value;
+    const { value } = target;
 
     if (target.validity.valueMissing) {
       setEmailErrMessage('이메일을 입력해 주세요');
@@ -151,7 +142,7 @@ export default function Signup() {
   };
 
   const handlePasswordInp = (target: HTMLInputElement) => {
-    const value = target.value;
+    const { value } = target;
 
     if (target.validity.valueMissing) {
       setPasswordErrMessage('비밀번호를 입력해 주세요');
@@ -195,6 +186,8 @@ export default function Signup() {
         break;
       case 'displayName-inp':
         handleDisplayNameInp(e.target);
+        break;
+      default:
     }
   };
 
@@ -216,7 +209,7 @@ export default function Signup() {
 
       ageChecked,
       termsChecked,
-      privacyChecked,
+      privacyChecked
     };
 
     dispatch(setPrevPath('signup'));
@@ -237,30 +230,24 @@ export default function Signup() {
           <h2>Signup</h2>
         </article>
         <form className="auth-form" onSubmit={handleSubmit}>
-          <label
-            htmlFor="profile-inp"
-            className={imgHasFocus ? 'profile focus' : 'profile'}
-          >
+          <label htmlFor="profile-inp" className={imgHasFocus ? 'profile focus' : 'profile'}>
             <Image
               width={171}
               height={171}
               src={src || '/images/profile-basic-img.svg'}
               alt="프로필 사진"
             />
-            <Image
-              width={45}
-              height={45}
-              src="/icons/edit-circle.svg"
-              alt="변경하기"
-            />
+            <Image width={45} height={45} src="/icons/edit-circle.svg" alt="변경하기" />
           </label>
           <input
             id="profile-inp"
             accept="image/*"
             type="file"
             className="a11y-hidden"
-            onClick={(e) => ((e.currentTarget as HTMLInputElement).value = '')}
-            onChange={(e) => {
+            onClick={e => {
+              (e.currentTarget as HTMLInputElement).value = '';
+            }}
+            onChange={e => {
               setProfileImg(e.target.files);
               setProfileImgFiles(e.target.files);
             }}
@@ -280,9 +267,7 @@ export default function Signup() {
             onChange={handleInp}
             required
           />
-          {displayNameErrMessage && (
-            <strong role="alert">*{displayNameErrMessage}</strong>
-          )}
+          {displayNameErrMessage && <strong role="alert">*{displayNameErrMessage}</strong>}
           <label htmlFor="email-inp" className="a11y-hidden">
             이메일
           </label>
@@ -311,9 +296,7 @@ export default function Signup() {
             onChange={handleInp}
             required
           />
-          {passwordErrMessage && (
-            <strong role="alert">*{passwordErrMessage}</strong>
-          )}
+          {passwordErrMessage && <strong role="alert">*{passwordErrMessage}</strong>}
           <label htmlFor="passwordConfirm-inp" className="a11y-hidden">
             비밀번호 재확인
           </label>
@@ -328,21 +311,19 @@ export default function Signup() {
             onChange={handleInp}
             required
           />
-          {passwordConfirmErrMessage && (
-            <strong role="alert">*{passwordConfirmErrMessage}</strong>
-          )}
+          {passwordConfirmErrMessage && <strong role="alert">*{passwordConfirmErrMessage}</strong>}
           <div className="agree">
             <h3>MOMOO 서비스 약관에 동의해 주세요.</h3>
             <label
               className={allChecked ? 'checkbox checked' : 'checkbox'}
-              onFocus={(e) => e.currentTarget.classList.add('focus')}
-              onBlur={(e) => e.currentTarget.classList.remove('focus')}
+              onFocus={e => e.currentTarget.classList.add('focus')}
+              onBlur={e => e.currentTarget.classList.remove('focus')}
             >
               모두 동의합니다.
               <input
                 type="checkbox"
                 className="a11y-hidden"
-                onChange={(e) => {
+                onChange={e => {
                   setAllChecked(e.currentTarget.checked);
 
                   if (e.currentTarget.checked) {
@@ -363,14 +344,14 @@ export default function Signup() {
               <li>
                 <label
                   className={ageChecked ? 'checkbox checked' : 'checkbox'}
-                  onFocus={(e) => e.currentTarget.classList.add('focus')}
-                  onBlur={(e) => e.currentTarget.classList.remove('focus')}
+                  onFocus={e => e.currentTarget.classList.add('focus')}
+                  onBlur={e => e.currentTarget.classList.remove('focus')}
                 >
                   [필수] 만 14세 이상입니다.
                   <input
                     type="checkbox"
                     className="a11y-hidden"
-                    onChange={(e) => setAgeChecked(e.currentTarget.checked)}
+                    onChange={e => setAgeChecked(e.currentTarget.checked)}
                     checked={ageChecked}
                   />
                 </label>
@@ -378,14 +359,14 @@ export default function Signup() {
               <li>
                 <label
                   className={termsChecked ? 'checkbox checked' : 'checkbox'}
-                  onFocus={(e) => e.currentTarget.classList.add('focus')}
-                  onBlur={(e) => e.currentTarget.classList.remove('focus')}
+                  onFocus={e => e.currentTarget.classList.add('focus')}
+                  onBlur={e => e.currentTarget.classList.remove('focus')}
                 >
                   [필수] 이용약관
                   <input
                     type="checkbox"
                     className="a11y-hidden"
-                    onChange={(e) => setTermsChecked(e.currentTarget.checked)}
+                    onChange={e => setTermsChecked(e.currentTarget.checked)}
                     checked={termsChecked}
                   />
                 </label>
@@ -405,14 +386,14 @@ export default function Signup() {
               <li>
                 <label
                   className={privacyChecked ? 'checkbox checked' : 'checkbox'}
-                  onFocus={(e) => e.currentTarget.classList.add('focus')}
-                  onBlur={(e) => e.currentTarget.classList.remove('focus')}
+                  onFocus={e => e.currentTarget.classList.add('focus')}
+                  onBlur={e => e.currentTarget.classList.remove('focus')}
                 >
                   [필수] 데이터 정책
                   <input
                     type="checkbox"
                     className="a11y-hidden"
-                    onChange={(e) => setPrivacyChecked(e.currentTarget.checked)}
+                    onChange={e => setPrivacyChecked(e.currentTarget.checked)}
                     checked={privacyChecked}
                   />
                 </label>
@@ -424,12 +405,7 @@ export default function Signup() {
                     setSignupData();
                   }}
                 >
-                  <Image
-                    width={14}
-                    height={14}
-                    src="/icons/arrow-right.svg"
-                    alt="자세히 보기"
-                  />
+                  <Image width={14} height={14} src="/icons/arrow-right.svg" alt="자세히 보기" />
                 </button>
               </li>
             </ul>
@@ -438,12 +414,7 @@ export default function Signup() {
           <div className="submit-btn-wrap">
             <Button size="l" disabled={disabledSubmitBtn || isPending}>
               {isPending ? (
-                <Image
-                  width={29}
-                  height={29}
-                  src="/icons/loading-black.svg"
-                  alt="계정 생성 중"
-                />
+                <Image width={29} height={29} src="/icons/loading-black.svg" alt="계정 생성 중" />
               ) : (
                 'Signup'
               )}
@@ -453,17 +424,9 @@ export default function Signup() {
       </div>
 
       {submitErrMessage && (
-        <AlertModal
-          message={submitErrMessage}
-          onClose={() => setSubmitErrMessage('')}
-        />
+        <AlertModal message={submitErrMessage} onClose={() => setSubmitErrMessage('')} />
       )}
-      {imgErrMessage && (
-        <AlertModal
-          message={imgErrMessage}
-          onClose={() => setImgErrMessage('')}
-        />
-      )}
+      {imgErrMessage && <AlertModal message={imgErrMessage} onClose={() => setImgErrMessage('')} />}
     </StyledSignup>
   );
 }
