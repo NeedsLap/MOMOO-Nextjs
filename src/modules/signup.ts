@@ -12,7 +12,8 @@ const resetSignupState = (): SignupAction => {
   return { type: 'reset', payload: initState };
 };
 
-const signupReducer = (action: SignupAction, state = initState): SignupState => {
+/* eslint-disable @typescript-eslint/default-param-last */
+const signupReducer = (state = initState, action: SignupAction): SignupState => {
   switch (action.type) {
     case 'prevSignup':
       return action.payload;
