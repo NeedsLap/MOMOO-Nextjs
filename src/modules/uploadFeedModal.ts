@@ -24,9 +24,10 @@ const resetUploadFeedModalState = (): UploadFeedModalAction => {
   return { type: 'reset', payload: null };
 };
 
+/* eslint-disable @typescript-eslint/default-param-last */
 const uploadFeedModalReducer = (
-  action: UploadFeedModalAction,
-  state = initState
+  state = initState,
+  action: UploadFeedModalAction
 ): UploadFeedModalState => {
   switch (action.type) {
     case 'open':
