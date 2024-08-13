@@ -106,103 +106,101 @@
   1. **사용자 검색**
     - Firebase Admin SDK를 사용하여, 사용자를 불러온다.
        
-    ```js
-      // src/app/api/user/route.ts
-      adminApp.auth().getUserByEmail(email);
-    ```
+       ```js
+         // src/app/api/user/route.ts
+         adminApp.auth().getUserByEmail(email);
+       ```
     
   <br>
    
   2. **공유/공유 취소**
     - Firestore Database에 공유 정보 저장&삭제
     
-    ```
-      // [uid]/[uid]
-      sharedAlbums: Reference(albumDoc)[] 
-
-      // [uid]/[uid]/album/[albumId]
-      sharedUsers: {uid, permission}[]
-    ```
+       ```js
+         // [uid]/[uid]
+         sharedAlbums: Reference(albumDoc)[] 
+   
+         // [uid]/[uid]/album/[albumId]
+         sharedUsers: {uid, permission}[]
+       ```
 
   <br>
 
   3. 홈 - 공유 앨범
     - Firestore에서 로그인한 사용자의 공유 앨범 리스트를 가져온다.
-    ```js
-      // src/utils/SDKUtils.ts
-      
-      const getSharedAlbums = async (
-        uid: string,
-      ): Promise<DocumentReference[]> => {
-        const userDocRef = doc(appFireStore, uid, uid);
-        const userDoc = (await getDoc(userDocRef)).data();
-        return userDoc.sharedAlbums;
-      };
-    ```
+       ```js
+         // src/utils/SDKUtils.ts
+         
+         const getSharedAlbums = async (
+           uid: string,
+         ): Promise<DocumentReference[]> => {
+           const userDocRef = doc(appFireStore, uid, uid);
+           const userDoc = (await getDoc(userDocRef)).data();
+           return userDoc.sharedAlbums;
+         };
+       ```
 
   <br>
 
     - 공유 앨범 데이터를 불러온다.
-    ```js
-      // src/app/api/album/sharing
-      
-      sharedAlbums.map(async (ref: DocumentReference) => {
-        const albumData = await getDoc(ref).data();
-        // (중략)
-      });
-    ```
+       ```js
+         // src/app/api/album/sharing
+         
+         sharedAlbums.map(async (ref: DocumentReference) => {
+           const albumData = await getDoc(ref).data();
+           // (중략)
+         });
+       ```
     
   <br>
 
     - 공유한 사용자 데이터를 불러온다.
-    ```js
-      // src/app/api/album/sharing
-      
-      const { displayName, email } =
-        await adminAppAuth.getUser(sharedAlbumUserUid);
-    ```
+       ```js
+         // src/app/api/album/sharing
+         
+         const { displayName, email } =
+           await adminAppAuth.getUser(sharedAlbumUserUid);
+       ```
     
   <br>
 
   4. 공유 앨범 상세
     - 피드 리스트를 얻기 위해 공유 앨범/나의 앨범 구분없이 요청을 보낸다.  
-
-    ```js
-      // src/services/feed.ts
-      // Path Parameter(uid, albumName)를 쿼리 매개변수로 요청에 추가하여 전송
-      // 앨범 상세페이지 경로: {uid}/album/{albumName}
-      // 피드 상세페이지 경로: {uid}/album/{albumName}/feed
-  
-      await fetch(
-        `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
-      );
-    ```
+       ```js
+         // src/services/feed.ts
+         // Path Parameter(uid, albumName)를 쿼리 매개변수로 요청에 추가하여 전송
+         // 앨범 상세페이지 경로: {uid}/album/{albumName}
+         // 피드 상세페이지 경로: {uid}/album/{albumName}/feed
+     
+         await fetch(
+           `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
+         );
+       ```   
 
   <br>
   
     - 쿠키의 uid(로그인한 사용자)와 쿼리 매개변수로 받은 uid(앨범 생성자)가 다를 경우 권한을 검사한다.
-  
-    ```js
-      // src/app/api/route.ts
-      export async function GET(req: NextRequest) {
-        // 중략
-  
-        let hasPermission = true;
-      
-        if (userUid !== uid) {
-          const sharedAlbums = await getSharedAlbums(userUid);
-          hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
-        }
-      
-        if (!hasPermission) {
-          return new Response('접근 권한이 없는 앨범입니다.', {
-            status: 403,
-          });
-        }
-  
-        // 중략
-      }
-    ```
+       ```js
+         // src/app/api/route.ts
+         export async function GET(req: NextRequest) {
+           // 중략
+     
+           let hasPermission = true;
+         
+           if (userUid !== uid) {
+             const sharedAlbums = await getSharedAlbums(userUid);
+             hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
+           }
+         
+           if (!hasPermission) {
+             return new Response('접근 권한이 없는 앨범입니다.', {
+               status: 403,
+             });
+           }
+     
+           // 중략
+         }
+       ```
   
 </details>
 
@@ -211,70 +209,70 @@
 
   - **CSS**
     - 부모 요소 CSS
-    ```js
-      // src/containers/albumDetail/StyledFeed.ts
-      
-      const StyledFeedList = styled.ul`
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        margin: -8px -8px;
-        grid-auto-rows: 1px;
-      `;
-    ```
+       ```js
+         // src/containers/albumDetail/StyledFeed.ts
+         
+         const StyledFeedList = styled.ul`
+           display: grid;
+           grid-template-columns: repeat(3, minmax(0, 1fr));
+           margin: -8px -8px;
+           grid-auto-rows: 1px;
+         `;
+       ```
   
     - 아이템 CSS
-    ```js
-      // src/components/AlbumItem/StyledAlbumItem.ts
-    
-      const StyledAlbumItem = styled.li`
-        margin: 8px;
-      `;
-    ```
+       ```js
+         // src/components/AlbumItem/StyledAlbumItem.ts
+       
+         const StyledAlbumItem = styled.li`
+           margin: 8px;
+         `;
+       ```
 
   - **JS**
     - gridRowEnd 값을 계산하는 커스텀훅
-    ```js
-      // src/hooks/useAlbumItemLayout.ts
-
-      interface ImgSize {
-        width: number;
-        height: number;
-      }
-      
-      function useAlbumItemLayout(node: HTMLLIElement) {
-        const [imgSize, setImgSize] = useState<ImgSize | null>(null);
-        const [gridRowEnd, setGridRowEnd] = useState('');
-      
-        useEffect(() => {
-          const setLayout = async () => {
-            if (!imgSize || !node) {
-              return;
-            }
-      
-            const height = node.clientWidth * (imgSize.height / imgSize.width);
-            setGridRowEnd(`span ${Math.round(height + 16)}`);
-          };
-      
-          setLayout();
-        }, [imgSize]);
-      
-        return { setImgSize, gridRowEnd };
-      }
-    ```
+       ```js
+         // src/hooks/useAlbumItemLayout.ts
+   
+         interface ImgSize {
+           width: number;
+           height: number;
+         }
+         
+         function useAlbumItemLayout(node: HTMLLIElement) {
+           const [imgSize, setImgSize] = useState<ImgSize | null>(null);
+           const [gridRowEnd, setGridRowEnd] = useState('');
+         
+           useEffect(() => {
+             const setLayout = async () => {
+               if (!imgSize || !node) {
+                 return;
+               }
+         
+               const height = node.clientWidth * (imgSize.height / imgSize.width);
+               setGridRowEnd(`span ${Math.round(height + 16)}`);
+             };
+         
+             setLayout();
+           }, [imgSize]);
+         
+           return { setImgSize, gridRowEnd };
+         }
+       ```
 
     - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
-    ```js
-      // src/components/AlbumItem/AlbumItem.tsx
-    
-      <img
-        onLoad={(e) =>
-          setImgSize({
-            width: e.currentTarget.naturalWidth,
-            height: e.currentTarget.naturalHeight,
-          })
-        }
-      />
-    ```
+       ```js
+         // src/components/AlbumItem/AlbumItem.tsx
+       
+         <img
+           onLoad={(e) =>
+             setImgSize({
+               width: e.currentTarget.naturalWidth,
+               height: e.currentTarget.naturalHeight,
+             })
+           }
+         />
+       ```
         
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
