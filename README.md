@@ -88,7 +88,7 @@
 
 <br><br>
 
-## <span id="point">4. 📝 핵심기술</span>
+## <span id="point">4. 📝 핵심 기술</span>
 
 <details>
   <summary><strong> 1) 앨범 공유</strong> </summary>
@@ -274,6 +274,103 @@
          />
        ```
         
+</details>
+
+<details>
+  <summary><strong>3) 무한 스크롤</strong></summary>
+  <br>
+  앨범 상세페이지와 게시물 상세페이지 적용한 기술입니다.<br>
+  두 페이지에 적용되는 기술로, 코드 중복을 최소화하기 위해 Custom Hook을 통해 핵심 로직을 분리했습니다.
+  
+ - Custom Hook
+   - Intersection Observer API를 활용했습니다.
+   - 특정 아이템이 뷰포트에 나타나면 페이지를 업데이트했습니다.
+   <br>
+   
+   ```ts
+   // src/hooks/useInfiniteScroll.ts
+   
+   import { useRef, useState } from 'react';
+   
+   export default function useInfiniteScroll() {
+     const itemRef = useRef<HTMLLIElement | null>();
+     const observer = useRef<IntersectionObserver | null>(null);
+     const [page, setPage] = useState(1);
+   
+     const observe = (node: HTMLLIElement) => {
+       observer.current = new IntersectionObserver(entries => {
+         if (entries[0].isIntersecting) {
+           setPage(prev => prev + 1);
+   
+           if (observer.current) {
+             observer.current.disconnect();
+           }
+         }
+       });
+       observer.current.observe(node);
+     };
+   
+     const setItemToObserveRef = (node: HTMLLIElement) => {
+       if (node && node !== itemRef.current) {
+         itemRef.current = node;
+         observe(node);
+       }
+     };
+   
+     return { page, setItemToObserveRef };
+   }
+   
+   ```
+
+  - Custom Hook 사용
+    ```tsx
+      // src/containers/albumDetail/albumDetail.tsx
+      
+      const { page, setItemToObserveRef } = useInfiniteScroll();
+
+      // page 업데이트 시, 추가 데이터 페칭
+      useEffect(() => {
+       if (page === 1) {
+         return;
+       }
+      
+       (async () => {
+         const feedsToAdd = await getFeeds({
+           limit: pageSize * page,
+           skip: pageSize * page - pageSize,
+           uid,
+           albumName
+         });
+      
+         if (feedsToAdd) {
+           setFeedsData(prev => [...prev, ...feedsToAdd]);
+         }
+       })();
+      }, [page]);
+
+      // observe item
+      {feedsData.map((v, i) => {
+        return (
+          <AlbumItem
+            key={v.id}
+            ref={i === feedsData.length - 1 ? setItemToObserveRef : null}
+          />
+        );
+      })}
+    ```
+
+    상위 컴포넌트에서 ref를 전달받기 위해 forwardRef 사용
+    ```tsx
+      // src/components/AlbumItem/AlbumItem.tsx
+      
+     function AlbumItem(ref: ForwardedRef<HTMLLIElement>) {
+        return (
+          <StyledAlbumItem ref={ref} />
+        );
+      }
+
+      export default forwardRef(AlbumItem);
+    ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 
