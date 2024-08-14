@@ -13,32 +13,42 @@
     "airbnb",
     "airbnb/hooks",
     "airbnb-typescript",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
   ],
   "overrides": [
     {
       "env": {
         "node": true
       },
-      "files": [".eslintrc.{json}"],
+      "files": [
+        ".eslintrc.{json}"
+      ],
       "parserOptions": {
         "sourceType": "script"
       }
     },
     {
-      "files": ["src/app/api/**/*.ts"],
+      "files": [
+        "src/app/api/**/*.ts"
+      ],
       "rules": {
         "import/prefer-default-export": "off"
       }
     },
     {
-      "files": ["src/**/*.tsx"],
+      "files": [
+        "src/**/*.tsx"
+      ],
       "rules": {
         "jsx-a11y/label-has-associated-control": [
           "error",
           {
             "required": {
-              "some": ["nesting", "id"]
+              "some": [
+                "nesting",
+                "id"
+              ]
             }
           }
         ],
@@ -46,7 +56,10 @@
           "error",
           {
             "required": {
-              "some": ["nesting", "id"]
+              "some": [
+                "nesting",
+                "id"
+              ]
             }
           }
         ]
@@ -68,7 +81,11 @@
       "version": "detect"
     }
   },
-  "plugins": ["react", "react-hooks", "import"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "import"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
@@ -77,14 +94,21 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [".*"]
+        "patterns": [
+          ".*"
+        ]
       }
     ],
     "import/order": [
       "error",
       {
         "newlines-between": "always",
-        "groups": ["builtin", "external", "parent", "type"],
+        "groups": [
+          "builtin",
+          "external",
+          "parent",
+          "type"
+        ],
         "pathGroups": [
           {
             "pattern": "react",
