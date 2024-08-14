@@ -10,7 +10,7 @@
 **체험계정** ID: momoo@gmail.com | PW: 123qwe
 
 <br><br>
-   
+
 ## <span id="index">목차</span>
 1. [👨‍💻👩‍💻 팀 소개](#team)
 2. [🛠️ 기술 및 개발 환경](#skill)
@@ -21,11 +21,11 @@
 7. [🚀 버전 2(마이그레이션, 기능추가)](#version)
 8. [🔥 Firebase 구조](#firebase)
 9. [✔️ Best Practices](#best)
-9. [📚 프로젝트 관련 문서](#docs)
+10. [📚 프로젝트 관련 문서](#docs)
 
 <br><br>
 
-## <span id="team">👨‍💻👩‍💻 1. 팀 소개</span>
+## <span id="team">1. 👨‍💻👩‍💻 팀 소개</span>
 
 <div align=center>
 
@@ -747,32 +747,31 @@
 
 <details>
   <summary><strong>Firestore Database</strong></summary>
-  
+
   ```
-    // {uid}/{uid}
-    {
-      sharedAlbums: Reference(albumDoc){}
-    }
-  
-  
-    // {uid}/{uid}/album/{albumId}
-    {
-      createdTime: Timestamp;
-      feedList: String(feedId)[];
-      name: String;
-      sharedUsers: {uid:String; permission: "read"}[];
-    }
-  
-    // {uid}/{uid}/feed/{feedId}
-    {
-      id: String;
-      title: String;
-      text: String;
-      seletedAddress: String;
-      emotionImage: String;
-      weatherImage: String;
-      timestamp: Timestamp;
-    }
+  // {uid}/{uid}
+  {
+    sharedAlbums: Reference(albumDoc){}
+  }
+
+  // {uid}/{uid}/album/{albumId}
+  {
+    createdTime: Timestamp;
+    feedList: String(feedId)[];
+    name: String;
+    sharedUsers: {uid:String; permission: "read"}[];
+  }
+
+  // {uid}/{uid}/feed/{feedId}
+  {
+    id: String;
+    title: String;
+    text: String;
+    seletedAddress: String;
+    emotionImage: String;
+    weatherImage: String;
+    timestamp: Timestamp;
+  }
   ```
 </details>
 
@@ -780,8 +779,8 @@
   <summary><strong>Storage</strong></summary>
 
   ```
-    feed/{feedId + imageIndex}.{확장자}
-    profile/{uid}.{확장자}
+  feed/{feedId + imageIndex}.{확장자}
+  profile/{uid}.{확장자}
   ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
