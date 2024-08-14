@@ -20,6 +20,7 @@
 6. [🙋‍♂️ 유저 피드백](#feedback)
 7. [🚀 버전 2(마이그레이션, 기능추가)](#version)
 8. [🔥 Firebase 구조](#firebase)
+9. [✔️ Best Practices](#best)
 9. [📚 프로젝트 관련 문서](#docs)
 
 <br><br>
@@ -34,10 +35,8 @@
 |:---:|:---:|:---:|
 
 </div>
-<!-- Top Button -->
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
-
-<br><br>
+<br>
 
 ## <span id="skill">2. 🛠️ 기술 및 개발 환경</span>
 
@@ -50,9 +49,8 @@
 | <img src="https://img.shields.io/badge/Next.js-eeeeee?style=flat-square&logo=Next.js&logoColor=black"> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/React Native-61DAFB?style=flat-square&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/styledcomponents-CC6699?style=flat-square&logo=styledcomponents&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat-square&logo=TypeScript&logoColor=white"> | <img src="https://img.shields.io/badge/firebase-F6820D?style=flat-square&logo=firebase&logoColor=white"> | <img src="https://img.shields.io/badge/figma-0d99ff?style=flat-square&logo=figma&logoColor=white"> | <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000.svg?style=flat-square&logo=Notion&logoColor=white"> <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"> | <img src="https://img.shields.io/badge/Prettier-F7B93E.svg?style=flat-square&logo=Prettier&logoColor=black"> <img src="https://img.shields.io/badge/eslint-4B32C3?style=flat-square&logo=eslint&logoColor=white">|
 
 </div>
-
-
-<br><br>
+<p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<br>
 
 ## <span id="main">3. 💡 주요 기능</span>
 
@@ -85,13 +83,12 @@
 - 이용약관 및 개인정보처리방침
 
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
-
-<br><br>
+<br>
 
 ## <span id="point">4. 📝 핵심 기술</span>
 
 <details>
-  <summary><strong> 1) 앨범 공유</strong> </summary>
+  <summary><strong>앨범 공유</strong></summary>
   
  <br>
  
@@ -205,7 +202,7 @@
 </details>
 
 <details>
-  <summary> <strong>2) Masonry Layout </strong> </summary>
+  <summary> <strong>Masonry Layout </strong> </summary>
 
   - **CSS**
     - 부모 요소 CSS
@@ -277,7 +274,7 @@
 </details>
 
 <details>
-  <summary><strong>3) 무한 스크롤</strong></summary>
+  <summary><strong>무한 스크롤</strong></summary>
   <br>
   앨범 상세페이지와 게시물 상세페이지 적용한 기술입니다.<br>
   두 페이지에 적용되는 기술로, 코드 중복을 최소화하기 위해 Custom Hook을 통해 핵심 로직을 분리했습니다.
@@ -373,8 +370,7 @@
     ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
-
-<br><br>
+<br>
 
 ## <span id="trouble">5. 🐛 트러블 슈팅</span>
 
@@ -436,8 +432,7 @@
    ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
-
-<br><br>
+<br>
 
 ## <span id="feedback">6. 🙋‍♂️ 유저 피드백</span>
 
@@ -607,8 +602,7 @@
 
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
-
-<br><br>
+<br>
   
 ## <span id="version">7. 🚀 버전 2(마이그레이션, 기능추가)</span>
 
@@ -680,8 +674,7 @@
 *[6. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#6-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
 
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
-
-<br><br>
+<br>
 
 ## <span id="firebase">8. 🔥 Firebase 구조</span>
 
@@ -725,10 +718,20 @@
   ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
+<br>
 
-<br><br>
+## <span id="best">9. ✔️ Best Practices</span>
 
-## <span id="docs">9. 📚 프로젝트 관련 문서</span>
+[**접근성**](https://www.notion.so/4944398f7e7546a0a86a6bd5b5f80a56)
+
+[**컨벤션**](https://www.notion.so/c8b85abd4f8049cdb10dc07191522ba9)
+
+<p align="right">
+  <a href="#index" style='color: white;'>목차로 ▲</a>
+</p>
+<br>
+
+## <span id="docs">10. 📚 프로젝트 관련 문서</span>
 
 - 💡 [노션: 기획 및 회의록](https://lumbar-distance-384.notion.site/momoo-moment-mood-33ccb07d75264f9d9bd1b1ca265f8db3)
 - 💡 [피그마: 와이어프레임 & 디자인](https://www.figma.com/file/IXS4UPRbunlz1cI0ka5koi/momoo-design?type=design&node-id=74-2789&mode=design&t=pVd3Uehs4a6wFHNW-0)
