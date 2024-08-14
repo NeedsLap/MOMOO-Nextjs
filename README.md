@@ -92,113 +92,119 @@
   
  <br>
  
-  - **기능 소개**
+  ### 기능 소개
   1. 공유할 사용자를 검색할 수 있다.
   2. 앨범을 공유하거나, 공유한 대상을 삭제할 수 있다.
   3. 홈에서 공유하거나 공유 받은 앨범을 볼 수 있다.
   4. 앨범을 공유 받으면, 해당 앨범에 저장된 사진을 볼 수 있다.
   <br>
   
-  - **코드**
-  1. **사용자 검색**
-    - Firebase Admin SDK를 사용하여, 사용자를 불러온다.
+  ### 코드
+  - **사용자 검색**
+   
+    Firebase Admin SDK를 사용하여, 사용자를 불러온다.
        
-       ```js
-         // src/app/api/user/route.ts
-         adminApp.auth().getUserByEmail(email);
-       ```
+      ```js
+      // src/app/api/user/route.ts
+      adminApp.auth().getUserByEmail(email);
+      ```
     
   <br>
-   
-  2. **공유/공유 취소**
-    - Firestore Database에 공유 정보 저장&삭제
+
+  - **공유/공유 취소**
+
+    Firestore Database에 공유 정보 저장 & 삭제
     
        ```js
-         // [uid]/[uid]
-         sharedAlbums: Reference(albumDoc)[] 
-   
-         // [uid]/[uid]/album/[albumId]
-         sharedUsers: {uid, permission}[]
+       // [uid]/[uid]
+       sharedAlbums: Reference(albumDoc)[] 
+
+       // [uid]/[uid]/album/[albumId]
+       sharedUsers: {uid, permission}[]
        ```
 
   <br>
 
-  3. 홈 - 공유 앨범
+  - 홈 - 공유 앨범
+    <br>
     - Firestore에서 로그인한 사용자의 공유 앨범 리스트를 가져온다.
-       ```js
-         // src/utils/SDKUtils.ts
-         
-         const getSharedAlbums = async (
-           uid: string,
-         ): Promise<DocumentReference[]> => {
-           const userDocRef = doc(appFireStore, uid, uid);
-           const userDoc = (await getDoc(userDocRef)).data();
-           return userDoc.sharedAlbums;
-         };
-       ```
 
-  <br>
+      ```js
+      // src/utils/SDKUtils.ts
+      
+      const getSharedAlbums = async (
+        uid: string,
+      ): Promise<DocumentReference[]> => {
+        const userDocRef = doc(appFireStore, uid, uid);
+        const userDoc = (await getDoc(userDocRef)).data();
+        return userDoc.sharedAlbums;
+      };
+      ```
+      
+    <br>
 
     - 공유 앨범 데이터를 불러온다.
+
        ```js
-         // src/app/api/album/sharing
-         
-         sharedAlbums.map(async (ref: DocumentReference) => {
-           const albumData = await getDoc(ref).data();
-           // (중략)
-         });
+       // src/app/api/album/sharing
+      
+       sharedAlbums.map(async (ref: DocumentReference) => {
+         const albumData = await getDoc(ref).data();
+         // (중략)
+       });
        ```
-    
-  <br>
+
+    <br>
 
     - 공유한 사용자 데이터를 불러온다.
+    
        ```js
-         // src/app/api/album/sharing
+       // src/app/api/album/sharing
          
-         const { displayName, email } =
-           await adminAppAuth.getUser(sharedAlbumUserUid);
+       const { displayName, email } = await adminAppAuth.getUser(sharedAlbumUserUid);
        ```
     
-  <br>
+ <br>
 
-  4. 공유 앨범 상세
-    - 피드 리스트를 얻기 위해 공유 앨범/나의 앨범 구분없이 요청을 보낸다.  
-       ```js
-         // src/services/feed.ts
-         // Path Parameter(uid, albumName)를 쿼리 매개변수로 요청에 추가하여 전송
-         // 앨범 상세페이지 경로: {uid}/album/{albumName}
-         // 피드 상세페이지 경로: {uid}/album/{albumName}/feed
+ - 공유 앨범 상세
+   - 피드 리스트를 얻기 위해 공유 앨범/나의 앨범 구분없이 요청을 보낸다.
      
-         await fetch(
-           `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
-         );
-       ```   
+     ```js
+     // src/services/feed.ts
+     // Path Parameter(uid, albumName)를 쿼리 매개변수로 요청에 추가하여 전송
+     // 앨범 상세페이지 경로: {uid}/album/{albumName}
+     // 피드 상세페이지 경로: {uid}/album/{albumName}/feed
+     
+     await fetch(
+       `${API_URL}/feed?limit=${limit}&skip=${skip}&album=${albumName}&uid=${uid}`,
+     );
+     ```   
 
-  <br>
+     <br>
   
     - 쿠키의 uid(로그인한 사용자)와 쿼리 매개변수로 받은 uid(앨범 생성자)가 다를 경우 권한을 검사한다.
-       ```js
-         // src/app/api/route.ts
-         export async function GET(req: NextRequest) {
-           // 중략
-     
-           let hasPermission = true;
-         
-           if (userUid !== uid) {
-             const sharedAlbums = await getSharedAlbums(userUid);
-             hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
-           }
-         
-           if (!hasPermission) {
-             return new Response('접근 권한이 없는 앨범입니다.', {
-               status: 403,
-             });
-           }
-     
-           // 중략
-         }
-       ```
+    
+      ```js
+      // src/app/api/route.ts
+      export async function GET(req: NextRequest) {
+        // 중략
   
+        let hasPermission = true;
+      
+        if (userUid !== uid) {
+          const sharedAlbums = await getSharedAlbums(userUid);
+          hasPermission = await checkAlbumPermission(albumDoc, sharedAlbums);
+        }
+      
+        if (!hasPermission) {
+          return new Response('접근 권한이 없는 앨범입니다.', {
+            status: 403,
+          });
+        }
+  
+        // 중략
+      }
+      ```
 </details>
 
 <details>
@@ -206,69 +212,71 @@
 
   - **CSS**
     - 부모 요소 CSS
+      
        ```js
-         // src/containers/albumDetail/StyledFeed.ts
-         
-         const StyledFeedList = styled.ul`
-           display: grid;
-           grid-template-columns: repeat(3, minmax(0, 1fr));
-           margin: -8px -8px;
-           grid-auto-rows: 1px;
-         `;
+       // src/containers/albumDetail/StyledFeed.ts
+      
+       const StyledFeedList = styled.ul`
+         display: grid;
+         grid-template-columns: repeat(3, minmax(0, 1fr));
+         margin: -8px -8px;
+         grid-auto-rows: 1px;
+       `;
        ```
   
     - 아이템 CSS
+      
        ```js
-         // src/components/AlbumItem/StyledAlbumItem.ts
-       
-         const StyledAlbumItem = styled.li`
-           margin: 8px;
-         `;
+       // src/components/AlbumItem/StyledAlbumItem.ts
+    
+       const StyledAlbumItem = styled.li`
+         margin: 8px;
+       `;
        ```
 
   - **JS**
     - gridRowEnd 값을 계산하는 커스텀훅
        ```js
-         // src/hooks/useAlbumItemLayout.ts
-   
-         interface ImgSize {
-           width: number;
-           height: number;
-         }
-         
-         function useAlbumItemLayout(node: HTMLLIElement) {
-           const [imgSize, setImgSize] = useState<ImgSize | null>(null);
-           const [gridRowEnd, setGridRowEnd] = useState('');
-         
-           useEffect(() => {
-             const setLayout = async () => {
-               if (!imgSize || !node) {
-                 return;
-               }
-         
-               const height = node.clientWidth * (imgSize.height / imgSize.width);
-               setGridRowEnd(`span ${Math.round(height + 16)}`);
-             };
-         
-             setLayout();
-           }, [imgSize]);
-         
-           return { setImgSize, gridRowEnd };
-         }
+       // src/hooks/useAlbumItemLayout.ts
+
+       interface ImgSize {
+         width: number;
+         height: number;
+       }
+      
+       function useAlbumItemLayout(node: HTMLLIElement) {
+         const [imgSize, setImgSize] = useState<ImgSize | null>(null);
+         const [gridRowEnd, setGridRowEnd] = useState('');
+      
+         useEffect(() => {
+           const setLayout = async () => {
+             if (!imgSize || !node) {
+               return;
+             }
+      
+             const height = node.clientWidth * (imgSize.height / imgSize.width);
+             setGridRowEnd(`span ${Math.round(height + 16)}`);
+           };
+      
+           setLayout();
+         }, [imgSize]);
+      
+         return { setImgSize, gridRowEnd };
+       }
        ```
 
     - gridRowEnd 값을 계산하기 위해 필요한 아이템 이미지 사이즈 구하기
        ```js
-         // src/components/AlbumItem/AlbumItem.tsx
-       
-         <img
-           onLoad={(e) =>
-             setImgSize({
-               width: e.currentTarget.naturalWidth,
-               height: e.currentTarget.naturalHeight,
-             })
-           }
-         />
+       // src/components/AlbumItem/AlbumItem.tsx
+    
+       <img
+         onLoad={(e) =>
+           setImgSize({
+             width: e.currentTarget.naturalWidth,
+             height: e.currentTarget.naturalHeight,
+           })
+         }
+       />
        ```
         
 </details>
@@ -316,57 +324,56 @@
    
      return { page, setItemToObserveRef };
    }
-   
    ```
 
   - Custom Hook 사용
     ```tsx
-      // src/containers/albumDetail/albumDetail.tsx
-      
-      const { page, setItemToObserveRef } = useInfiniteScroll();
-
-      // page 업데이트 시, 추가 데이터 페칭
-      useEffect(() => {
-       if (page === 1) {
-         return;
-       }
-      
-       (async () => {
-         const feedsToAdd = await getFeeds({
-           limit: pageSize * page,
-           skip: pageSize * page - pageSize,
-           uid,
-           albumName
-         });
-      
-         if (feedsToAdd) {
-           setFeedsData(prev => [...prev, ...feedsToAdd]);
-         }
-       })();
-      }, [page]);
-
-      // observe item
-      {feedsData.map((v, i) => {
-        return (
-          <AlbumItem
-            key={v.id}
-            ref={i === feedsData.length - 1 ? setItemToObserveRef : null}
-          />
-        );
-      })}
+    // src/containers/albumDetail/albumDetail.tsx
+   
+    const { page, setItemToObserveRef } = useInfiniteScroll();
+   
+    // page 업데이트 시, 추가 데이터 페칭
+    useEffect(() => {
+      if (page === 1) {
+        return;
+      }
+   
+      (async () => {
+        const feedsToAdd = await getFeeds({
+          limit: pageSize * page,
+          skip: pageSize * page - pageSize,
+          uid,
+          albumName
+        });
+   
+        if (feedsToAdd) {
+          setFeedsData(prev => [...prev, ...feedsToAdd]);
+        }
+      })();
+    }, [page]);
+   
+    // observe item
+    {feedsData.map((v, i) => {
+      return (
+        <AlbumItem
+          key={v.id}
+          ref={i === feedsData.length - 1 ? setItemToObserveRef : null}
+        />
+      );
+    })}
     ```
 
     상위 컴포넌트에서 ref를 전달받기 위해 forwardRef 사용
     ```tsx
-      // src/components/AlbumItem/AlbumItem.tsx
-      
-     function AlbumItem(ref: ForwardedRef<HTMLLIElement>) {
-        return (
-          <StyledAlbumItem ref={ref} />
-        );
-      }
+    // src/components/AlbumItem/AlbumItem.tsx
+   
+   function AlbumItem(ref: ForwardedRef<HTMLLIElement>) {
+      return (
+        <StyledAlbumItem ref={ref} />
+      );
+    }
 
-      export default forwardRef(AlbumItem);
+    export default forwardRef(AlbumItem);
     ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
@@ -399,8 +406,8 @@
   - 해결: image/svg+xml을 통과시키도록 정규 표현식 수정
 
     ```js
-      /^image\/(jpg|svg|png|jpeg|gif|bmp|tif|heic)$/ // 기존
-      /^image\/(jpg|svg(\+xml)?|png|jpeg|gif|bmp|tif|heic)$/ // 변경
+    /^image\/(jpg|svg|png|jpeg|gif|bmp|tif|heic)$/ // 기존
+    /^image\/(jpg|svg(\+xml)?|png|jpeg|gif|bmp|tif|heic)$/ // 변경
     ```
 </details>
 
@@ -410,13 +417,13 @@
   - 문제: 모바일에서 게시물 업로드/수정 모달 내 스크롤 시도 시, 배경 콘텐츠가 스크롤되는 경우가 있음
   - 원인: 해당 요소의 스크롤을 (더) 내릴/올릴 수 없는 경우, window에 스크롤 이벤트 발생 (chrome 동작 방식)
   - 해결: 모바일에서 해당 모달 open 시, body에 scroll-rock 클래스 추가 (close 시, scroll-rock 클래스 삭제)
-    
+
     ```js
-      .scroll-lock {
-        position: fixed;
-        height: 100vh;
-        overflow: hidden;
-      }
+    .scroll-lock {
+      position: fixed;
+      height: 100vh;
+      overflow: hidden;
+    }
     ```
 </details>
 
@@ -424,12 +431,12 @@
   <summary><strong> 4) 데이터 업데이트와 UI</strong> </summary>
 
   - 문제: 데이터 업데이트 시, 다른 경로로 이동한 후 돌아오면 이전 데이터가 렌더링됨
- - 해결: 데이터 업데이트 시 라우트 새로고침
+  - 해결: 데이터 업데이트 시 라우트 새로고침
       
-   ```js
-     import { useRouter } from 'next/navigation';
-     router.refresh();
-   ```
+  ```js
+  import { useRouter } from 'next/navigation';
+  router.refresh();
+  ```
 </details>
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
 <br>
@@ -665,12 +672,72 @@
       <td>v2</td>
     </tr>
   </table>
-  
 </details>
-
 <br>
 
-### 3) 사용성 개선 및 버그 수정
+### 3) 리팩토링
+<details>
+  <summary><strong>API 엔드포인트</strong></summary>
+ 
+  - 기존: 파이어베이스와의 모든 통신을 클라이언트에서 처리했습니다.
+
+  - 개선: 파이어베이스와의 통신 로직을 백엔드로 분리한 이유는 다음과 같습니다.
+     - 유지보수성 향상을 위한 비즈니스 로직 분리
+     - 요청 중단으로 인한 데이터 손실 방지
+     - 보안 강화
+     <br>
+     
+      ```ts
+      // src/app/api/user/route/ts
+
+      export async function DELETE() {
+        const uid = cookies().get('uid')?.value;
+      
+        if (!uid) {
+          return NextResponse.json(
+            {
+              error: '인증되지 않은 사용자입니다.'
+            },
+            {
+              status: 401
+            }
+          );
+        }
+      
+        try {
+          const { photoURL } = await getUserByUid(uid);
+      
+          await Promise.all([
+            deletePhothURL(photoURL),
+            deleteFeedsImg(uid),
+            deleteUserDoc(uid),
+            deleteAlbumDocs(uid),
+            deleteFeedDocs(uid)
+          ]);
+      
+          await adminAppAuth.deleteUser(uid);
+        } catch (error) {
+          console.error(error);
+      
+          return NextResponse.json(
+            {
+              error: '계정 삭제 중 예기치 못한 오류가 발생했습니다.'
+            },
+            {
+              status: 500
+            }
+          );
+        }
+      
+        return NextResponse.json({
+          status: 204
+        });
+      }
+      ```
+</details>
+<br>
+
+### 4) 사용성 개선 및 버그 수정
 *[6. 유저 피드백](https://github.com/NeedsLap/MOMOO-Nextjs?tab=readme-ov-file#6-%EC%9C%A0%EC%A0%80-%ED%94%BC%EB%93%9C%EB%B0%B1)을 참고해주세요 :)*
 
 <p align="right"><a href="#index" style='color: white; '>목차로 ▲</a></p>
