@@ -21,7 +21,7 @@ import { deleteImg } from '@/utils/SDKUtils';
 
 import { AccordionDataType, AlbumIdData } from '@/components/Upload/model';
 import { ReduxState } from '@/modules/model';
-import type { Feed, FeedBase } from '@/types/feed';
+import type { Feed, FeedToUpdate } from '@/types/feed';
 
 export default function EditFeedContents({
   feed,
@@ -107,7 +107,7 @@ export default function EditFeedContents({
         downloadURLs.push(...imageList);
       }
 
-      const editData: FeedBase = {
+      const editData: FeedToUpdate = {
         imageUrl: downloadURLs,
         title,
         text,
