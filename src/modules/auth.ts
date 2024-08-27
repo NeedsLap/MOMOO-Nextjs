@@ -28,7 +28,6 @@ const setAuth = (user: User): AuthAction => {
 
 const deleteAuth = (): AuthAction => {
   deleteCookie('uid');
-
   return { type: 'logout', payload: null };
 };
 
@@ -36,7 +35,8 @@ const updateAuth = (profileToUpdate: ProfileToUpdate): AuthAction => {
   return { type: 'editProfile', payload: profileToUpdate };
 };
 
-const authReducer = (action: AuthAction, state = initState): AuthState => {
+/* eslint-disable @typescript-eslint/default-param-last */
+const authReducer = (state = initState, action: AuthAction): AuthState => {
   switch (action.type) {
     case 'login':
       return { isAuthReady: true, loggedIn: true, user: action.payload };

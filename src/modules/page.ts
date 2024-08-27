@@ -12,7 +12,8 @@ const resetPageState = (): PageAction => {
   return { type: 'reset', payload: initState };
 };
 
-const pageReducer = (action: PageAction, state = initState): PageState => {
+/* eslint-disable @typescript-eslint/default-param-last */
+const pageReducer = (state = initState, action: PageAction): PageState => {
   switch (action.type) {
     case 'savePrevPath':
       return action.payload;
