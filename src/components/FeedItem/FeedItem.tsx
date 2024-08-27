@@ -10,8 +10,8 @@ function FeedItem(
   ref: ForwardedRef<HTMLLIElement>
 ) {
   return (
-    <StyledFeedItem>
-      <FeedContent ref={ref}>
+    <StyledFeedItem ref={ref}>
+      <FeedContent>
         <FeedContent.Carousel imgUrlList={feed.imageUrl} style={{ marginBottom: '12px' }} />
         <FeedContent.Icons emotion={feed.emotionImage} weather={feed.weatherImage} />
         <FeedContent.More feed={feed} setFeedsData={setFeedsData} />
