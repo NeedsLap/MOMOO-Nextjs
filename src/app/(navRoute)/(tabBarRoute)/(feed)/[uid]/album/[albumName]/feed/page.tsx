@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
+import PAGE_SIZE from '@/constants/feed';
 import Feed from '@/containers/feed/Feed';
 import { getFeedsAndHandleException } from '@/utils/apis';
 
@@ -16,13 +17,11 @@ export default async function Page({
   params: { albumName: string; uid: string };
   searchParams: { start?: string };
 }) {
-  const pageSize = 15;
-
   const { albumName } = params;
   const { uid } = params;
   const start = parseInt(searchParams.start || '0', 10);
   const getFeedsQuery = {
-    limit: start + pageSize,
+    limit: start + PAGE_SIZE,
     skip: start,
     uid,
     albumName,
@@ -34,5 +33,9 @@ export default async function Page({
     return notFound();
   }
 
-  return <Feed feeds={feeds} pageSize={pageSize} />;
+  if (!feeds) {
+    throw new Error('not-working');
+  }
+
+  return <Feed feeds={feeds} />;
 }
