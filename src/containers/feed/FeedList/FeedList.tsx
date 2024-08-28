@@ -4,6 +4,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
+import { Virtuoso } from 'react-virtuoso';
 
 import FeedItem from '@/components/FeedItem/FeedItem';
 import Toast from '@/components/Toast/Toast';
@@ -136,41 +137,35 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
     })();
   }, [prevPage]);
 
+  const itemContent = (i: number, v: Feed) => {
+    if (startFeedItemIndex && i === startFeedItemIndex) {
+      return <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} ref={setStartFeedItemRef} />;
+    }
+
+    if (!stopToObserveLastItem && i === feedsData.length - 1) {
+      return (
+        <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} ref={setLastItemToObserveRef} />
+      );
+    }
+
+    if (!stopToObserveFirstItem && i === 0) {
+      return (
+        <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} ref={setFirstItemToObserveRef} />
+      );
+    }
+
+    return <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} />;
+  };
+
   return error ? (
     <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
   ) : (
     <StyledFeedList>
-      {feedsData.map((v, i) => {
-        if (startFeedItemIndex && i === startFeedItemIndex) {
-          return (
-            <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} ref={setStartFeedItemRef} />
-          );
-        }
-
-        if (!stopToObserveLastItem && i === feedsData.length - 1) {
-          return (
-            <FeedItem
-              setFeedsData={setFeedsData}
-              key={v.id}
-              feed={v}
-              ref={setLastItemToObserveRef}
-            />
-          );
-        }
-
-        if (!stopToObserveFirstItem && i === 0) {
-          return (
-            <FeedItem
-              setFeedsData={setFeedsData}
-              key={v.id}
-              feed={v}
-              ref={setFirstItemToObserveRef}
-            />
-          );
-        }
-
-        return <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} />;
-      })}
+      <Virtuoso
+        customScrollParent={document.documentElement}
+        data={feedsData}
+        itemContent={itemContent}
+      />
     </StyledFeedList>
   );
 }
