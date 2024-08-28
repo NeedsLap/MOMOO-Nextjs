@@ -21,7 +21,9 @@ export default function useInfiniteScroll() {
   const setItemToObserveRef = (node: HTMLLIElement) => {
     if (node && node !== itemRef.current) {
       itemRef.current = node;
-      infiniteScroll(node);
+      setTimeout(() => {
+        infiniteScroll(node);
+      }, 0);
     }
   };
 

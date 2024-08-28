@@ -1,3 +1,4 @@
 const PAGE_SIZE = 15;
+const OFFSET_FROM_START = 5;
 
-export default PAGE_SIZE;
+export { PAGE_SIZE, OFFSET_FROM_START };

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import FeedItem from '@/components/FeedItem/FeedItem';
 import Toast from '@/components/Toast/Toast';
-import PAGE_SIZE from '@/constants/feed';
+import { OFFSET_FROM_START, PAGE_SIZE } from '@/constants/feed';
 import StyledFeedList from '@/containers/feed/FeedList/StyledFeedList';
 import useAlbumName from '@/hooks/useAlbumName';
 import useGetFeeds from '@/hooks/useGetFeeds';
@@ -15,7 +15,9 @@ import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useUploadFeed from '@/hooks/useUploadFeed';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import { resetUploadFeedModalState } from '@/modules/uploadFeedModal';
+import getInitialSkip from '@/utils/page/feed';
 
+import { NonNegativeInteger } from '@/types/common';
 import { Feed } from '@/types/feed';
 
 export default function FeedList({ feeds }: { feeds: Feed[] }) {
@@ -31,16 +33,19 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
   const dispatch = useDispatch();
   const { uid } = useParams<{ uid: string }>();
   const searchParams = useSearchParams();
-  const start = parseInt(searchParams.get('start') || '0', 10);
+  const start = parseInt(searchParams.get('start') || '0', 10) as NonNegativeInteger;
+  const initialSkip = getInitialSkip(start);
 
   const [feedsData, setFeedsData] = useState(feeds);
-  const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!start);
+  const [stopToObserveFirstItem, setStopToObserveFirstItem] = useState(!initialSkip);
   const [stopToObserveLastItem, setStopToObserveLastItem] = useState(false);
-  const [startFeedItemIndex, setStartFeedItemIndex] = useState(0);
+  const [startFeedItemIndex, setStartFeedItemIndex] = useState(
+    start > OFFSET_FROM_START ? OFFSET_FROM_START : start
+  );
 
   const getFeedGap = () => {
     if (windowWidth && windowWidth > 1024) {
-      return 100;
+      return 0;
     }
     if (windowWidth && windowWidth > 430) {
       return 80;
@@ -53,7 +58,9 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
     if (node && node !== startItemRef.current) {
       startItemRef.current = node;
       const paddingTop = getFeedGap();
-      window.scrollTo(0, node.getBoundingClientRect().y - paddingTop);
+      setTimeout(() => {
+        window.scrollTo(0, node.getBoundingClientRect().y - paddingTop);
+      }, 0);
     }
   };
 
@@ -86,8 +93,8 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
 
     (async () => {
       const feedsToAdd = await getFeeds({
-        limit: start + PAGE_SIZE * nextPage,
-        skip: start + PAGE_SIZE * (nextPage - 1),
+        limit: initialSkip + PAGE_SIZE * nextPage,
+        skip: initialSkip + PAGE_SIZE * (nextPage - 1),
         uid,
         albumName
       });
@@ -110,9 +117,9 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
     }
 
     (async () => {
-      const skip = start - PAGE_SIZE * (prevPage - 1);
+      const skip = initialSkip - PAGE_SIZE * (prevPage - 1);
       const feedsToAdd = await getFeeds({
-        limit: start - PAGE_SIZE * (prevPage - 2),
+        limit: initialSkip - PAGE_SIZE * (prevPage - 2),
         skip: skip > 0 ? skip : 0,
         uid,
         albumName
@@ -134,6 +141,12 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
   ) : (
     <StyledFeedList>
       {feedsData.map((v, i) => {
+        if (startFeedItemIndex && i === startFeedItemIndex) {
+          return (
+            <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} ref={setStartFeedItemRef} />
+          );
+        }
+
         if (!stopToObserveLastItem && i === feedsData.length - 1) {
           return (
             <FeedItem
@@ -153,12 +166,6 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
               feed={v}
               ref={setFirstItemToObserveRef}
             />
-          );
-        }
-
-        if (prevPage !== 1 && startFeedItemIndex && i === startFeedItemIndex) {
-          return (
-            <FeedItem setFeedsData={setFeedsData} key={v.id} feed={v} ref={setStartFeedItemRef} />
           );
         }
 

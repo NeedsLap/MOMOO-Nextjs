@@ -2,9 +2,12 @@ import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
-import PAGE_SIZE from '@/constants/feed';
+import { PAGE_SIZE } from '@/constants/feed';
 import Feed from '@/containers/feed/Feed';
 import { getFeedsAndHandleException } from '@/utils/apis';
+import getInitialSkip from '@/utils/page/feed';
+
+import { isNonNegativeInteger } from '@/types/common';
 
 export const metadata: Metadata = {
   title: 'Feed | MOMOO'
@@ -20,9 +23,15 @@ export default async function Page({
   const { albumName } = params;
   const { uid } = params;
   const start = parseInt(searchParams.start || '0', 10);
+
+  if (!isNonNegativeInteger(start)) {
+    return notFound();
+  }
+
+  const skip = getInitialSkip(start);
   const getFeedsQuery = {
-    limit: start + PAGE_SIZE,
-    skip: start,
+    limit: skip + PAGE_SIZE,
+    skip,
     uid,
     albumName,
     cookie: cookies().toString()
