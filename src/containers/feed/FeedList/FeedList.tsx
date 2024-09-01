@@ -161,11 +161,7 @@ export default function FeedList({ feeds }: { feeds: Feed[] }) {
     <Toast message="데이터를 불러오는 중 에러가 발생했습니다" />
   ) : (
     <StyledFeedList>
-      <Virtuoso
-        customScrollParent={document.documentElement}
-        data={feedsData}
-        itemContent={itemContent}
-      />
+      <Virtuoso useWindowScroll data={feedsData} itemContent={itemContent} />
     </StyledFeedList>
   );
 }
