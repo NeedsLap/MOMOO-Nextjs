@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { ForwardedRef, forwardRef } from 'react';
 
-import StyledSlide from '@/components/FeedItem/Carousel/Slide/StyledSlice';
+import StyledSlide from '@/components/Feed/Carousel/Slide/StyledSlice';
 
-import SlideProps from '@/components/FeedItem/Carousel/Slide/model';
+import SlideProps from '@/components/Feed/Carousel/Slide/model';
 
 function Slide(
   { startDragging, dragSlide, endDragging, imgUrlList, style }: SlideProps,

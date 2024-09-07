@@ -1,9 +1,9 @@
 import {
   StyledIndicatorItem,
   StyledIndicatorList
-} from '@/components/FeedItem/Carousel/Indicator/StyledIndicator';
+} from '@/components/Feed/Carousel/Indicator/StyledIndicator';
 
-import IndicatorProps from '@/components/FeedItem/Carousel/Indicator/model';
+import IndicatorProps from '@/components/Feed/Carousel/Indicator/model';
 
 export default function Indicator({ imgUrlList, currIndex, updateCurrIndex }: IndicatorProps) {
   return (

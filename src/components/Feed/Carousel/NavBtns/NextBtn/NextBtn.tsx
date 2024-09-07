@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
-import StyledNextBtn from '@/components/FeedItem/Carousel/NavBtns/NextBtn/StyledNextBtn';
+import StyledNextBtn from '@/components/Feed/Carousel/NavBtns/NextBtn/StyledNextBtn';
 
-import NextBtnProps from '@/components/FeedItem/Carousel/NavBtns/NextBtn/model';
+import NextBtnProps from '@/components/Feed/Carousel/NavBtns/NextBtn/model';
 
 export default function NextBtn({ goToNextSlide, style }: NextBtnProps) {
   return (
