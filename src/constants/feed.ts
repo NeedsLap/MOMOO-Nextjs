@@ -1,4 +1,3 @@
-const PAGE_SIZE = 15;
-const OFFSET_FROM_START = 5;
+const PAGE_SIZE = 10;
 
-export { PAGE_SIZE, OFFSET_FROM_START };
+export default PAGE_SIZE;

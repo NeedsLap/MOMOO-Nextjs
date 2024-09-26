@@ -2,10 +2,10 @@ import { Dispatch, ForwardedRef, forwardRef, SetStateAction } from 'react';
 
 import Feed from '@/components/Feed/Feed';
 
-import type { Feed as FeedType, FeedTest } from '@/types/feed';
+import type { Feed as FeedType } from '@/types/feed';
 
 function FeedItem(
-  { feed, setFeedsData }: { feed: FeedType; setFeedsData: Dispatch<SetStateAction<FeedTest[]>> },
+  { feed, setFeedsData }: { feed: FeedType; setFeedsData: Dispatch<SetStateAction<FeedType[]>> },
   ref: ForwardedRef<HTMLDivElement>
 ) {
   return (

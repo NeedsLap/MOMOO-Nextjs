@@ -2,10 +2,9 @@ import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
-import { PAGE_SIZE } from '@/constants/feed';
+import PAGE_SIZE from '@/constants/feed';
 import Feed from '@/containers/feed/Feed';
 import { getFeedsAndHandleException } from '@/utils/apis';
-import getInitialSkip from '@/utils/page/feed';
 
 import { isNonNegativeInteger } from '@/types/common';
 
@@ -28,10 +27,9 @@ export default async function Page({
     return notFound();
   }
 
-  const skip = getInitialSkip(start);
   const getFeedsQuery = {
-    limit: skip + PAGE_SIZE,
-    skip,
+    limit: start + PAGE_SIZE,
+    skip: start,
     uid,
     albumName,
     cookie: cookies().toString()
