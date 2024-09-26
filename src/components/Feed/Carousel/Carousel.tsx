@@ -1,10 +1,10 @@
 import { CSSProperties, TouchEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-import Indicator from '@/components/FeedItem/Carousel/Indicator/Indicator';
-import NextBtn from '@/components/FeedItem/Carousel/NavBtns/NextBtn/NextBtn';
-import PrevBtn from '@/components/FeedItem/Carousel/NavBtns/PrevBtn/PrevBtn';
-import Slide from '@/components/FeedItem/Carousel/Slide/Slide';
-import StyledSlider from '@/components/FeedItem/Carousel/StyledSlider';
+import Indicator from '@/components/Feed/Carousel/Indicator/Indicator';
+import NextBtn from '@/components/Feed/Carousel/NavBtns/NextBtn/NextBtn';
+import PrevBtn from '@/components/Feed/Carousel/NavBtns/PrevBtn/PrevBtn';
+import Slide from '@/components/Feed/Carousel/Slide/Slide';
+import StyledSlider from '@/components/Feed/Carousel/StyledSlider';
 
 export default function Carousel({
   imgUrlList,

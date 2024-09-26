@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import StyledNavBtn from '@/components/FeedItem/Carousel/NavBtns/StyledNavBtn';
+import StyledNavBtn from '@/components/Feed/Carousel/NavBtns/StyledNavBtn';
 
 const StyledPrevBtn = styled(StyledNavBtn)`
   left: 8px;

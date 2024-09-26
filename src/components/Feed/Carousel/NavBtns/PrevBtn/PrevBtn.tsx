@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
-import StyledPrevBtn from '@/components/FeedItem/Carousel/NavBtns/PrevBtn/StyledPrevBtn';
+import StyledPrevBtn from '@/components/Feed/Carousel/NavBtns/PrevBtn/StyledPrevBtn';
 
-import PrevBtnProps from '@/components/FeedItem/Carousel/NavBtns/PrevBtn/model';
+import PrevBtnProps from '@/components/Feed/Carousel/NavBtns/PrevBtn/model';
 
 function PrevBtn({ goToPrevSlide, style }: PrevBtnProps) {
   return (
