@@ -24,8 +24,4 @@ interface Feed extends Omit<FeedOfDatabase, 'timestamp'> {
   albumType: AlbumType;
 }
 
-interface FeedTest extends Feed {
-  index: number;
-}
-
-export type { FeedToUpdate, FeedToUpdateWithIndexSignature, Feed, FeedOfDatabase, FeedTest };
+export type { FeedToUpdate, FeedToUpdateWithIndexSignature, Feed, FeedOfDatabase };
